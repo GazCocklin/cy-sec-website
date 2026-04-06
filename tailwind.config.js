@@ -14,8 +14,7 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["DM Sans", ...fontFamily.sans],
-        display: ["Bricolage Grotesque", ...fontFamily.sans],
+        sans: ["Inter", ...fontFamily.sans],
       },
       colors: {
         border: "hsl(var(--border))",

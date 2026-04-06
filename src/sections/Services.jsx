@@ -1,181 +1,184 @@
 import React from 'react'
-import { T, grad } from '../theme'
 
-const FF = T.FF
+const FF = `'Bricolage Grotesque', sans-serif`
 
-const services = [
+const SERVICES = [
   {
     icon: '🛡',
-    tag: 'Most Popular', tagColor: T.primary,
     title: 'Virtual CISO',
-    desc: 'Dedicated cybersecurity leadership without the full-time cost. Strategic risk management, board reporting, policy governance, and regulatory oversight — with FortifyOne platform included.',
+    desc: 'Dedicated cybersecurity leadership without the full-time hire. Strategic guidance, risk management, and board-level reporting. FortifyOne platform included.',
     price: 'From £995/month',
-    cta: 'Enquire',
+    tag: 'Most popular',
+    tagColor: '#3B82F6',
     href: '#contact',
+    cta: 'Enquire now',
   },
   {
     icon: '🏦',
-    tag: 'Urgent', tagColor: T.error,
-    title: 'DORA Compliance',
-    desc: 'DORA has been mandatory for EU financial entities since January 2025. Structured sprint covering ICT risk, incident reporting, TLPT, and third-party oversight — delivered to a fixed price.',
+    title: 'DORA Compliance Sprint',
+    desc: 'DORA has been mandatory for EU financial entities since January 2025. Get compliant fast with our structured sprint — ICT risk, incident reporting, third-party oversight.',
     price: 'Fixed price from £4,000',
-    cta: 'Check your exposure',
+    tag: 'Urgent',
+    tagColor: '#EF4444',
     href: '#contact',
+    cta: 'Check your exposure',
   },
   {
     icon: '🌐',
-    tag: 'Active enforcement', tagColor: T.warning,
     title: 'NIS2 Compliance',
-    desc: 'NIS2 enforcement is live. Obligation mapping, gap analysis, security measure implementation, incident response planning, and supply chain oversight for essential and important entities.',
+    desc: 'NIS2 enforcement is active. Understand your obligations, identify gaps, and implement the measures required for your sector — fast.',
     price: 'From £2,500',
-    cta: 'Get started',
+    tag: null,
     href: '#contact',
+    cta: 'Get started',
   },
   {
     icon: '📋',
-    tag: 'SaaS Platform', tagColor: T.accent,
-    title: 'FortifyOne GRC',
-    desc: 'ISO 27001:2022, NIST CSF 2.0, GDPR, SOC 2, DORA, NIS2 — automated in one platform. Evidence collection, gap analysis, vendor risk management, and audit-ready reports.',
+    title: 'FortifyOne Platform',
+    desc: 'ISO 27001:2022, NIST CSF 2.0, GDPR, SOC 2, DORA, NIS2 — automated in one platform. Evidence collection, gap analysis, and audit-ready reports.',
     price: 'From £149/month',
-    cta: 'View platform →',
+    tag: 'SaaS',
+    tagColor: '#8B5CF6',
     href: 'https://fortifyone.co.uk',
+    cta: 'View platform →',
     external: true,
   },
   {
-    icon: '🎯',
-    tag: 'Bespoke', tagColor: T.success,
+    icon: '🎓',
     title: 'Security Awareness Training',
-    desc: 'Role-specific, sector-aligned security awareness training for your entire workforce. Built around your actual threat landscape — not generic off-the-shelf slide decks.',
+    desc: 'Role-specific, bespoke cybersecurity awareness training for your entire organisation. Not generic slide decks — content tailored to your sector and threat landscape.',
     price: 'Custom pricing',
-    cta: 'Request a quote',
+    tag: null,
     href: '#contact',
+    cta: 'Request a quote',
   },
   {
     icon: '🏆',
-    tag: 'Authorised', tagColor: '#8B5CF6',
-    title: 'Certification Training',
-    desc: 'CompTIA and CertNexus authorised delivery. Security+, CySA+, CASP+, Network+, AAISM, CRISC, BCS CISMP and more — delivered by active practitioners across UK, DACH, and Benelux.',
+    title: 'Professional Certifications',
+    desc: 'CompTIA and CertNexus authorised training. Security+, CySA+, CASP+, Network+, AAISM and more. Delivered by active practitioners — not career trainers.',
     price: 'Varies by certification',
-    cta: 'View courses',
-    href: '#training',
+    tag: 'Authorised',
+    tagColor: '#10B981',
+    href: '#catalogue',
+    cta: 'View PBQ packs →',
   },
 ]
 
 export default function Services() {
   return (
-    <section id="services" style={{
-      padding: '96px 24px',
-      background: T.bgMid,
-      borderTop: `1px solid ${T.border}`,
-    }}>
-      <div style={{ maxWidth: 1160, margin: '0 auto' }}>
-        
-        {/* Header */}
-        <div style={{ marginBottom: 56 }}>
-          <div style={{
-            fontFamily: FF, fontSize: 11, fontWeight: 800,
-            color: T.accent, letterSpacing: '0.15em', textTransform: 'uppercase',
-            marginBottom: 12,
-          }}>What we do</div>
-          <h2 style={{
-            fontFamily: FF, fontSize: 'clamp(30px, 4vw, 48px)',
-            fontWeight: 900, letterSpacing: '-0.03em', color: T.text,
-            lineHeight: 1.1, marginBottom: 14, maxWidth: 600,
-          }}>
-            Everything Your Organisation Needs.{' '}
-            <span style={{
-              background: grad.accent,
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>One Partner.</span>
-          </h2>
-          <p style={{ fontSize: 17, color: T.textMid, maxWidth: 500, lineHeight: 1.65 }}>
-            Comprehensive services tailored to protect your organisation, train your staff,
-            and achieve regulatory compliance — without the vendor juggling.
-          </p>
+    <>
+      <style>{`
+        .services {
+          padding: 96px 24px;
+          background: #070e1f;
+          border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .services-inner { max-width: 1200px; margin: 0 auto; }
+        .services-header { margin-bottom: 56px; }
+        .services-h2 {
+          font-family: ${FF}; font-size: clamp(32px, 4vw, 48px);
+          font-weight: 800; letter-spacing: -0.03em; color: #e8edf5;
+          line-height: 1.1; margin-bottom: 12px;
+        }
+        .services-sub {
+          font-size: 17px; color: #4a6080;
+          max-width: 520px; line-height: 1.6;
+        }
+        .services-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+          gap: 20px;
+        }
+        .service-card {
+          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 16px; padding: 28px;
+          display: flex; flex-direction: column; gap: 16px;
+          transition: all 0.2s; position: relative; overflow: hidden;
+        }
+        .service-card::before {
+          content: ''; position: absolute;
+          top: 0; left: 0; right: 0; height: 2px;
+          background: linear-gradient(90deg, #1a6fc4, #0ea5e9);
+          opacity: 0; transition: opacity 0.2s;
+        }
+        .service-card:hover {
+          border-color: rgba(26,111,196,0.3);
+          background: rgba(26,111,196,0.04);
+          transform: translateY(-3px);
+        }
+        .service-card:hover::before { opacity: 1; }
+        .service-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+        .service-icon { font-size: 28px; line-height: 1; }
+        .service-tag {
+          font-size: 10px; font-weight: 700;
+          padding: 3px 9px; border-radius: 99px;
+          letter-spacing: 0.08em; white-space: nowrap;
+          border: 1px solid;
+        }
+        .service-title {
+          font-family: ${FF}; font-size: 19px; font-weight: 700;
+          color: #e8edf5; letter-spacing: -0.01em; margin-top: 4px;
+        }
+        .service-desc {
+          font-size: 14px; color: #5A7090; line-height: 1.65;
+          flex: 1;
+        }
+        .service-footer {
+          display: flex; align-items: center; justify-content: space-between;
+          gap: 12px; padding-top: 16px;
+          border-top: 1px solid rgba(255,255,255,0.06);
+        }
+        .service-price {
+          font-family: ${FF}; font-size: 14px; font-weight: 700;
+          color: #3B82F6;
+        }
+        .service-cta {
+          font-size: 13px; font-weight: 600; color: #7088a8;
+          background: transparent; border: 1px solid rgba(255,255,255,0.10);
+          border-radius: 6px; padding: 7px 14px;
+          transition: all 0.15s; cursor: pointer;
+          white-space: nowrap;
+          display: inline-block;
+        }
+        .service-cta:hover { color: #e8edf5; border-color: rgba(255,255,255,0.25); }
+        @media (max-width: 480px) {
+          .services-grid { grid-template-columns: 1fr; }
+        }
+      `}</style>
+
+      <section className="services" id="services">
+        <div className="services-inner">
+          <div className="services-header">
+            <div className="section-label">What we do</div>
+            <h2 className="services-h2">Everything Your Organisation<br/>Needs. One Partner.</h2>
+            <p className="services-sub">Comprehensive services tailored to protect your organisation, train your staff, and achieve complex regulatory compliance.</p>
+          </div>
+
+          <div className="services-grid">
+            {SERVICES.map(s => (
+              <div key={s.title} className="service-card">
+                <div className="service-top">
+                  <span className="service-icon">{s.icon}</span>
+                  {s.tag && (
+                    <span className="service-tag" style={{ color: s.tagColor, borderColor: s.tagColor + '40', background: s.tagColor + '12' }}>
+                      {s.tag}
+                    </span>
+                  )}
+                </div>
+                <div className="service-title">{s.title}</div>
+                <p className="service-desc">{s.desc}</p>
+                <div className="service-footer">
+                  <span className="service-price">{s.price}</span>
+                  <a href={s.href} className="service-cta" target={s.external ? '_blank' : undefined} rel={s.external ? 'noreferrer' : undefined}>
+                    {s.cta}
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-
-        {/* Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
-          gap: 20,
-        }}>
-          {services.map((s, i) => (
-            <ServiceCard key={i} {...s} />
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function ServiceCard({ icon, tag, tagColor, title, desc, price, cta, href, external }) {
-  const [hov, setHov] = React.useState(false)
-  return (
-    <div
-      onMouseEnter={() => setHov(true)}
-      onMouseLeave={() => setHov(false)}
-      style={{
-        background: hov ? `rgba(26,86,219,0.05)` : T.bgCard,
-        border: `1px solid ${hov ? 'rgba(26,86,219,0.3)' : T.border}`,
-        borderRadius: 16, padding: 28,
-        display: 'flex', flexDirection: 'column', gap: 16,
-        transition: 'all 0.2s', cursor: 'default',
-        transform: hov ? 'translateY(-3px)' : 'none',
-        position: 'relative', overflow: 'hidden',
-      }}
-    >
-      {/* Top accent bar */}
-      <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-        background: grad.bar, opacity: hov ? 1 : 0, transition: 'opacity 0.2s',
-        borderRadius: '16px 16px 0 0',
-      }} />
-
-      {/* Header row */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12 }}>
-        <span style={{ fontSize: 28, lineHeight: 1 }}>{icon}</span>
-        <span style={{
-          fontSize: 10, fontWeight: 800, padding: '3px 10px',
-          borderRadius: 99, letterSpacing: '0.08em',
-          background: `${tagColor}18`, color: tagColor,
-          border: `1px solid ${tagColor}30`, whiteSpace: 'nowrap',
-          fontFamily: FF,
-        }}>{tag}</span>
-      </div>
-
-      <div>
-        <h3 style={{
-          fontFamily: FF, fontSize: 19, fontWeight: 800,
-          color: T.text, letterSpacing: '-0.01em', marginBottom: 8,
-        }}>{title}</h3>
-        <p style={{ fontSize: 14, color: T.textDim, lineHeight: 1.7 }}>{desc}</p>
-      </div>
-
-      {/* Footer */}
-      <div style={{
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        gap: 12, paddingTop: 16,
-        borderTop: `1px solid rgba(255,255,255,0.06)`,
-        marginTop: 'auto',
-      }}>
-        <span style={{
-          fontFamily: FF, fontSize: 13, fontWeight: 700, color: T.primary,
-        }}>{price}</span>
-        <a
-          href={href}
-          target={external ? '_blank' : undefined}
-          rel={external ? 'noreferrer' : undefined}
-          style={{
-            fontFamily: FF, fontSize: 13, fontWeight: 700,
-            color: hov ? T.text : T.textMid,
-            background: 'transparent',
-            border: `1px solid ${hov ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.1)'}`,
-            borderRadius: 7, padding: '7px 14px',
-            transition: 'all 0.15s', whiteSpace: 'nowrap',
-          }}
-        >{cta}</a>
-      </div>
-    </div>
+      </section>
+    </>
   )
 }

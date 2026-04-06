@@ -8,6 +8,8 @@ import Catalogue from './sections/Catalogue'
 import Urgency from './sections/Urgency'
 import Contact from './sections/Contact'
 import Footer from './components/Footer'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import Terms from './pages/Terms'
 
 const GLOBAL_CSS = `
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -63,6 +65,15 @@ const GLOBAL_CSS = `
 `
 
 export default function App() {
+  const path = window.location.pathname
+
+  if (path === '/privacy') {
+    return <><style>{GLOBAL_CSS}</style><Nav /><PrivacyPolicy /><Footer /></>
+  }
+  if (path === '/terms') {
+    return <><style>{GLOBAL_CSS}</style><Nav /><Terms /><Footer /></>
+  }
+
   return (
     <>
       <style>{GLOBAL_CSS}</style>

@@ -81,7 +81,11 @@ export default function Footer() {
         </div>
         <div className="footer-bottom">
           <span className="footer-copy">© {year} Cy-Sec Awareness and Consultancy Ltd. All rights reserved.</span>
-          <span className="footer-certs">CISSP-ISSAP · CISM · CRISC · CGEIT · CCSP · CompTIA Authorised Partner</span>
+          <div style={{display:'flex',gap:16,flexWrap:'wrap'}}>
+            <a href="/privacy" className="footer-link" style={{fontSize:12,color:'#253040'}}>Privacy Policy</a>
+            <a href="/terms" className="footer-link" style={{fontSize:12,color:'#253040'}}>Terms of Service</a>
+            <span className="footer-certs">CISSP-ISSAP · CISM · CRISC · CGEIT · CCSP · CompTIA Authorised Partner</span>
+          </div>
         </div>
       </footer>
     </>

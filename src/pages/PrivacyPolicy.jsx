@@ -1,152 +1,94 @@
-import React from 'react'
-const FF = `'Bricolage Grotesque', sans-serif`
+import React from 'react';
+import { Helmet } from 'react-helmet';
+import { motion } from 'framer-motion';
+import { Shield } from 'lucide-react';
 
-const LAST_UPDATED = '6 April 2025'
-
-export default function PrivacyPolicy() {
+const PrivacyPolicy = () => {
   return (
-    <>
-      <style>{`
-        .legal-page {
-          max-width: 760px; margin: 0 auto;
-          padding: 120px 24px 80px;
-          color: #b8c5d8; line-height: 1.75; font-size: 15px;
-        }
-        .legal-page h1 {
-          font-family: ${FF}; font-size: 36px; font-weight: 800;
-          color: #e8edf5; letter-spacing: -0.02em; margin-bottom: 8px;
-        }
-        .legal-page .updated {
-          font-size: 13px; color: #3A5070; margin-bottom: 48px;
-        }
-        .legal-page h2 {
-          font-family: ${FF}; font-size: 19px; font-weight: 700;
-          color: #e8edf5; margin: 40px 0 12px;
-        }
-        .legal-page h3 {
-          font-size: 15px; font-weight: 700; color: #c8d6e5;
-          margin: 24px 0 8px;
-        }
-        .legal-page p { margin-bottom: 14px; }
-        .legal-page ul { padding-left: 22px; margin-bottom: 14px; }
-        .legal-page li { margin-bottom: 6px; }
-        .legal-page a { color: #3B82F6; }
-        .legal-page table {
-          width: 100%; border-collapse: collapse; margin-bottom: 24px; font-size: 14px;
-        }
-        .legal-page th, .legal-page td {
-          padding: 10px 14px; border: 1px solid rgba(255,255,255,0.08);
-          text-align: left;
-        }
-        .legal-page th { background: rgba(255,255,255,0.04); color: #e8edf5; font-weight: 600; }
-      `}</style>
+    <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8">
+      <Helmet>
+        <title>Privacy Policy - Cy-Sec</title>
+        <meta name="description" content="Privacy Policy for Cy-Sec Awareness and Consultancy, detailing how we collect, use, and protect your data." />
+      </Helmet>
 
-      <div className="legal-page">
-        <h1>Privacy Policy</h1>
-        <p className="updated">Last updated: {LAST_UPDATED}</p>
+      <div className="max-w-4xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-12"
+        >
+          <Shield className="h-16 w-16 text-blue-600 mx-auto mb-6" />
+          <h1 className="text-5xl lg:text-6xl font-bold leading-tight mb-4 text-slate-800">
+            Privacy Policy
+          </h1>
+          <p className="text-lg text-slate-600">Last updated: 27 June 2025</p>
+        </motion.div>
 
-        <p>
-          Cy-Sec Awareness and Consultancy Ltd ("<strong>Cy-Sec</strong>", "<strong>we</strong>", "<strong>us</strong>") is committed to
-          protecting your personal data. This policy explains what data we collect, how we use it,
-          and your rights under the UK General Data Protection Regulation (UK GDPR) and the
-          Data Protection Act 2018.
-        </p>
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <div className="prose max-w-none text-slate-700 space-y-6">
+            <h2>1. Introduction</h2>
+            <p>Welcome to Cy-Sec Awareness and Consultancy ("we", "our", "us"). We are committed to protecting and respecting your privacy. This policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.
+            </p>
 
-        <h2>1. Who We Are</h2>
-        <p>
-          Cy-Sec Awareness and Consultancy Ltd is the data controller for personal data collected
-          through cy-sec.co.uk, fortifylearn.co.uk, and fortifyone.co.uk.
-        </p>
-        <p>Contact: <a href="mailto:gazc@cy-sec.co.uk">gazc@cy-sec.co.uk</a></p>
+            <h2>2. Data We Collect</h2>
+            <p>We may collect and process the following data about you:</p>
+            <ul>
+              <li><strong>Personal Identification Information:</strong> Name, email address, phone number, company name, job title.</li>
+              <li><strong>Technical Data:</strong> IP address, browser type and version, time zone setting, browser plug-in types and versions, operating system and platform, and other technology on the devices you use to access this website.</li>
+              <li><strong>Usage Data:</strong> Information about how you use our website, products, and services.</li>
+              <li><strong>Assessment Data:</strong> Information you provide when using our Security Suite, including assessment responses and vendor information.</li>
+            </ul>
 
-        <h2>2. What Data We Collect</h2>
-        <table>
-          <thead>
-            <tr><th>Category</th><th>Data</th><th>Source</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Account</td><td>Name, email address, password (hashed)</td><td>Registration form</td></tr>
-            <tr><td>Payment</td><td>Transaction reference, amount, date — card details held by Stripe</td><td>Stripe checkout</td></tr>
-            <tr><td>Learning activity</td><td>PBQ attempts, scores, simulation results</td><td>FortifyLearn platform</td></tr>
-            <tr><td>Compliance data</td><td>Assessment responses, vendor records, DPIA content</td><td>FortifyOne platform</td></tr>
-            <tr><td>Enquiries</td><td>Name, email, message content</td><td>Contact form</td></tr>
-            <tr><td>Technical</td><td>IP address, browser type, page interactions</td><td>Automatic (server logs)</td></tr>
-          </tbody>
-        </table>
+            <h2>3. How We Use Your Data</h2>
+            <p>We use the information we collect in the following ways:</p>
+            <ul>
+              <li>To provide, operate, and maintain our website and services.</li>
+              <li>To improve, personalise, and expand our services.</li>
+              <li>To understand and analyse how you use our services.</li>
+              <li>To develop new products, services, features, and functionality.</li>
+              <li>To communicate with you, either directly or through one of our partners, including for customer service, to provide you with updates and other information relating to the website, and for marketing and promotional purposes.</li>
+              <li>To process your transactions and manage your orders.</li>
+              <li>To find and prevent fraud.</li>
+            </ul>
+            
+            <h2>4. Legal Basis for Processing</h2>
+            <p>Our legal basis for collecting and using the personal information described above will depend on the personal information concerned and the specific context in which we collect it. We will normally collect personal information from you only where we have your consent to do so, where we need the personal information to perform a contract with you, or where the processing is in our legitimate interests and not overridden by your data protection interests or fundamental rights and freedoms.</p>
 
-        <h2>3. Legal Basis for Processing</h2>
-        <ul>
-          <li><strong>Contract</strong> — to deliver the services you purchase or request</li>
-          <li><strong>Legitimate interests</strong> — to improve our platforms, prevent fraud, and ensure security</li>
-          <li><strong>Legal obligation</strong> — to comply with financial, tax, and regulatory requirements</li>
-          <li><strong>Consent</strong> — for marketing communications (you can withdraw at any time)</li>
-        </ul>
+            <h2>5. Data Sharing and Disclosure</h2>
+            <p>We do not sell, trade, or rent your personal identification information to others. We may share generic aggregated demographic information not linked to any personal identification information regarding visitors and users with our business partners, trusted affiliates, and advertisers. We may use third-party service providers to help us operate our business and the site or administer activities on our behalf, such as sending out newsletters or surveys. We may share your information with these third parties for those limited purposes provided that you have given us your permission.</p>
+            
+            <h2>6. Data Security</h2>
+            <p>We have put in place appropriate security measures to prevent your personal data from being accidentally lost, used or accessed in an unauthorised way, altered or disclosed. In addition, we limit access to your personal data to those employees, agents, contractors and other third parties who have a business need to know.</p>
 
-        <h2>4. How We Use Your Data</h2>
-        <ul>
-          <li>Providing access to FortifyLearn and FortifyOne platforms</li>
-          <li>Processing payments and issuing purchase confirmations</li>
-          <li>Responding to enquiries and delivering consultancy services</li>
-          <li>Sending service updates and, where you have consented, marketing</li>
-          <li>Detecting and preventing fraud and security incidents</li>
-          <li>Complying with legal obligations</li>
-        </ul>
+            <h2>7. Your Data Protection Rights</h2>
+            <p>Under UK data protection law, you have rights including:</p>
+            <ul>
+              <li><strong>Your right of access</strong> - You have the right to ask us for copies of your personal information.</li>
+              <li><strong>Your right to rectification</strong> - You have the right to ask us to rectify information you think is inaccurate.</li>
+              <li><strong>Your right to erasure</strong> - You have the right to ask us to erase your personal information in certain circumstances.</li>
+              <li><strong>Your right to restriction of processing</strong> - You have the right to ask us to restrict the processing of your information in certain circumstances.</li>
+              <li><strong>Your right to data portability</strong> - You have the right to ask that we transfer the information you gave us to another organisation, or to you, in certain circumstances.</li>
+            </ul>
 
-        <h2>5. Third-Party Services</h2>
-        <table>
-          <thead>
-            <tr><th>Provider</th><th>Purpose</th><th>Location</th></tr>
-          </thead>
-          <tbody>
-            <tr><td>Supabase</td><td>Database and authentication</td><td>EU (Ireland)</td></tr>
-            <tr><td>Vercel</td><td>Website hosting and deployment</td><td>EU/US (adequacy decision)</td></tr>
-            <tr><td>Stripe</td><td>Payment processing</td><td>EU/US (standard contractual clauses)</td></tr>
-          </tbody>
-        </table>
-        <p>We do not sell your personal data to third parties.</p>
+            <h2>8. Cookie Policy</h2>
+            <p>Our website uses cookies to distinguish you from other users of our website. This helps us to provide you with a good experience when you browse our website and also allows us to improve our site. For detailed information on the cookies we use and the purposes for which we use them see our Cookie Policy (which you may need to create separately).</p>
 
-        <h2>6. Data Retention</h2>
-        <ul>
-          <li>Account data — held while your account is active, deleted within 30 days of closure request</li>
-          <li>Payment records — 7 years (legal obligation for financial records)</li>
-          <li>Learning activity — held while your account is active</li>
-          <li>Enquiry records — 12 months</li>
-          <li>Server logs — 30 days</li>
-        </ul>
+            <h2>9. Changes to This Privacy Policy</h2>
+            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page. You are advised to review this Privacy Policy periodically for any changes.</p>
 
-        <h2>7. Your Rights</h2>
-        <p>Under UK GDPR you have the right to:</p>
-        <ul>
-          <li><strong>Access</strong> — request a copy of your personal data</li>
-          <li><strong>Rectification</strong> — correct inaccurate data</li>
-          <li><strong>Erasure</strong> — request deletion ("right to be forgotten")</li>
-          <li><strong>Restriction</strong> — limit how we process your data</li>
-          <li><strong>Portability</strong> — receive your data in a portable format</li>
-          <li><strong>Object</strong> — object to processing based on legitimate interests</li>
-          <li><strong>Withdraw consent</strong> — at any time for consent-based processing</li>
-        </ul>
-        <p>To exercise any right, email <a href="mailto:gazc@cy-sec.co.uk">gazc@cy-sec.co.uk</a>. We will respond within 30 days.</p>
-
-        <h2>8. Complaints</h2>
-        <p>
-          If you are unhappy with how we handle your data, you have the right to lodge a complaint
-          with the Information Commissioner's Office (ICO) at <a href="https://ico.org.uk" target="_blank" rel="noreferrer">ico.org.uk</a>.
-        </p>
-
-        <h2>9. Cookies</h2>
-        <p>
-          Our platforms use strictly necessary cookies for authentication sessions. We do not use
-          advertising or tracking cookies. You can disable cookies in your browser settings,
-          but this will prevent login functionality.
-        </p>
-
-        <h2>10. Changes to This Policy</h2>
-        <p>
-          We may update this policy from time to time. Material changes will be communicated
-          by email to registered users. The current version is always available at
-          cy-sec.co.uk/privacy.
-        </p>
+            <h2>10. Contact Us</h2>
+            <p>If you have any questions about this Privacy Policy, please contact us at:</p>
+            <p>Email: <a href="mailto:info@cy-sec.co.uk" className="text-blue-600 hover:underline">info@cy-sec.co.uk</a></p>
+          </div>
+        </motion.div>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
+
+export default PrivacyPolicy;

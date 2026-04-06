@@ -1,0 +1,174 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 217 73% 14%;
+    --card: 0 0% 100%;
+    --card-foreground: 217 73% 14%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 217 73% 14%;
+    
+    /* Primary: Cyan #00D9FF */
+    --primary: 189 100% 50%;
+    --primary-foreground: 217 73% 14%;
+    
+    /* Secondary: Navy #0A1E3F */
+    --secondary: 217 73% 14%;
+    --secondary-foreground: 0 0% 100%;
+    
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    
+    /* Accent: Bright Cyan */
+    --accent: 189 100% 50%;
+    --accent-foreground: 217 73% 14%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 189 100% 50%;
+    
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 217 73% 14%;
+    --foreground: 210 40% 98%;
+    --card: 217 73% 18%;
+    --card-foreground: 210 40% 98%;
+    --popover: 217 73% 18%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 189 100% 50%;
+    --primary-foreground: 217 73% 14%;
+    
+    --secondary: 217 73% 20%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217 73% 20%;
+    --muted-foreground: 215 20% 65%;
+    
+    --accent: 189 100% 50%;
+    --accent-foreground: 217 73% 14%;
+    
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 217 73% 25%;
+    --input: 217 73% 25%;
+    --ring: 189 100% 50%;
+  }
+}
+
+* {
+  border-color: hsl(var(--border));
+}
+
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-feature-settings: "rlig" 1, "calt" 1;
+  min-height: 100vh;
+}
+
+.cyber-grid {
+  background-image: 
+    linear-gradient(rgba(0, 217, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 217, 255, 0.08) 1px, transparent 1px);
+  background-size: 50px 50px;
+}
+
+.glow-effect {
+  box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.glow-effect:hover {
+  box-shadow: 0 0 30px rgba(0, 217, 255, 0.6);
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(0, 217, 255, 0.5);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #00D9FF, #0A1E3F);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-purple {
+  background: linear-gradient(135deg, #9333ea, #7c3aed, #6d28d9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-green {
+  background: linear-gradient(135deg, #059669, #047857, #065f46);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cyber-border {
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(10, 30, 63, 0.05)) padding-box,
+              linear-gradient(135deg, #00D9FF, #0A1E3F) border-box;
+}
+
+.feature-card-border {
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.8)) padding-box,
+              linear-gradient(135deg, #00D9FF, #0A1E3F) border-box;
+}
+
+.client-logo-container {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.8)) padding-box, 
+              linear-gradient(135deg, #00D9FF, #0A1E3F) border-box;
+  border: 2px solid transparent;
+}
+
+.floating-animation {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes pulse-glow {
+  from { box-shadow: 0 0 20px rgba(0, 217, 255, 0.3); }
+  to { box-shadow: 0 0 40px rgba(0, 217, 255, 0.6); }
+}
+
+.slide-in {
+  animation: slideIn 0.8s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stats-highlight {
+  background: linear-gradient(135deg, rgba(0, 217, 255, 0.1), rgba(10, 30, 63, 0.1));
+  border: 1px solid rgba(0, 217, 255, 0.2);
+}

@@ -1,0 +1,182 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Briefcase, Award, Zap, CheckCircle, ShieldCheck } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import { Helmet } from 'react-helmet';
+import IframeBookingModal from '@/components/IframeBookingModal';
+
+const TrainingPage = () => {
+  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
+  const handleContactUs = () => {
+    setIsModalOpen(true);
+  };
+
+  const OptionCard = ({ icon: Icon, title, description, points, buttonText, onButtonClick, colorClass }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="feature-card-border rounded-xl p-8 bg-white/90 backdrop-blur-sm flex flex-col shadow-lg hover:shadow-2xl transition-shadow duration-300"
+    >
+      <Icon className={`h-12 w-12 ${colorClass} mb-6`} />
+      <h3 className={`text-2xl font-bold mb-4 ${colorClass}`}>{title}</h3>
+      <p className="text-slate-600 mb-6 flex-grow">{description}</p>
+      <ul className="space-y-3 text-slate-600 mb-8">
+        {points.map((point, i) => (
+          <li key={i} className="flex items-start">
+            <CheckCircle className={`h-5 w-5 ${colorClass} mr-3 mt-1 flex-shrink-0`} />
+            <span>{point}</span>
+          </li>
+        ))}
+      </ul>
+      <Button
+        onClick={onButtonClick}
+        variant="outline"
+        className={`w-full mt-auto border-${colorClass.split('-')[1]}-500 ${colorClass} hover:bg-${colorClass.split('-')[1]}-500/10`}
+      >
+        {buttonText} <ArrowRight className="ml-2 h-4 w-4" />
+      </Button>
+    </motion.div>
+  );
+
+  const frameworks = [
+    { name: 'DOD 8140m', logo: '/dod-logo.svg', description: 'Department of Defense Directive' },
+    { name: 'SFIA', logo: '/sfia-logo.svg', description: 'Skills Framework for the Information Age' },
+    { name: 'UK Cyber Security Council', logo: '/ukcsc-logo.svg', description: 'Skills & Competency Framework' },
+  ];
+
+  return (
+    <>
+      <Helmet>
+        <title>Cybersecurity Training Solutions | Corporate & Professional Certifications | Cy-Sec</title>
+        <meta name="description" content="Explore tailored cybersecurity training solutions aligned with DOD 8140m, SFIA, and UK Cyber Security Council frameworks. We offer corporate training, professional certifications, and bespoke content." />
+      </Helmet>
+      <div className="min-h-screen">
+        <section className="relative py-20 px-4 sm:px-6 lg:px-8 text-center bg-gradient-to-b from-slate-50 to-blue-100/30">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
+            <h1 className="text-5xl lg:text-6xl font-bold leading-tight text-slate-800">
+              Advanced <span className="gradient-text">Cybersecurity Training</span>
+            </h1>
+            <p className="mt-6 text-xl text-slate-600 max-w-3xl mx-auto">
+              Empower your team and advance your career with our comprehensive suite of training solutions, from corporate programmes to professional certifications.
+            </p>
+          </motion.div>
+        </section>
+
+        <section className="py-12 bg-white/50 backdrop-blur-sm">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="text-center">
+                 <h2 className="text-lg font-semibold text-blue-600 uppercase tracking-wider">Aligned with Industry Standards</h2>
+                 <p className="mt-2 text-3xl font-bold tracking-tight text-slate-800 sm:text-4xl">
+                   Mapped to Global Skills Frameworks
+                 </p>
+              </div>
+              <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                {frameworks.map((framework, index) => (
+                  <motion.div 
+                    key={framework.name}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="p-6 bg-white rounded-xl shadow-md flex flex-col items-center border border-slate-200/80"
+                  >
+                    <ShieldCheck className="h-10 w-10 text-blue-500 mb-4"/>
+                    <h3 className="text-xl font-semibold text-slate-800">{framework.name}</h3>
+                    <p className="text-sm text-slate-500 mt-1">{framework.description}</p>
+                  </motion.div>
+                ))}
+              </div>
+              <p className="text-center mt-8 text-slate-600">
+                Our curriculum is aligned with leading frameworks to ensure your team's skills meet recognised global standards where applicable.
+              </p>
+            </motion.div>
+          </div>
+        </section>
+
+        <section className="py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <OptionCard
+                icon={Briefcase}
+                title="Corporate Solutions"
+                description="Strengthen your organisation's security posture with training designed for your entire team."
+                points={["Security Awareness Training", "Individual Modules (Role Specific)", "TableTop Scenarios (Executive & Technical)"]}
+                buttonText="Discuss Corporate Needs"
+                onButtonClick={handleContactUs}
+                colorClass="text-blue-600"
+              />
+              <OptionCard
+                icon={Award}
+                title="Professional Certifications"
+                description="Earn industry-recognised certifications to validate your skills and advance your career path."
+                points={["CompTIA Certifications", "BCS (Launching Summer 2026)", "ISACA (Launching Summer 2026)"]}
+                buttonText="View Certifications"
+                onButtonClick={() => handleNavigation('/training/professional-certifications')}
+                colorClass="text-purple-600"
+              />
+              <OptionCard
+                icon={Zap}
+                title="Custom / Bespoke Content"
+                description="Develop a unique training programme tailored precisely to your business objectives and team requirements."
+                points={["Combination of all our offerings", "Unique content created for you", "Address specific skill gaps"]}
+                buttonText="Create a Custom Plan"
+                onButtonClick={handleContactUs}
+                colorClass="text-green-600"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="py-20 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="feature-card-border rounded-2xl p-12 bg-gradient-to-br from-white/90 to-blue-50/80 backdrop-blur-sm shadow-xl"
+            >
+              <Award className="h-16 w-16 text-blue-600 mx-auto mb-6 pulse-glow" />
+              <h2 className="text-4xl lg:text-5xl font-bold mb-6 text-slate-800">
+                Ready to <span className="gradient-text">Advance Your Skills?</span>
+              </h2>
+              <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+                Whether you're an individual looking to upskill or an organisation seeking to empower your team, we have the right cybersecurity training solution. Let's discuss your goals.
+              </p>
+              <Button
+                onClick={handleContactUs}
+                className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white px-12 py-4 text-lg glow-effect"
+              >
+                Contact Us Today <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </motion.div>
+          </div>
+        </section>
+      </div>
+
+      <IframeBookingModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        url="https://cy-sec.online"
+      />
+    </>
+  );
+};
+
+export default TrainingPage;

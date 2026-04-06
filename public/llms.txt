@@ -1,0 +1,31 @@
+## Pages
+- [- Our Store](/productdetail): No description available
+- [Admin Home - Cy-Sec](/adminhome): Admin home dashboard for Cy-Sec.
+- [Admin Pages - Cy-Sec](/adminpageslist): List of internal admin pages and guides.
+- [CertNexus Professional Certifications | CFR, CyberSAFE & More | Cy-Sec](/certnexuscertifications): Explore official CertNexus certifications like CyberSec First Responder (CFR) and CyberSAFE. Choose from self-study, instructor-led, or hybrid learning options.
+- [CompTIA & CertNexus Cybersecurity Training UK | Cy-Sec](/trainingdelivery): Authorised CompTIA and CertNexus training partner. Security+, CySA+, CASP+ and more. Corporate security awareness training, role-specific modules, and tabletop exercises for UK businesses.
+- [Contact Us | Book a Discovery Call | Cy-Sec](/contact): Book a free discovery call or contact the Cy-Sec team to discuss your cybersecurity needs.
+- [CRM - Admin Dashboard](/admincrm): Manage contact submissions and client interactions.
+- [Cy-Sec Admin Dashboard (Legacy)](/fulladmindashboard): Cy-Sec administrative dashboard for website and platform management.
+- [Cybersecurity Leadership, Compliance & Training | Cy-Sec](/home): Cy-Sec offers expert vCISO leadership, DORA & NIS2 compliance sprints, CompTIA certified training, and the all-in-one FortifyOne compliance platform for your organisation.
+- [Cybersecurity Training Solutions | Corporate & Professional Certifications | Cy-Sec](/training): Explore tailored cybersecurity training solutions aligned with DOD 8140m, SFIA, and UK Cyber Security Council frameworks. We offer corporate training, professional certifications, and bespoke content.
+- [Dashboard Deprecated](/admindashboard): No description available
+- [DORA Compliance Sprint | Cy-Sec](/doracompliancesprint): Accelerate your path to Digital Operational Resilience Act (DORA) compliance with Cy-Sec
+- [Fortify One Login - Cy-Sec](/securitysuitelogin): Access your Cy-Sec Fortify One dashboard for comprehensive cybersecurity and vendor risk management.
+- [FortifyLearn - Coming Soon | Cy-Sec](/comingsoon): FortifyLearn is coming soon. Stay tuned for our advanced cybersecurity learning platform.
+- [Free Cybersecurity Resources - Cy-Sec](/leadmagnet): Download our comprehensive cybersecurity toolkit for free. Get GDPR compliance templates, ISO 27001 guides, and security assessment tools.
+- [ISO 27001 & DORA Compliance Platform UK | FortifyOne by Cy-Sec](/securitysuite): FortifyOne is Cy-Sec
+- [LinkedIn Marketing Generator - Cy-Sec](/linkedinmarketinggenerator): Generate ready-to-use LinkedIn marketing content for Cy-Sec FortifyOne.
+- [Marketing Insights - Admin Dashboard](/marketinginsights): Key differentiators and marketing points for the Cy-Sec Security Suite.
+- [NIS2 Compliance for UK & EU Businesses | Cy-Sec](/nis2compliance): Cy-Sec helps businesses achieve NIS2 compliance quickly. Book a readiness review, avoid massive fines, and secure your supply chain against cyber threats.
+- [Platform Administration - Admin Dashboard](/adminplatform): Manage users, plans, modules, and system settings.
+- [Pre-Launch Checklist - Cy-Sec Admin](/prelaunchchecklist): No description available
+- [Pricing Plans - Cy-Sec Cybersecurity Solutions](/pricing): Flexible pricing plans for SMBs. Choose from monthly subscriptions or one-time assessments to fit your cybersecurity needs.
+- [Privacy Policy - Cy-Sec](/privacypolicy): Privacy Policy for Cy-Sec Awareness and Consultancy, detailing how we collect, use, and protect your data.
+- [Security Reports - Security Suite](/securityreports): Generate and manage comprehensive security reports for compliance and vendor risk assessments.
+- [Security Suite Dashboard - Cy-Sec](/securitysuitedashboard): Your comprehensive cybersecurity and vendor risk management dashboard.
+- [Sign Up - Cy-Sec FortifyOne](/signup): Create your Cy-Sec FortifyOne account to get started with our security suite.
+- [Strategic Roadmap - Cy-Sec Admin](/strategicroadmap): Cy-Sec strategic product and company roadmap.
+- [Terms of Service - Cy-Sec](/termsofservice): Terms of Service for Cy-Sec Awareness and Consultancy, outlining the rules and regulations for the use of our website and services.
+- [Vendor Risk Management - Security Suite](/vendorriskmanagement): Assess, monitor, and manage risks associated with your third-party vendors.
+- [Virtual CISO Service UK | vCISO for SMBs from £995/month | Cy-Sec](/vciso): Dedicated Virtual CISO service for UK small and mid-sized businesses. ISO 27001, DORA, NIS2 compliance support, FortifyOne platform included. Bronze from £995/month, Silver £2,250/month, Gold £4,500/month.

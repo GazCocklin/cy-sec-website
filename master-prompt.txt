@@ -1,0 +1,64 @@
+Create a comprehensive, enterprise-grade cybersecurity web application and marketing website called "Cy-Sec FortifyOne". The project will be built using React, Vite, TailwindCSS, Framer Motion, and shadcn/ui components. The backend will be powered by Supabase for authentication, data storage, and serverless functions.
+
+**I. Core Technologies & Setup**
+1.  **Project Initialization**: Set up a Vite project with React and TailwindCSS.
+2.  **Dependencies**: Include `react-router-dom`, `framer-motion`, `lucide-react`, `clsx`, `tailwind-merge`, `tailwindcss-animate`, `@radix-ui/*` primitives as needed for shadcn components, `react-helmet`, `@supabase/supabase-js`, `js-cookie`, `date-fns`, and `xlsx`/`file-saver` for data export.
+3.  **Styling**:
+    *   Configure `tailwind.config.js` with a professional color palette (primary blues, slate grays, accents of green and purple).
+    *   Create a base CSS file (`index.css`) with modern design elements: a subtle grid background (`cyber-grid`), gradient text effects (`gradient-text`), glowing buttons (`glow-effect`), and custom-bordered cards (`feature-card-border`).
+    *   The primary font should be a clean, modern sans-serif like Inter.
+4.  **Component Structure**:
+    *   Organize components logically into folders: `components/ui` for shadcn components, `components/admin`, `components/security-suite`, etc.
+    *   Use absolute imports (`@/`) for all modules.
+    *   Create all necessary shadcn/ui components from scratch: `Button`, `Card`, `Input`, `Label`, `Select`, `Dialog`, `Toast`, `Toaster`, `Tabs`, `Accordion`, `Tooltip`, etc.
+
+**II. Supabase Backend Integration**
+1.  **Database Schema**:
+    *   Create tables for: `user_profiles`, `subscriptions`, `contact_submissions`, `security_suite_modules`, `user_module_access`, `compliance_frameworks`, `security_assessments`, `compliance_questions`, `assessment_responses`, `vendors`, `vendor_questionnaires`, `vendor_responses`, and various logging/admin tables.
+    *   Implement row-level security (RLS) policies to ensure users can only access their own data, with special permissions for admins (`gazc@cy-sec.co.uk`, `aimeec@cy-sec.co.uk`).
+2.  **Authentication**:
+    *   Set up a `SupabaseAuthContext` to manage user sessions, sign-up, sign-in, and sign-out.
+    *   Implement `ProtectedRoute` component to gate access to authenticated routes and admin-only routes.
+    *   Create a trigger to automatically create a `user_profiles` entry when a new user signs up.
+3.  **Edge Functions**:
+    *   `send-contact-notification`: To send an email via Resend when a contact form is submitted.
+    *   `admin-create-user`: To allow admins to create new users and send invites.
+    *   `admin-password-reset`: To allow admins to reset user passwords.
+    *   Automate module access upon subscription creation using a database trigger (`on_subscription_created`) and a corresponding function (`handle_new_subscription`).
+
+**III. Application Pages & Features**
+
+1.  **Public-Facing Website**:
+    *   **Homepage (`/`)**: A modern landing page featuring a hero section, "Why Choose Us," "Our Solutions" (highlighting Training, FortifyOne, and FortifyLearn), client logos, a platform highlight, and a CTA.
+    *   **Training Delivery Pages (`/training-delivery`, etc.)**: A suite of pages detailing various training offerings.
+    *   **Security Suite Page (`/security-suite`)**: A detailed marketing page for the FortifyOne platform, including a hero section, feature highlights (holistic overview, framework support, reporting), a comparison table, and a CTA.
+    *   **Contact Page (`/contact`)**: A form to capture leads, which are stored in the `contact_submissions` table and trigger an email notification.
+    *   **Pricing Page (`/pricing`)**: Outlines the different subscription plans.
+    *   **Legal Pages (`/privacy-policy`, `/terms-of-service`)**.
+
+2.  **Core Application (FortifyOne)**:
+    *   **Authentication**:
+        *   Login page (`/security-suite/login`) with email/password fields.
+        *   Sign-up page (`/security-suite/signup`) for self-service user registration.
+    *   **Dashboard (`/security-suite/dashboard`)**: The main landing page for logged-in users, showing key metrics, compliance status, risk distribution, and quick actions.
+    *   **Compliance Assessments (`/security-suite/compliance`)**: Users can start, manage, and complete assessments based on various frameworks (ISO 27001, NIST, etc.). Includes a wizard-style interface for answering questions.
+    *   **Vendor Risk Management (`/security-suite/vendor-risk`)**: Users can add vendors, send them assessment questionnaires, and track their compliance.
+    *   **Reports (`/security-suite/reports`)**: A section for viewing and generating detailed PDF reports on assessment results.
+    *   **Settings (`/security-suite/settings`)**: Users can manage their profile and application settings.
+
+3.  **Admin Section (`/admin`)**:
+    *   **Unified Admin Dashboard**: Create a new, streamlined admin home (`/admin`) that links to dedicated CRM and Platform management pages.
+    *   **CRM (`/admin/crm`)**: A page for admins to view and manage all `contact_submissions`.
+    *   **Platform Management (`/admin/platform`)**: A hub for managing users, plans, and security suite modules.
+    *   Deprecate the old, monolithic `FullAdminDashboard` and `ContactSubmissions` components, pointing them to the new, refactored pages.
+
+**IV. Key Components & UX**
+1.  **Navbar**: A fixed, responsive navbar with links to main pages. It should show the user's authentication status and provide login/logout/dashboard buttons accordingly.
+2.  **Footer**: A comprehensive footer with quick links, legal information, and partner logos.
+3.  **Cookie Consent Banner**: A non-intrusive banner to manage user consent for analytics tracking (Google Analytics).
+4.  **Animations**: Use `framer-motion` for smooth page transitions, subtle hover effects, and animations on elements as they scroll into view.
+5.  **Notifications**: Implement `Toaster` notifications for user actions (success, error, etc.).
+6.  **SEO**: Use `react-helmet` to manage titles and meta descriptions for each page.
+7.  **Analytics**: Integrate Google Analytics and LinkedIn Insight Tag for tracking. The GA script should be loaded conditionally based on cookie consent.
+
+This prompt should serve as a complete guide to recreating the entire application.

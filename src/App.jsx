@@ -1,93 +1,164 @@
-import React, { useState, useEffect } from 'react'
-import Nav from './components/Nav'
-import Hero from './sections/Hero'
-import Services from './sections/Services'
-import WhyCySec from './sections/WhyCySec'
-import Products from './sections/Products'
-import Catalogue from './sections/Catalogue'
-import Urgency from './sections/Urgency'
-import Contact from './sections/Contact'
-import Footer from './components/Footer'
-import PrivacyPolicy from './pages/PrivacyPolicy'
-import Terms from './pages/Terms'
+import React, { useEffect, useCallback } from 'react';
+import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Toaster } from '@/components/ui/toaster';
+import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext';
+import { supabase } from '@/lib/customSupabaseClient';
+import { CartProvider } from '@/hooks/useCart';
 
-const GLOBAL_CSS = `
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'DM Sans', system-ui, sans-serif;
-    background: #060b18;
-    color: #e8edf5;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-  }
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: #1c2a4a; border-radius: 2px; }
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import HomePage from '@/pages/HomePage';
+import SecuritySuitePage from '@/pages/SecuritySuitePage';
+import SecuritySuiteLogin from '@/pages/SecuritySuiteLogin';
+import SignUpPage from '@/pages/SignUpPage';
+import ContactPage from '@/pages/ContactPage'; 
+import NewsBanner from '@/components/NewsBanner';
+import HybridCoursesPage from '@/pages/HybridCoursesPage';
+import SelfStudyModulesPage from '@/pages/SelfStudyModulesPage';
+import InstructorLedPage from '@/pages/InstructorLedPage';
+import CompTIACertificationsPage from '@/pages/CompTIACertificationsPage';
+import CertNexusCertificationsPage from '@/pages/CertNexusCertificationsPage';
+import PricingPage from '@/pages/PricingPage';
+import LeadMagnetPage from '@/pages/LeadMagnetPage';
+import PrivacyPolicy from '@/pages/PrivacyPolicy';
+import TermsOfService from '@/pages/TermsOfService';
+import PreLaunchChecklist from '@/pages/PreLaunchChecklist';
+import MarketingInsights from '@/pages/MarketingInsights';
+import PlanLogicGuide from '@/pages/PlanLogicGuide';
+import SecurityCalendar from '@/pages/security-suite/SecurityCalendar';
+import TrainingDeliveryPage from '@/pages/TrainingDeliveryPage';
+import LinkedinMarketingGenerator from '@/pages/LinkedinMarketingGenerator';
+import VCISOPage from '@/pages/VCISOPage';
+import DORAComplianceSprintPage from '@/pages/DORAComplianceSprintPage';
+import NIS2CompliancePage from '@/pages/NIS2CompliancePage';
+import ComingSoonPage from '@/pages/ComingSoonPage';
+import CookieConsentBanner from '@/components/CookieConsentBanner';
+import usePageTracking from '@/hooks/usePageTracking';
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
-  }
-  .fade-up { animation: fadeUp 0.7s ease both; }
-  .fade-in { animation: fadeIn 0.5s ease both; }
+import ProtectedRoute from '@/components/ProtectedRoute';
+import AuthErrorInterceptor from '@/components/AuthErrorInterceptor';
 
-  a { color: inherit; text-decoration: none; }
-  button { font-family: inherit; cursor: pointer; }
+import SecurityDashboard from '@/pages/security-suite/SecurityDashboard';
+import ComplianceAssessments from '@/pages/security-suite/ComplianceAssessments';
+import VendorRiskManagement from '@/pages/security-suite/VendorRiskManagement';
+import VendorDetailsPage from '@/pages/security-suite/VendorDetailsPage';
+import VendorAssessmentWizard from '@/pages/security-suite/VendorAssessmentWizard';
+import VendorAssessmentReport from '@/pages/security-suite/VendorAssessmentReport';
+import SecuritySettings from '@/pages/security-suite/SecuritySettings';
+import SecurityReports from '@/pages/security-suite/SecurityReports';
+import AssessmentReport from '@/pages/security-suite/AssessmentReport';
+import AdminHomePage from '@/pages/AdminHomePage';
+import AdminCrmPage from '@/pages/AdminCrmPage';
+import AdminPlatformPage from '@/pages/AdminPlatformPage';
+import AdminPagesList from '@/pages/AdminPagesList';
+import StrategicRoadmap from '@/pages/StrategicRoadmap';
+import FullAdminDashboard from '@/pages/FullAdminDashboard';
 
-  .section-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #3B82F6;
-    margin-bottom: 16px;
-  }
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 20px;
-    height: 2px;
-    background: #3B82F6;
-    border-radius: 1px;
-  }
-`
+function AppContent() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { signOut, session } = useAuth();
+  
+  usePageTracking();
 
-export default function App() {
-  const path = window.location.pathname
+  const handleSignOut = useCallback(async () => {
+    await signOut();
+    navigate('/security-suite/login', { 
+      state: { 
+        from: location, 
+        message: 'Your session has expired. Please sign in again.' 
+      },
+      replace: true 
+    });
+  }, [signOut, navigate, location]);
 
-  if (path === '/privacy') {
-    return <><style>{GLOBAL_CSS}</style><Nav /><PrivacyPolicy /><Footer /></>
-  }
-  if (path === '/terms') {
-    return <><style>{GLOBAL_CSS}</style><Nav /><Terms /><Footer /></>
-  }
+  useEffect(() => {
+    if (!session && localStorage.getItem('sb-aixxbakynzjkdezzklbk-auth-token')) {
+      supabase.auth.signOut();
+    }
+  }, [session]);
+
+  const isSecuritySuitePage = location.pathname.startsWith('/security-suite/') && 
+                              location.pathname !== '/security-suite' && 
+                              location.pathname !== '/security-suite/login' &&
+                              location.pathname !== '/security-suite/signup';
+  const isAdminPage = location.pathname.startsWith('/admin');
+
+  // Adjust padding for new immersive home page design
+  const isHomePage = location.pathname === '/';
+  const mainPaddingClass = isHomePage ? "pt-0" : (isSecuritySuitePage || isAdminPage ? "pt-20" : "pt-32");
 
   return (
-    <>
-      <style>{GLOBAL_CSS}</style>
-      <Nav />
-      <main>
-        <Hero />
-        <Services />
-        <WhyCySec />
-        <Products />
-        <Catalogue />
-        <Urgency />
-        <Contact />
-      </main>
-      <Footer />
-    </>
-  )
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      {!isAdminPage && <Navbar />}
+      
+      <div className={`flex-grow ${mainPaddingClass}`}>
+        {!isSecuritySuitePage && !isAdminPage && !isHomePage && <NewsBanner />}
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/training-delivery" element={<TrainingDeliveryPage />} />
+            <Route path="/training/hybrid" element={<HybridCoursesPage />} />
+            <Route path="/training/self-study" element={<SelfStudyModulesPage />} />
+            <Route path="/training/instructor-led" element={<InstructorLedPage />} />
+            <Route path="/training/comptia-certifications" element={<CompTIACertificationsPage />} />
+            <Route path="/training/certnexus-certifications" element={<CertNexusCertificationsPage />} />
+            <Route path="/security-suite" element={<SecuritySuitePage />} />
+            <Route path="/security-suite/login" element={<SecuritySuiteLogin />} />
+            <Route path="/security-suite/signup" element={<SignUpPage />} />
+            <Route path="/pricing" element={<PricingPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/vciso" element={<VCISOPage />} />
+            <Route path="/dora-compliance" element={<DORAComplianceSprintPage />} />
+            <Route path="/nis2-compliance" element={<NIS2CompliancePage />} />
+            <Route path="/coming-soon" element={<ComingSoonPage />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            
+            <Route path="/security-suite/dashboard" element={<ProtectedRoute><SecurityDashboard /></ProtectedRoute>} />
+            <Route path="/security-suite/compliance" element={<ProtectedRoute><ComplianceAssessments /></ProtectedRoute>} />
+            <Route path="/security-suite/vendor-risk" element={<ProtectedRoute><VendorRiskManagement /></ProtectedRoute>} />
+            <Route path="/security-suite/vendor-risk/:vendorId" element={<ProtectedRoute><VendorDetailsPage /></ProtectedRoute>} />
+            <Route path="/security-suite/vendor-assessment/:questionnaireId" element={<ProtectedRoute><VendorAssessmentWizard /></ProtectedRoute>} />
+            <Route path="/security-suite/vendor-assessment-report/:questionnaireId" element={<ProtectedRoute><VendorAssessmentReport /></ProtectedRoute>} />
+            <Route path="/security-suite/settings" element={<ProtectedRoute><SecuritySettings /></ProtectedRoute>} />
+            <Route path="/security-suite/reports" element={<ProtectedRoute><SecurityReports /></ProtectedRoute>} />
+            <Route path="/security-suite/assessment-report/:id" element={<ProtectedRoute><AssessmentReport /></ProtectedRoute>} />
+            <Route path="/security-suite/calendar" element={<ProtectedRoute><SecurityCalendar /></ProtectedRoute>} />
+
+            <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminHomePage /></ProtectedRoute>} />
+            <Route path="/admin/crm" element={<ProtectedRoute adminOnly={true}><AdminCrmPage /></ProtectedRoute>} />
+            <Route path="/admin/platform" element={<ProtectedRoute adminOnly={true}><AdminPlatformPage /></ProtectedRoute>} />
+            <Route path="/admin/pages" element={<ProtectedRoute adminOnly={true}><AdminPagesList /></ProtectedRoute>} />
+            <Route path="/admin/legacy" element={<ProtectedRoute adminOnly={true}><FullAdminDashboard /></ProtectedRoute>} />
+            <Route path="/admin/pre-launch-checklist" element={<ProtectedRoute adminOnly={true}><PreLaunchChecklist /></ProtectedRoute>} />
+            <Route path="/admin/marketing-insights" element={<ProtectedRoute adminOnly={true}><MarketingInsights /></ProtectedRoute>} />
+            <Route path="/admin/plan-logic-guide" element={<ProtectedRoute adminOnly={true}><PlanLogicGuide /></ProtectedRoute>} />
+            <Route path="/admin/strategic-roadmap" element={<ProtectedRoute adminOnly={true}><StrategicRoadmap /></ProtectedRoute>} />
+            <Route path="/admin/linkedin-marketing" element={<ProtectedRoute adminOnly={true}><LinkedinMarketingGenerator /></ProtectedRoute>} />
+          </Routes>
+        </main>
+      </div>
+
+      {!isAdminPage && <Footer />}
+      <CookieConsentBanner />
+      <Toaster />
+    </div>
+  );
 }
+
+function App() {
+  return (
+    <Router>
+      <CartProvider>
+        <AuthProvider>
+          <AuthErrorInterceptor>
+            <AppContent />
+          </AuthErrorInterceptor>
+        </AuthProvider>
+      </CartProvider>
+    </Router>
+  );
+}
+
+export default App;

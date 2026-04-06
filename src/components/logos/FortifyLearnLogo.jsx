@@ -23,12 +23,12 @@ const FortifyLearnLogo = ({ height = 28, className = '' }) => {
       <rect x="15" y="17.5" width="5" height="2" rx="1" fill="#06B6D4"/>
       {/* Wordmark: Fortify bold + Learn regular */}
       <text x="33" y="20"
-        fontFamily="'Bricolage Grotesque','DM Sans',system-ui,sans-serif"
+        fontFamily="'Inter',system-ui,sans-serif"
         fontWeight="800" fontSize="14" letterSpacing="-0.5" fill="#1A56DB">
         Fortify
       </text>
       <text x="89" y="20"
-        fontFamily="'Bricolage Grotesque','DM Sans',system-ui,sans-serif"
+        fontFamily="'Inter',system-ui,sans-serif"
         fontWeight="400" fontSize="14" letterSpacing="-0.3" fill="#06B6D4">
         Learn
       </text>

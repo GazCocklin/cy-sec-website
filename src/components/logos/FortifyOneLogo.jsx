@@ -24,12 +24,12 @@ const FortifyOneLogo = ({ height = 28, className = '' }) => {
         stroke="#06B6D4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
       {/* Wordmark: Fortify bold + One teal */}
       <text x="33" y="20"
-        fontFamily="'Bricolage Grotesque','DM Sans',system-ui,sans-serif"
+        fontFamily="'Inter',system-ui,sans-serif"
         fontWeight="800" fontSize="14" letterSpacing="-0.5" fill="#1A56DB">
         Fortify
       </text>
       <text x="89" y="20"
-        fontFamily="'Bricolage Grotesque','DM Sans',system-ui,sans-serif"
+        fontFamily="'Inter',system-ui,sans-serif"
         fontWeight="400" fontSize="14" letterSpacing="-0.3" fill="#06B6D4">
         One
       </text>

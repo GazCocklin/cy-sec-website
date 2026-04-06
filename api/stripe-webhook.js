@@ -12,9 +12,9 @@ import { createClient } from '@supabase/supabase-js'
 // Pack ID → Supabase pack UUID mapping
 // Update these once you create products in Stripe dashboard
 const STRIPE_PRICE_TO_PACK = {
-  // 'price_xxx': 'a1b2c3d4-0001-0001-0001-000000000001',  // N+ Pack
-  // 'price_xxx': 'a1b2c3d4-0002-0002-0002-000000000002',  // Sec+ Pack
-  // 'price_xxx': 'a1b2c3d4-0003-0003-0003-000000000003',  // Bundle
+  'price_1TJDRcPp3j8eGdItrxgbOnu9': 'a1b2c3d4-0001-0001-0001-000000000001', // N+ Pack
+  'price_1TJDRkPp3j8eGdItADrm5zE6': 'a1b2c3d4-0002-0002-0002-000000000002', // Sec+ Pack
+  'price_1TJDRqPp3j8eGdItxvJvCcCP': 'a1b2c3d4-0003-0003-0003-000000000003', // Bundle
 }
 
 export const config = { api: { bodyParser: false } }

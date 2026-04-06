@@ -1,9 +1,38 @@
 import React from 'react'
 const FF = `'Bricolage Grotesque', sans-serif`
 
+const STRIPE_PRICES = {
+  'CompTIA Network+ PBQ Pack': 'price_1TJDRcPp3j8eGdItrxgbOnu9',
+  'CompTIA Security+ PBQ Pack': 'price_1TJDRkPp3j8eGdItADrm5zE6',
+  'Network+ & Security+ Bundle': 'price_1TJDRqPp3j8eGdItxvJvCcCP',
+}
+
+async function handleBuy(pack) {
+  const btn = document.getElementById('buy-' + pack.name.replace(/[^a-z]/gi, ''))
+  if (btn) { btn.textContent = 'Redirecting...'; btn.disabled = true }
+  try {
+    const res = await fetch('https://cy-sec.co.uk/api/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        priceId: STRIPE_PRICES[pack.name],
+        packId: pack.supabaseId,
+        packName: pack.name,
+      }),
+    })
+    const data = await res.json()
+    if (data.url) window.location.href = data.url
+    else { if (btn) { btn.textContent = 'Buy Pack →'; btn.disabled = false }; alert('Error: ' + data.error) }
+  } catch(e) {
+    if (btn) { btn.textContent = 'Buy Pack →'; btn.disabled = false }
+    alert('Something went wrong. Please try again.')
+  }
+}
+
 const PACKS = [
   {
     name: 'CompTIA Network+ PBQ Pack',
+    supabaseId: 'a1b2c3d4-0001-0001-0001-000000000001',
     cert: 'N10-009',
     desc: 'Three hands-on simulations — ACL troubleshooting, multi-VLAN routing failure, and enterprise multi-fault recovery. Live Cisco IOS topology.',
     labs: 3,
@@ -15,6 +44,7 @@ const PACKS = [
   },
   {
     name: 'Network+ & Security+ Bundle',
+    supabaseId: 'a1b2c3d4-0003-0003-0003-000000000003',
     cert: 'N10-009 + SY0-701',
     desc: 'Complete PBQ simulation set — three Network+ labs and four Security+ labs. Full Cisco IOS and Linux topology coverage across seven scenarios.',
     labs: 7,
@@ -26,6 +56,7 @@ const PACKS = [
   },
   {
     name: 'CompTIA Security+ PBQ Pack',
+    supabaseId: 'a1b2c3d4-0002-0002-0002-000000000002',
     cert: 'SY0-701',
     desc: 'Four Linux server simulations — SSH hardening, legacy service exposure, privilege escalation, and post-pentest remediation.',
     labs: 4,
@@ -184,11 +215,13 @@ export default function Catalogue() {
                   <div className="pack-price"><span>£</span>{p.price}</div>
                   <div className="pack-full-price">£{p.fullPrice}</div>
                 </div>
-                <a href="https://fortifylearn.co.uk" target="_blank" rel="noreferrer"
+                <button
+                   id={`buy-${p.name.replace(/[^a-z]/gi, '')}`}
+                   onClick={() => handleBuy(p)}
                    className="pack-buy"
-                   style={{ background: `linear-gradient(135deg, #1a6fc4, #0ea5e9)` }}>
+                   style={{ background: `linear-gradient(135deg, #1a6fc4, #0ea5e9)`, border: 'none' }}>
                   Buy Pack — £{p.price} →
-                </a>
+                </button>
                 <p className="pack-note">One-time purchase · Instant access on FortifyLearn</p>
               </div>
             ))}

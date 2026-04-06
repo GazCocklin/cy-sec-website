@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import LandingPageHero from '@/components/LandingPageHero';
 import ServicesGrid from '@/components/ServicesGrid';
 import WhyCySecSection from '@/components/WhyCySecSection';
+import PlatformsShowcase from '@/components/PlatformsShowcase';
 import StatsBar from '@/components/StatsBar';
 import UrgencyBanner from '@/components/UrgencyBanner';
 import BottomCTASection from '@/components/BottomCTASection';
@@ -18,6 +19,7 @@ const HomePage = () => {
       <LandingPageHero />
       <ServicesGrid />
       <WhyCySecSection />
+      <PlatformsShowcase />
       <StatsBar />
       <UrgencyBanner />
       <BottomCTASection />

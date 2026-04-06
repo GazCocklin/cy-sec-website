@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { cn } from '@/lib/utils';
+import PBQPacksSection from '@/components/PBQPacksSection';
 
 const CompTIACertificationsPage = () => {
   const navigate = useNavigate();
@@ -95,6 +96,8 @@ const CompTIACertificationsPage = () => {
               Choose your preferred learning style and earn industry-recognized CompTIA certifications to validate your skills and advance your career path.
             </p>
           </motion.div>
+
+          <PBQPacksSection />
 
           <div className="flex justify-center mb-12">
             <div className="bg-slate-200/80 p-1 rounded-full shadow-inner flex items-center space-x-1">

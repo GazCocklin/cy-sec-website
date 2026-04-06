@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mail } from 'lucide-react';
-import { FORTIFYONE_LOGO_URL } from '@/lib/logoConfig';
+import FortifyOneLogo from '@/components/logos/FortifyOneLogo';
+import FortifyLearnLogo from '@/components/logos/FortifyLearnLogo';
 
 const Footer = () => {
   return (
@@ -36,7 +37,7 @@ const Footer = () => {
               <li><a href="/security-suite" className="text-slate-600 hover:text-blue-600 transition-colors">Platform</a></li>
               <li className="pt-2">
                 <a href="https://FortifyOne.co.uk" className="inline-block transition-transform hover:scale-105">
-                  <img src={FORTIFYONE_LOGO_URL} alt="FortifyOne Login" className="h-[30px] w-auto" />
+                  <FortifyOneLogo height={28} />
                 </a>
               </li>
             </ul>

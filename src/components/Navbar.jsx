@@ -4,7 +4,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, Phone, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import IframeBookingModal from '@/components/IframeBookingModal';
-import { FORTIFYONE_LOGO_URL, FORTIFYLEARN_LOGO_URL } from '@/lib/logoConfig';
+import FortifyLearnLogo from '@/components/logos/FortifyLearnLogo';
+import FortifyOneLogo from '@/components/logos/FortifyOneLogo';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,10 +66,10 @@ const Navbar = () => {
                 <div className="absolute top-full left-0 pt-4 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
                   <div className="w-56 bg-slate-900 border border-blue-500/20 rounded-xl shadow-2xl overflow-hidden backdrop-blur-lg p-2">
                     <a href="https://fortifyone.co.uk" target="_blank" rel="noopener noreferrer" className="flex items-center px-3 py-3 text-sm text-gray-300 hover:text-white hover:bg-slate-800 rounded-md transition-colors h-14">
-                      <img src={FORTIFYONE_LOGO_URL} alt="FortifyOne Platform" className="h-6 w-auto" />
+                      <FortifyOneLogo height={22} />
                     </a>
                     <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer" className="flex items-center px-3 py-3 text-sm text-gray-300 hover:text-white hover:bg-slate-800 rounded-md transition-colors h-14">
-                      <img src={FORTIFYLEARN_LOGO_URL} alt="FortifyLearn Platform" className="h-6 w-auto" />
+                      <FortifyLearnLogo height={22} />
                     </a>
                   </div>
                 </div>
@@ -184,10 +185,10 @@ const Navbar = () => {
                         >
                           <div className="p-2 space-y-1">
                             <a href="https://fortifyone.co.uk" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)} className="flex items-center justify-start px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-slate-800 rounded-md transition-colors h-16">
-                              <img src={FORTIFYONE_LOGO_URL} alt="FortifyOne Platform" className="h-6 w-auto" />
+                              <FortifyOneLogo height={22} />
                             </a>
                             <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer" onClick={() => setIsOpen(false)} className="flex items-center justify-start px-4 py-3 text-sm text-gray-300 hover:text-white hover:bg-slate-800 rounded-md transition-colors h-16">
-                              <img src={FORTIFYLEARN_LOGO_URL} alt="FortifyLearn Platform" className="h-6 w-auto" />
+                              <FortifyLearnLogo height={22} />
                             </a>
                           </div>
                         </motion.div>

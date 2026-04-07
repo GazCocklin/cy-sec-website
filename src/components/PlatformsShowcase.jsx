@@ -29,7 +29,7 @@ const PlatformsShowcase = () => (
           <div className="relative">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-black">
-                
+                <svg width="22" height="22" viewBox="0 0 256 256" fill="white"><path d="M216 44H40a20 20 0 0 0-20 20v128a20 20 0 0 0 20 20h176a20 20 0 0 0 20-20V64a20 20 0 0 0-20-20Zm-4 144H44V68h168ZM72.5 150.63L100.79 128L72.5 105.37a12 12 0 1 1 15-18.74l40 32a12 12 0 0 1 0 18.74l-40 32a12 12 0 0 1-15-18.74ZM144 172h32a12 12 0 0 0 0-24h-32a12 12 0 0 0 0 24Z"/></svg>
               </div>
               <span className="font-bold text-white text-xl">Fortify<GradText>Learn</GradText></span>
             </div>
@@ -61,7 +61,7 @@ const PlatformsShowcase = () => (
           <div className="relative">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-black">
-                
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"><path d="M20.341 6.484A10 10 0 0 1 10.266 21.85m-6.607-4.334A10 10 0 0 1 13.74 2.152"/><circle cx="12" cy="12" r="3" fill="white"/><circle cx="19" cy="5" r="2" fill="black"/><circle cx="5" cy="19" r="2" fill="black"/></svg>
               </div>
               <span className="font-bold text-white text-xl">Fortify<GradText>One</GradText></span>
             </div>

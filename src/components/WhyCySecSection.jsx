@@ -1,57 +1,41 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
-const WhyCySecSection = () => {
-  const columns = [
-    {
-      title: "Training + Compliance, Combined",
-      description: "Unlike point solutions, Cy-Sec delivers certified training AND compliance automation AND vCISO leadership — all from one trusted partner."
-    },
-    {
-      title: "FortifyOne Included",
-      description: "Every vCISO engagement includes access to FortifyOne — our compliance platform covering ISO 27001, NIST CSF 2.0, DORA, NIS2 and more. Competitors charge extra."
-    },
-    {
-      title: "Fixed Prices. No Surprises.",
-      description: "DORA Sprint from £4,000. NIS2 Review from £2,500. vCISO from £995/month. Know exactly what you're paying before you commit."
-    }
-  ];
+const points = [
+  {
+    title: 'Training + Compliance, Combined',
+    desc: 'Unlike point solutions, Cy-Sec delivers certified training AND compliance automation AND vCISO leadership — all from one trusted partner.',
+  },
+  {
+    title: 'FortifyOne Included',
+    desc: 'Every vCISO engagement includes FortifyOne — covering ISO 27001, NIST CSF 2.0, DORA, NIS2 and more. Competitors charge extra.',
+  },
+  {
+    title: 'Fixed Prices. No Surprises.',
+    desc: 'DORA Sprint from £4,000. NIS2 from £2,500. vCISO from £995/month. Know exactly what you\'re paying before you commit.',
+  },
+];
 
-  return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-[#0A1E3F] text-white">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Why <span className="text-[#00D9FF]">Cy-Sec?</span>
-          </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
-          {columns.map((col, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="space-y-4"
-            >
-              <h3 className="text-2xl font-bold text-[#00D9FF]">
-                {col.title}
-              </h3>
-              <p className="text-slate-300 leading-relaxed text-lg">
-                {col.description}
-              </p>
-            </motion.div>
-          ))}
-        </div>
+const WhyCySecSection = () => (
+  <section className="py-24 bg-slate-800">
+    <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="text-center mb-16">
+        <p className="text-sm font-semibold text-cyan-400 uppercase tracking-wider mb-3">Why Cy-Sec</p>
+        <h2 className="text-3xl lg:text-4xl font-bold text-white">One partner. Everything covered.</h2>
       </div>
-    </section>
-  );
-};
+
+      <div className="grid md:grid-cols-3 gap-8">
+        {points.map((p, i) => (
+          <div key={i} className="border border-white/10 rounded-2xl p-8 bg-white/[0.04]">
+            <div className="w-8 h-8 rounded-full bg-blue-500/20 border border-blue-400/30 flex items-center justify-center mb-5">
+              <span className="text-blue-400 text-sm font-bold">{i + 1}</span>
+            </div>
+            <h3 className="text-white font-semibold text-lg mb-3">{p.title}</h3>
+            <p className="text-slate-400 text-sm leading-relaxed">{p.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 export default WhyCySecSection;

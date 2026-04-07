@@ -16,7 +16,7 @@ const BottomCTASection = () => {
           transition={{ duration: 0.6 }}
           className="bg-slate-50 rounded-3xl p-12 md:p-16 shadow-xl border border-slate-200"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-[#0A1E3F] mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
             Ready to Secure Your Organisation?
           </h2>
           <p className="text-xl text-slate-600 mb-10 leading-relaxed max-w-2xl mx-auto">
@@ -24,7 +24,7 @@ const BottomCTASection = () => {
           </p>
           <Button 
             onClick={() => setIsModalOpen(true)}
-            className="bg-[#00D9FF] hover:bg-[#00b3d4] text-[#0A1E3F] px-12 py-6 text-xl font-bold shadow-lg"
+            className="bg-[#1A56DB] hover:bg-[#1e3a8a] text-white px-12 py-6 text-xl font-bold shadow-lg"
           >
             Book Your Free Call <ArrowRight className="ml-2 h-6 w-6" />
           </Button>

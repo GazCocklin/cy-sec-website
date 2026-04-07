@@ -1,10 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 56" width="300" height="56">
-  <!-- Terminal icon in dark navy, no background box -->
-  <g transform="translate(4,8) scale(0.16)">
-    <path fill="#0B1D3A" d="M216 44H40a20 20 0 0 0-20 20v128a20 20 0 0 0 20 20h176a20 20 0 0 0 20-20V64a20 20 0 0 0-20-20Zm-4 144H44V68h168ZM72.5 150.63L100.79 128L72.5 105.37a12 12 0 1 1 15-18.74l40 32a12 12 0 0 1 0 18.74l-40 32a12 12 0 0 1-15-18.74ZM144 172h32a12 12 0 0 0 0-24h-32a12 12 0 0 0 0 24Z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 80" width="470" height="80">
+  <defs>
+    <linearGradient id="fg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="470" y2="0">
+      <stop offset="0%"   stop-color="#0B1D3A"/>
+      <stop offset="55%"  stop-color="#0E5F8A"/>
+      <stop offset="100%" stop-color="#0891B2"/>
+    </linearGradient>
+  </defs>
+  <!-- Terminal window icon from Phosphor (ph:terminal-window-bold), 256x256 → 48px -->
+  <g transform="translate(6,16) scale(0.188)">
+    <path fill="url(#fg)" d="M216 44H40a20 20 0 0 0-20 20v128a20 20 0 0 0 20 20h176a20 20 0 0 0 20-20V64a20 20 0 0 0-20-20Zm-4 144H44V68h168ZM72.5 150.63L100.79 128L72.5 105.37a12 12 0 1 1 15-18.74l40 32a12 12 0 0 1 0 18.74l-40 32a12 12 0 0 1-15-18.74ZM144 172h32a12 12 0 0 0 0-24h-32a12 12 0 0 0 0 24Z"/>
   </g>
   <!-- Wordmark -->
-  <text x="56" y="22" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="24" font-weight="800" letter-spacing="-0.5" fill="#1E293B">Fortify</text>
-  <text x="163" y="22" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="24" font-weight="800" letter-spacing="-0.5" fill="#06B6D4">Learn</text>
-  <text x="56" y="40" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="10" font-weight="400" letter-spacing="0.1" fill="#94A3B8">CompTIA PBQ simulation platform</text>
+  <text x="70" y="50"
+    font-family="'Segoe UI','SF Pro Display',-apple-system,sans-serif"
+    font-size="46" font-weight="800" letter-spacing="-1.8"
+    fill="url(#fg)">FortifyLearn</text>
+  <text x="72" y="68"
+    font-family="'Segoe UI','SF Pro Display',-apple-system,sans-serif"
+    font-size="11.5" font-weight="400" letter-spacing="0.2"
+    fill="#7A8A9B">All your cybersecurity training. One platform.</text>
 </svg>

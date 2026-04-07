@@ -103,7 +103,7 @@ const TrainingDeliveryPage = () => {
               </div>
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                <CertificationCard
-                 logo="/logos/comptia-partner-badge.svg"
+                 logo="/logos/comptia-partner-badge.webp"
                  title="CompTIA"
                  description="Globally recognized certifications for IT professionals covering infrastructure, cybersecurity, data, and analytics."
                  buttonText="View CompTIA Courses"
@@ -112,7 +112,7 @@ const TrainingDeliveryPage = () => {
                  buttonColorClass="border-[#0072C6] text-[#0072C6] hover:bg-[#0072C6]/10"
                />
                <CertificationCard
-                 logo="/logos/certnexus-partner-badge.svg"
+                 logo="/logos/certnexus-partner-badge.png"
                  title="CertNexus"
                  description="Vendor-neutral, emerging technology certifications and micro-credentials for IT and security professionals."
                  buttonText="View CertNexus Courses"

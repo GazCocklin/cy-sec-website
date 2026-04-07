@@ -81,7 +81,7 @@ const CertNexusCertificationsPage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <img src="/logos/certnexus-partner-badge.svg" alt="CertNexus Logo" className="h-20 mx-auto mb-6" />
+            <img src="/logos/certnexus-partner-badge.png" alt="CertNexus Logo" className="h-20 mx-auto mb-6" />
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-slate-800">
               CertNexus <span className="gradient-text-blue">Certifications</span>
             </h1>

@@ -88,7 +88,7 @@ const CompTIACertificationsPage = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <img src="/logos/comptia-partner-badge.svg" alt="CompTIA Logo" className="h-20 mx-auto mb-6" />
+            <img src="/logos/comptia-partner-badge.webp" alt="CompTIA Logo" className="h-20 mx-auto mb-6" />
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-slate-800">
               CompTIA <span className="gradient-text-purple">Certifications</span>
             </h1>

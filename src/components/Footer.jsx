@@ -65,17 +65,17 @@ const Footer = () => (
         </p>
         <div className="flex items-center gap-6">
           <img
-            src="/logos/comptia-partner-badge.svg"
+            src="/logos/comptia-partner-badge.webp"
             alt="CompTIA Authorised Partner"
             className="h-10 w-auto"
           />
           <img
-            src="/logos/certnexus-partner-badge.svg"
+            src="/logos/certnexus-partner-badge.png"
             alt="CertNexus Authorised Training Partner"
             className="h-10 w-auto"
           />
           <img
-            src="/logos/comptia-partner-badge.svg"
+            src="/logos/comptia-partner-badge.webp"
             alt="Cyber Essentials Certified"
             className="h-10 w-auto"
           />

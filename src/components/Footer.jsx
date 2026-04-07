@@ -9,11 +9,13 @@ const Footer = () => (
 
         {/* Brand */}
         <div className="col-span-1 md:col-span-2">
-          <div className="flex items-center mb-4">
+          <div className="mb-5">
+            {/* Logo has black background — multiply blend knocks it out on white */}
             <img
               src="/logos/cysec-logo.png"
-              alt="Cy-Sec Logo"
-              className="h-10 w-auto"
+              alt="Cy-Sec Awareness and Consultancy Ltd"
+              className="h-16 w-auto"
+              style={{ mixBlendMode: 'multiply' }}
             />
           </div>
           <p className="text-slate-600 mb-6 max-w-md text-sm leading-relaxed">
@@ -40,7 +42,7 @@ const Footer = () => (
           </ul>
         </div>
 
-        {/* Legal */}
+        {/* Legal + Platforms */}
         <div>
           <span className="text-slate-800 font-semibold mb-4 block text-sm">Legal</span>
           <ul className="space-y-3 text-sm">
@@ -58,26 +60,27 @@ const Footer = () => (
 
       </div>
 
-      {/* Bottom bar */}
-      <div className="flex flex-col md:flex-row justify-between items-center border-t border-slate-200 mt-8 pt-8 gap-4">
+      {/* Bottom bar — copyright + partner badges */}
+      <div className="flex flex-col md:flex-row justify-between items-center border-t border-slate-200 mt-8 pt-8 gap-6">
         <p className="text-slate-500 text-sm">
           © 2026 Cy-Sec Awareness and Consultancy Ltd. All rights reserved.
         </p>
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-6 flex-wrap justify-center">
           <img
             src="/logos/comptia-partner-badge.webp"
             alt="CompTIA Authorised Partner"
-            className="h-10 w-auto"
+            className="h-20 w-auto object-contain"
           />
           <img
             src="/logos/certnexus-partner-badge.png"
             alt="CertNexus Authorised Training Partner"
-            className="h-10 w-auto"
+            className="h-16 w-auto object-contain"
           />
           <img
-            src="/logos/comptia-partner-badge.webp"
+            src="/logos/cyber-essentials-badge.png"
             alt="Cyber Essentials Certified"
-            className="h-10 w-auto"
+            className="h-20 w-auto object-contain"
+            style={{ mixBlendMode: 'multiply' }}
           />
         </div>
       </div>

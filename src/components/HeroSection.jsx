@@ -78,8 +78,8 @@ const HeroSection = ({ onGetStarted, onLearnMore }) => {
               <div className="flex items-center gap-6">
                 <span className="text-sm font-medium text-slate-500">Authorised Partner:</span>
                 <div className="flex items-center gap-4">
-                   <img src="/logos/comptia-partner-badge.webp" alt="CompTIA Training Partner Logo" className="h-8 w-auto" />
-                   <img src="/logos/certnexus-partner-badge.png" alt="CertNexus Authorized Training Partner Logo" className="h-8 w-auto" />
+                   <img src="/logos/comptia-partner-badge.webp" alt="CompTIA Training Partner Logo" className="h-12 w-auto object-contain" />
+                   <img src="/logos/certnexus-partner-badge.png" alt="CertNexus Authorized Training Partner Logo" className="h-12 w-auto object-contain" />
                 </div>
               </div>
             </div>

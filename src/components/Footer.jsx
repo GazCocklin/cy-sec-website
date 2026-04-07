@@ -81,6 +81,7 @@ const Footer = () => (
             alt="Cyber Essentials Certified"
             className="h-20 w-auto object-contain"
             style={{ mixBlendMode: 'multiply' }}
+            onError={(e) => { e.target.style.display = 'none'; }}
           />
         </div>
       </div>

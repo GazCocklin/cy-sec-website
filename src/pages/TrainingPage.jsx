@@ -5,18 +5,16 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Helmet } from 'react-helmet';
-import IframeBookingModal from '@/components/IframeBookingModal';
 
 const TrainingPage = () => {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleNavigation = (path) => {
     navigate(path);
   };
 
   const handleContactUs = () => {
-    setIsModalOpen(true);
+    navigate('/contact');
   };
 
   const OptionCard = ({ icon: Icon, title, description, points, buttonText, onButtonClick, colorClass }) => (
@@ -170,11 +168,6 @@ const TrainingPage = () => {
         </section>
       </div>
 
-      <IframeBookingModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        url="https://cy-sec.online"
-      />
     </>
   );
 };

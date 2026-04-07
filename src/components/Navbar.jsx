@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import IframeBookingModal from '@/components/IframeBookingModal';
 import FortifyLearnLogo from '@/components/logos/FortifyLearnLogo';
 import FortifyOneLogo from '@/components/logos/FortifyOneLogo';
 
@@ -12,7 +11,7 @@ const Navbar = () => {
   const [isTrainingOpen, setIsTrainingOpen] = useState(false);
   const [isConsultancyOpen, setIsConsultancyOpen] = useState(false);
   const [isPlatformsOpen, setIsPlatformsOpen] = useState(false);
-  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
 
   const isActive = (path) => location.pathname === path;
@@ -120,7 +119,7 @@ const Navbar = () => {
               <div className="w-px h-5 bg-white/10 mx-2" />
 
               <Button
-                onClick={() => setIsContactModalOpen(true)}
+                onClick={() => navigate('/contact')}
                 size="sm"
                 className="bg-[#1A56DB] hover:bg-[#1e3a8a] text-white border-0 shadow-sm font-medium"
               >
@@ -227,7 +226,7 @@ const Navbar = () => {
                   </div>
 
                   <div className="pt-3 px-2 border-t border-white/10">
-                    <Button onClick={() => { setIsOpen(false); setIsContactModalOpen(true); }}
+                    <Button onClick={() => { setIsOpen(false); navigate('/contact'); }}
                       className="w-full bg-[#1A56DB] hover:bg-[#1e3a8a] text-white py-5 border-0 font-medium">
                       Contact Us
                     </Button>
@@ -239,7 +238,6 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <IframeBookingModal isOpen={isContactModalOpen} onClose={() => setIsContactModalOpen(false)} url="https://cy-sec.online" />
     </>
   );
 };

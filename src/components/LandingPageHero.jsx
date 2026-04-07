@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, Shield, BookOpen, Terminal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import IframeBookingModal from './IframeBookingModal';
 
 const HeroCard = ({ icon: Icon, label, value, colour }) => (
   <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl px-4 py-3">
@@ -19,7 +18,6 @@ const HeroCard = ({ icon: Icon, label, value, colour }) => (
 
 const LandingPageHero = () => {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
@@ -63,7 +61,7 @@ const LandingPageHero = () => {
 
             <div className="flex flex-col sm:flex-row gap-3">
               <Button
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => navigate('/contact')}
                 className="bg-[#1A56DB] hover:bg-[#1e40af] text-white px-7 py-5 text-base font-semibold border-0 shadow-lg shadow-blue-900/40"
               >
                 <Calendar className="mr-2 h-4 w-4" />
@@ -134,7 +132,6 @@ const LandingPageHero = () => {
         </div>
       </div>
 
-      <IframeBookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} url="https://cy-sec.online" />
     </section>
   );
 };

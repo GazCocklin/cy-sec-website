@@ -1,26 +1,31 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { supabase } from '@/lib/customSupabaseClient';
+import { createClient } from '@supabase/supabase-js';
 import { useToast } from '@/components/ui/use-toast';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { RefreshCw, AlertCircle, Star, Clock, CheckCircle, XCircle, Eye, Loader2 } from 'lucide-react';
+import { RefreshCw, AlertCircle, Star, Clock, CheckCircle, Eye, Loader2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// ── Status config ─────────────────────────────────────────────────────────────
+// FL has its own Supabase project — separate from cy-sec-web
+const flSupabase = createClient(
+  'https://kmnbtnfgeadvvkwsdyml.supabase.co',
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImttbmJ0bmZnZWFkdnZrd3NkeW1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTAxNDEsImV4cCI6MjA4Njc4NjE0MX0.T7yHQmQ3qdobyZEAXoAmDptfrj2yH-ZIJ8RfjNOpEFs'
+);
+
 const STATUS_OPTIONS = [
-  { value: 'new',          label: 'New',           color: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
-  { value: 'reviewing',    label: 'Under Review',  color: 'bg-blue-100 text-blue-800 border-blue-200' },
-  { value: 'in_progress',  label: 'In Progress',   color: 'bg-indigo-100 text-indigo-800 border-indigo-200' },
-  { value: 'done',         label: 'Done',          color: 'bg-green-100 text-green-800 border-green-200' },
-  { value: 'wont_fix',     label: "Won't Fix",     color: 'bg-slate-100 text-slate-600 border-slate-200' },
+  { value: 'new',         label: 'New',          color: 'bg-yellow-100 text-yellow-800 border-yellow-200' },
+  { value: 'reviewing',   label: 'Under Review', color: 'bg-blue-100 text-blue-800 border-blue-200' },
+  { value: 'in_progress', label: 'In Progress',  color: 'bg-indigo-100 text-indigo-800 border-indigo-200' },
+  { value: 'done',        label: 'Done',         color: 'bg-green-100 text-green-800 border-green-200' },
+  { value: 'wont_fix',    label: "Won't Fix",    color: 'bg-slate-100 text-slate-600 border-slate-200' },
 ];
 
 const TYPE_CONFIG = {
-  fault:   { label: 'Fault Report',      icon: AlertCircle, color: 'bg-red-100 text-red-700 border-red-200' },
-  feature: { label: 'Feature Request',   icon: Star,        color: 'bg-blue-100 text-blue-700 border-blue-200' },
+  fault:   { label: 'Fault Report',    icon: AlertCircle, color: 'bg-red-100 text-red-700 border-red-200' },
+  feature: { label: 'Feature Request', icon: Star,        color: 'bg-blue-100 text-blue-700 border-blue-200' },
 };
 
 function statusCfg(s) { return STATUS_OPTIONS.find(o => o.value === s) || STATUS_OPTIONS[0]; }
+
 function timeAgo(ts) {
   const diff = Date.now() - new Date(ts).getTime();
   const m = Math.floor(diff / 60000);
@@ -31,7 +36,6 @@ function timeAgo(ts) {
   return `${Math.floor(h / 24)}d ago`;
 }
 
-// ── Stat card ─────────────────────────────────────────────────────────────────
 function StatCard({ label, value, icon: Icon, colorClass }) {
   return (
     <div className="bg-white rounded-xl border border-slate-200 p-4 flex items-center gap-3">
@@ -44,27 +48,20 @@ function StatCard({ label, value, icon: Icon, colorClass }) {
   );
 }
 
-// ── Row ───────────────────────────────────────────────────────────────────────
 function FeedbackRow({ item, selected, onClick }) {
   const type = TYPE_CONFIG[item.type] || TYPE_CONFIG.fault;
   const TypeIcon = type.icon;
   const sc = statusCfg(item.status);
-
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
+    <motion.div layout initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
       onClick={onClick}
       className={`p-4 rounded-lg border cursor-pointer transition-all hover:shadow-md ${
         selected ? 'border-blue-400 bg-blue-50 shadow-md' : 'border-slate-200 bg-white hover:border-slate-300'
-      }`}
-    >
+      }`}>
       <div className="flex items-start justify-between gap-2 mb-2">
         <div className="flex items-center gap-2 flex-wrap">
           <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full border ${type.color}`}>
-            <TypeIcon className="h-3 w-3" />
-            {type.label}
+            <TypeIcon className="h-3 w-3" />{type.label}
           </span>
           <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${sc.color}`}>{sc.label}</span>
         </div>
@@ -73,41 +70,29 @@ function FeedbackRow({ item, selected, onClick }) {
         </span>
       </div>
       <p className="text-sm text-slate-700 line-clamp-2">{item.message}</p>
-      {item.user_email && (
-        <p className="text-xs text-slate-400 mt-1 truncate">{item.user_email}</p>
-      )}
+      {item.user_email && <p className="text-xs text-slate-400 mt-1 truncate">{item.user_email}</p>}
     </motion.div>
   );
 }
 
-// ── Detail panel ──────────────────────────────────────────────────────────────
 function FeedbackDetail({ item, onStatusChange, updating }) {
   const type = TYPE_CONFIG[item.type] || TYPE_CONFIG.fault;
   const TypeIcon = type.icon;
-
   return (
     <div className="bg-white rounded-xl border border-slate-200 p-6 h-full flex flex-col gap-5">
-      {/* Header */}
       <div className="flex items-center gap-3 flex-wrap">
         <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full border font-medium text-sm ${type.color}`}>
-          <TypeIcon className="h-4 w-4" />
-          {type.label}
+          <TypeIcon className="h-4 w-4" />{type.label}
         </span>
         <span className="text-xs text-slate-400 flex items-center gap-1">
           <Clock className="h-3 w-3" />
           {new Date(item.created_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}
         </span>
       </div>
-
-      {/* Message */}
       <div>
         <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Message</div>
-        <div className="bg-slate-50 rounded-lg p-4 text-slate-700 text-sm leading-relaxed whitespace-pre-wrap">
-          {item.message}
-        </div>
+        <div className="bg-slate-50 rounded-lg p-4 text-slate-700 text-sm leading-relaxed whitespace-pre-wrap">{item.message}</div>
       </div>
-
-      {/* Meta */}
       <div className="grid grid-cols-1 gap-3 text-sm">
         {item.user_email && (
           <div>
@@ -128,23 +113,16 @@ function FeedbackDetail({ item, onStatusChange, updating }) {
           </div>
         )}
       </div>
-
-      {/* Status update */}
       <div className="border-t border-slate-100 pt-4 mt-auto">
         <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Update Status</div>
         <div className="flex flex-wrap gap-2">
           {STATUS_OPTIONS.map(opt => (
-            <button
-              key={opt.value}
-              disabled={updating || item.status === opt.value}
+            <button key={opt.value} disabled={updating || item.status === opt.value}
               onClick={() => onStatusChange(item.id, opt.value)}
               className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed ${
-                item.status === opt.value
-                  ? opt.color + ' ring-2 ring-offset-1 ring-blue-400'
+                item.status === opt.value ? opt.color + ' ring-2 ring-offset-1 ring-blue-400'
                   : 'bg-white border-slate-200 text-slate-600 hover:border-slate-400'
-              }`}
-            >
-              {updating && item.status !== opt.value ? <Loader2 className="h-3 w-3 inline animate-spin mr-1" /> : null}
+              }`}>
               {opt.label}
             </button>
           ))}
@@ -154,7 +132,6 @@ function FeedbackDetail({ item, onStatusChange, updating }) {
   );
 }
 
-// ── Main component ────────────────────────────────────────────────────────────
 export default function FortifyLearnFeedback() {
   const { toast } = useToast();
   const [items, setItems]               = useState([]);
@@ -167,13 +144,12 @@ export default function FortifyLearnFeedback() {
   const load = useCallback(async (initial = false) => {
     try {
       if (initial) setLoading(true);
-      const { data, error } = await supabase
+      const { data, error } = await flSupabase
         .from('fl_feedback')
         .select('*')
         .order('created_at', { ascending: false });
       if (error) throw error;
       setItems(data || []);
-      // keep selection live
       if (selected) {
         const updated = (data || []).find(i => i.id === selected.id);
         setSelected(updated || data?.[0] || null);
@@ -189,17 +165,17 @@ export default function FortifyLearnFeedback() {
 
   useEffect(() => {
     load(true);
-    const ch = supabase
-      .channel('fl_feedback_admin')
+    const ch = flSupabase
+      .channel('fl_feedback_admin_crm')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'fl_feedback' }, () => load(false))
       .subscribe();
-    return () => supabase.removeChannel(ch);
+    return () => flSupabase.removeChannel(ch);
   }, []);
 
   const updateStatus = async (id, status) => {
     setUpdating(true);
     try {
-      const { error } = await supabase.from('fl_feedback').update({ status }).eq('id', id);
+      const { error } = await flSupabase.from('fl_feedback').update({ status }).eq('id', id);
       if (error) throw error;
       toast({ title: 'Updated', description: `Status set to ${statusCfg(status).label}.` });
       await load(false);
@@ -210,7 +186,6 @@ export default function FortifyLearnFeedback() {
     }
   };
 
-  // ── Derived stats ────────────────────────────────────────────────────────
   const stats = {
     total:    items.length,
     faults:   items.filter(i => i.type === 'fault').length,
@@ -219,7 +194,6 @@ export default function FortifyLearnFeedback() {
     done:     items.filter(i => i.status === 'done').length,
   };
 
-  // ── Filtered list ────────────────────────────────────────────────────────
   const filtered = items.filter(i =>
     (typeFilter === 'all' || i.type === typeFilter) &&
     (statusFilter === 'all' || i.status === statusFilter)
@@ -228,86 +202,60 @@ export default function FortifyLearnFeedback() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-48 text-slate-400">
-        <Loader2 className="h-6 w-6 animate-spin mr-2" /> Loading feedback…
+        <Loader2 className="h-6 w-6 animate-spin mr-2" /> Loading feedback...
       </div>
     );
   }
 
   return (
     <div className="space-y-5">
-      {/* Stats row */}
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-        <StatCard label="Total"    value={stats.total}    icon={Eye}          colorClass="bg-slate-100 text-slate-600" />
-        <StatCard label="Faults"   value={stats.faults}   icon={AlertCircle}  colorClass="bg-red-100 text-red-600" />
-        <StatCard label="Features" value={stats.features} icon={Star}         colorClass="bg-blue-100 text-blue-600" />
-        <StatCard label="New"      value={stats.newCount} icon={Clock}        colorClass="bg-yellow-100 text-yellow-600" />
-        <StatCard label="Done"     value={stats.done}     icon={CheckCircle}  colorClass="bg-green-100 text-green-600" />
+        <StatCard label="Total"    value={stats.total}    icon={Eye}         colorClass="bg-slate-100 text-slate-600" />
+        <StatCard label="Faults"   value={stats.faults}   icon={AlertCircle} colorClass="bg-red-100 text-red-600" />
+        <StatCard label="Features" value={stats.features} icon={Star}        colorClass="bg-blue-100 text-blue-600" />
+        <StatCard label="New"      value={stats.newCount} icon={Clock}       colorClass="bg-yellow-100 text-yellow-600" />
+        <StatCard label="Done"     value={stats.done}     icon={CheckCircle} colorClass="bg-green-100 text-green-600" />
       </div>
 
-      {/* Filters + refresh */}
       <div className="flex flex-wrap items-center gap-2">
-        {/* Type */}
         {['all', 'fault', 'feature'].map(t => (
-          <button
-            key={t}
-            onClick={() => setTypeFilter(t)}
+          <button key={t} onClick={() => setTypeFilter(t)}
             className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all ${
-              typeFilter === t
-                ? 'bg-slate-800 text-white border-slate-800'
+              typeFilter === t ? 'bg-slate-800 text-white border-slate-800'
                 : 'bg-white text-slate-600 border-slate-200 hover:border-slate-400'
-            }`}
-          >
+            }`}>
             {t === 'all' ? `All (${items.length})` : t === 'fault' ? `Faults (${stats.faults})` : `Features (${stats.features})`}
           </button>
         ))}
         <div className="w-px h-5 bg-slate-200 mx-1" />
-        {/* Status */}
-        <select
-          value={statusFilter}
-          onChange={e => setStatusFilter(e.target.value)}
-          className="text-xs px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 font-medium focus:outline-none"
-        >
+        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}
+          className="text-xs px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 font-medium focus:outline-none">
           <option value="all">All statuses</option>
           {STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
-        <button
-          onClick={() => load(true)}
-          className="ml-auto flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 hover:border-slate-400 transition-all"
-        >
+        <button onClick={() => load(true)}
+          className="ml-auto flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-slate-200 bg-white text-slate-600 hover:border-slate-400 transition-all">
           <RefreshCw className="h-3 w-3" /> Refresh
         </button>
       </div>
 
-      {/* Main split layout */}
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-slate-400">
           <AlertCircle className="h-8 w-8 mx-auto mb-3 opacity-40" />
-          <p className="text-sm">No feedback matches your filters.</p>
+          <p className="text-sm">No feedback yet. Submissions will appear here automatically.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
-          {/* List */}
           <div className="space-y-2 max-h-[65vh] overflow-y-auto pr-1">
             <AnimatePresence>
               {filtered.map(item => (
-                <FeedbackRow
-                  key={item.id}
-                  item={item}
-                  selected={selected?.id === item.id}
-                  onClick={() => setSelected(item)}
-                />
+                <FeedbackRow key={item.id} item={item} selected={selected?.id === item.id} onClick={() => setSelected(item)} />
               ))}
             </AnimatePresence>
           </div>
-
-          {/* Detail */}
           <div className="sticky top-4">
             {selected ? (
-              <FeedbackDetail
-                item={selected}
-                onStatusChange={updateStatus}
-                updating={updating}
-              />
+              <FeedbackDetail item={selected} onStatusChange={updateStatus} updating={updating} />
             ) : (
               <div className="bg-white rounded-xl border border-slate-200 p-8 text-center text-slate-400 text-sm">
                 Select an item to view details

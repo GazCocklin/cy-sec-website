@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import IframeBookingModal from './IframeBookingModal';
 
 const BottomCTASection = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white border-t border-slate-100">
@@ -23,7 +23,7 @@ const BottomCTASection = () => {
             Book a free 30-minute discovery call. No jargon. No hard sell. Just clarity on where you stand and what you need.
           </p>
           <Button 
-            onClick={() => setIsModalOpen(true)}
+            onClick={() => navigate('/contact')}
             className="bg-[#1A56DB] hover:bg-[#1e3a8a] text-white px-12 py-6 text-xl font-bold shadow-lg"
           >
             Book Your Free Call <ArrowRight className="ml-2 h-6 w-6" />
@@ -31,11 +31,6 @@ const BottomCTASection = () => {
         </motion.div>
       </div>
 
-      <IframeBookingModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        url="https://cy-sec.online"
-      />
     </section>
   );
 };

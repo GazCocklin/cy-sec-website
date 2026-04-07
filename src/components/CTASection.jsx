@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Zap, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import IframeBookingModal from './IframeBookingModal';
 
 const CTASection = ({ onGetStarted }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleGetStarted = () => {
     if (onGetStarted) {
       onGetStarted();
     } else {
-      setIsModalOpen(true);
+      navigate('/contact');
     }
   };
 
@@ -40,11 +40,6 @@ const CTASection = ({ onGetStarted }) => {
         </motion.div>
       </div>
 
-      <IframeBookingModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        url="https://cy-sec.online"
-      />
     </section>
   );
 };

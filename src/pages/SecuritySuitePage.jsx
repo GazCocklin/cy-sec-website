@@ -10,14 +10,12 @@ import ClearActionableReportingSection from '@/components/security-suite/section
 import DetailedReportsSection from '@/components/security-suite/sections/DetailedReportsSection';
 import ProgressTrackingSection from '@/components/security-suite/sections/ProgressTrackingSection';
 import SecuritySuiteCTA from '@/components/security-suite/sections/SecuritySuiteCTA';
-import IframeBookingModal from '@/components/IframeBookingModal';
 
 const SecuritySuitePage = () => {
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleGetStarted = () => {
-    setIsModalOpen(true);
+    navigate('/contact');
   };
 
   const handleExplorePlans = () => {
@@ -25,7 +23,7 @@ const SecuritySuitePage = () => {
   };
 
   const handleContactUsFramework = () => {
-    setIsModalOpen(true);
+    navigate('/contact');
   };
 
   return (
@@ -45,11 +43,6 @@ const SecuritySuitePage = () => {
       <ComparisonTable />
       <SecuritySuiteCTA handleGetStarted={handleGetStarted} />
 
-      <IframeBookingModal 
-        isOpen={isModalOpen} 
-        onClose={() => setIsModalOpen(false)} 
-        url="https://cy-sec.online"
-      />
     </div>
   );
 };

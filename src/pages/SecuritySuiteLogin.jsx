@@ -51,8 +51,8 @@ const SecuritySuiteLogin = () => {
   return (
     <>
       <Helmet>
-        <title>Fortify One Login - Cy-Sec</title>
-        <meta name="description" content="Access your Cy-Sec Fortify One dashboard for comprehensive cybersecurity and vendor risk management." />
+        <title>FortifyOne Login - Cy-Sec</title>
+        <meta name="description" content="Access your FortifyOne dashboard for comprehensive cybersecurity and vendor risk management." />
       </Helmet>
       
       <div className="min-h-screen py-20 px-4 sm:px-6 lg:px-8 flex items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100">
@@ -65,7 +65,7 @@ const SecuritySuiteLogin = () => {
           <div className="text-center mb-8">
             <img 
               src="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/01f303354e5d6ca92144a867dc53f612.png" 
-              alt="Cy-Sec Fortify One Logo" 
+              alt="FortifyOne Logo" 
               className="h-24 w-auto mx-auto mb-4"
             />
             <p className="text-slate-600 text-lg">

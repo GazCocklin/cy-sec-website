@@ -11,8 +11,8 @@
 - [Cybersecurity Training Solutions | Corporate & Professional Certifications | Cy-Sec](/training): Explore tailored cybersecurity training solutions aligned with DOD 8140m, SFIA, and UK Cyber Security Council frameworks. We offer corporate training, professional certifications, and bespoke content.
 - [Dashboard Deprecated](/admindashboard): No description available
 - [DORA Compliance Sprint | Cy-Sec](/doracompliancesprint): Accelerate your path to Digital Operational Resilience Act (DORA) compliance with Cy-Sec
-- [Fortify One Login - Cy-Sec](/securitysuitelogin): Access your Cy-Sec Fortify One dashboard for comprehensive cybersecurity and vendor risk management.
 - [FortifyLearn - Coming Soon | Cy-Sec](/comingsoon): FortifyLearn is coming soon. Stay tuned for our advanced cybersecurity learning platform.
+- [FortifyOne Login - Cy-Sec](/securitysuitelogin): Access your FortifyOne dashboard for comprehensive cybersecurity and vendor risk management.
 - [Free Cybersecurity Resources - Cy-Sec](/leadmagnet): Download our comprehensive cybersecurity toolkit for free. Get GDPR compliance templates, ISO 27001 guides, and security assessment tools.
 - [ISO 27001 & DORA Compliance Platform UK | FortifyOne by Cy-Sec](/securitysuite): FortifyOne is Cy-Sec
 - [LinkedIn Marketing Generator - Cy-Sec](/linkedinmarketinggenerator): Generate ready-to-use LinkedIn marketing content for Cy-Sec FortifyOne.

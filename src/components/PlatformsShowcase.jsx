@@ -1,6 +1,16 @@
 import React from 'react';
 import { ArrowRight, Terminal, Shield, CheckCircle } from 'lucide-react';
 
+const GradText = ({ children }) => (
+  <span style={{
+    background: 'linear-gradient(90deg, #1A56DB, #06B6D4)',
+    WebkitBackgroundClip: 'text',
+    WebkitTextFillColor: 'transparent',
+    backgroundClip: 'text',
+    fontWeight: 700,
+  }}>{children}</span>
+);
+
 const PlatformsShowcase = () => (
   <section className="py-24 bg-white border-t border-slate-100">
     <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -13,36 +23,27 @@ const PlatformsShowcase = () => (
       <div className="grid lg:grid-cols-2 gap-8">
 
         {/* FortifyLearn */}
-        <div className="group relative bg-slate-900 rounded-3xl p-8 overflow-hidden">
-          <div className="absolute inset-0 opacity-10"
-            style={{ backgroundImage: 'linear-gradient(135deg, #1A56DB 0%, #06B6D4 100%)' }} />
+        <div className="relative bg-slate-900 rounded-3xl p-8 overflow-hidden">
+          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(135deg, #1A56DB 0%, #06B6D4 100%)' }} />
           <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl" />
-
           <div className="relative">
-            {/* Logo */}
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #1E3A8A, #1A56DB)' }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-black">
                 <Terminal className="w-5 h-5 text-white" />
               </div>
-              <div>
-                <span className="font-bold text-white text-lg">Fortify</span>
-                <span className="font-light text-cyan-400 text-lg">Learn</span>
-              </div>
+              <span className="font-bold text-white text-xl">Fortify<GradText>Learn</GradText></span>
             </div>
-
             <p className="text-slate-300 text-sm mb-6 leading-relaxed">
               CompTIA PBQ simulations with live Cisco IOS topology, real CLI commands, and objective-by-objective scoring. Study mode and exam mode included.
             </p>
-
             <div className="space-y-2 mb-8">
-              {['Live Cisco IOS & Linux environment', 'Network+ and Security+ coverage', 'Free to start — no payment required'].map(f => (
+              {['Live Cisco IOS & Linux environment','Network+ and Security+ coverage','Free to start — no payment required'].map(f => (
                 <div key={f} className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-cyan-400 shrink-0" />
                   <span className="text-slate-300 text-sm">{f}</span>
                 </div>
               ))}
             </div>
-
             <div className="flex items-center gap-4">
               <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors">
@@ -54,36 +55,27 @@ const PlatformsShowcase = () => (
         </div>
 
         {/* FortifyOne */}
-        <div className="group relative bg-slate-900 rounded-3xl p-8 overflow-hidden">
-          <div className="absolute inset-0 opacity-10"
-            style={{ backgroundImage: 'linear-gradient(135deg, #1E3A8A 0%, #1A56DB 100%)' }} />
+        <div className="relative bg-slate-900 rounded-3xl p-8 overflow-hidden">
+          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(135deg, #1E3A8A 0%, #1A56DB 100%)' }} />
           <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
-
           <div className="relative">
-            {/* Logo */}
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #1E3A8A, #1A56DB)' }}>
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-black">
                 <Shield className="w-5 h-5 text-white" />
               </div>
-              <div>
-                <span className="font-bold text-white text-lg">Fortify</span>
-                <span className="font-light text-blue-400 text-lg">One</span>
-              </div>
+              <span className="font-bold text-white text-xl">Fortify<GradText>One</GradText></span>
             </div>
-
             <p className="text-slate-300 text-sm mb-6 leading-relaxed">
               GRC compliance platform covering ISO 27001, NIST CSF 2.0, GDPR, DORA, and NIS2. Gap analysis, vendor risk, DPIA tools, and audit-ready reports.
             </p>
-
             <div className="space-y-2 mb-8">
-              {['ISO 27001, DORA, NIS2, NIST & more', 'Vendor risk management built in', 'Included with every vCISO engagement'].map(f => (
+              {['ISO 27001, DORA, NIS2, NIST & more','Vendor risk management built in','Included with every vCISO engagement'].map(f => (
                 <div key={f} className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-blue-400 shrink-0" />
                   <span className="text-slate-300 text-sm">{f}</span>
                 </div>
               ))}
             </div>
-
             <div className="flex items-center gap-4">
               <a href="https://fortifyone.co.uk" target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors">

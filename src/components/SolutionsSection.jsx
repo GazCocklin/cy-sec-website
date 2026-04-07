@@ -56,7 +56,7 @@ const SolutionsSection = () => {
                 className="h-10 w-auto mr-4"
               />
               <h3 className="text-2xl font-bold">
-                 <span className="text-slate-900">Cy-Sec</span> <span className="gradient-text">FortifyOne</span>
+                 <span style={{background:"linear-gradient(90deg,#1A56DB,#06B6D4)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"}}>Fortify<span style={{fontWeight:700}}>One</span></span>
               </h3>
             </div>
             <p className="text-slate-600 italic mb-6">All your cyber risk and compliance. One platform. Total control.</p>
@@ -84,7 +84,7 @@ const SolutionsSection = () => {
                 className="h-10 w-auto mr-4"
               />
               <h3 className="text-2xl font-bold">
-                <span className="text-slate-900">Cy-Sec</span> <span className="gradient-text">FortifyLearn</span>
+                <span style={{background:"linear-gradient(90deg,#1A56DB,#06B6D4)",WebkitBackgroundClip:"text",WebkitTextFillColor:"transparent",backgroundClip:"text"}}>Fortify<span style={{fontWeight:700}}>Learn</span></span>
               </h3>
             </div>
             <p className="text-slate-600 italic mb-4">Not Just Training. Transformation.</p>

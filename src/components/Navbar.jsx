@@ -117,13 +117,6 @@ const Navbar = () => {
                 </div>
               </div>
 
-              <Link to="/about"
-                className={`px-3 py-2 text-sm font-medium transition-colors rounded-lg ${
-                  isActive('/about') ? 'text-white bg-white/5' : 'text-gray-300 hover:text-white hover:bg-white/5'
-                }`}>
-                About
-              </Link>
-
               <div className="w-px h-5 bg-white/10 mx-2" />
 
               <Button
@@ -232,11 +225,6 @@ const Navbar = () => {
                       )}
                     </AnimatePresence>
                   </div>
-
-                  <Link to="/about" onClick={() => setIsOpen(false)}
-                    className="block px-4 py-3 rounded-lg text-sm font-medium text-gray-300 hover:bg-slate-800 hover:text-white transition-colors">
-                    About
-                  </Link>
 
                   <div className="pt-3 px-2 border-t border-white/10">
                     <Button onClick={() => { setIsOpen(false); setIsContactModalOpen(true); }}

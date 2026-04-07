@@ -17,19 +17,19 @@ const SelfStudyModulesPage = () => {
       name: "CompTIA Network+ (N10-009)", 
       features: ["Access to CompTIA CertMaster", "Access to CompTIA eBook", "Access to CompTIA Labs", "Exam Voucher Included"], 
       ctaSource: "network_plus_self_study",
-      logoUrl: "https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/3df7b6b955aa323a935b0a0a5fbb615a.jpg"
+      logoUrl: "/logos/comptia-network-plus.svg"
     },
     { 
       name: "CompTIA Security+ (SY0-701)", 
       features: ["Access to CompTIA CertMaster", "Access to CompTIA eBook", "Access to CompTIA Labs", "Exam Voucher Included"], 
       ctaSource: "security_plus_self_study",
-      logoUrl: "https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/12392169cf2aad613da39d4388d016d6.jpg"
+      logoUrl: "/logos/comptia-security-plus.svg"
     },
     { 
       name: "CompTIA CySA+ (CS0-003)", 
       features: ["Access to CompTIA CertMaster", "Access to CompTIA eBook", "Access to CompTIA Labs", "Exam Voucher Included"], 
       ctaSource: "cysa_plus_self_study",
-      logoUrl: "https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/863cf9a0336d01766b980e19b18ae2e3.png"
+      logoUrl: "/logos/comptia-cysa-plus.svg"
     },
     { 
       name: "CompTIA Cloud+ (CV0-004)", 

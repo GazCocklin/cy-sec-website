@@ -4,6 +4,7 @@
 - [Admin Pages - Cy-Sec](/adminpageslist): List of internal admin pages and guides.
 - [CertNexus Professional Certifications | CFR, CyberSAFE & More | Cy-Sec](/certnexuscertifications): Explore official CertNexus certifications like CyberSec First Responder (CFR) and CyberSAFE. Choose from self-study, instructor-led, or hybrid learning options.
 - [CompTIA & CertNexus Cybersecurity Training UK | Cy-Sec](/trainingdelivery): Authorised CompTIA and CertNexus training partner. Security+, CySA+, CASP+ and more. Corporate security awareness training, role-specific modules, and tabletop exercises for UK businesses.
+- [CompTIA Professional Certifications | Self-Study & Instructor-Led | Cy-Sec](/comptiacertifications): Explore our official CompTIA certification courses. Choose from self-study, instructor-led, or hybrid programs for Network+, Security+, CySA+, Cloud+, and AI Essentials.
 - [Contact Us | Cy-Sec](/contact): Get in touch with the Cy-Sec team about vCISO, compliance, training, or our GRC platforms.
 - [CRM - Admin Dashboard](/admincrm): Manage contact submissions, client interactions and platform feedback.
 - [Cy-Sec Admin Dashboard (Legacy)](/fulladmindashboard): Cy-Sec administrative dashboard for website and platform management.
@@ -24,7 +25,9 @@
 - [Pre-Launch Checklist - Cy-Sec Admin](/prelaunchchecklist): No description available
 - [Pricing Plans - Cy-Sec Cybersecurity Solutions](/pricing): Flexible pricing plans for SMBs. Choose from monthly subscriptions or one-time assessments to fit your cybersecurity needs.
 - [Privacy Policy - Cy-Sec](/privacypolicy): Privacy Policy for Cy-Sec Awareness and Consultancy, detailing how we collect, use, and protect your data.
+- [Professional Certifications - CompTIA, BCS, ISACA | Cy-Sec](/professionalcertifications): Advance your cybersecurity career with professional certifications. Explore our CompTIA self-study, instructor-led, and hybrid modules, with BCS and ISACA certifications coming soon.
 - [Security Reports - FortifyOne](/securityreports): Generate and manage comprehensive security reports for compliance and vendor risk assessments.
+- [Self-Study CompTIA Modules | Cy-Sec](/selfstudymodules): Master CompTIA certifications at your own pace. Explore self-study modules for Network+, Security+, CySA+, Cloud+, and AI Essentials.
 - [Sign Up - Cy-Sec FortifyOne](/signup): Create your Cy-Sec FortifyOne account to get started with our FortifyOne GRC platform.
 - [Strategic Roadmap - Cy-Sec Admin](/strategicroadmap): Cy-Sec strategic product and company roadmap.
 - [Terms of Service - Cy-Sec](/termsofservice): Terms of Service for Cy-Sec Awareness and Consultancy, outlining the rules and regulations for the use of our website and services.

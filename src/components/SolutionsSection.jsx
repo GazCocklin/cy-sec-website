@@ -51,7 +51,7 @@ const SolutionsSection = () => {
           >
             <div className="flex items-center mb-4">
                <img 
-                src="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/01f303354e5d6ca92144a867dc53f612.png" 
+                src="/logos/fortifyone-logo.svg" 
                 alt="Cy-Sec FortifyOne Logo" 
                 className="h-10 w-auto mr-4"
               />
@@ -79,7 +79,7 @@ const SolutionsSection = () => {
           >
             <div className="flex items-center mb-4">
               <img 
-                src="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/1d16b841e7a0d19212a83dd81a65f809.png" 
+                src="/logos/fortifyone-logo.svg" 
                 alt="Cy-Sec FortifyLearn Logo" 
                 className="h-10 w-auto mr-4"
               />

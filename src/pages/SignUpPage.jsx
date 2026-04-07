@@ -74,7 +74,7 @@ const SignUpPage = () => {
           <Card className="w-full max-w-md mx-auto shadow-2xl">
             <CardHeader className="text-center">
               <img 
-                src="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/01f303354e5d6ca92144a867dc53f612.png" 
+                src="/logos/fortifyone-logo.svg" 
                 alt="Cy-Sec FortifyOne Logo" 
                 className="h-20 w-auto mx-auto mb-4"
               />

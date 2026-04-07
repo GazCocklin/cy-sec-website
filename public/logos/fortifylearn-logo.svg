@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 340 64" width="340" height="64">
+  <!-- Black square icon -->
+  <rect x="0" y="0" width="64" height="64" rx="12" fill="#000000"/>
+  <!-- Terminal window icon (white) scaled to fit -->
+  <g transform="translate(8,10) scale(0.18)">
+    <path fill="white" d="M216 44H40a20 20 0 0 0-20 20v128a20 20 0 0 0 20 20h176a20 20 0 0 0 20-20V64a20 20 0 0 0-20-20Zm-4 144H44V68h168ZM72.5 150.63L100.79 128L72.5 105.37a12 12 0 1 1 15-18.74l40 32a12 12 0 0 1 0 18.74l-40 32a12 12 0 0 1-15-18.74ZM144 172h32a12 12 0 0 0 0-24h-32a12 12 0 0 0 0 24Z"/>
+  </g>
+  <!-- Wordmark: Fortify (white) + Learn (teal) -->
+  <text x="76" y="24" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="26" font-weight="700" letter-spacing="-0.5" fill="#F1F5F9">Fortify</text>
+  <text x="188" y="24" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="26" font-weight="700" letter-spacing="-0.5" fill="#06B6D4">Learn</text>
+  <!-- Tagline -->
+  <text x="76" y="46" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="11" font-weight="400" letter-spacing="0.1" fill="#94A3B8">CompTIA PBQ simulation platform</text>
+</svg>

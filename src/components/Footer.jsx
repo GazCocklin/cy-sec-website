@@ -11,7 +11,7 @@ const Footer = () => (
         <div className="col-span-1 md:col-span-2">
           <div className="flex items-center mb-4">
             <img
-              src="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/87fee7998db1f823dea0ce4380337752.png"
+              src="/logos/cysec-logo.png"
               alt="Cy-Sec Logo"
               className="h-10 w-auto"
             />
@@ -65,17 +65,17 @@ const Footer = () => (
         </p>
         <div className="flex items-center gap-6">
           <img
-            src="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/390c3df2ac99cc7ad0233de0dda0a060.png"
+            src="/logos/comptia-partner-badge.svg"
             alt="CompTIA Authorised Partner"
             className="h-10 w-auto"
           />
           <img
-            src="https://horizons-cdn.hostinger.com/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/3c564edf4197ff2826b29bfb622cb01b.png"
+            src="/logos/certnexus-partner-badge.svg"
             alt="CertNexus Authorised Training Partner"
             className="h-10 w-auto"
           />
           <img
-            src="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/8307f83b47ea643794e47e44b120c35e.png"
+            src="/logos/comptia-partner-badge.svg"
             alt="Cyber Essentials Certified"
             className="h-10 w-auto"
           />

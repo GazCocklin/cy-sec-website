@@ -54,7 +54,7 @@ const PlatformHighlightSection = () => {
             <img
               className="w-full h-auto rounded-lg shadow-2xl"
               alt="Dashboard showing Organisational Security Maturity at 90% (Excellent), with a maturity level guide."
-              src="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/f40ef007b9f348d571bfdf89d58db63a.png"
+              src="/logos/fortifyone-logo.svg"
             />
             <p className="text-center text-sm text-slate-500 mt-2">
               Visualize your compliance and risk posture with intuitive dashboards.

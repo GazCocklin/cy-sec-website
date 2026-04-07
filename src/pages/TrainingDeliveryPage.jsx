@@ -103,7 +103,7 @@ const TrainingDeliveryPage = () => {
               </div>
              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                <CertificationCard
-                 logo="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/390c3df2ac99cc7ad0233de0dda0a060.png"
+                 logo="/logos/comptia-partner-badge.svg"
                  title="CompTIA"
                  description="Globally recognized certifications for IT professionals covering infrastructure, cybersecurity, data, and analytics."
                  buttonText="View CompTIA Courses"
@@ -112,7 +112,7 @@ const TrainingDeliveryPage = () => {
                  buttonColorClass="border-[#0072C6] text-[#0072C6] hover:bg-[#0072C6]/10"
                />
                <CertificationCard
-                 logo="https://horizons-cdn.hostinger.com/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/3c564edf4197ff2826b29bfb622cb01b.png"
+                 logo="/logos/certnexus-partner-badge.svg"
                  title="CertNexus"
                  description="Vendor-neutral, emerging technology certifications and micro-credentials for IT and security professionals."
                  buttonText="View CertNexus Courses"

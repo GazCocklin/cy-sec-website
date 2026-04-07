@@ -37,7 +37,7 @@ const Navbar = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center shrink-0 mr-6">
               <img
-                src="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/87fee7998db1f823dea0ce4380337752.png"
+                src="/logos/cysec-logo.png"
                 alt="Cy-Sec"
                 className="h-10 lg:h-12 w-auto"
               />

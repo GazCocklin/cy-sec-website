@@ -147,7 +147,7 @@ const VendorReport = ({ assessment, vendor, responses, questions, reportData }) 
             <Text style={styles.subtitle}>Framework: {assessment.compliance_frameworks?.name}</Text>
             <Text style={styles.subtitle}>Completed: {new Date(assessment.completion_date || assessment.updated_at).toLocaleDateString()}</Text>
           </View>
-          <Image style={styles.logo} src="https://storage.googleapis.com/hostinger-horizons-assets-prod/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/73af02c03679056595565f438fd7a979.png" />
+          <Image style={styles.logo} src="/logos/cysec-logo.png" />
         </View>
 
         <View style={[styles.grid, { marginBottom: 15 }]}>

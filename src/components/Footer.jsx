@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Mail } from 'lucide-react';
 
 const Footer = () => (
-  <footer className="bg-white/90 backdrop-blur-sm border-t border-slate-200 mt-20">
+  <footer className="bg-white border-t border-slate-200 mt-20">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
 
@@ -69,11 +69,13 @@ const Footer = () => (
             src="/logos/comptia-partner-badge.webp"
             alt="CompTIA Authorised Partner"
             className="h-20 w-auto object-contain"
+            style={{ mixBlendMode: 'multiply' }}
           />
           <img
             src="/logos/certnexus-partner-badge.png"
             alt="CertNexus Authorised Training Partner"
             className="h-16 w-auto object-contain"
+            style={{ mixBlendMode: 'multiply' }}
           />
           <img
             src="/logos/cyber-essentials-badge.png"

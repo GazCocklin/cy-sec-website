@@ -11,7 +11,7 @@ const consultancy = [
 const training = [
   { icon: GraduationCap, title: 'Professional Certifications', desc: 'CompTIA & CertNexus authorised training. Security+, CySA+, Network+ and more.', href: '/training/comptia-certifications', colour: 'bg-cyan-50 text-cyan-600', border: 'hover:border-cyan-200' },
   { icon: BookOpen, title: 'Security Awareness', desc: 'Role-specific, bespoke cybersecurity training for your entire organisation.', href: '/training-delivery', colour: 'bg-cyan-50 text-cyan-600', border: 'hover:border-cyan-200' },
-  { icon: Monitor, title: 'PBQ Simulator', desc: 'CompTIA performance-based question simulations with live Cisco IOS topology.', href: '/pbq-engine', colour: 'bg-cyan-50 text-cyan-600', border: 'hover:border-cyan-200', badge: 'Free to start' },
+  { icon: Monitor, title: 'FortifyLearn PBQ Engine', desc: 'CompTIA performance-based question simulations with live Cisco IOS topology.', href: '/pbq-engine', colour: 'bg-cyan-50 text-cyan-600', border: 'hover:border-cyan-200',  },
 ];
 
 const ServiceCard = ({ service, navigate }) => {

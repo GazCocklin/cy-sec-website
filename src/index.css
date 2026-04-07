@@ -11,8 +11,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 217 73% 14%;
     
-    /* Primary: Cyan #00D9FF */
-    --primary: 189 100% 50%;
+    /* Primary: Blue #1A56DB */
+    --primary: 221 73% 48%;
     --primary-foreground: 217 73% 14%;
     
     /* Secondary: Navy #0A1E3F */
@@ -23,7 +23,7 @@
     --muted-foreground: 215 16% 47%;
     
     /* Accent: Bright Cyan */
-    --accent: 189 100% 50%;
+    --accent: 221 73% 48%;
     --accent-foreground: 217 73% 14%;
     
     --destructive: 0 84% 60%;
@@ -31,7 +31,7 @@
     
     --border: 214 32% 91%;
     --input: 214 32% 91%;
-    --ring: 189 100% 50%;
+    --ring: 221 73% 48%;
     
     --radius: 0.75rem;
   }
@@ -53,7 +53,7 @@
     --muted: 217 73% 20%;
     --muted-foreground: 215 20% 65%;
     
-    --accent: 189 100% 50%;
+    --accent: 221 73% 48%;
     --accent-foreground: 217 73% 14%;
     
     --destructive: 0 62% 30%;
@@ -61,7 +61,7 @@
     
     --border: 217 73% 25%;
     --input: 217 73% 25%;
-    --ring: 189 100% 50%;
+    --ring: 221 73% 48%;
   }
 }
 

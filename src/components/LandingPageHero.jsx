@@ -49,12 +49,6 @@ const LandingPageHero = () => {
             transition={{ duration: 0.7 }}
             className="space-y-8"
           >
-            {/* Eyebrow */}
-            <div className="inline-flex items-center gap-2 bg-blue-500/15 border border-blue-400/30 rounded-full px-4 py-1.5">
-              <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
-              <span className="text-cyan-400 text-sm font-medium">UK Cybersecurity Practice</span>
-            </div>
-
             <h1 className="text-5xl lg:text-6xl font-bold text-white leading-[1.08] tracking-tight">
               Cybersecurity<br />
               Leadership.<br />

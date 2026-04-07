@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
+import FortifyLearnLogo from '@/components/logos/FortifyLearnLogo';
 import { Terminal, ArrowRight, CheckCircle, Layers, Clock, Target, BookOpen, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -36,9 +37,8 @@ const PBQEnginePage = () => {
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="space-y-6">
-              <div className="inline-flex items-center gap-2 bg-cyan-500/15 border border-cyan-400/30 rounded-full px-4 py-1.5">
-                <Terminal className="w-3.5 h-3.5 text-cyan-400" />
-                <span className="text-cyan-400 text-sm font-medium">FortifyLearn PBQ Engine</span>
+              <div className="mb-2">
+                <FortifyLearnLogo height={32} />
               </div>
 
               <h1 className="text-4xl lg:text-5xl font-bold text-white leading-tight">

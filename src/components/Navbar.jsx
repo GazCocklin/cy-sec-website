@@ -104,14 +104,14 @@ const Navbar = () => {
                   <ChevronDown className="ml-1.5 h-3.5 w-3.5 group-hover:rotate-180 transition-transform duration-200" />
                 </button>
                 <div className="absolute top-full left-0 pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-                  <div className="w-56 bg-slate-900 border border-white/10 rounded-xl shadow-2xl overflow-hidden p-2">
+                  <div className="w-64 bg-slate-900 border border-white/10 rounded-xl shadow-2xl overflow-hidden p-3 space-y-2">
                     <a href="https://fortifyone.co.uk" target="_blank" rel="noopener noreferrer"
-                      className="flex items-center px-3 py-3 hover:bg-white/5 rounded-lg transition-colors">
-                      <FortifyOneLogo height={24} />
+                      className="flex items-center px-3 py-2.5 bg-white/5 hover:bg-white/10 rounded-lg transition-colors border border-white/[0.08]">
+                      <FortifyOneLogo height={26} />
                     </a>
                     <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
-                      className="flex items-center px-3 py-3 hover:bg-white/5 rounded-lg transition-colors">
-                      <FortifyLearnLogo height={24} />
+                      className="flex items-center px-3 py-2.5 bg-white/5 hover:bg-white/10 rounded-lg transition-colors border border-white/[0.08]">
+                      <FortifyLearnLogo height={26} />
                     </a>
                   </div>
                 </div>
@@ -209,16 +209,16 @@ const Navbar = () => {
                       {isPlatformsOpen && (
                         <motion.div initial={{ height: 0 }} animate={{ height: 'auto' }} exit={{ height: 0 }}
                           className="overflow-hidden">
-                          <div className="mx-2 my-1 bg-slate-800/50 rounded-lg p-2 space-y-0.5">
+                          <div className="mx-2 my-1 bg-slate-800/50 rounded-lg p-3 space-y-2">
                             <a href="https://fortifyone.co.uk" target="_blank" rel="noopener noreferrer"
                               onClick={() => setIsOpen(false)}
-                              className="flex items-center px-3 py-3 hover:bg-white/5 rounded-lg transition-colors">
-                              <FortifyOneLogo height={24} />
+                              className="flex items-center px-3 py-2.5 bg-white/5 hover:bg-white/10 rounded-lg transition-colors border border-white/[0.08]">
+                              <FortifyOneLogo height={26} />
                             </a>
                             <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
                               onClick={() => setIsOpen(false)}
-                              className="flex items-center px-3 py-3 hover:bg-white/5 rounded-lg transition-colors">
-                              <FortifyLearnLogo height={24} />
+                              className="flex items-center px-3 py-2.5 bg-white/5 hover:bg-white/10 rounded-lg transition-colors border border-white/[0.08]">
+                              <FortifyLearnLogo height={26} />
                             </a>
                           </div>
                         </motion.div>

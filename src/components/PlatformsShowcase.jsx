@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Terminal, Shield, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
 
 const GradText = ({ children }) => (
   <span style={{

@@ -54,7 +54,7 @@ const Footer = () => {
 
         <div className="flex flex-col md:flex-row justify-between items-center border-t border-slate-200 mt-8 pt-8">
           <p className="text-slate-600 text-sm mb-4 md:mb-0">
-            © 2025 Cy-Sec Awareness and Consultancy. All rights reserved.
+            © 2026 Cy-Sec Awareness and Consultancy. All rights reserved.
           </p>
           <div className="flex items-center space-x-6">
             <img 

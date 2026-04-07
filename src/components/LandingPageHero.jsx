@@ -47,6 +47,19 @@ const LandingPageHero = () => {
             transition={{ duration: 0.7 }}
             className="space-y-8"
           >
+            {/* Cy-Sec logo — prominent on homepage */}
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              <img
+                src="/logos/cysec-logo.svg"
+                alt="Cy-Sec Awareness and Consultancy Ltd"
+                className="h-16 lg:h-20 w-auto"
+              />
+            </motion.div>
+
             <h1 className="text-5xl lg:text-6xl font-bold text-white leading-[1.08] tracking-tight">
               Cybersecurity<br />
               Leadership.<br />

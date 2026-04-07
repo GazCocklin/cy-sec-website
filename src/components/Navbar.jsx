@@ -39,7 +39,7 @@ const Navbar = () => {
               <img
                 src="/logos/cysec-logo.svg"
                 alt="Cy-Sec Awareness and Consultancy Ltd"
-                className="h-10 lg:h-12 w-auto"
+                className="h-14 lg:h-16 w-auto"
               />
             </Link>
 

@@ -8,7 +8,7 @@ const PlatformHighlightSection = () => {
   const navigate = useNavigate();
 
   const handleLearnMore = () => {
-    navigate('/security-suite');
+    navigate('/fortify-one');
   };
 
   return (

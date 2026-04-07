@@ -175,7 +175,7 @@ const SecurityCalendar = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Helmet>
-        <title>Operations Console - Cy-Sec Security Suite</title>
+        <title>Operations Console - Cy-Sec FortifyOne</title>
         <meta name="description" content="Holistic console view of all security activities, including assessments, vendor reviews, and manual events." />
       </Helmet>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -195,7 +195,7 @@ const SecurityCalendar = () => {
           <div className="flex items-start md:items-center justify-start md:justify-end gap-2 sm:gap-4">
             <Button 
               variant="outline"
-              onClick={() => navigate('/security-suite/dashboard')}
+              onClick={() => navigate('/fortify-one/dashboard')}
               className="bg-white hover:bg-slate-50"
             >
               <ArrowLeft className="h-4 w-4 sm:mr-2" />

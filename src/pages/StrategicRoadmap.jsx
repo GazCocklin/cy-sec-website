@@ -12,7 +12,7 @@ const StrategicRoadmap = () => {
       icon: <Flag className="h-6 w-6 text-white" />,
       bgColor: 'bg-blue-500',
       items: [
-        'Launch MVP of Security Suite Platform',
+        'Launch MVP of FortifyOne Platform',
         'Onboard first 10 enterprise clients',
         'Establish core marketing channels',
         'Finalize Tier 1 compliance framework support',

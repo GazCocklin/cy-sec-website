@@ -77,17 +77,17 @@ const ChecklistItem = ({ id, label, description, onStatusChange, status, onNotes
 const PreLaunchChecklist = () => {
   const checklistData = {
     publicWebsite: [
-      { id: 'home-nav', label: 'Navigate Homepage', description: 'Click all navigation links (Training, Security Suite, etc.) and ensure they go to the correct pages.' },
+      { id: 'home-nav', label: 'Navigate Homepage', description: 'Click all navigation links (Training, FortifyOne, etc.) and ensure they go to the correct pages.' },
       { id: 'contact-form', label: 'Submit Contact Form', description: 'Fill out and submit the contact form. Check if the submission appears in the admin dashboard.' },
       { id: 'footer-links', label: 'Check Footer Links', description: 'Verify that Privacy Policy and Terms of Service links work.' },
     ],
     authentication: [
-      { id: 'signup', label: 'Create a New User Account', description: 'Use a new email to sign up through the Security Suite login page.' },
+      { id: 'signup', label: 'Create a New User Account', description: 'Use a new email to sign up through the FortifyOne login page.' },
       { id: 'login', label: 'Log In with New User', description: 'After verifying the email, log in with the newly created account.' },
       { id: 'logout', label: 'Log Out', description: 'Ensure the logout button in the settings page works correctly.' },
     ],
     securitySuite: [
-      { id: 'ss-dashboard', label: 'Access Security Suite Dashboard', description: 'After logging in, confirm you land on the main dashboard.' },
+      { id: 'ss-dashboard', label: 'Access FortifyOne Dashboard', description: 'After logging in, confirm you land on the main dashboard.' },
       { id: 'ss-create-assessment', label: 'Create a New Assessment', description: 'Go to Compliance Assessments and create a new one (e.g., NIST CSF).' },
       { id: 'ss-complete-wizard', label: 'Complete Assessment Wizard', description: 'Go through the entire wizard, answering all questions.' },
       { id: 'ss-view-report', label: 'View Assessment Report', description: 'After completion, check that the report page displays correctly with scores.' },
@@ -184,7 +184,7 @@ const PreLaunchChecklist = () => {
                 <Accordion type="multiple" defaultValue={['publicWebsite', 'authentication']} className="w-full">
                   <Section title="Public Website" icon={Globe} items={checklistData.publicWebsite} sectionKey="publicWebsite" />
                   <Section title="User Authentication" icon={User} items={checklistData.authentication} sectionKey="authentication" />
-                  <Section title="Security Suite Features" icon={ShieldCheck} items={checklistData.securitySuite} sectionKey="securitySuite" />
+                  <Section title="FortifyOne Features" icon={ShieldCheck} items={checklistData.securitySuite} sectionKey="securitySuite" />
                   <Section title="Admin Dashboard" icon={UserCog} items={checklistData.adminDashboard} sectionKey="adminDashboard" />
                 </Accordion>
                 

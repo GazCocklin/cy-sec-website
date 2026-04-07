@@ -51,11 +51,11 @@ const AssessmentsTab = ({ dashboardData }) => {
   };
 
   const handleViewReport = (assessment) => {
-    window.location.href = `/security-suite/assessment-report/${assessment.id}`;
+    window.location.href = `/fortify-one/assessment-report/${assessment.id}`;
   };
 
   const handleStartAssessment = (assessment) => {
-    window.location.href = '/security-suite/compliance';
+    window.location.href = '/fortify-one/compliance';
   };
 
   return (
@@ -136,7 +136,7 @@ const AssessmentsTab = ({ dashboardData }) => {
             <FileText className="h-16 w-16 text-slate-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-slate-900 mb-2">No assessments found</h3>
             <p className="text-slate-600 mb-6">Get started by creating your first security assessment.</p>
-            <Button onClick={() => window.location.href = '/security-suite/compliance'}>
+            <Button onClick={() => window.location.href = '/fortify-one/compliance'}>
               Create Assessment
             </Button>
           </div>

@@ -76,18 +76,18 @@ const LinkedinMarketingGenerator = () => {
 
     switch (type) {
       case 'intro':
-        post = `🛡️ Introducing Cy-Sec FortifyOne: Your ultimate all-in-one platform for comprehensive cyber risk and compliance management! 🚀\n\nGain total control over your internal compliance (ISO 27001, NIST, DORA) AND effectively manage third-party vendor risks from a single, intuitive dashboard.\n\nSimplify complex regulations, get actionable insights, and strengthen your security posture. Ready to transform your cyber risk management? Learn more: [Link to Security Suite Page]`;
+        post = `🛡️ Introducing Cy-Sec FortifyOne: Your ultimate all-in-one platform for comprehensive cyber risk and compliance management! 🚀\n\nGain total control over your internal compliance (ISO 27001, NIST, DORA) AND effectively manage third-party vendor risks from a single, intuitive dashboard.\n\nSimplify complex regulations, get actionable insights, and strengthen your security posture. Ready to transform your cyber risk management? Learn more: [Link to FortifyOne Page]`;
         hashtags = [...hashtags, '#Compliance', '#VendorRisk', '#UnifiedSecurity'];
         break;
       case 'differentiator':
         if (data) {
-          post = `🌟 Spotlight on ${data.title} with Cy-Sec FortifyOne!\n\n${data.description} Our platform helps you to achieve seamless integration and unparalleled oversight.\n\nReady to experience the difference? Discover how we're redefining cyber risk management: [Link to Security Suite Page]`;
+          post = `🌟 Spotlight on ${data.title} with Cy-Sec FortifyOne!\n\n${data.description} Our platform helps you to achieve seamless integration and unparalleled oversight.\n\nReady to experience the difference? Discover how we're redefining cyber risk management: [Link to FortifyOne Page]`;
           hashtags = [...hashtags, ...data.keywords];
         }
         break;
       case 'problem_solution':
         if (data) {
-          post = `Is your organization facing challenges with ${data.painPoints[0].toLowerCase()}? Or struggling to ${data.painPoints[1].toLowerCase()}?\n\n💡 Cy-Sec FortifyOne is built to solve exactly these issues for ${data.title}! ${data.solution}\n\nDon't let cyber complexities slow you down. See how FortifyOne can empower your business: [Link to Security Suite Page]`;
+          post = `Is your organization facing challenges with ${data.painPoints[0].toLowerCase()}? Or struggling to ${data.painPoints[1].toLowerCase()}?\n\n💡 Cy-Sec FortifyOne is built to solve exactly these issues for ${data.title}! ${data.solution}\n\nDon't let cyber complexities slow you down. See how FortifyOne can empower your business: [Link to FortifyOne Page]`;
           hashtags = [...hashtags, '#ProblemSolved', '#BusinessSecurity', '#Innovation'];
         }
         break;

@@ -38,7 +38,7 @@ const ModuleGrid = ({
           <Package className="h-12 w-12 text-gray-300 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">No Modules Found</h3>
           <p className="text-gray-500 mb-4">
-            Get started by creating your first security suite module.
+            Get started by creating your first FortifyOne GRC platform module.
           </p>
           <Button onClick={() => setShowAddForm(true)}>
             <Plus className="h-4 w-4 mr-2" />

@@ -17,7 +17,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
   const isAuthenticated = !!(user && session);
 
   if (!isAuthenticated) {
-    return <Navigate to="/security-suite/login" state={{ from: location }} replace />;
+    return <Navigate to="/fortify-one/login" state={{ from: location }} replace />;
   }
 
   if (adminOnly) {
@@ -25,7 +25,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
     const isAdmin = userEmail === 'gazc@cy-sec.co.uk' || userEmail === 'aimeec@cy-sec.co.uk';
     
     if (!isAdmin) {
-      return <Navigate to="/security-suite/dashboard" replace />;
+      return <Navigate to="/fortify-one/dashboard" replace />;
     }
   }
 

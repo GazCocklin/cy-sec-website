@@ -25,7 +25,7 @@ const SecurityDashboard = () => {
       title: "Assessment Created",
       description: `"${newAssessment.title}" is ready. You will be redirected to the assessment page.`,
     });
-    navigate(`/security-suite/compliance`);
+    navigate(`/fortify-one/compliance`);
   };
 
   const calculateAssessmentCompletion = (assessment) => {

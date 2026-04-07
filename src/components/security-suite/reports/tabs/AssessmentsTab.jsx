@@ -80,7 +80,7 @@ const AssessmentsTab = ({ assessments }) => {
                    <p className="text-sm text-slate-500">
                     Completed on: {new Date(assessment.completion_date).toLocaleDateString()}
                   </p>
-                  <Button size="sm" onClick={() => navigate(`/security-suite/assessment-report/${assessment.id}`)}>
+                  <Button size="sm" onClick={() => navigate(`/fortify-one/assessment-report/${assessment.id}`)}>
                     View Full Report
                   </Button>
                 </div>

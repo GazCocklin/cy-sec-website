@@ -71,7 +71,7 @@ const StartAssessmentDialog = ({ open, onOpenChange, vendor }) => {
 
       toast({ title: 'Assessment Started!', description: `Questionnaire created for ${vendor.name}.` });
       onOpenChange(false);
-      navigate(`/security-suite/vendor-assessment/${data.id}`);
+      navigate(`/fortify-one/vendor-assessment/${data.id}`);
     } catch (error) {
       console.error('Error starting assessment:', error);
       toast({ title: 'Error', description: 'Failed to create the assessment.', variant: 'destructive' });

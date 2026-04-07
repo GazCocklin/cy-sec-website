@@ -80,7 +80,7 @@ const MarketingInsights = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       <Helmet>
         <title>Marketing Insights - Admin Dashboard</title>
-        <meta name="description" content="Key differentiators and marketing points for the Cy-Sec Security Suite." />
+        <meta name="description" content="Key differentiators and marketing points for the Cy-Sec FortifyOne." />
       </Helmet>
 
       <div className="container mx-auto px-4 py-8">
@@ -95,7 +95,7 @@ const MarketingInsights = () => {
                 <Lightbulb className="h-8 w-8 text-blue-600" />
                 Marketing Insights
               </h1>
-              <p className="text-slate-600 mt-1">Key selling points for the Security Suite platform.</p>
+              <p className="text-slate-600 mt-1">Key selling points for the FortifyOne platform.</p>
             </div>
             <Button onClick={() => navigate('/admin')}>
               <ArrowRight className="mr-2 h-4 w-4" />

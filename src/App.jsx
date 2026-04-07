@@ -64,7 +64,7 @@ function AppContent() {
 
   const handleSignOut = useCallback(async () => {
     await signOut();
-    navigate('/security-suite/login', { 
+    navigate('/fortify-one/login', { 
       state: { 
         from: location, 
         message: 'Your session has expired. Please sign in again.' 
@@ -79,22 +79,22 @@ function AppContent() {
     }
   }, [session]);
 
-  const isSecuritySuitePage = location.pathname.startsWith('/security-suite/') && 
-                              location.pathname !== '/security-suite' && 
-                              location.pathname !== '/security-suite/login' &&
-                              location.pathname !== '/security-suite/signup';
+  const isFortifyOnePage = location.pathname.startsWith('/fortify-one/') && 
+                              location.pathname !== '/fortify-one' && 
+                              location.pathname !== '/fortify-one/login' &&
+                              location.pathname !== '/fortify-one/signup';
   const isAdminPage = location.pathname.startsWith('/admin');
 
   // Adjust padding for new immersive home page design
   const isHomePage = location.pathname === '/';
-  const mainPaddingClass = isHomePage ? "pt-0" : (isSecuritySuitePage || isAdminPage ? "pt-20" : "pt-32");
+  const mainPaddingClass = isHomePage ? "pt-0" : (isFortifyOnePage || isAdminPage ? "pt-20" : "pt-32");
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       {!isAdminPage && <Navbar />}
       
       <div className={`flex-grow ${mainPaddingClass}`}>
-        {!isSecuritySuitePage && !isAdminPage && !isHomePage && <NewsBanner />}
+        {!isFortifyOnePage && !isAdminPage && !isHomePage && <NewsBanner />}
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -104,9 +104,9 @@ function AppContent() {
             <Route path="/training/instructor-led" element={<InstructorLedPage />} />
             <Route path="/training/comptia-certifications" element={<CompTIACertificationsPage />} />
             <Route path="/training/certnexus-certifications" element={<CertNexusCertificationsPage />} />
-            <Route path="/security-suite" element={<SecuritySuitePage />} />
-            <Route path="/security-suite/login" element={<SecuritySuiteLogin />} />
-            <Route path="/security-suite/signup" element={<SignUpPage />} />
+            <Route path="/fortify-one" element={<SecuritySuitePage />} />
+            <Route path="/fortify-one/login" element={<SecuritySuiteLogin />} />
+            <Route path="/fortify-one/signup" element={<SignUpPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/vciso" element={<VCISOPage />} />
@@ -117,16 +117,27 @@ function AppContent() {
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
             
-            <Route path="/security-suite/dashboard" element={<ProtectedRoute><SecurityDashboard /></ProtectedRoute>} />
-            <Route path="/security-suite/compliance" element={<ProtectedRoute><ComplianceAssessments /></ProtectedRoute>} />
-            <Route path="/security-suite/vendor-risk" element={<ProtectedRoute><VendorRiskManagement /></ProtectedRoute>} />
-            <Route path="/security-suite/vendor-risk/:vendorId" element={<ProtectedRoute><VendorDetailsPage /></ProtectedRoute>} />
-            <Route path="/security-suite/vendor-assessment/:questionnaireId" element={<ProtectedRoute><VendorAssessmentWizard /></ProtectedRoute>} />
-            <Route path="/security-suite/vendor-assessment-report/:questionnaireId" element={<ProtectedRoute><VendorAssessmentReport /></ProtectedRoute>} />
-            <Route path="/security-suite/settings" element={<ProtectedRoute><SecuritySettings /></ProtectedRoute>} />
-            <Route path="/security-suite/reports" element={<ProtectedRoute><SecurityReports /></ProtectedRoute>} />
-            <Route path="/security-suite/assessment-report/:id" element={<ProtectedRoute><AssessmentReport /></ProtectedRoute>} />
-            <Route path="/security-suite/calendar" element={<ProtectedRoute><SecurityCalendar /></ProtectedRoute>} />
+            <Route path="/fortify-one/dashboard" element={<ProtectedRoute><SecurityDashboard /></ProtectedRoute>} />
+            <Route path="/fortify-one/compliance" element={<ProtectedRoute><ComplianceAssessments /></ProtectedRoute>} />
+            <Route path="/fortify-one/vendor-risk" element={<ProtectedRoute><VendorRiskManagement /></ProtectedRoute>} />
+            <Route path="/fortify-one/vendor-risk/:vendorId" element={<ProtectedRoute><VendorDetailsPage /></ProtectedRoute>} />
+            <Route path="/fortify-one/vendor-assessment/:questionnaireId" element={<ProtectedRoute><VendorAssessmentWizard /></ProtectedRoute>} />
+            <Route path="/fortify-one/vendor-assessment-report/:questionnaireId" element={<ProtectedRoute><VendorAssessmentReport /></ProtectedRoute>} />
+            <Route path="/fortify-one/settings" element={<ProtectedRoute><SecuritySettings /></ProtectedRoute>} />
+            <Route path="/fortify-one/reports" element={<ProtectedRoute><SecurityReports /></ProtectedRoute>} />
+            <Route path="/fortify-one/assessment-report/:id" element={<ProtectedRoute><AssessmentReport /></ProtectedRoute>} />
+            <Route path="/fortify-one/calendar" element={<ProtectedRoute><SecurityCalendar /></ProtectedRoute>} />
+
+            {/* Legacy /security-suite/* redirects → /fortify-one/* */}
+            <Route path="/security-suite" element={<Navigate to="/fortify-one" replace />} />
+            <Route path="/security-suite/login" element={<Navigate to="/fortify-one/login" replace />} />
+            <Route path="/security-suite/signup" element={<Navigate to="/fortify-one/signup" replace />} />
+            <Route path="/security-suite/dashboard" element={<Navigate to="/fortify-one/dashboard" replace />} />
+            <Route path="/security-suite/compliance" element={<Navigate to="/fortify-one/compliance" replace />} />
+            <Route path="/security-suite/vendor-risk" element={<Navigate to="/fortify-one/vendor-risk" replace />} />
+            <Route path="/security-suite/settings" element={<Navigate to="/fortify-one/settings" replace />} />
+            <Route path="/security-suite/reports" element={<Navigate to="/fortify-one/reports" replace />} />
+            <Route path="/security-suite/calendar" element={<Navigate to="/fortify-one/calendar" replace />} />
 
             <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminHomePage /></ProtectedRoute>} />
             <Route path="/admin/crm" element={<ProtectedRoute adminOnly={true}><AdminCrmPage /></ProtectedRoute>} />

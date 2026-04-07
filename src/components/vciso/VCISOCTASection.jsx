@@ -12,7 +12,7 @@ const VCISOCTASection = () => {
   };
 
   const handleLearnMore = () => {
-    navigate('/security-suite');
+    navigate('/fortify-one');
   };
 
   return (

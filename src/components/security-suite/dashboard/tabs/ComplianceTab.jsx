@@ -53,7 +53,7 @@ const ComplianceTab = ({ dashboardData }) => {
             <Target className="h-16 w-16 text-slate-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-slate-900 mb-2">No compliance data</h3>
             <p className="text-slate-600 mb-6">Start tracking your compliance with industry frameworks.</p>
-            <Button onClick={() => window.location.href = '/security-suite/compliance'}>
+            <Button onClick={() => window.location.href = '/fortify-one/compliance'}>
               Start Compliance Assessment
             </Button>
           </div>

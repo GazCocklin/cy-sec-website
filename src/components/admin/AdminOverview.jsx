@@ -36,10 +36,10 @@ const AdminOverview = ({ overviewStats }) => {
           <CardHeader>
             <CardTitle className="flex items-center">
               <Shield className="h-5 w-5 mr-2 text-purple-600" />
-              Security Suite
+              FortifyOne
             </CardTitle>
             <CardDescription>
-              Manage security suite modules, user access, and permissions
+              Manage FortifyOne GRC platform modules, user access, and permissions
             </CardDescription>
           </CardHeader>
           <CardContent>

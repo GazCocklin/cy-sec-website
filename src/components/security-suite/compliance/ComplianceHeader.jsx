@@ -16,7 +16,7 @@ const ComplianceHeader = ({ onCreateAssessment }) => {
         <div className="flex gap-3">
           <Button 
             variant="outline"
-            onClick={() => navigate('/security-suite/dashboard')}
+            onClick={() => navigate('/fortify-one/dashboard')}
             className="bg-white hover:bg-slate-50"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />

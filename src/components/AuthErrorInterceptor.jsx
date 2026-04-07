@@ -9,13 +9,13 @@ const AuthErrorInterceptor = ({ children }) => {
   const location = useLocation();
 
   const handleInvalidSession = useCallback(async () => {
-    if (location.pathname.startsWith('/security-suite/login')) {
+    if (location.pathname.startsWith('/fortify-one/login')) {
       return;
     }
     
     await signOut({ scope: 'local' });
     
-    navigate('/security-suite/login', {
+    navigate('/fortify-one/login', {
       state: {
         from: location,
         message: 'Your session has expired or is invalid. Please sign in again.',

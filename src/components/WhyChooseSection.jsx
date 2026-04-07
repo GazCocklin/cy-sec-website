@@ -27,7 +27,7 @@ const WhyChooseSection = () => {
     },
     {
       icon: LayoutGrid,
-      title: "Integrated Security Suite",
+      title: "Integrated GRC Platform",
       description: "A unified platform for compliance assessments, vendor risk management, and security monitoring."
     }
   ];

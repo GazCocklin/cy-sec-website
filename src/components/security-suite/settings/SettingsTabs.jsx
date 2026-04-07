@@ -35,7 +35,7 @@ const SettingsTabs = ({
   const handleSignOut = async () => {
     try {
       await signOut();
-      window.location.href = '/security-suite/login';
+      window.location.href = '/fortify-one/login';
       toast({
         title: 'Signed Out',
         description: 'You have been successfully signed out.'

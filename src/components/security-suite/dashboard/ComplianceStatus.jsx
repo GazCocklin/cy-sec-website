@@ -42,7 +42,7 @@ const ComplianceStatus = ({ complianceStatus }) => {
           <div className="text-center py-8">
             <Target className="h-12 w-12 text-slate-400 mx-auto mb-4" />
             <p className="text-slate-600">No compliance data yet</p>
-            <Button className="mt-4" onClick={() => navigate('/security-suite/compliance')}>
+            <Button className="mt-4" onClick={() => navigate('/fortify-one/compliance')}>
               Start Compliance Check
             </Button>
           </div>

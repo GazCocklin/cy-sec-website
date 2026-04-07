@@ -35,7 +35,7 @@ const ModuleForm = ({ module, newModule, onSave, onCancel }) => {
       <CardHeader>
         <CardTitle>{module ? 'Edit Module' : 'Add New Module'}</CardTitle>
         <CardDescription>
-          {module ? 'Update module details and configuration' : 'Create a new security suite module'}
+          {module ? 'Update module details and configuration' : 'Create a new FortifyOne GRC platform module'}
         </CardDescription>
       </CardHeader>
       <CardContent>

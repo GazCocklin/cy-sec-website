@@ -55,7 +55,7 @@ const SignUpPage = () => {
       title: 'Sign Up Successful!',
       description: 'Please check your email to verify your account.',
     });
-    navigate('/security-suite/login', { state: { message: 'Sign up successful! Please check your email to verify and log in.' } });
+    navigate('/fortify-one/login', { state: { message: 'Sign up successful! Please check your email to verify and log in.' } });
     setLoading(false);
   };
 
@@ -63,7 +63,7 @@ const SignUpPage = () => {
     <>
       <Helmet>
         <title>Sign Up - Cy-Sec FortifyOne</title>
-        <meta name="description" content="Create your Cy-Sec FortifyOne account to get started with our security suite." />
+        <meta name="description" content="Create your Cy-Sec FortifyOne account to get started with our FortifyOne GRC platform." />
       </Helmet>
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-indigo-100 p-4">
         <motion.div
@@ -109,7 +109,7 @@ const SignUpPage = () => {
               </form>
               <div className="mt-6 text-center text-sm">
                 Already have an account?{' '}
-                <Link to="/security-suite/login" className="font-medium text-blue-600 hover:underline">
+                <Link to="/fortify-one/login" className="font-medium text-blue-600 hover:underline">
                   Sign In
                 </Link>
               </div>

@@ -29,7 +29,7 @@ import React from 'react';
               <Button 
                 variant="outline" 
                 className="h-20 flex flex-col gap-2"
-                onClick={() => navigate('/security-suite/vendor-risk')}
+                onClick={() => navigate('/fortify-one/vendor-risk')}
               >
                 <Users className="h-6 w-6" />
                 Vendor Risk
@@ -37,7 +37,7 @@ import React from 'react';
                <Button 
                 variant="outline" 
                 className="h-20 flex flex-col gap-2"
-                onClick={() => navigate('/security-suite/calendar')}
+                onClick={() => navigate('/fortify-one/calendar')}
               >
                 <CalendarCheck className="h-6 w-6" />
                 Operations Console
@@ -45,7 +45,7 @@ import React from 'react';
               <Button 
                 variant="outline" 
                 className="h-20 flex flex-col gap-2"
-                onClick={() => navigate('/security-suite/reports')}
+                onClick={() => navigate('/fortify-one/reports')}
               >
                 <BarChart3 className="h-6 w-6" />
                 View Reports

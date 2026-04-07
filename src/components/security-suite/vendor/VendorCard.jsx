@@ -35,7 +35,7 @@ const VendorCard = ({ vendor, onDelete }) => {
   };
 
   const handleViewDetails = () => {
-    navigate(`/security-suite/vendor-risk/${vendor.id}`);
+    navigate(`/fortify-one/vendor-risk/${vendor.id}`);
   };
 
   const handleStartAssessment = async () => {
@@ -60,7 +60,7 @@ const VendorCard = ({ vendor, onDelete }) => {
       if (error) throw error;
 
       toast({ title: 'Assessment Started!', description: `Questionnaire created for ${vendor.name}.` });
-      navigate(`/security-suite/vendor-assessment/${data.id}`);
+      navigate(`/fortify-one/vendor-assessment/${data.id}`);
     } catch (error) {
       console.error('Error starting assessment:', error);
       toast({ title: 'Error', description: 'Failed to create the assessment.', variant: 'destructive' });

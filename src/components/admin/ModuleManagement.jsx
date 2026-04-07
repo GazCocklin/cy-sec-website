@@ -80,7 +80,7 @@ const ModuleManagement = () => {
       console.error('Error loading modules:', error);
       toast({
         title: 'Error',
-        description: 'Failed to load security suite modules.',
+        description: 'Failed to load FortifyOne GRC platform modules.',
         variant: 'destructive',
       });
     } finally {
@@ -116,7 +116,7 @@ const ModuleManagement = () => {
       console.error('Error saving module:', error);
       toast({
         title: 'Error',
-        description: 'Failed to save security suite module.',
+        description: 'Failed to save FortifyOne GRC platform module.',
         variant: 'destructive',
       });
     }
@@ -147,7 +147,7 @@ const ModuleManagement = () => {
       console.error('Error deleting module:', error);
       toast({
         title: 'Error',
-        description: 'Failed to delete security suite module. It might be in use.',
+        description: 'Failed to delete FortifyOne GRC platform module. It might be in use.',
         variant: 'destructive',
       });
     }

@@ -116,7 +116,7 @@ const AssessmentCard = ({ assessment, onOpenWizard, onDelete }) => {
         <div className="flex flex-wrap items-center gap-2">
           {assessment.status === 'completed' ? (
             <>
-              <Button size="sm" onClick={() => navigate(`/security-suite/assessment-report/${assessment.id}`)}>
+              <Button size="sm" onClick={() => navigate(`/fortify-one/assessment-report/${assessment.id}`)}>
                 <FileText className="h-4 w-4 mr-2" />
                 View Report
               </Button>

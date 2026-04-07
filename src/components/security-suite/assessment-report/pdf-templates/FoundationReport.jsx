@@ -156,7 +156,7 @@ const FoundationReport = ({ assessment, responses, questions }) => {
         </View>
         
         <Text style={styles.footer} fixed>
-          Prepared by Cy-Sec Awareness and Consultancy's Security Suite.
+          Prepared by Cy-Sec Awareness and Consultancy's FortifyOne.
         </Text>
       </Page>
     </Document>

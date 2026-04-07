@@ -26,7 +26,7 @@ const SecurityReports = () => {
 
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/security-suite/login');
+      navigate('/fortify-one/login');
     }
   }, [user, loading, navigate]);
 
@@ -209,7 +209,7 @@ const SecurityReports = () => {
   return (
     <>
       <Helmet>
-        <title>Security Reports - Security Suite</title>
+        <title>Security Reports - FortifyOne</title>
         <meta name="description" content="Generate and manage comprehensive security reports for compliance and vendor risk assessments." />
       </Helmet>
       

@@ -12,7 +12,7 @@ const UserPermissionsDialog = ({ user, open, onOpenChange, onPermissionsUpdated 
   const [permissions, setPermissions] = useState([]);
   const [availablePermissions] = useState([
     { type: 'user_management', label: 'User Management', description: 'Create, edit, and manage user accounts' },
-    { type: 'module_management', label: 'Module Management', description: 'Manage security suite modules' },
+    { type: 'module_management', label: 'Module Management', description: 'Manage FortifyOne GRC platform modules' },
     { type: 'system_admin', label: 'System Administration', description: 'Full system administrative access' },
     { type: 'analytics', label: 'Analytics Access', description: 'View analytics and reports' },
     { type: 'contact_management', label: 'Contact Management', description: 'Manage contact form submissions' },

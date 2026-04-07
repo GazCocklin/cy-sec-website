@@ -87,7 +87,7 @@ const VendorAssessmentWizard = () => {
     } catch (error) {
       console.error('Error fetching assessment data:', error);
       toast({ title: 'Error', description: 'Could not load assessment.', variant: 'destructive' });
-      navigate('/security-suite/vendor-risk');
+      navigate('/fortify-one/vendor-risk');
     } finally {
       setLoading(false);
     }
@@ -163,7 +163,7 @@ const VendorAssessmentWizard = () => {
         .eq('id', questionnaireId);
       if (error) throw error;
       toast({ title: 'Assessment Completed!', description: 'Vendor risk assessment has been finalized.' });
-      navigate(`/security-suite/vendor-assessment-report/${questionnaireId}`);
+      navigate(`/fortify-one/vendor-assessment-report/${questionnaireId}`);
     } catch(error) {
       toast({ title: 'Error', description: 'Could not finalize assessment.', variant: 'destructive'});
     } finally {
@@ -212,7 +212,7 @@ const VendorAssessmentWizard = () => {
           title={questionnaire.title}
           vendorName={questionnaire.vendors.name}
           frameworkName={questionnaire.compliance_frameworks.name}
-          onBack={() => navigate(`/security-suite/vendor-risk/${questionnaire.vendors.id}`)}
+          onBack={() => navigate(`/fortify-one/vendor-risk/${questionnaire.vendors.id}`)}
         />
         
         <div className="mb-4">

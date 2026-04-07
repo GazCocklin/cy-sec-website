@@ -69,7 +69,7 @@ const TrendsSnapshot = ({ assessments }) => {
                 </div>
               </div>
             ))}
-             <Button className="w-full mt-4" variant="outline" onClick={() => navigate('/security-suite/reports')}>
+             <Button className="w-full mt-4" variant="outline" onClick={() => navigate('/fortify-one/reports')}>
               View Full Trends Report
             </Button>
           </div>
@@ -77,7 +77,7 @@ const TrendsSnapshot = ({ assessments }) => {
           <div className="text-center py-8">
             <BarChart2 className="h-12 w-12 text-slate-400 mx-auto mb-4" />
             <p className="text-slate-600">Complete more assessments to see trends.</p>
-            <Button className="mt-4" onClick={() => navigate('/security-suite/reports')}>
+            <Button className="mt-4" onClick={() => navigate('/fortify-one/reports')}>
               Go to Reports
             </Button>
           </div>

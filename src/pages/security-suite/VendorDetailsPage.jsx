@@ -52,7 +52,7 @@ const VendorDetailsPage = () => {
         description: 'Could not fetch vendor details. You may not have permission or the vendor does not exist.',
         variant: 'destructive',
       });
-      navigate('/security-suite/vendor-risk');
+      navigate('/fortify-one/vendor-risk');
     } finally {
       setLoading(false);
     }
@@ -77,9 +77,9 @@ const VendorDetailsPage = () => {
 
   const handleViewAssessment = (questionnaireId, status) => {
     if (status === 'in_progress') {
-      navigate(`/security-suite/vendor-assessment/${questionnaireId}`);
+      navigate(`/fortify-one/vendor-assessment/${questionnaireId}`);
     } else if (status === 'completed') {
-      navigate(`/security-suite/vendor-assessment-report/${questionnaireId}`);
+      navigate(`/fortify-one/vendor-assessment-report/${questionnaireId}`);
     } else {
       toast({ title: 'Feature Coming Soon!', description: 'Viewing reports for this status is not yet implemented.' });
     }
@@ -108,7 +108,7 @@ const VendorDetailsPage = () => {
       if (error) throw error;
 
       toast({ title: 'Assessment Started!', description: `Questionnaire created for ${vendor.name}.` });
-      navigate(`/security-suite/vendor-assessment/${data.id}`);
+      navigate(`/fortify-one/vendor-assessment/${data.id}`);
     } catch (error) {
       console.error('Error starting assessment:', error);
       toast({ title: 'Error', description: 'Failed to create the assessment.', variant: 'destructive' });
@@ -158,7 +158,7 @@ const VendorDetailsPage = () => {
       <div className="container mx-auto px-4 py-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <div className="mb-6">
-            <Button variant="outline" onClick={() => navigate('/security-suite/vendor-risk')}>
+            <Button variant="outline" onClick={() => navigate('/fortify-one/vendor-risk')}>
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Vendor List
             </Button>

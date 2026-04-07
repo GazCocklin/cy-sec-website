@@ -10,7 +10,7 @@ const ActivityTab = ({ dashboardData }) => {
           <Activity className="h-5 w-5" />
           Recent Activity
         </CardTitle>
-        <CardDescription>Your recent actions in the Security Suite</CardDescription>
+        <CardDescription>Your recent actions in the FortifyOne</CardDescription>
       </CardHeader>
       <CardContent>
         {dashboardData.recentActivity.length > 0 ? (
@@ -41,7 +41,7 @@ const ActivityTab = ({ dashboardData }) => {
           <div className="text-center py-12">
             <Activity className="h-16 w-16 text-slate-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-slate-900 mb-2">No recent activity</h3>
-            <p className="text-slate-600">Your activity will appear here as you use the Security Suite.</p>
+            <p className="text-slate-600">Your activity will appear here as you use the FortifyOne.</p>
           </div>
         )}
       </CardContent>

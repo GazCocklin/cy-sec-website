@@ -21,7 +21,7 @@ const SecuritySuiteLogin = () => {
 
   useEffect(() => {
     if (!authLoading && user && session) {
-      const from = location.state?.from?.pathname || '/security-suite/dashboard';
+      const from = location.state?.from?.pathname || '/fortify-one/dashboard';
       navigate(from, { replace: true });
     }
   }, [session, user, authLoading, navigate, location.state]);

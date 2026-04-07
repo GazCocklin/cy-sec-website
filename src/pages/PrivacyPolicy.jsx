@@ -41,7 +41,7 @@ const PrivacyPolicy = () => {
               <li><strong>Personal Identification Information:</strong> Name, email address, phone number, company name, job title.</li>
               <li><strong>Technical Data:</strong> IP address, browser type and version, time zone setting, browser plug-in types and versions, operating system and platform, and other technology on the devices you use to access this website.</li>
               <li><strong>Usage Data:</strong> Information about how you use our website, products, and services.</li>
-              <li><strong>Assessment Data:</strong> Information you provide when using our Security Suite, including assessment responses and vendor information.</li>
+              <li><strong>Assessment Data:</strong> Information you provide when using our FortifyOne, including assessment responses and vendor information.</li>
             </ul>
 
             <h2>3. How We Use Your Data</h2>

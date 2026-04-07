@@ -126,7 +126,7 @@ const VendorRiskManagement = () => {
   return (
     <>
       <Helmet>
-        <title>Vendor Risk Management - Security Suite</title>
+        <title>Vendor Risk Management - FortifyOne</title>
         <meta name="description" content="Assess, monitor, and manage risks associated with your third-party vendors." />
       </Helmet>
       

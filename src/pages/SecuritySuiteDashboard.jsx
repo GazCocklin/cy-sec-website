@@ -21,7 +21,7 @@ const SecuritySuiteDashboard = () => {
 
   useEffect(() => {
     if (!loading && !user) {
-      navigate('/security-suite/login');
+      navigate('/fortify-one/login');
     }
   }, [user, loading, navigate]);
 
@@ -81,15 +81,15 @@ const SecuritySuiteDashboard = () => {
   };
 
   const handleCreateAssessment = () => {
-    navigate('/security-suite/compliance');
+    navigate('/fortify-one/compliance');
   };
 
   const handleViewReports = () => {
-    navigate('/security-suite/reports');
+    navigate('/fortify-one/reports');
   };
 
   const handleManageVendors = () => {
-    navigate('/security-suite/vendor-risk');
+    navigate('/fortify-one/vendor-risk');
   };
 
   if (loading || isLoadingData) {
@@ -163,7 +163,7 @@ const SecuritySuiteDashboard = () => {
   return (
     <>
       <Helmet>
-        <title>Security Suite Dashboard - Cy-Sec</title>
+        <title>FortifyOne Dashboard - Cy-Sec</title>
         <meta name="description" content="Your comprehensive cybersecurity and vendor risk management dashboard." />
       </Helmet>
       
@@ -177,7 +177,7 @@ const SecuritySuiteDashboard = () => {
             className="mb-8"
           >
             <h1 className="text-4xl font-bold text-slate-800 mb-2">
-              Security Suite <span className="gradient-text">Dashboard</span>
+              FortifyOne <span className="gradient-text">Dashboard</span>
             </h1>
             <p className="text-xl text-slate-600">
               Welcome back, {user?.user_metadata?.first_name || user?.email}! Here's your security overview.
@@ -241,7 +241,7 @@ const SecuritySuiteDashboard = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => navigate('/security-suite/compliance')}
+                  onClick={() => navigate('/fortify-one/compliance')}
                   className="text-blue-600 border-blue-600 hover:bg-blue-50"
                 >
                   <Eye className="h-4 w-4 mr-2" /> View All
@@ -299,7 +299,7 @@ const SecuritySuiteDashboard = () => {
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => navigate('/security-suite/compliance')}
+                  onClick={() => navigate('/fortify-one/compliance')}
                   className="text-purple-600 border-purple-600 hover:bg-purple-50"
                 >
                   <BarChart3 className="h-4 w-4 mr-2" /> View Details
@@ -335,7 +335,7 @@ const SecuritySuiteDashboard = () => {
                   <BarChart3 className="h-12 w-12 text-slate-400 mx-auto mb-4" />
                   <p className="text-slate-600 mb-4">No compliance tracking yet</p>
                   <Button
-                    onClick={() => navigate('/security-suite/compliance')}
+                    onClick={() => navigate('/fortify-one/compliance')}
                     className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
                   >
                     Start Compliance Tracking

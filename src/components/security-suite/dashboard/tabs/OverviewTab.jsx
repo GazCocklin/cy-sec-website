@@ -109,7 +109,7 @@ const OverviewTab = ({ dashboardData }) => {
               <div className="text-center py-8">
                 <FileText className="h-12 w-12 text-slate-400 mx-auto mb-4" />
                 <p className="text-slate-600">No assessments yet</p>
-                <Button className="mt-4" onClick={() => window.location.href = '/security-suite/compliance'}>
+                <Button className="mt-4" onClick={() => window.location.href = '/fortify-one/compliance'}>
                   Start Assessment
                 </Button>
               </div>
@@ -144,7 +144,7 @@ const OverviewTab = ({ dashboardData }) => {
               <div className="text-center py-8">
                 <Target className="h-12 w-12 text-slate-400 mx-auto mb-4" />
                 <p className="text-slate-600">No compliance data yet</p>
-                <Button className="mt-4" onClick={() => window.location.href = '/security-suite/compliance'}>
+                <Button className="mt-4" onClick={() => window.location.href = '/fortify-one/compliance'}>
                   Start Compliance Check
                 </Button>
               </div>

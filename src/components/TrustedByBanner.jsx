@@ -19,10 +19,6 @@ const TrustedByBanner = () => {
       url: 'https://horizons-cdn.hostinger.com/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/3d8855347a02bd731727cb373b2ebcf8.png'
     },
     {
-      name: 'SudoCyber',
-      url: 'https://horizons-cdn.hostinger.com/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/67df7683d10817f1dd1e7f413c52c574.png'
-    },
-    {
       name: 'Firebrand',
       url: 'https://horizons-cdn.hostinger.com/7fb75178-dcd9-4a94-8e6f-2801e9c14c56/dfa524306f21db1e50965f92ccddac7438.png'
     },

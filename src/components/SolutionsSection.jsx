@@ -64,7 +64,7 @@ const SolutionsSection = () => {
               Integrated security management solutions that provide comprehensive 
               protection and monitoring for your digital infrastructure.
             </p>
-            <Link to="/security-suite" className="mt-auto">
+            <Link to="/fortify-one" className="mt-auto">
               <Button className="bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white w-full">
                 View FortifyOne <ArrowRight className="ml-2 h-4 w-4" />
               </Button>

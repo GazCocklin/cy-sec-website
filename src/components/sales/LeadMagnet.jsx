@@ -119,10 +119,10 @@ const LeadMagnet = () => {
                 ))}
               </div>
               <Button 
-                onClick={() => window.location.href = '/security-suite/login'}
+                onClick={() => window.location.href = '/fortify-one/login'}
                 className="bg-blue-600 hover:bg-blue-700"
               >
-                Access Security Suite
+                Access FortifyOne GRC
               </Button>
             </CardContent>
           </Card>

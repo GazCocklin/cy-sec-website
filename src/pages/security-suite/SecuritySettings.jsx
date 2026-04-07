@@ -290,7 +290,7 @@ const SecuritySettings = () => {
           <div className="mb-6">
             <Button 
               variant="outline" 
-              onClick={() => navigate('/security-suite/dashboard')}
+              onClick={() => navigate('/fortify-one/dashboard')}
               className="flex items-center gap-2 hover:bg-blue-50"
             >
               <ArrowLeft className="h-4 w-4" />

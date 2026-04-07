@@ -32,6 +32,7 @@ import VCISOPage from '@/pages/VCISOPage';
 import DORAComplianceSprintPage from '@/pages/DORAComplianceSprintPage';
 import NIS2CompliancePage from '@/pages/NIS2CompliancePage';
 import ComingSoonPage from '@/pages/ComingSoonPage';
+import PBQEnginePage from '@/pages/PBQEnginePage';
 import CookieConsentBanner from '@/components/CookieConsentBanner';
 import usePageTracking from '@/hooks/usePageTracking';
 
@@ -111,6 +112,7 @@ function AppContent() {
             <Route path="/vciso" element={<VCISOPage />} />
             <Route path="/dora-compliance" element={<DORAComplianceSprintPage />} />
             <Route path="/nis2-compliance" element={<NIS2CompliancePage />} />
+            <Route path="/pbq-engine" element={<PBQEnginePage />} />
             <Route path="/coming-soon" element={<ComingSoonPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />

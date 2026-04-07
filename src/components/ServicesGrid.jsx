@@ -1,89 +1,74 @@
 import React from 'react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ShieldCheck, Activity, CheckSquare, LayoutGrid, Users, Award, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { ArrowRight, Shield, Zap, AlertTriangle, BookOpen, GraduationCap, Monitor } from 'lucide-react';
+
+const consultancy = [
+  { icon: Shield, title: 'Virtual CISO', desc: 'Dedicated cybersecurity leadership from £995/month. FortifyOne platform included.', href: '/vciso', colour: 'bg-blue-50 text-blue-600', border: 'hover:border-blue-200' },
+  { icon: Zap, title: 'DORA Compliance Sprint', desc: 'Get DORA-ready in weeks, not months. Fixed price from £4,000.', href: '/dora-compliance', colour: 'bg-blue-50 text-blue-600', border: 'hover:border-blue-200' },
+  { icon: AlertTriangle, title: 'NIS2 Compliance', desc: 'NIS2 is in force. Know your obligations and get compliant fast. From £2,500.', href: '/nis2-compliance', colour: 'bg-blue-50 text-blue-600', border: 'hover:border-blue-200' },
+];
+
+const training = [
+  { icon: GraduationCap, title: 'Professional Certifications', desc: 'CompTIA & CertNexus authorised training. Security+, CySA+, Network+ and more.', href: '/training/comptia-certifications', colour: 'bg-cyan-50 text-cyan-600', border: 'hover:border-cyan-200' },
+  { icon: BookOpen, title: 'Security Awareness', desc: 'Role-specific, bespoke cybersecurity training for your entire organisation.', href: '/training-delivery', colour: 'bg-cyan-50 text-cyan-600', border: 'hover:border-cyan-200' },
+  { icon: Monitor, title: 'PBQ Simulator', desc: 'CompTIA performance-based question simulations with live Cisco IOS topology.', href: '/pbq-engine', colour: 'bg-cyan-50 text-cyan-600', border: 'hover:border-cyan-200', badge: 'Free to start' },
+];
+
+const ServiceCard = ({ service, navigate }) => {
+  const { icon: Icon, title, desc, href, colour, border, badge } = service;
+  return (
+    <div
+      onClick={() => navigate(href)}
+      className={`group relative bg-white border border-slate-100 rounded-2xl p-6 cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 ${border}`}
+    >
+      {badge && (
+        <span className="absolute top-4 right-4 text-xs font-semibold bg-emerald-50 text-emerald-600 border border-emerald-200 px-2 py-0.5 rounded-full">{badge}</span>
+      )}
+      <div className={`w-10 h-10 rounded-xl ${colour} flex items-center justify-center mb-4`}>
+        <Icon className="w-5 h-5" />
+      </div>
+      <h3 className="font-semibold text-slate-900 mb-2">{title}</h3>
+      <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
+      <div className="mt-4 flex items-center gap-1 text-sm font-medium text-slate-400 group-hover:text-blue-600 transition-colors">
+        Learn more <ArrowRight className="w-3.5 h-3.5" />
+      </div>
+    </div>
+  );
+};
 
 const ServicesGrid = () => {
-  const services = [
-    {
-      title: "Virtual CISO",
-      description: "Dedicated cybersecurity leadership from £995/month. FortifyOne platform included.",
-      icon: ShieldCheck,
-      link: "/vciso",
-    },
-    {
-      title: "DORA Compliance Sprint",
-      description: "Get DORA-ready in weeks, not months. Fixed price from £4,000.",
-      icon: Activity,
-      link: "/dora-compliance",
-    },
-    {
-      title: "NIS2 Compliance",
-      description: "NIS2 is in force. Know your obligations and get compliant fast. From £2,500.",
-      icon: CheckSquare,
-      link: "/nis2-compliance",
-    },
-    {
-      title: "FortifyOne Platform",
-      description: "ISO 27001, NIST, NIS2, DORA, PCI-DSS compliance automation in one platform.",
-      icon: LayoutGrid,
-      link: "/security-suite",
-    },
-    {
-      title: "Security Awareness Training",
-      description: "Role-specific, bespoke cybersecurity training for your entire organisation.",
-      icon: Users,
-      link: "/training-delivery",
-    },
-    {
-      title: "Professional Certifications",
-      description: "CompTIA & CertNexus authorised training. Security+, CySA+, CASP+ and more.",
-      icon: Award,
-      link: "/training-delivery",
-    }
-  ];
-
+  const navigate = useNavigate();
   return (
-    <section className="py-24 px-4 sm:px-6 lg:px-8 bg-slate-50">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Everything You Need. <span className="text-[#00D9FF] mix-blend-multiply">One Partner.</span>
-          </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Comprehensive services tailored to protect your organisation, train your staff, and achieve complex regulatory compliance.
-          </p>
-        </motion.div>
+    <section className="py-24 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">What We Do</p>
+          <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Everything in one place</h2>
+          <p className="text-slate-500 max-w-xl mx-auto">Consultancy, compliance, and certified training — all from a single trusted partner.</p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <Link key={index} to={service.link} className="block group">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white rounded-xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform group-hover:-translate-y-1 h-full border border-slate-100 flex flex-col"
-              >
-                <div className="w-14 h-14 rounded-lg bg-[#0A1E3F]/5 flex items-center justify-center mb-6 group-hover:bg-[#00D9FF]/10 transition-colors">
-                  <service.icon className="h-7 w-7 text-[#0A1E3F] group-hover:text-[#00D9FF]" />
-                </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-[#0A1E3F] transition-colors">
-                  {service.title}
-                </h3>
-                <p className="text-slate-600 mb-6 flex-grow leading-relaxed">
-                  {service.description}
-                </p>
-                <div className="flex items-center text-[#00D9FF] font-semibold mt-auto">
-                  Learn more <ArrowRight className="ml-2 h-4 w-4 transform group-hover:translate-x-1 transition-transform" />
-                </div>
-              </motion.div>
-            </Link>
-          ))}
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Consultancy */}
+          <div>
+            <div className="flex items-center gap-2 mb-6">
+              <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">Consultancy Services</span>
+              <div className="h-px flex-1 bg-blue-100" />
+            </div>
+            <div className="space-y-4">
+              {consultancy.map(s => <ServiceCard key={s.title} service={s} navigate={navigate} />)}
+            </div>
+          </div>
+
+          {/* Training */}
+          <div>
+            <div className="flex items-center gap-2 mb-6">
+              <span className="text-xs font-bold text-cyan-600 uppercase tracking-widest">Training Services</span>
+              <div className="h-px flex-1 bg-cyan-100" />
+            </div>
+            <div className="space-y-4">
+              {training.map(s => <ServiceCard key={s.title} service={s} navigate={navigate} />)}
+            </div>
+          </div>
         </div>
       </div>
     </section>

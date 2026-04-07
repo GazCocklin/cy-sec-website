@@ -7,7 +7,7 @@
 - [Contact Us | Book a Discovery Call | Cy-Sec](/contact): Book a free discovery call or contact the Cy-Sec team to discuss your cybersecurity needs.
 - [CRM - Admin Dashboard](/admincrm): Manage contact submissions and client interactions.
 - [Cy-Sec Admin Dashboard (Legacy)](/fulladmindashboard): Cy-Sec administrative dashboard for website and platform management.
-- [Cybersecurity Leadership, Compliance & Training | Cy-Sec](/home): Cy-Sec offers expert vCISO leadership, DORA & NIS2 compliance sprints, CompTIA certified training, and the all-in-one FortifyOne compliance platform for your organisation.
+- [Cybersecurity Leadership, Compliance & Training | Cy-Sec](/home): vCISO leadership, DORA & NIS2 compliance sprints, CompTIA certified training, and the FortifyOne compliance platform. One trusted partner.
 - [Cybersecurity Training Solutions | Corporate & Professional Certifications | Cy-Sec](/training): Explore tailored cybersecurity training solutions aligned with DOD 8140m, SFIA, and UK Cyber Security Council frameworks. We offer corporate training, professional certifications, and bespoke content.
 - [Dashboard Deprecated](/admindashboard): No description available
 - [DORA Compliance Sprint | Cy-Sec](/doracompliancesprint): Accelerate your path to Digital Operational Resilience Act (DORA) compliance with Cy-Sec
@@ -18,6 +18,7 @@
 - [LinkedIn Marketing Generator - Cy-Sec](/linkedinmarketinggenerator): Generate ready-to-use LinkedIn marketing content for Cy-Sec FortifyOne.
 - [Marketing Insights - Admin Dashboard](/marketinginsights): Key differentiators and marketing points for the Cy-Sec Security Suite.
 - [NIS2 Compliance for UK & EU Businesses | Cy-Sec](/nis2compliance): Cy-Sec helps businesses achieve NIS2 compliance quickly. Book a readiness review, avoid massive fines, and secure your supply chain against cyber threats.
+- [PBQ Simulator — CompTIA Performance-Based Questions | FortifyLearn](/pbqengine): Practice CompTIA performance-based questions with live Cisco IOS topology. Network+ and Security+ PBQ simulations with real CLI commands.
 - [Platform Administration - Admin Dashboard](/adminplatform): Manage users, plans, modules, and system settings.
 - [Pre-Launch Checklist - Cy-Sec Admin](/prelaunchchecklist): No description available
 - [Pricing Plans - Cy-Sec Cybersecurity Solutions](/pricing): Flexible pricing plans for SMBs. Choose from monthly subscriptions or one-time assessments to fit your cybersecurity needs.

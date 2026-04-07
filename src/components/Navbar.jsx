@@ -44,6 +44,7 @@ const Navbar = () => {
                       <div className="space-y-1">
                         <Link to="/training-delivery" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-blue-500/20 rounded-md transition-colors">Security Awareness Training</Link>
                         <Link to="/training/comptia-certifications" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-blue-500/20 rounded-md transition-colors">Professional Certifications</Link>
+                        <Link to="/pbq-engine" className="block px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-blue-500/20 rounded-md transition-colors flex items-center gap-2">PBQ Simulator <span className="text-[10px] font-bold text-emerald-400 bg-emerald-400/15 px-1.5 py-0.5 rounded-full">Free</span></Link>
                       </div>
                     </div>
                     <div className="p-4 border-t border-slate-700 bg-slate-900/50">
@@ -149,6 +150,7 @@ const Navbar = () => {
                               <div className="space-y-1 pl-3 border-l border-slate-700">
                                 <Link to="/training-delivery" onClick={() => setIsOpen(false)} className="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Security Awareness Training</Link>
                                 <Link to="/training/comptia-certifications" onClick={() => setIsOpen(false)} className="block py-2 text-sm text-gray-300 hover:text-white transition-colors">Professional Certifications</Link>
+                                <Link to="/pbq-engine" onClick={() => setIsOpen(false)} className="block py-2 text-sm text-gray-300 hover:text-white transition-colors">PBQ Simulator</Link>
                               </div>
                             </div>
                             <div>

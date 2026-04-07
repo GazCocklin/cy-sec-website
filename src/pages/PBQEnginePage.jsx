@@ -65,7 +65,7 @@ const PBQEnginePage = () => {
                 </a>
               </div>
 
-              <p className="text-white/40 text-sm">No payment required to access beginner labs.</p>
+              <p className="text-white/40 text-sm">One free Network+ and one free Security+ lab — just enter your email.</p>
             </motion.div>
 
             {/* Terminal preview */}

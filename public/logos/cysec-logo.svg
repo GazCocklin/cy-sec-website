@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 100" width="480" height="100">
+  <defs>
+    <!-- Brand gradient: dark navy → mid blue → cyan, matching the PNG -->
+    <linearGradient id="cg" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"   stop-color="#1A3A6B"/>
+      <stop offset="45%"  stop-color="#1A6FC4"/>
+      <stop offset="100%" stop-color="#00AAFF"/>
+    </linearGradient>
+    <!-- Arc gradient for the icon mark -->
+    <linearGradient id="ag" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#2060A0"/>
+      <stop offset="100%" stop-color="#00AAFF"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Stylised C / arc mark -->
+  <!-- Outer arc -->
+  <path d="M 52 12 A 40 40 0 1 0 52 88" fill="none" stroke="url(#ag)" stroke-width="10" stroke-linecap="round"/>
+  <!-- Inner accent arc (the grey sweep from the original) -->
+  <path d="M 52 20 A 32 32 0 1 0 52 80" fill="none" stroke="#5A7090" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- CY-SEC wordmark -->
+  <text x="105" y="58"
+    font-family="'Segoe UI','SF Pro Display',-apple-system,Arial,sans-serif"
+    font-size="46" font-weight="800" letter-spacing="-1"
+    fill="url(#cg)">CY-SEC</text>
+
+  <!-- Tagline -->
+  <text x="107" y="80"
+    font-family="'Segoe UI','SF Pro Display',-apple-system,Arial,sans-serif"
+    font-size="11.5" font-weight="400" letter-spacing="2.5"
+    fill="#8AA0B8">AWARENESS AND CONSULTANCY LTD</text>
+</svg>

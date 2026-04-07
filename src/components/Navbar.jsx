@@ -37,8 +37,8 @@ const Navbar = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center shrink-0 mr-6">
               <img
-                src="/logos/cysec-logo.png"
-                alt="Cy-Sec"
+                src="/logos/cysec-logo.svg"
+                alt="Cy-Sec Awareness and Consultancy Ltd"
                 className="h-10 lg:h-12 w-auto"
               />
             </Link>

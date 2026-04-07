@@ -12,10 +12,9 @@ const Footer = () => (
           <div className="mb-5">
             {/* Logo has black background — multiply blend knocks it out on white */}
             <img
-              src="/logos/cysec-logo.png"
+              src="/logos/cysec-logo.svg"
               alt="Cy-Sec Awareness and Consultancy Ltd"
               className="h-16 w-auto"
-              style={{ mixBlendMode: 'multiply' }}
             />
           </div>
           <p className="text-slate-600 mb-6 max-w-md text-sm leading-relaxed">

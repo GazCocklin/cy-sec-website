@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TransparentBadge from '@/components/TransparentBadge';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Linkedin, Facebook } from 'lucide-react';
@@ -79,7 +80,7 @@ const HeroSection = ({ onGetStarted, onLearnMore }) => {
                 <span className="text-sm font-medium text-slate-500">Authorised Partner:</span>
                 <div className="flex items-center gap-4">
                    <img src="/logos/comptia-partner-badge.webp" alt="CompTIA Training Partner Logo" className="h-12 w-auto object-contain" />
-                   <img src="/logos/certnexus-partner-badge.png" alt="CertNexus Authorized Training Partner Logo" className="h-12 w-auto object-contain" />
+                   <TransparentBadge src="/logos/certnexus-partner-badge.png" alt="CertNexus Authorized Training Partner Logo" className="h-12 w-auto object-contain" />
                 </div>
               </div>
             </div>

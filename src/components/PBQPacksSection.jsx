@@ -205,8 +205,8 @@ const PBQPacksSection = () => (
         }}
       >
         <div>
-          <p className="font-semibold text-slate-700">Try before you buy — free labs always available</p>
-          <p className="text-sm text-slate-500">Network+ Easy and Security+ Easy labs are free. No account required.</p>
+          <p className="font-semibold text-slate-700">Try before you buy — two labs are always free</p>
+          <p className="text-sm text-slate-500">One Network+ and one Security+ lab are free. Just enter your email to get started — no card needed.</p>
         </div>
         <a
           href="https://fortifylearn.co.uk"

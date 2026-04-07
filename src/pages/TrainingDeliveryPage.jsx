@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Briefcase, Award, Zap, CheckCircle, ShieldCheck, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import TransparentBadge from '@/components/TransparentBadge';
 import { Helmet } from 'react-helmet';
 
 const TrainingDeliveryPage = () => {
@@ -51,7 +52,11 @@ const TrainingDeliveryPage = () => {
       transition={{ duration: 0.5, delay: 0.1 }}
       className="feature-card-border rounded-xl p-8 bg-white/90 backdrop-blur-sm flex flex-col shadow-lg hover:shadow-2xl transition-shadow duration-300"
     >
-      <img src={logo} alt={`${title} logo`} className="h-12 max-w-[150px] object-contain object-left mb-6" />
+      {logo && logo.includes('certnexus') ? (
+        <TransparentBadge src={logo} alt={`${title} logo`} className="h-12 max-w-[150px] object-contain object-left mb-6" />
+      ) : (
+        <img src={logo} alt={`${title} logo`} className="h-12 max-w-[150px] object-contain object-left mb-6" />
+      )}
       <h3 className={`text-2xl font-bold mb-4 ${colorClass}`}>{title}</h3>
       <p className="text-slate-600 mb-6 flex-grow">{description}</p>
       <Button

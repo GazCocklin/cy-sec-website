@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail } from 'lucide-react';
+import TransparentBadge from './TransparentBadge';
 
 const Footer = () => (
   <footer className="bg-white border-t border-slate-200 mt-20">
@@ -65,25 +66,9 @@ const Footer = () => (
           © 2026 Cy-Sec Awareness and Consultancy Ltd. All rights reserved.
         </p>
         <div className="flex items-center gap-6 flex-wrap justify-center">
-          <img
-            src="/logos/comptia-partner-badge.webp"
-            alt="CompTIA Authorised Partner"
-            className="h-20 w-auto object-contain"
-            style={{ mixBlendMode: 'multiply' }}
-          />
-          <img
-            src="/logos/certnexus-partner-badge.png"
-            alt="CertNexus Authorised Training Partner"
-            className="h-16 w-auto object-contain"
-            style={{ mixBlendMode: 'multiply' }}
-          />
-          <img
-            src="/logos/cyber-essentials-badge.png"
-            alt="Cyber Essentials Certified"
-            className="h-20 w-auto object-contain"
-            style={{ mixBlendMode: 'multiply' }}
-            onError={(e) => { e.target.style.display = 'none'; }}
-          />
+          <TransparentBadge src="/logos/comptia-partner-badge.webp" alt="CompTIA Authorised Partner" className="h-20 w-auto object-contain" />
+          <TransparentBadge src="/logos/certnexus-partner-badge.png" alt="CertNexus Authorised Training Partner" className="h-16 w-auto object-contain" />
+          <TransparentBadge src="/logos/cyber-essentials-badge.png" alt="Cyber Essentials Certified" className="h-20 w-auto object-contain" />
         </div>
       </div>
     </div>

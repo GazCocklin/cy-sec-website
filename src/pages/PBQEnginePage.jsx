@@ -157,7 +157,7 @@ const PBQEnginePage = () => {
       <section className="py-20 bg-slate-900">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Ready to pass your CompTIA exam?</h2>
-          <p className="text-slate-400 mb-8">Start with a free beginner lab — no account required.</p>
+          <p className="text-slate-400 mb-8">Create a free account and start with a beginner lab in under 2 minutes.</p>
           <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer">
             <Button className="bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold px-8 py-5 border-0 text-base">
               Launch FortifyLearn <ArrowRight className="ml-2 h-4 w-4" />

@@ -1,75 +1,88 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Shield, BookOpen, Terminal } from 'lucide-react';
+import { ArrowRight, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
-const HeroCard = ({ icon: Icon, label, value, colour }) => (
-  <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm border border-white/15 rounded-xl px-4 py-3">
-    <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${colour}`}>
-      <Icon className="w-4 h-4 text-white" />
-    </div>
-    <div>
-      <p className="text-white/60 text-xs leading-none mb-0.5">{label}</p>
-      <p className="text-white font-semibold text-sm leading-none">{value}</p>
-    </div>
-  </div>
-);
+const CERTS = [
+  'CISSP-ISSAP', 'CISM', 'CRISC', 'CGEIT', 'CCSP', 'CITP MBCS',
+];
 
 const LandingPageHero = () => {
   const navigate = useNavigate();
 
   return (
     <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
-      {/* Background — lighter gradient, not pitch black */}
-      <div className="absolute inset-0"
-        style={{ background: 'linear-gradient(135deg, #0A1628 0%, #0D2040 40%, #0A2A4A 70%, #061428 100%)' }} />
+      {/* Background */}
+      <div
+        className="absolute inset-0"
+        style={{ background: 'linear-gradient(135deg, #0A1628 0%, #0D2040 40%, #0A2A4A 70%, #061428 100%)' }}
+      />
 
-      {/* Subtle texture overlay */}
-      <div className="absolute inset-0 opacity-30"
-        style={{ backgroundImage: 'url(https://images.unsplash.com/photo-1698337313210-baf78bfa4f05)', backgroundSize: 'cover', backgroundPosition: 'center', mixBlendMode: 'luminosity' }} />
+      {/* Subtle photo texture */}
+      <div
+        className="absolute inset-0 opacity-25"
+        style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1698337313210-baf78bfa4f05)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          mixBlendMode: 'luminosity',
+        }}
+      />
 
       {/* Grid pattern */}
-      <div className="absolute inset-0 opacity-[0.04]"
-        style={{ backgroundImage: 'linear-gradient(#1A56DB 1px, transparent 1px), linear-gradient(to right, #1A56DB 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
+      <div
+        className="absolute inset-0 opacity-[0.035]"
+        style={{
+          backgroundImage:
+            'linear-gradient(#1A56DB 1px, transparent 1px), linear-gradient(to right, #1A56DB 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+        }}
+      />
 
-      {/* Accent glow */}
+      {/* Glow accents */}
       <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20 w-full">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="grid lg:grid-cols-[1fr_420px] gap-16 items-center">
 
-          {/* Left — copy */}
+          {/* ── Left: copy ── */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7 }}
             className="space-y-8"
           >
-            {/* Cy-Sec logo — prominent on homepage */}
+            {/* Logo — white SVG, prominent size, subtle glow */}
             <motion.div
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
               <img
-                src="/logos/cysec-logo.svg"
+                src="/logos/cysec-logo-dark.svg"
                 alt="Cy-Sec Awareness and Consultancy Ltd"
-                className="h-16 lg:h-20 w-auto"
+                className="h-14 lg:h-[72px] w-auto"
+                style={{ filter: 'drop-shadow(0 0 18px rgba(14,165,233,0.45))' }}
               />
             </motion.div>
 
             <h1 className="text-5xl lg:text-6xl font-bold text-white leading-[1.08] tracking-tight">
               Cybersecurity<br />
               Leadership.<br />
-              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #06B6D4, #1A56DB)' }}>
+              <span
+                className="text-transparent bg-clip-text"
+                style={{ backgroundImage: 'linear-gradient(90deg, #06B6D4, #1A56DB)' }}
+              >
                 Compliance.<br />Training.
               </span>
             </h1>
 
             <p className="text-lg text-white/70 max-w-lg leading-relaxed">
-              One partner. Board-level vCISO guidance, DORA &amp; NIS2 readiness, CompTIA certified training, and the FortifyOne compliance platform.
+              One partner. Board-level vCISO guidance, DORA &amp; NIS2
+              readiness, CompTIA certified training, and the FortifyOne
+              compliance platform.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
@@ -90,61 +103,75 @@ const LandingPageHero = () => {
             </div>
           </motion.div>
 
-          {/* Right — floating service cards */}
+          {/* ── Right: credentials panel ── */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="hidden lg:flex flex-col gap-4"
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="hidden lg:flex flex-col gap-8"
           >
-            {/* Main card */}
-            <div className="bg-white/[0.07] backdrop-blur-md border border-white/10 rounded-2xl p-6 space-y-5">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center">
-                  <Shield className="w-5 h-5 text-blue-400" />
+            {/* Key metrics */}
+            <div className="grid grid-cols-2 gap-px bg-white/8 rounded-2xl overflow-hidden border border-white/10">
+              {[
+                { value: '15+', label: 'Years in security' },
+                { value: '6',   label: 'Industry certifications' },
+                { value: '£995', label: 'vCISO from / month' },
+                { value: '5',   label: 'GRC frameworks covered' },
+              ].map(({ value, label }) => (
+                <div
+                  key={label}
+                  className="bg-white/[0.05] backdrop-blur-sm px-6 py-5 flex flex-col gap-1"
+                >
+                  <span
+                    className="text-3xl font-extrabold text-white tracking-tight"
+                    style={{ letterSpacing: '-0.04em' }}
+                  >
+                    {value}
+                  </span>
+                  <span className="text-white/50 text-xs font-medium leading-tight">{label}</span>
                 </div>
-                <div>
-                  <p className="text-white font-semibold">Virtual CISO</p>
-                  <p className="text-white/50 text-sm">From £995/month · FortifyOne included</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-3">
-                {[['ISO 27001','Automated'],['DORA','Compliant'],['NIS2','Active']].map(([fw, status]) => (
-                  <div key={fw} className="bg-white/[0.06] border border-white/10 rounded-xl p-3 text-center">
-                    <p className="text-white text-xs font-semibold">{fw}</p>
-                    <p className="text-cyan-400 text-xs mt-0.5">{status}</p>
-                  </div>
+              ))}
+            </div>
+
+            {/* Certifications */}
+            <div>
+              <p className="text-white/30 text-xs font-semibold tracking-widest uppercase mb-3">
+                Certifications
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {CERTS.map(cert => (
+                  <span
+                    key={cert}
+                    className="text-xs font-semibold px-3 py-1.5 rounded-full border border-white/15 text-white/70 bg-white/5 backdrop-blur-sm"
+                  >
+                    {cert}
+                  </span>
                 ))}
               </div>
             </div>
 
-            {/* Two smaller cards */}
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/[0.07] backdrop-blur-md border border-white/10 rounded-2xl p-5">
-                <div className="w-9 h-9 rounded-lg bg-cyan-500/20 border border-cyan-400/30 flex items-center justify-center mb-3">
-                  <Terminal className="w-4 h-4 text-cyan-400" />
-                </div>
-                <p className="text-white font-semibold text-sm">PBQ Simulator</p>
-                <p className="text-white/50 text-xs mt-1">Live Cisco IOS topology</p>
-                <button onClick={() => navigate('/pbq-engine')} className="mt-3 text-cyan-400 text-xs font-medium hover:text-cyan-300 flex items-center gap-1">
-                  Try free <ArrowRight className="w-3 h-3" />
-                </button>
-              </div>
-              <div className="bg-white/[0.07] backdrop-blur-md border border-white/10 rounded-2xl p-5">
-                <div className="w-9 h-9 rounded-lg bg-blue-500/20 border border-blue-400/30 flex items-center justify-center mb-3">
-                  <BookOpen className="w-4 h-4 text-blue-400" />
-                </div>
-                <p className="text-white font-semibold text-sm">CompTIA Training</p>
-                <p className="text-white/50 text-xs mt-1">Security+, CySA+, Network+</p>
-                <button onClick={() => navigate('/training/comptia-certifications')} className="mt-3 text-blue-400 text-xs font-medium hover:text-blue-300 flex items-center gap-1">
-                  View courses <ArrowRight className="w-3 h-3" />
-                </button>
+            {/* Partner badges */}
+            <div>
+              <p className="text-white/30 text-xs font-semibold tracking-widest uppercase mb-3">
+                Authorised Partners
+              </p>
+              <div className="flex items-center gap-4">
+                <img
+                  src="/logos/comptia-partner-badge.webp"
+                  alt="CompTIA Authorised Partner"
+                  className="h-10 w-auto opacity-80 hover:opacity-100 transition-opacity"
+                />
+                <img
+                  src="/logos/certnexus-partner-badge.png"
+                  alt="CertNexus Authorised Partner"
+                  className="h-10 w-auto opacity-80 hover:opacity-100 transition-opacity"
+                />
               </div>
             </div>
           </motion.div>
+
         </div>
       </div>
-
     </section>
   );
 };

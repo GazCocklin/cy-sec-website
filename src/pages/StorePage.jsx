@@ -15,9 +15,9 @@ const packs = [
     rrp: 24.99,
     labs: 5,
     level: 'Easy → Expert',
-    accent: '#0a85ae',
-    accentDark: '#0a5c8a',
-    logo: '/assets/comptia-netplus.svg',
+    accent: '#1A56DB',
+    accentDark: '#0A1E3F',
+    logo: '/logos/comptia-network-plus.svg',
     tag: null,
     scenarios: [
       'DNS server misconfiguration',
@@ -35,15 +35,15 @@ const packs = [
     rrp: 24.99,
     labs: 5,
     level: 'Easy → Expert',
-    accent: '#7c3aed',
-    accentDark: '#5b21b6',
-    logo: '/assets/comptia-secplus.svg',
+    accent: '#1A56DB',
+    accentDark: '#0A1E3F',
+    logo: '/logos/comptia-security-plus.svg',
     tag: null,
     scenarios: [
       'Firewall rule blocking HTTPS traffic',
       'Sensitive file permission hardening',
       'Insecure legacy service exposure',
-      'Privilege escalation detection',
+      'Privilege escalation & audit failure',
       'Post-pentest remediation',
     ],
   },
@@ -55,9 +55,9 @@ const packs = [
     rrp: 24.99,
     labs: 5,
     level: 'Easy → Expert',
-    accent: '#dc2626',
-    accentDark: '#991b1b',
-    logo: '/assets/comptia-cysa.svg',
+    accent: '#1A56DB',
+    accentDark: '#0A1E3F',
+    logo: '/logos/comptia-cysa-plus.svg',
     tag: 'New',
     scenarios: [
       'Web app brute force investigation',
@@ -184,9 +184,9 @@ function BundleCard({ onBuy, loading }) {
     <div
       className="relative rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer"
       style={{
-        background: 'linear-gradient(135deg, #0B1D3A 0%, #0a5c8a 100%)',
-        border: `1.5px solid rgba(10,133,174,0.5)`,
-        boxShadow: hovered ? '0 24px 64px rgba(10,133,174,0.3)' : '0 8px 32px rgba(10,133,174,0.15)',
+        background: 'linear-gradient(135deg, #0A1E3F 0%, #1A56DB 100%)',
+        border: `1.5px solid rgba(26,86,219,0.5)`,
+        boxShadow: hovered ? '0 24px 64px rgba(26,86,219,0.3)' : '0 8px 32px rgba(26,86,219,0.15)',
         transform: hovered ? 'translateY(-3px)' : 'none',
       }}
       onMouseEnter={() => setHovered(true)}
@@ -237,8 +237,8 @@ function BundleCard({ onBuy, loading }) {
             disabled={isBuying}
             className="flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm text-white transition-all duration-200 disabled:opacity-60 w-full lg:w-auto"
             style={{
-              background: 'linear-gradient(135deg, #0a85ae, #0a5c8a)',
-              boxShadow: '0 4px 20px rgba(10,133,174,0.4)',
+              background: 'linear-gradient(135deg, #1A56DB, #0A1E3F)',
+              boxShadow: '0 4px 20px rgba(26,86,219,0.4)',
             }}
           >
             {isBuying ? (
@@ -308,7 +308,7 @@ export default function StorePage() {
 
       {/* Hero banner */}
       <div className="relative overflow-hidden"
-        style={{ background: 'linear-gradient(135deg, #0B1D3A 0%, #0a5c8a 60%, #0a85ae 100%)' }}>
+        style={{ background: 'linear-gradient(135deg, #0A1E3F 0%, #0d2d5e 60%, #1A56DB 100%)' }}>
         <div className="absolute inset-0 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(10,133,174,0.3) 0%, transparent 60%)' }} />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -337,12 +337,12 @@ export default function StorePage() {
         {/* Login notice */}
         {!user && (
           <div className="flex items-center gap-3 mb-8 p-4 rounded-xl"
-            style={{ background: 'rgba(10,133,174,0.06)', border: '1px solid rgba(10,133,174,0.2)' }}>
-            <Lock size={16} className="flex-shrink-0" style={{ color: '#0a85ae' }} />
+            style={{ background: 'rgba(26,86,219,0.06)', border: '1px solid rgba(26,86,219,0.2)' }}>
+            <Lock size={16} className="flex-shrink-0" style={{ color: '#1A56DB' }} />
             <p className="text-sm text-slate-600">
               You need a FortifyLearn account to purchase.{' '}
               <button onClick={() => navigate('/fortify-one/login?redirect=/store')}
-                className="font-semibold underline" style={{ color: '#0a85ae' }}>
+                className="font-semibold underline" style={{ color: '#1A56DB' }}>
                 Sign in or create an account →
               </button>
             </p>

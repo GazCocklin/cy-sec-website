@@ -4,10 +4,6 @@ import { ArrowRight, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
-const CERTS = [
-  'CISSP-ISSAP', 'CISM', 'CRISC', 'CGEIT', 'CCSP', 'CITP MBCS',
-];
-
 const LandingPageHero = () => {
   const navigate = useNavigate();
 
@@ -45,7 +41,7 @@ const LandingPageHero = () => {
       <div className="absolute bottom-1/4 left-1/3 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20 w-full">
-        <div className="grid lg:grid-cols-[1fr_420px] gap-16 items-center">
+        <div className="max-w-2xl">
 
           {/* ── Left: copy ── */}
           <motion.div
@@ -103,49 +99,7 @@ const LandingPageHero = () => {
             </div>
           </motion.div>
 
-          {/* ── Right: credentials panel ── */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="hidden lg:flex flex-col gap-8"
-          >
-            {/* Certifications */}
-            <div>
-              <p className="text-white/30 text-xs font-semibold tracking-widest uppercase mb-3">
-                Certifications
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {CERTS.map(cert => (
-                  <span
-                    key={cert}
-                    className="text-xs font-semibold px-3 py-1.5 rounded-full border border-white/15 text-white/70 bg-white/5 backdrop-blur-sm"
-                  >
-                    {cert}
-                  </span>
-                ))}
-              </div>
-            </div>
 
-            {/* Partner badges */}
-            <div>
-              <p className="text-white/30 text-xs font-semibold tracking-widest uppercase mb-3">
-                Authorised Partners
-              </p>
-              <div className="flex items-center gap-4">
-                <img
-                  src="/logos/comptia-partner-badge.webp"
-                  alt="CompTIA Authorised Partner"
-                  className="h-10 w-auto opacity-80 hover:opacity-100 transition-opacity"
-                />
-                <img
-                  src="/logos/certnexus-partner-badge.png"
-                  alt="CertNexus Authorised Partner"
-                  className="h-10 w-auto opacity-80 hover:opacity-100 transition-opacity"
-                />
-              </div>
-            </div>
-          </motion.div>
 
         </div>
       </div>

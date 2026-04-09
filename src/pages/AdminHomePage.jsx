@@ -62,7 +62,11 @@ const DetailDrawer = ({ item, type, onClose, onUpdate }) => {
     if (type === 'lead' && note) {
       updates.notes = (item.notes ? item.notes + '\n' : '') + `[${new Date().toLocaleDateString('en-GB')}] ${note}`;
     }
-    await supabase.from(table).update(updates).eq('id', item.id);
+    if (table === 'fl_feedback') {
+      await supabase.rpc('update_feedback_status', { feedback_id: item.id, new_status: stage });
+    } else {
+      await supabase.from(table).update(updates).eq('id', item.id);
+    }
     setSaving(false); setNote(''); onUpdate(item.id, updates);
   };
 

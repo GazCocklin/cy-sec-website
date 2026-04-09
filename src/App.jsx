@@ -33,6 +33,7 @@ import DORAComplianceSprintPage from '@/pages/DORAComplianceSprintPage';
 import NIS2CompliancePage from '@/pages/NIS2CompliancePage';
 import ComingSoonPage from '@/pages/ComingSoonPage';
 import PBQEnginePage from '@/pages/PBQEnginePage';
+import StorePage from '@/pages/StorePage';
 import CookieConsentBanner from '@/components/CookieConsentBanner';
 import usePageTracking from '@/hooks/usePageTracking';
 
@@ -114,6 +115,7 @@ function AppContent() {
             <Route path="/dora-compliance" element={<DORAComplianceSprintPage />} />
             <Route path="/nis2-compliance" element={<NIS2CompliancePage />} />
             <Route path="/pbq-engine" element={<PBQEnginePage />} />
+            <Route path="/store" element={<StorePage />} />
             <Route path="/coming-soon" element={<ComingSoonPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />

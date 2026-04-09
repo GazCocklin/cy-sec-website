@@ -170,7 +170,7 @@ function PackCard({ pack, onBuy, loading }) {
           )}
         </button>
 
-        <p className="text-center text-xs text-slate-400 mt-2">One-time purchase · Instant access on FortifyLearn</p>
+        <p className="text-center text-xs text-slate-400 mt-2">One-time purchase · 12 months access · Instant access on FortifyLearn</p>
       </div>
     </div>
   );
@@ -253,7 +253,7 @@ function BundleCard({ onBuy, loading }) {
               <>Get All Access — £{bundle.price.toFixed(2)} <ArrowRight size={14} /></>
             )}
           </button>
-          <p className="text-xs text-slate-500 text-center">One-time · Instant access to all 15 labs</p>
+          <p className="text-xs text-slate-500 text-center">One-time · 12 months access · All 15 labs unlocked instantly</p>
         </div>
       </div>
     </div>
@@ -390,7 +390,7 @@ export default function StorePage() {
 
         {/* Trust row */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400">
-          {['Secure checkout via Stripe', 'Instant access after purchase', 'No subscription — one-time payment', 'iOS & web access'].map((t, i) => (
+          {['Secure checkout via Stripe', '12 months access from purchase date', 'No subscription — one-time payment', 'iOS & web access'].map((t, i) => (
             <div key={i} className="flex items-center gap-1.5">
               <CheckCircle2 size={13} style={{ color: '#10b981' }} />
               {t}

@@ -50,7 +50,7 @@ import SecurityReports from '@/pages/security-suite/SecurityReports';
 import AssessmentReport from '@/pages/security-suite/AssessmentReport';
 import AdminHomePage from '@/pages/AdminHomePage';
 import AdminLogin from '@/pages/AdminLogin';
-import AdminCrmPage from '@/pages/AdminCrmPage';
+
 import AdminPlatformPage from '@/pages/AdminPlatformPage';
 import AdminPagesList from '@/pages/AdminPagesList';
 import StrategicRoadmap from '@/pages/StrategicRoadmap';
@@ -142,7 +142,7 @@ function AppContent() {
 
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminHomePage /></ProtectedRoute>} />
-            <Route path="/admin/crm" element={<ProtectedRoute adminOnly={true}><AdminCrmPage /></ProtectedRoute>} />
+            <Route path="/admin/crm" element={<Navigate to="/admin" replace />} />
             <Route path="/admin/platform" element={<ProtectedRoute adminOnly={true}><AdminPlatformPage /></ProtectedRoute>} />
             <Route path="/admin/pages" element={<ProtectedRoute adminOnly={true}><AdminPagesList /></ProtectedRoute>} />
             <Route path="/admin/legacy" element={<ProtectedRoute adminOnly={true}><FullAdminDashboard /></ProtectedRoute>} />

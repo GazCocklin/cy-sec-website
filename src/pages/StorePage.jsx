@@ -390,7 +390,7 @@ export default function StorePage() {
 
         {/* Trust row */}
         <div className="mt-8 flex flex-wrap items-center justify-center gap-6 text-sm text-slate-400">
-          {['Secure checkout via Stripe', '12 months access from purchase date', 'No subscription — one-time payment', 'iOS & web access'].map((t, i) => (
+          {['Secure checkout via Stripe', '12 months access from purchase date', 'No subscription — one-time payment'].map((t, i) => (
             <div key={i} className="flex items-center gap-1.5">
               <CheckCircle2 size={13} style={{ color: '#10b981' }} />
               {t}

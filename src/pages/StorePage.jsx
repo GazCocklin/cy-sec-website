@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Shield, Terminal, Zap, Star, ChevronRight, Lock, CheckCircle2, ArrowRight, BookOpen, Target, Trophy } from 'lucide-react';
 
 const SUPABASE_URL = 'https://kmnbtnfgeadvvkwsdyml.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImttbmJ0bmZnZWFkdnZrd3NkeW1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQyMTE4MTcsImV4cCI6MjA1OTc4NzgxN30.7ERa6sJbQj2mF3GWFHoSGKkx4urDBvgGGYxJqDfZdmk';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImttbmJ0bmZnZWFkdnZrd3NkeW1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTAxNDEsImV4cCI6MjA4Njc4NjE0MX0.T7yHQmQ3qdobyZEAXoAmDptfrj2yH-ZIJ8RfjNOpEFs';
 
 const packs = [
   {

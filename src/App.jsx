@@ -49,6 +49,7 @@ import SecuritySettings from '@/pages/security-suite/SecuritySettings';
 import SecurityReports from '@/pages/security-suite/SecurityReports';
 import AssessmentReport from '@/pages/security-suite/AssessmentReport';
 import AdminHomePage from '@/pages/AdminHomePage';
+import AdminLogin from '@/pages/AdminLogin';
 import AdminCrmPage from '@/pages/AdminCrmPage';
 import AdminPlatformPage from '@/pages/AdminPlatformPage';
 import AdminPagesList from '@/pages/AdminPagesList';
@@ -139,6 +140,7 @@ function AppContent() {
             <Route path="/security-suite/reports" element={<Navigate to="/fortify-one/reports" replace />} />
             <Route path="/security-suite/calendar" element={<Navigate to="/fortify-one/calendar" replace />} />
 
+            <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminHomePage /></ProtectedRoute>} />
             <Route path="/admin/crm" element={<ProtectedRoute adminOnly={true}><AdminCrmPage /></ProtectedRoute>} />
             <Route path="/admin/platform" element={<ProtectedRoute adminOnly={true}><AdminPlatformPage /></ProtectedRoute>} />

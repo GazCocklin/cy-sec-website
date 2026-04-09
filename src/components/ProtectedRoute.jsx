@@ -17,13 +17,15 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
   const isAuthenticated = !!(user && session);
 
   if (!isAuthenticated) {
-    return <Navigate to="/fortify-one/login" state={{ from: location }} replace />;
+    // Admin routes get their own login — never bounce to FortifyOne
+    const loginPath = adminOnly ? '/admin/login' : '/fortify-one/login';
+    return <Navigate to={loginPath} state={{ from: location }} replace />;
   }
 
   if (adminOnly) {
     const userEmail = (user && user.email) ? user.email.toLowerCase() : '';
     const isAdmin = userEmail === 'gazc@cy-sec.co.uk' || userEmail === 'aimeec@cy-sec.co.uk';
-    
+
     if (!isAdmin) {
       return <Navigate to="/fortify-one/dashboard" replace />;
     }

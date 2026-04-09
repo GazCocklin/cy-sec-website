@@ -110,29 +110,6 @@ const LandingPageHero = () => {
             transition={{ duration: 0.7, delay: 0.2 }}
             className="hidden lg:flex flex-col gap-8"
           >
-            {/* Key metrics */}
-            <div className="grid grid-cols-2 gap-px bg-white/8 rounded-2xl overflow-hidden border border-white/10">
-              {[
-                { value: '15+', label: 'Years in security' },
-                { value: '6',   label: 'Industry certifications' },
-                { value: '£995', label: 'vCISO from / month' },
-                { value: '5',   label: 'GRC frameworks covered' },
-              ].map(({ value, label }) => (
-                <div
-                  key={label}
-                  className="bg-white/[0.05] backdrop-blur-sm px-6 py-5 flex flex-col gap-1"
-                >
-                  <span
-                    className="text-3xl font-extrabold text-white tracking-tight"
-                    style={{ letterSpacing: '-0.04em' }}
-                  >
-                    {value}
-                  </span>
-                  <span className="text-white/50 text-xs font-medium leading-tight">{label}</span>
-                </div>
-              ))}
-            </div>
-
             {/* Certifications */}
             <div>
               <p className="text-white/30 text-xs font-semibold tracking-widest uppercase mb-3">

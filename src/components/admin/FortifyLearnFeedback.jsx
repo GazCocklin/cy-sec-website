@@ -169,11 +169,15 @@ export default function FortifyLearnFeedback() {
   const updateStatus = async (id, status) => {
     setUpdating(true);
     try {
-      const { error } = await flSupabase.from('fl_feedback').update({ status }).eq('id', id);
+      const { error } = await flSupabase.rpc('update_feedback_status', {
+        feedback_id: id,
+        new_status: status,
+      });
       if (error) throw error;
       toast({ title: 'Updated', description: `Status set to ${statusCfg(status).label}.` });
       await load(false);
-    } catch {
+    } catch (err) {
+      console.error('Feedback update error:', err);
       toast({ title: 'Error', description: 'Failed to update status.', variant: 'destructive' });
     } finally {
       setUpdating(false);

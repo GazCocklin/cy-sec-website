@@ -45,10 +45,10 @@ function confirmationHtml(firstName: string, messagePreview: string): string {
           <td style="border-radius:12px 12px 0 0;padding:0;overflow:hidden;">
             <!--[if gte mso 9]>
             <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent:1000;height:320px;">
-              <v:fill type="frame" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80&fit=crop" color="#0A1E3F"/>
+              <v:fill type="frame" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80&fit=crop" color="#0A1E3F"/>
               <v:textbox inset="0,0,0,0" style="mso-fit-shape-to-text:true;">
             <![endif]-->
-            <div style="background-color:#0A1E3F;background-image:linear-gradient(160deg,rgba(7,25,41,0.93) 0%,rgba(10,34,64,0.88) 45%,rgba(11,92,107,0.82) 100%),url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1200&q=80&fit=crop');background-size:cover;background-position:center;border-radius:12px 12px 0 0;">
+            <div style="background-color:#0A1E3F;background-image:linear-gradient(160deg,rgba(7,25,41,0.93) 0%,rgba(10,34,64,0.88) 45%,rgba(11,92,107,0.82) 100%),url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&q=80&fit=crop');background-size:cover;background-position:center;border-radius:12px 12px 0 0;">
               <div style="background-image:radial-gradient(circle,rgba(255,255,255,0.04) 1px,transparent 1px);background-size:28px 28px;padding:40px 48px 48px;">
                 <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:44px;">
                   <tr>

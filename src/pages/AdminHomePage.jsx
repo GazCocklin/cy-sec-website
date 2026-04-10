@@ -268,7 +268,7 @@ const LeadsView = () => {
     setSelected(p => p?.id === id ? { ...p, ...updates } : p);
   };
   const handleDelete = async (id) => {
-    await supabase.from('leads').delete().eq('id', id);
+    await supabase.rpc('admin_delete_lead', { p_id: id });
     setLeads(p => p.filter(l => l.id !== id));
     setSelected(null);
   };
@@ -330,7 +330,7 @@ const ContactsView = () => {
     setSelected(p => p?.id === id ? { ...p, ...updates } : p);
   };
   const handleDelete = async (id) => {
-    await supabase.from('contact_submissions').delete().eq('id', id);
+    await supabase.rpc('admin_delete_contact_submission', { p_id: id });
     setItems(p => p.filter(l => l.id !== id));
     setSelected(null);
   };
@@ -392,7 +392,7 @@ const FeedbackView = ({ feedbackType }) => {
     setSelected(p => p?.id === id ? { ...p, ...updates } : p);
   };
   const handleDelete = async (id) => {
-    await supabase.from('fl_feedback').delete().eq('id', id);
+    await supabase.rpc('admin_delete_feedback', { p_id: id });
     setItems(p => p.filter(l => l.id !== id));
     setSelected(null);
   };
@@ -434,31 +434,61 @@ const FeedbackView = ({ feedbackType }) => {
 const DashboardView = ({ setView }) => {
   const [stats, setStats] = useState({ leads: 0, contacts: 0, issues: 0, features: 0, newLeads: 0, openIssues: 0, recentActivity: [] });
   const [loading, setLoading] = useState(true);
+  const [drawerItem, setDrawerItem] = useState(null);
+  const [drawerType, setDrawerType] = useState(null);
+  const [allLeads, setAllLeads] = useState([]);
+  const [allContacts, setAllContacts] = useState([]);
+  const [allFeedback, setAllFeedback] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      const [leads, contacts, issues, features] = await Promise.all([
-        supabase.from('leads').select('id, name, email, stage, created_at').order('created_at', { ascending: false }),
-        supabase.from('contact_submissions').select('id, name, email, status, created_at').order('created_at', { ascending: false }),
-        supabase.from('fl_feedback').select('id, user_email, message, status, created_at').eq('type', 'fault').order('created_at', { ascending: false }),
-        supabase.from('fl_feedback').select('id, user_email, message, status, created_at').eq('type', 'feature').order('created_at', { ascending: false }),
-      ]);
-      const allActivity = [
-        ...(leads.data || []).slice(0, 5).map(r => ({ ...r, _type: 'lead' })),
-        ...(contacts.data || []).slice(0, 3).map(r => ({ ...r, _type: 'contact' })),
-        ...(issues.data || []).slice(0, 3).map(r => ({ ...r, _type: 'issue' })),
-        ...(features.data || []).slice(0, 3).map(r => ({ ...r, _type: 'feature' })),
-      ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 10);
-      setStats({
-        leads: leads.data?.length || 0, contacts: contacts.data?.length || 0,
-        issues: issues.data?.length || 0, features: features.data?.length || 0,
-        newLeads: (leads.data || []).filter(l => l.stage === 'new').length,
-        openIssues: (issues.data || []).filter(i => ['new', 'in_progress'].includes(i.status)).length,
-        recentActivity: allActivity,
-      });
-      setLoading(false);
-    })();
-  }, []);
+  const load = async () => {
+    const [leads, contacts, issues, features] = await Promise.all([
+      supabase.from('leads').select('*').order('created_at', { ascending: false }),
+      supabase.from('contact_submissions').select('*').order('created_at', { ascending: false }),
+      supabase.from('fl_feedback').select('*').eq('type', 'fault').order('created_at', { ascending: false }),
+      supabase.from('fl_feedback').select('*').eq('type', 'feature').order('created_at', { ascending: false }),
+    ]);
+    const allFb = [...(issues.data || []), ...(features.data || [])];
+    setAllLeads(leads.data || []);
+    setAllContacts(contacts.data || []);
+    setAllFeedback(allFb);
+    const allActivity = [
+      ...(leads.data || []).slice(0, 5).map(r => ({ ...r, _type: 'lead' })),
+      ...(contacts.data || []).slice(0, 3).map(r => ({ ...r, _type: 'contact' })),
+      ...(issues.data || []).slice(0, 3).map(r => ({ ...r, _type: 'issue' })),
+      ...(features.data || []).slice(0, 3).map(r => ({ ...r, _type: 'feature' })),
+    ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 10);
+    setStats({
+      leads: leads.data?.length || 0, contacts: contacts.data?.length || 0,
+      issues: issues.data?.length || 0, features: features.data?.length || 0,
+      newLeads: (leads.data || []).filter(l => l.stage === 'new').length,
+      openIssues: (issues.data || []).filter(i => ['new', 'in_progress'].includes(i.status)).length,
+      recentActivity: allActivity,
+    });
+    setLoading(false);
+  };
+
+  useEffect(() => { load(); }, []);
+
+  const handleActivityClick = (item) => {
+    let full, type;
+    if (item._type === 'lead') { full = allLeads.find(l => l.id === item.id); type = 'lead'; }
+    else if (item._type === 'contact') { full = allContacts.find(l => l.id === item.id); type = 'contact'; }
+    else { full = allFeedback.find(l => l.id === item.id); type = 'feedback'; }
+    if (full) { setDrawerItem(full); setDrawerType(type); }
+  };
+
+  const handleDrawerUpdate = (id, updates) => {
+    setDrawerItem(p => p?.id === id ? { ...p, ...updates } : p);
+  };
+
+  const handleDrawerDelete = async (id) => {
+    if (drawerType === 'lead') await supabase.rpc('admin_delete_lead', { p_id: id });
+    else if (drawerType === 'contact') await supabase.rpc('admin_delete_contact_submission', { p_id: id });
+    else await supabase.rpc('admin_delete_feedback', { p_id: id });
+    setDrawerItem(null);
+    setDrawerType(null);
+    await load();
+  };
 
   const fmtAgo = (d) => {
     const diff = Date.now() - new Date(d).getTime();
@@ -507,7 +537,7 @@ const DashboardView = ({ setView }) => {
         <CardHeader className="bg-slate-50 border-b border-gray-100 py-3 px-5">
           <div className="flex items-center justify-between">
             <CardTitle className="text-sm font-bold text-slate-700">Recent Activity</CardTitle>
-            <span className="text-xs text-slate-400">Last 10 entries</span>
+            <span className="text-xs text-slate-400">Click any row to open · Last 10 entries</span>
           </div>
         </CardHeader>
         <CardContent className="p-0">
@@ -518,7 +548,8 @@ const DashboardView = ({ setView }) => {
           ) : stats.recentActivity.map((item, i) => {
             const tc = typeConfig[item._type];
             return (
-              <div key={i} className="flex items-center gap-3 px-5 py-3 border-b border-gray-50 last:border-0 hover:bg-slate-50/50 transition-colors">
+              <div key={i} onClick={() => handleActivityClick(item)}
+                className="flex items-center gap-3 px-5 py-3 border-b border-gray-50 last:border-0 hover:bg-blue-50/40 cursor-pointer transition-colors group">
                 <div className={`w-9 h-9 rounded-lg ${tc.bg} flex items-center justify-center text-base flex-shrink-0`}>{tc.icon}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -527,12 +558,24 @@ const DashboardView = ({ setView }) => {
                   </div>
                   <p className="text-xs text-slate-400 truncate mt-0.5">{item.email || item.message?.slice(0, 80)}</p>
                 </div>
-                <span className="text-xs text-slate-400 flex-shrink-0">{fmtAgo(item.created_at)}</span>
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <span className="text-xs text-slate-400">{fmtAgo(item.created_at)}</span>
+                  <span className="text-slate-300 group-hover:text-blue-400 transition-colors text-sm">→</span>
+                </div>
               </div>
             );
           })}
         </CardContent>
       </Card>
+      {drawerItem && (
+        <DetailDrawer
+          item={drawerItem}
+          type={drawerType}
+          onClose={() => { setDrawerItem(null); setDrawerType(null); }}
+          onUpdate={handleDrawerUpdate}
+          onDelete={handleDrawerDelete}
+        />
+      )}
     </div>
   );
 };

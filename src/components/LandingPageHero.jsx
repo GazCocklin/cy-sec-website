@@ -1,42 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, Shield, FileCheck, BookOpen, Cpu } from 'lucide-react';
+import { ArrowRight, Calendar, CheckCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
-const CARDS = [
-  {
-    icon: Shield,
-    title: 'Virtual CISO',
-    desc: 'Board-level security leadership on demand',
-    tag: 'from £995/mo',
-    href: '/vciso',
-    external: false,
-  },
-  {
-    icon: FileCheck,
-    title: 'DORA & NIS2',
-    desc: 'Fixed-price compliance sprints',
-    tag: 'Regulatory',
-    href: '/dora-compliance',
-    external: false,
-  },
-  {
-    icon: BookOpen,
-    title: 'FortifyLearn',
-    desc: 'CompTIA PBQ lab simulations',
-    tag: 'Live now',
-    href: 'https://fortifylearn.co.uk',
-    external: true,
-  },
-  {
-    icon: Cpu,
-    title: 'FortifyOne GRC',
-    desc: 'Compliance management platform',
-    tag: 'from £149/mo',
-    href: 'https://fortifyone.co.uk',
-    external: true,
-  },
+const FL_FEATURES = [
+  'Representative CLI environments for N+, Sec+, CySA+',
+  'Objective-by-objective scoring & detailed results',
+  'Free taster labs — no payment needed to start',
 ];
 
 export default function LandingPageHero() {
@@ -56,19 +27,19 @@ export default function LandingPageHero() {
           backgroundSize: 'cover', backgroundPosition: 'center', mixBlendMode: 'luminosity',
         }} />
 
-      {/* Subtle grid */}
+      {/* Grid */}
       <div className="absolute inset-0 opacity-[0.025]"
         style={{
           backgroundImage: 'linear-gradient(#0891B2 1px, transparent 1px), linear-gradient(to right, #0891B2 1px, transparent 1px)',
           backgroundSize: '64px 64px',
         }} />
 
-      {/* Glow orb */}
-      <div className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(8,145,178,0.18) 0%, transparent 70%)' }} />
+      {/* Glow */}
+      <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(8,145,178,0.2) 0%, transparent 70%)' }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-20 w-full">
-        <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16 w-full">
+        <div className="grid lg:grid-cols-2 gap-12 xl:gap-16 items-center">
 
           {/* ── LEFT: copy ── */}
           <motion.div
@@ -77,9 +48,17 @@ export default function LandingPageHero() {
             transition={{ duration: 0.7 }}
             className="space-y-7"
           >
-            <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: '#0891B2' }}>
-              Cy-Sec Awareness and Consultancy Ltd
-            </p>
+            {/* Brand identity — prominent */}
+            <div className="flex items-center gap-3">
+              <img src="/logos/cysec-logo-dark.svg" alt="Cy-Sec"
+                className="h-10 w-auto"
+                onError={e => { e.target.style.display = 'none'; }}
+              />
+              <div className="h-6 w-px bg-white/20" />
+              <span className="text-white/60 text-xs font-semibold tracking-widest uppercase">
+                Awareness and Consultancy Ltd
+              </span>
+            </div>
 
             <h1 className="text-5xl lg:text-6xl font-black text-white leading-[1.05] tracking-tight"
               style={{ fontFamily: 'Bricolage Grotesque, Inter, system-ui, sans-serif' }}>
@@ -112,51 +91,80 @@ export default function LandingPageHero() {
                 Explore Services <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
-
           </motion.div>
 
-          {/* ── RIGHT: service cards ── */}
+          {/* ── RIGHT: FortifyLearn showcase card ── */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="grid grid-cols-2 gap-4"
+            className="relative rounded-3xl overflow-hidden"
+            style={{ background: 'linear-gradient(135deg, #071326 0%, #0B2540 60%, #0a3d5c 100%)' }}
           >
-            {CARDS.map(({ icon: Icon, title, desc, tag, href, external }, i) => (
-              <motion.div
-                key={title}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 + i * 0.1 }}
-                onClick={() => external ? window.open(href, '_blank') : navigate(href)}
-                className="group rounded-2xl p-5 cursor-pointer transition-all duration-200"
-                style={{
-                  background: 'rgba(255,255,255,0.04)',
-                  border: '1px solid rgba(255,255,255,0.08)',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = 'rgba(8,145,178,0.1)';
-                  e.currentTarget.style.borderColor = 'rgba(8,145,178,0.4)';
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-                  e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
-                  e.currentTarget.style.transform = 'none';
-                }}
-              >
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
-                  style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-                  <Icon className="w-5 h-5 text-white" />
+            {/* Grid overlay */}
+            <div className="absolute inset-0 opacity-[0.04]"
+              style={{ backgroundImage: 'linear-gradient(#0891B2 1px, transparent 1px), linear-gradient(to right, #0891B2 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+
+            {/* Glow */}
+            <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full blur-3xl pointer-events-none"
+              style={{ background: 'rgba(8,145,178,0.25)' }} />
+
+            {/* Real FL screenshot */}
+            <div className="relative mx-5 mt-5 rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+              <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/10"
+                style={{ background: 'rgba(0,0,0,0.5)' }}>
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="text-[10px] text-white/30 ml-2 font-mono">FortifyLearn — Live Lab</span>
+              </div>
+              <img
+                src="/screenshots/fl-terminal.png"
+                alt="FortifyLearn — Live CLI lab environment"
+                className="w-full object-cover"
+                style={{ maxHeight: 220, objectPosition: 'top' }}
+              />
+            </div>
+
+            {/* Card content */}
+            <div className="relative p-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="font-black text-white text-xl">FortifyLearn</span>
+                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full"
+                    style={{ background: 'rgba(8,145,178,0.2)', color: '#22d3ee', border: '1px solid rgba(8,145,178,0.3)' }}>
+                    CompTIA Authorised
+                  </span>
                 </div>
-                <p className="font-bold text-white text-sm mb-1">{title}</p>
-                <p className="text-xs text-white/50 leading-relaxed mb-4">{desc}</p>
-                <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full"
-                  style={{ background: 'rgba(8,145,178,0.15)', color: '#22d3ee' }}>
-                  {tag}
-                </span>
-              </motion.div>
-            ))}
+              </div>
+
+              <p className="text-slate-400 text-sm mb-4 leading-relaxed">
+                Performance-based question simulator with live CLI environments.
+                Study for Network+, Security+ and CySA+ the way you'll actually be tested.
+              </p>
+
+              <div className="space-y-2 mb-5">
+                {FL_FEATURES.map(f => (
+                  <div key={f} className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#0891B2' }} />
+                    <span className="text-slate-400 text-xs">{f}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-4">
+                <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-bold text-sm px-5 py-2.5 rounded-xl transition-all hover:brightness-110"
+                  style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
+                  Try FortifyLearn <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+                <a href="/store"
+                  className="text-sm font-semibold transition-colors hover:text-white"
+                  style={{ color: '#0891B2' }}>
+                  Buy a pack →
+                </a>
+              </div>
+            </div>
           </motion.div>
 
         </div>

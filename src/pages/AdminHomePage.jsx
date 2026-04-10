@@ -542,172 +542,153 @@ const PricingView = () => {
   const [packs, setPacks] = useState([]);
   const [banks, setBanks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [expanded, setExpanded] = useState({});
+  const [openPack, setOpenPack] = useState(null);
+  const [showUnassigned, setShowUnassigned] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const [packsRes, banksRes] = await Promise.all([
-        supabase.from('pbq_packs').select('*').order('certification'),
+      const [pr, br] = await Promise.all([
+        supabase.from('pbq_packs').select('*').order('exam_code'),
         supabase.from('pbq_banks').select('*').order('certification, difficulty, title'),
       ]);
-      setPacks(packsRes.data || []);
-      setBanks(banksRes.data || []);
-      // Auto-expand all packs
-      const exp = {};
-      (packsRes.data || []).forEach(p => { exp[p.id] = true; });
-      setExpanded(exp);
+      setPacks(pr.data || []);
+      setBanks(br.data || []);
       setLoading(false);
     })();
   }, []);
 
-  const toggle = (id) => setExpanded(p => ({ ...p, [id]: !p[id] }));
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600" /></div>;
 
   const allPackBankIds = new Set(packs.flatMap(p => p.bank_ids || []));
-
-  const diffColour = (d) => ({
-    taster:       'bg-slate-100 text-slate-600 border-slate-300',
-    beginner:     'bg-green-100 text-green-700 border-green-300',
-    intermediate: 'bg-blue-100 text-blue-700 border-blue-300',
-    advanced:     'bg-orange-100 text-orange-700 border-orange-300',
-    expert:       'bg-red-100 text-red-700 border-red-300',
-  }[d] || 'bg-slate-100 text-slate-500 border-slate-200');
-
-  const certColour = (cert) => {
-    if (cert?.includes('Network')) return { ring: 'ring-emerald-400', bg: 'bg-emerald-50', badge: 'bg-emerald-100 text-emerald-700', dot: 'bg-emerald-500' };
-    if (cert?.includes('Security')) return { ring: 'ring-blue-400', bg: 'bg-blue-50', badge: 'bg-blue-100 text-blue-700', dot: 'bg-blue-500' };
-    if (cert?.includes('CySA'))     return { ring: 'ring-purple-400', bg: 'bg-purple-50', badge: 'bg-purple-100 text-purple-700', dot: 'bg-purple-500' };
-    return { ring: 'ring-slate-300', bg: 'bg-slate-50', badge: 'bg-slate-100 text-slate-600', dot: 'bg-slate-400' };
-  };
-
-  const BankRow = ({ bank }) => {
-    const dc = diffColour(bank.difficulty);
-    return (
-      <div className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all">
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-slate-800 truncate">{bank.title}</p>
-          {bank.domain && <p className="text-[11px] text-slate-400 mt-0.5">{bank.domain}</p>}
-        </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
-          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border capitalize ${dc}`}>{bank.difficulty}</span>
-          <span className="text-[11px] text-slate-500 w-14 text-right">{bank.question_count} Q</span>
-          <span className="text-[11px] text-slate-400 w-12 text-right">{bank.time_limit_minutes}m</span>
-          <span className={`w-2 h-2 rounded-full flex-shrink-0 ${bank.is_published ? 'bg-green-400' : 'bg-slate-300'}`} title={bank.is_published ? 'Published' : 'Draft'} />
-        </div>
-      </div>
-    );
-  };
-
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" /></div>;
-
-  // Group unassigned banks by cert
+  const mainPacks = packs.filter(p => p.certification !== 'CompTIA').sort((a,b) => a.exam_code.localeCompare(b.exam_code));
+  const bundle = packs.find(p => p.certification === 'CompTIA');
   const unassigned = banks.filter(b => !allPackBankIds.has(b.id) && b.certification !== 'Platform Tutorial');
-  const unassignedByCert = unassigned.reduce((acc, b) => {
-    const k = b.certification || 'Other';
-    if (!acc[k]) acc[k] = [];
-    acc[k].push(b);
-    return acc;
-  }, {});
+
+  const DIFF_LABEL = { taster:'Taster', beginner:'Easy', intermediate:'Inter.', advanced:'Hard', expert:'Expert' };
+  const DIFF_COLOUR = {
+    taster:       'bg-slate-100 text-slate-500',
+    beginner:     'bg-green-100 text-green-700',
+    intermediate: 'bg-blue-100 text-blue-700',
+    advanced:     'bg-orange-100 text-orange-700',
+    expert:       'bg-red-100 text-red-700',
+  };
+  const CERT_COLOUR = (cert) => {
+    if (cert?.includes('Network')) return { border:'border-l-emerald-500', header:'bg-emerald-50', badge:'bg-emerald-100 text-emerald-700', ring:'ring-emerald-200' };
+    if (cert?.includes('Security')) return { border:'border-l-blue-500',  header:'bg-blue-50',    badge:'bg-blue-100 text-blue-700',    ring:'ring-blue-200' };
+    if (cert?.includes('CySA'))     return { border:'border-l-purple-500',header:'bg-purple-50',  badge:'bg-purple-100 text-purple-700',ring:'ring-purple-200' };
+    return { border:'border-l-slate-400', header:'bg-slate-50', badge:'bg-slate-100 text-slate-600', ring:'ring-slate-200' };
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 h-full">
 
-      {/* Summary strip */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        {[
-          { label: 'Total Packs', value: packs.length, color: 'text-blue-600', bg: 'bg-blue-50' },
-          { label: 'Total Banks', value: banks.filter(b => b.certification !== 'Platform Tutorial').length, color: 'text-slate-600', bg: 'bg-slate-100' },
-          { label: 'Assigned Banks', value: banks.filter(b => allPackBankIds.has(b.id)).length, color: 'text-green-600', bg: 'bg-green-50' },
-          { label: 'Unassigned Banks', value: unassigned.length, color: 'text-amber-600', bg: 'bg-amber-50' },
-        ].map(s => (
-          <div key={s.label} className={`${s.bg} rounded-xl p-4 border border-white`}>
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{s.label}</p>
-            <p className={`text-3xl font-extrabold mt-1 ${s.color}`} style={{ letterSpacing: '-0.03em' }}>{s.value}</p>
-          </div>
-        ))}
-      </div>
-
-      {/* Packs */}
-      <div className="space-y-4">
-        <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest">Packs</h2>
-        {packs.map(pack => {
-          const cc = certColour(pack.certification);
-          const packBanks = (pack.bank_ids || [])
-            .map(id => banks.find(b => b.id === id))
-            .filter(Boolean);
-          const totalQ = packBanks.reduce((sum, b) => sum + (b.question_count || 0), 0);
-          const totalMins = packBanks.reduce((sum, b) => sum + (b.time_limit_minutes || 0), 0);
-          const isOpen = expanded[pack.id];
-
+      {/* ── 3 pack columns ── */}
+      <div className="grid grid-cols-3 gap-4">
+        {mainPacks.map(pack => {
+          const cc = CERT_COLOUR(pack.certification);
+          const packBanks = (pack.bank_ids || []).map(id => banks.find(b => b.id === id)).filter(Boolean)
+            .sort((a,b) => ['beginner','beginner','intermediate','advanced','expert'].indexOf(a.difficulty) - ['beginner','beginner','intermediate','advanced','expert'].indexOf(b.difficulty));
+          const isOpen = openPack === pack.id;
           return (
-            <Card key={pack.id} className={`border-2 shadow-sm overflow-hidden ring-2 ring-offset-1 ${cc.ring} ${!pack.is_active ? 'opacity-60' : ''}`}>
+            <div key={pack.id} className={`rounded-xl border-2 border-l-4 shadow-sm overflow-hidden ring-1 ${cc.border} ${cc.ring} ${!pack.is_active ? 'opacity-60' : ''}`}>
               {/* Pack header */}
-              <button className="w-full text-left" onClick={() => toggle(pack.id)}>
-                <div className={`px-5 py-4 ${cc.bg} flex items-start gap-4`}>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${cc.badge}`}>{pack.certification}</span>
-                      <span className="text-[10px] font-mono text-slate-500">{pack.exam_code}</span>
-                      {!pack.is_active && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-500">INACTIVE</span>}
-                      {pack.is_featured && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">FEATURED</span>}
-                    </div>
-                    <p className="font-bold text-slate-800 text-base">{pack.title}</p>
+              <div className={`px-4 py-3 ${cc.header}`}>
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${cc.badge}`}>{pack.exam_code}</span>
+                    <p className="font-bold text-slate-800 text-sm mt-1 leading-tight">{pack.certification}</p>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-2xl font-extrabold text-slate-800" style={{ letterSpacing: '-0.03em' }}>£{pack.price_gbp}</p>
-                    <p className="text-[11px] text-slate-500 mt-0.5">{packBanks.length} banks · {totalQ} questions · ~{totalMins}m</p>
+                    <p className="text-xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>£{pack.price_gbp}</p>
+                    <p className="text-[10px] text-slate-500">{packBanks.length} banks</p>
                   </div>
-                  <span className="text-slate-400 text-xs mt-1">{isOpen ? '▲' : '▼'}</span>
                 </div>
-              </button>
+              </div>
 
-              {/* Banks list */}
-              {isOpen && (
-                <div className="px-5 py-3 space-y-0.5 border-t border-slate-100">
-                  {packBanks.length === 0 ? (
-                    <p className="text-sm text-slate-400 py-3 text-center">No banks assigned to this pack yet.</p>
-                  ) : packBanks.map(bank => <BankRow key={bank.id} bank={bank} />)}
-                  {/* Stripe ID */}
-                  <div className="pt-3 pb-1 flex items-center gap-2">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Stripe Price ID</p>
-                    <code className="text-[11px] text-slate-500 font-mono">{pack.stripe_price_id || '—'}</code>
+              {/* Bank rows */}
+              <div className="divide-y divide-slate-50">
+                {packBanks.map(bank => (
+                  <div key={bank.id} className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 transition-colors">
+                    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${DIFF_COLOUR[bank.difficulty] || 'bg-slate-100 text-slate-500'}`}>
+                      {DIFF_LABEL[bank.difficulty] || bank.difficulty}
+                    </span>
+                    <p className="text-xs text-slate-700 truncate flex-1">{bank.title}</p>
+                    <span className="text-[10px] text-slate-400 flex-shrink-0">{bank.time_limit_minutes}m</span>
+                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${bank.is_published ? 'bg-green-400' : 'bg-slate-300'}`} />
                   </div>
-                </div>
-              )}
-            </Card>
+                ))}
+              </div>
+
+              {/* Stripe ID */}
+              <div className="px-3 py-2 bg-slate-50 border-t border-slate-100">
+                <p className="text-[9px] text-slate-400 font-mono truncate">{pack.stripe_price_id}</p>
+              </div>
+            </div>
           );
         })}
       </div>
 
-      {/* Unassigned banks */}
-      {unassigned.length > 0 && (
-        <div className="space-y-3">
-          <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
-            Unassigned Banks
-            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">{unassigned.length} not in any pack</span>
-          </h2>
-          {Object.entries(unassignedByCert).map(([cert, certBanks]) => {
-            const cc = certColour(cert);
-            return (
-              <Card key={cert} className="border border-slate-200 shadow-sm overflow-hidden">
-                <div className={`px-5 py-3 ${cc.bg} border-b border-slate-100 flex items-center gap-2`}>
-                  <span className={`w-2 h-2 rounded-full ${cc.dot}`} />
-                  <p className="text-sm font-bold text-slate-700">{cert}</p>
-                  <span className="text-xs text-slate-400 ml-1">{certBanks.length} banks</span>
+      {/* ── Bundle & unassigned row ── */}
+      <div className="grid grid-cols-2 gap-4">
+
+        {/* Bundle */}
+        {bundle && (
+          <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex items-center gap-4">
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-200 text-amber-800">BUNDLE</span>
+                <p className="text-sm font-bold text-slate-800 truncate">{bundle.title}</p>
+              </div>
+              <p className="text-[10px] text-slate-500 mt-0.5 font-mono">{bundle.stripe_price_id}</p>
+            </div>
+            <div className="text-right flex-shrink-0">
+              <p className="text-xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>£{bundle.price_gbp}</p>
+              <p className="text-[10px] text-slate-500">{(bundle.bank_ids||[]).length} banks · all 3 certs</p>
+            </div>
+          </div>
+        )}
+
+        {/* Unassigned */}
+        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+          <button
+            onClick={() => setShowUnassigned(p => !p)}
+            className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${unassigned.length > 0 ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'}`}>
+                {unassigned.length} unassigned
+              </span>
+              <p className="text-sm font-semibold text-slate-700">Unassigned Banks</p>
+            </div>
+            <span className="text-slate-400 text-xs">{showUnassigned ? '▲' : '▼'}</span>
+          </button>
+          {showUnassigned && unassigned.length > 0 && (
+            <div className="border-t border-slate-100 divide-y divide-slate-50 max-h-40 overflow-y-auto">
+              {unassigned.map(bank => (
+                <div key={bank.id} className="flex items-center gap-2 px-4 py-2">
+                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${DIFF_COLOUR[bank.difficulty] || 'bg-slate-100 text-slate-500'}`}>
+                    {DIFF_LABEL[bank.difficulty] || bank.difficulty}
+                  </span>
+                  <p className="text-xs text-slate-600 truncate flex-1">{bank.title}</p>
+                  <span className="text-[10px] text-slate-400 flex-shrink-0">{bank.certification?.replace('CompTIA ', '')}</span>
                 </div>
-                <div className="px-5 py-2 space-y-0.5">
-                  {certBanks.map(bank => <BankRow key={bank.id} bank={bank} />)}
-                </div>
-              </Card>
-            );
-          })}
+              ))}
+            </div>
+          )}
+          {showUnassigned && unassigned.length === 0 && (
+            <div className="px-4 py-3 border-t border-slate-100 text-xs text-green-600 font-semibold">All banks are assigned ✓</div>
+          )}
         </div>
-      )}
+      </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-green-400" /> Published</span>
-        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-slate-300" /> Draft</span>
-        <span>Q = questions · m = time limit in minutes</span>
+      <div className="flex items-center gap-5 text-[10px] text-slate-400">
+        <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-400" />Published</span>
+        <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-slate-300" />Draft</span>
+        {['Easy','Inter.','Hard','Expert'].map((d,i) => (
+          <span key={d} className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold ${['bg-green-100 text-green-700','bg-blue-100 text-blue-700','bg-orange-100 text-orange-700','bg-red-100 text-red-700'][i]}`}>{d}</span>
+        ))}
+        <span className="ml-auto">m = time limit</span>
       </div>
     </div>
   );

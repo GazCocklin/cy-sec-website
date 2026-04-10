@@ -130,7 +130,7 @@ export default function LandingPageHero() {
             {/* Card content */}
             <div className="relative p-6">
               <div className="mb-4">
-                <FortifyLearnLogo height={28} />
+                <FortifyLearnLogo height={36} />
               </div>
 
               <p className="text-slate-400 text-sm mb-4 leading-relaxed">
@@ -160,13 +160,6 @@ export default function LandingPageHero() {
                 </a>
               </div>
 
-              {/* CompTIA partner badge — white bg required by brand guidelines */}
-              <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-end">
-                <div className="bg-white rounded-lg px-3 py-1.5 inline-flex items-center">
-                  <img src="/logos/comptia-partner-badge.webp" alt="CompTIA Authorised Partner"
-                    className="h-8 w-auto" />
-                </div>
-              </div>
             </div>
           </motion.div>
 

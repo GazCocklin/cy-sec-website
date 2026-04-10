@@ -185,7 +185,7 @@ export default function ContactPage() {
                             className={`${inputCls} pl-10 ${errors.name ? 'border-red-400 ring-2 ring-red-200' : ''}`} />
                         </div>
                       </Field>
-                      <Field label="Work Email" required error={errors.email}>
+                      <Field label="Email" required error={errors.email}>
                         <div className="relative">
                           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
                           <input type="email" placeholder="jane@company.com" value={form.email}

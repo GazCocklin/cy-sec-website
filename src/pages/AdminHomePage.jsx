@@ -244,6 +244,44 @@ const FilterBar = ({ search, onSearch, filters, activeFilter, onFilter, placehol
 
 const fmt = (d) => d ? new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }) : '—';
 
+// ─── Business day countdown ────────────────────────────────────────────────────
+function calcBusinessDeadline(createdAt) {
+  const d = new Date(createdAt);
+  d.setDate(d.getDate() + 1);
+  if (d.getDay() === 6) d.setDate(d.getDate() + 2); // Sat → Mon
+  if (d.getDay() === 0) d.setDate(d.getDate() + 1); // Sun → Mon
+  return d;
+}
+
+const CountdownBadge = ({ createdAt, status }) => {
+  const [now, setNow] = useState(new Date());
+  useEffect(() => {
+    if (['resolved', 'archived'].includes(status)) return;
+    const t = setInterval(() => setNow(new Date()), 60000);
+    return () => clearInterval(t);
+  }, [status]);
+  if (['resolved', 'archived'].includes(status))
+    return <span className="text-xs text-slate-300">—</span>;
+  const deadline = calcBusinessDeadline(createdAt);
+  const diff = deadline - now;
+  if (diff <= 0) return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-red-100 text-red-700 border border-red-200 whitespace-nowrap">
+      <AlertCircle className="w-3 h-3" /> Overdue
+    </span>
+  );
+  const h = Math.floor(diff / 3600000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const colour = h >= 8 ? 'bg-green-50 text-green-700 border-green-200'
+               : h >= 2 ? 'bg-amber-50 text-amber-700 border-amber-200'
+               :           'bg-red-50 text-red-700 border-red-200';
+  return (
+    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold border ${colour} whitespace-nowrap`}>
+      <Clock className="w-3 h-3" />
+      {h}h {m}m
+    </span>
+  );
+};
+
 // ─── Leads view ────────────────────────────────────────────────────────────────
 const LeadsView = () => {
   const [leads, setLeads] = useState([]);
@@ -347,6 +385,7 @@ const ContactsView = () => {
     { key: 'company', label: 'Company', render: v => <span className="text-slate-700">{v || '—'}</span> },
     { key: 'message', label: 'Message', render: v => v ? v.slice(0, 60) + (v.length > 60 ? '…' : '') : '—' },
     { key: 'status', label: 'Status', render: v => <StagePill label={v || 'new'} /> },
+    { key: '_due', label: 'Response Due', render: (_, r) => <CountdownBadge createdAt={r.created_at} status={r.status} /> },
     { key: 'created_at', label: 'Received', render: fmt },
   ];
   const filterOptions = [

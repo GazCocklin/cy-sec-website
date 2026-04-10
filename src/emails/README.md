@@ -28,9 +28,11 @@ All variables use `{{double_curly_braces}}` syntax.
 
 ## Templates
 
-| File | Trigger | Type |
-|---|---|---|
-| `contact-confirmation.html` | Contact form submission | Transactional |
+| File | Trigger | Type | Accent colour |
+|---|---|---|---|
+| `contact-confirmation.html` | Contact form submission (cy-sec.co.uk/contact) | Transactional | Blue `#1A56DB` |
+| `fl-feedback-confirmation.html` | FL bug report submission | Transactional | Red `#ef4444` |
+| `fl-feature-request-confirmation.html` | FL feature request submission | Transactional | Purple `#8b5cf6` |
 
 ## Edge Functions
 

@@ -26,7 +26,6 @@ import PreLaunchChecklist from '@/pages/PreLaunchChecklist';
 import MarketingInsights from '@/pages/MarketingInsights';
 import PlanLogicGuide from '@/pages/PlanLogicGuide';
 import SecurityCalendar from '@/pages/security-suite/SecurityCalendar';
-import TrainingDeliveryPage from '@/pages/TrainingDeliveryPage';
 import LinkedinMarketingGenerator from '@/pages/LinkedinMarketingGenerator';
 import VCISOPage from '@/pages/VCISOPage';
 import DORAComplianceSprintPage from '@/pages/DORAComplianceSprintPage';
@@ -100,7 +99,6 @@ function AppContent() {
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/training-delivery" element={<TrainingDeliveryPage />} />
             <Route path="/training/hybrid" element={<HybridCoursesPage />} />
             <Route path="/training/self-study" element={<SelfStudyModulesPage />} />
             <Route path="/training/instructor-led" element={<InstructorLedPage />} />

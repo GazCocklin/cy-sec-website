@@ -17,7 +17,6 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   const trainingLinks = [
-    { to: '/training-delivery', label: 'Security Awareness Training' },
     { to: '/training/comptia-certifications', label: 'Professional Certifications' },
     { to: '/pbq-engine', label: 'FortifyLearn PBQ Engine' },
     { to: '/store', label: 'PBQ Simulation Packs' },

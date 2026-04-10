@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, CheckCircle, ExternalLink } from 'lucide-react';
+import FortifyLearnLogo from '@/components/logos/FortifyLearnLogo';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
@@ -128,14 +129,8 @@ export default function LandingPageHero() {
 
             {/* Card content */}
             <div className="relative p-6">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="flex items-center gap-2">
-                  <span className="font-black text-white text-xl">FortifyLearn</span>
-                  <span className="text-[10px] font-bold px-2.5 py-1 rounded-full"
-                    style={{ background: 'rgba(8,145,178,0.2)', color: '#22d3ee', border: '1px solid rgba(8,145,178,0.3)' }}>
-                    CompTIA Authorised
-                  </span>
-                </div>
+              <div className="mb-4">
+                <FortifyLearnLogo height={28} />
               </div>
 
               <p className="text-slate-400 text-sm mb-4 leading-relaxed">
@@ -163,6 +158,14 @@ export default function LandingPageHero() {
                   style={{ color: '#0891B2' }}>
                   Buy a pack →
                 </a>
+              </div>
+
+              {/* CompTIA partner badge — white bg required by brand guidelines */}
+              <div className="mt-5 pt-4 border-t border-white/10 flex items-center justify-end">
+                <div className="bg-white rounded-lg px-3 py-1.5 inline-flex items-center">
+                  <img src="/logos/comptia-partner-badge.webp" alt="CompTIA Authorised Partner"
+                    className="h-8 w-auto" />
+                </div>
               </div>
             </div>
           </motion.div>

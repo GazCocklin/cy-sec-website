@@ -32,6 +32,7 @@ import DORAComplianceSprintPage from '@/pages/DORAComplianceSprintPage';
 import NIS2CompliancePage from '@/pages/NIS2CompliancePage';
 import ComingSoonPage from '@/pages/ComingSoonPage';
 import PBQEnginePage from '@/pages/PBQEnginePage';
+import FortifyOnePage from '@/pages/FortifyOnePage';
 import StorePage from '@/pages/StorePage';
 import CookieConsentBanner from '@/components/CookieConsentBanner';
 import usePageTracking from '@/hooks/usePageTracking';
@@ -80,7 +81,7 @@ function AppContent() {
     }
   }, [session]);
 
-  const isFortifyOnePage = location.pathname.startsWith('/fortify-one/') && 
+  const isFortifyOnePage = location.pathname.startsWith('/fortify-one/') || location.pathname === '/fortifyone' && 
                               location.pathname !== '/fortify-one' && 
                               location.pathname !== '/fortify-one/login' &&
                               location.pathname !== '/fortify-one/signup';
@@ -114,6 +115,7 @@ function AppContent() {
             <Route path="/dora-compliance" element={<DORAComplianceSprintPage />} />
             <Route path="/nis2-compliance" element={<NIS2CompliancePage />} />
             <Route path="/pbq-engine" element={<PBQEnginePage />} />
+            <Route path="/fortifyone" element={<FortifyOnePage />} />
             <Route path="/store" element={<StorePage />} />
             <Route path="/coming-soon" element={<ComingSoonPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

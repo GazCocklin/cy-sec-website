@@ -92,7 +92,7 @@ export default function PlatformsShowcase() {
                 ))}
               </div>
               <div className="flex items-center gap-4">
-                <a href="https://fortifyone.co.uk" target="_blank" rel="noopener noreferrer"
+                <a href="/fortifyone"
                   className="inline-flex items-center gap-2 font-semibold text-sm px-5 py-2.5 rounded-xl transition-all hover:brightness-110"
                   style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
                   Explore FortifyOne <ArrowRight className="w-4 h-4" />
@@ -147,7 +147,7 @@ export default function PlatformsShowcase() {
             </div>
 
             {/* CTA */}
-            <a href="https://fortifyone.co.uk" target="_blank" rel="noopener noreferrer"
+            <a href="/fortifyone"
               className="flex items-center justify-center gap-2 py-3.5 rounded-2xl font-semibold text-sm transition-all hover:brightness-110"
               style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
               <Globe className="w-4 h-4" />

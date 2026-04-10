@@ -26,6 +26,7 @@ const Navbar = () => {
     { to: '/vciso', label: 'Virtual CISO' },
     { to: '/dora-compliance', label: 'DORA Compliance Sprint' },
     { to: '/nis2-compliance', label: 'NIS2 Compliance' },
+    { to: '/fortifyone', label: 'FortifyOne GRC' },
   ];
 
   return (

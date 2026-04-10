@@ -694,6 +694,43 @@ const PricingView = () => {
   return (
     <div className="space-y-4 h-full">
 
+      {/* ── Platform summary strip ── */}
+      <div className="grid grid-cols-3 gap-4 mb-2">
+        <div className="col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm px-5 py-3 flex items-center gap-4">
+          <div className="w-9 h-9 rounded-lg bg-cyan-50 flex items-center justify-center flex-shrink-0">
+            <BookOpen className="w-4 h-4 text-cyan-600" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5">FortifyLearn</p>
+            <p className="text-sm text-slate-700">{mainPacks.length} individual pack{mainPacks.length !== 1 ? 's' : ''}{bundle ? ' + 1 bundle' : ''} · {banks.filter(b => b.certification !== 'Platform Tutorial').length} banks total</p>
+          </div>
+          <div className="text-right flex-shrink-0">
+            <p className="text-lg font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>
+              £{mainPacks.reduce((s, p) => s + (Number(p.price_gbp) || 0), 0).toFixed(0)}
+            </p>
+            <p className="text-[10px] text-slate-400">pack revenue potential</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm px-5 py-3 flex items-center gap-4 opacity-60">
+          <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
+            <Shield className="w-4 h-4 text-blue-600" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5">FortifyOne</p>
+            <p className="text-sm text-slate-400">No products configured yet</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ── FortifyLearn section header ── */}
+      <div className="flex items-center gap-3 pt-1">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-cyan-50 border border-cyan-200 rounded-lg">
+          <BookOpen className="w-3.5 h-3.5 text-cyan-600" />
+          <span className="text-xs font-bold text-cyan-700 uppercase tracking-wider">FortifyLearn — PBQ Packs</span>
+        </div>
+        <div className="flex-1 h-px bg-slate-100" />
+      </div>
+
       {/* ── 3 pack columns ── */}
       <div className="grid grid-cols-3 gap-4">
         {mainPacks.map(pack => {
@@ -802,6 +839,21 @@ const PricingView = () => {
         ))}
         <span className="ml-auto">m = time limit</span>
       </div>
+
+      {/* ── FortifyOne section ── */}
+      <div className="flex items-center gap-3 pt-2">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-lg">
+          <Shield className="w-3.5 h-3.5 text-blue-600" />
+          <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">FortifyOne — Subscriptions</span>
+        </div>
+        <div className="flex-1 h-px bg-slate-100" />
+      </div>
+      <div className="rounded-xl border border-dashed border-slate-200 bg-slate-50/50 px-6 py-8 text-center">
+        <Shield className="w-8 h-8 text-slate-300 mx-auto mb-3" />
+        <p className="text-sm font-semibold text-slate-400 mb-1">No FortifyOne products configured yet</p>
+        <p className="text-xs text-slate-400">FortifyOne subscription tiers will appear here once added to the platform.</p>
+      </div>
+
     </div>
   );
 };

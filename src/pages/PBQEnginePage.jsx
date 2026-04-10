@@ -141,19 +141,18 @@ const PBQEnginePage = () => {
       {screenshots.slice(1).map((shot, i) => (
         <section key={i} className={`py-20 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50'} border-t border-slate-100`}>
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <div className={`grid lg:grid-cols-2 gap-16 items-center ${shot.side === 'left' ? 'lg:flex-row-reverse' : ''}`}
-              style={{ direction: shot.side === 'left' ? 'rtl' : 'ltr' }}>
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
               <motion.div
-                style={{ direction: 'ltr' }}
+                className={shot.side === 'left' ? 'lg:order-2' : 'lg:order-1'}
                 initial={{ opacity: 0, x: shot.side === 'right' ? 20 : -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
               >
                 <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200">
-                  <img src={shot.img} alt={shot.alt} className="w-full h-auto" />
+                  <img src={shot.img} alt={shot.alt} className="w-full h-auto" loading="lazy" />
                 </div>
               </motion.div>
-              <div style={{ direction: 'ltr' }}>
+              <div className={shot.side === 'left' ? 'lg:order-1' : 'lg:order-2'}>
                 <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#0891B2' }}>{shot.label}</p>
                 <p className="text-slate-600 leading-relaxed text-lg">{shot.caption}</p>
               </div>

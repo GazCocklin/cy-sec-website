@@ -1106,10 +1106,10 @@ export default function AdminHomePage() {
                 className={`w-full flex items-center gap-2.5 rounded-lg transition-all px-2.5 py-2
                   ${sidebarOpen ? '' : 'justify-center'}
                   ${active
-                    ? 'bg-cyan-50 font-semibold border-l-2' style={{ color: '#0891B2', borderColor: '#0891B2' }}
+                    ? 'bg-cyan-50 text-cyan-700 font-semibold border-l-2 border-cyan-600'
                     : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border-l-2 border-transparent'
                   }`}>
-                <item.icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-blue-600' : ''}`} />
+                <item.icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-cyan-600' : ''}`} />
                 {sidebarOpen && <span className="text-sm whitespace-nowrap">{item.label}</span>}
               </button>
             );

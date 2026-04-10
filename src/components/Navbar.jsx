@@ -118,7 +118,7 @@ const Navbar = () => {
               <Button
                 onClick={() => navigate('/contact')}
                 size="sm"
-                className="bg-[#1A56DB] hover:bg-[#1e3a8a] text-white border-0 shadow-sm font-medium"
+                className="text-white border-0 shadow-sm font-medium hover:brightness-110" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}
               >
                 Contact Us
               </Button>

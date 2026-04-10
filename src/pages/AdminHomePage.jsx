@@ -6,13 +6,13 @@ import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import {
   LayoutDashboard, Users, Mail, Bug, Lightbulb, Settings2,
-  ChevronLeft, ChevronRight, RefreshCw, ArrowLeft,
+  ChevronLeft, ChevronRight, ArrowLeft,
   Clock, CheckCircle2, AlertCircle, Inbox,
-  TrendingUp, Shield,
+  TrendingUp, Shield, Trash2,
 } from 'lucide-react';
 
 // ─── Status helpers ────────────────────────────────────────────────────────────
-const LEAD_STAGES     = ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost'];
+const LEAD_STAGES      = ['new', 'contacted', 'qualified', 'proposal', 'won', 'lost'];
 const CONTACT_STATUSES = ['new', 'in_progress', 'resolved', 'archived'];
 const FEEDBACK_STATUSES = ['new', 'reviewing', 'in_progress', 'done', 'wont_fix'];
 
@@ -34,16 +34,25 @@ const stageBadgeVariant = (stage) => ({
 
 const StagePill = ({ label }) => (
   <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_'))}`}>
-    <span className={`w-1.5 h-1.5 rounded-full ${stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_')).includes('green') ? 'bg-green-500' : stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_')).includes('amber') ? 'bg-amber-500' : stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_')).includes('red') ? 'bg-red-500' : stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_')).includes('cyan') ? 'bg-cyan-500' : stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_')).includes('purple') ? 'bg-purple-500' : 'bg-blue-500'}`} />
+    <span className={`w-1.5 h-1.5 rounded-full ${
+      stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_')).includes('green') ? 'bg-green-500'
+      : stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_')).includes('amber') ? 'bg-amber-500'
+      : stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_')).includes('red') ? 'bg-red-500'
+      : stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_')).includes('cyan') ? 'bg-cyan-500'
+      : stageBadgeVariant(label?.toLowerCase().replace(/ /g, '_')).includes('purple') ? 'bg-purple-500'
+      : 'bg-blue-500'
+    }`} />
     {label}
   </span>
 );
 
 // ─── Detail Drawer ─────────────────────────────────────────────────────────────
-const DetailDrawer = ({ item, type, onClose, onUpdate }) => {
+const DetailDrawer = ({ item, type, onClose, onUpdate, onDelete }) => {
   const [note, setNote] = useState('');
   const [stage, setStage] = useState(item?.stage || item?.status || 'new');
   const [saving, setSaving] = useState(false);
+  const [deleteConfirm, setDeleteConfirm] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   if (!item) return null;
 
   const stageOptions = type === 'lead' ? LEAD_STAGES
@@ -67,7 +76,16 @@ const DetailDrawer = ({ item, type, onClose, onUpdate }) => {
     } else {
       await supabase.from(table).update(updates).eq('id', item.id);
     }
-    setSaving(false); setNote(''); onUpdate(item.id, updates);
+    setSaving(false);
+    setNote('');
+    onUpdate(item.id, updates);
+  };
+
+  const handleDelete = async () => {
+    setDeleting(true);
+    await onDelete(item.id);
+    setDeleting(false);
+    onClose();
   };
 
   const fmt = (d) => d ? new Date(d).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }) : '—';
@@ -76,13 +94,42 @@ const DetailDrawer = ({ item, type, onClose, onUpdate }) => {
     <div className="fixed inset-0 z-50 flex justify-end">
       <div className="flex-1 bg-black/30 backdrop-blur-[2px]" onClick={onClose} />
       <div className="w-[480px] bg-white shadow-2xl flex flex-col overflow-hidden border-l border-gray-200">
+
         {/* Header */}
         <div className="px-6 py-5 border-b border-gray-100 flex justify-between items-start bg-gradient-to-r from-slate-50 to-blue-50">
           <div>
             <p className="text-lg font-bold text-slate-800">{item.name || item.user_email || 'Unknown'}</p>
             <p className="text-sm text-slate-500 mt-0.5">{fmt(item.created_at)}</p>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-xl leading-none p-1 mt-0.5">✕</button>
+          <div className="flex items-center gap-2 mt-0.5">
+            {!deleteConfirm ? (
+              <button
+                onClick={() => setDeleteConfirm(true)}
+                title="Delete this entry"
+                className="text-slate-300 hover:text-red-500 p-1 rounded-lg hover:bg-red-50 transition-colors"
+              >
+                <Trash2 className="w-4 h-4" />
+              </button>
+            ) : (
+              <div className="flex items-center gap-2 bg-red-50 border border-red-200 rounded-lg px-3 py-1.5">
+                <span className="text-xs font-semibold text-red-600">Delete?</span>
+                <button
+                  onClick={handleDelete}
+                  disabled={deleting}
+                  className="text-xs font-bold text-white bg-red-500 hover:bg-red-600 px-2 py-0.5 rounded transition-colors disabled:opacity-50"
+                >
+                  {deleting ? '…' : 'Yes'}
+                </button>
+                <button
+                  onClick={() => setDeleteConfirm(false)}
+                  className="text-xs font-semibold text-slate-500 hover:text-slate-700 px-1"
+                >
+                  No
+                </button>
+              </div>
+            )}
+            <button onClick={onClose} className="text-slate-400 hover:text-slate-600 text-xl leading-none p-1">✕</button>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-6 space-y-5">
@@ -128,7 +175,7 @@ const DetailDrawer = ({ item, type, onClose, onUpdate }) => {
             </div>
           )}
 
-          {/* Update */}
+          {/* Update status */}
           <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Update Status</p>
             <select
@@ -254,7 +301,8 @@ const LeadsView = () => {
   const load = useCallback(async () => {
     setLoading(true);
     const { data } = await supabase.from('leads').select('*').order('created_at', { ascending: false });
-    setLeads(data || []); setLoading(false);
+    setLeads(data || []);
+    setLoading(false);
   }, []);
   useEffect(() => { load(); }, [load]);
 
@@ -268,7 +316,16 @@ const LeadsView = () => {
     setSelected(p => p?.id === id ? { ...p, ...updates } : p);
   };
 
-  const stageCounts = LEAD_STAGES.reduce((acc, s) => { acc[s] = leads.filter(l => l.stage === s).length; return acc; }, {});
+  const handleDelete = async (id) => {
+    await supabase.from('leads').delete().eq('id', id);
+    setLeads(p => p.filter(l => l.id !== id));
+    setSelected(null);
+  };
+
+  const stageCounts = LEAD_STAGES.reduce((acc, s) => {
+    acc[s] = leads.filter(l => l.stage === s).length;
+    return acc;
+  }, {});
 
   const stats = [
     { label: 'Total Leads', value: leads.length, icon: Users, color: 'text-blue-600', bgColor: 'bg-blue-50' },
@@ -301,7 +358,7 @@ const LeadsView = () => {
         <FilterBar search={search} onSearch={setSearch} filters={filterOptions} activeFilter={stageFilter} onFilter={setStageFilter} placeholder="Search leads…" />
         <DataTable columns={cols} rows={filtered} onRowClick={setSelected} />
       </Card>
-      {selected && <DetailDrawer item={selected} type="lead" onClose={() => setSelected(null)} onUpdate={handleUpdate} />}
+      {selected && <DetailDrawer item={selected} type="lead" onClose={() => setSelected(null)} onUpdate={handleUpdate} onDelete={handleDelete} />}
     </div>
   );
 };
@@ -318,7 +375,8 @@ const ContactsView = () => {
     (async () => {
       setLoading(true);
       const { data } = await supabase.from('contact_submissions').select('*').order('created_at', { ascending: false });
-      setItems(data || []); setLoading(false);
+      setItems(data || []);
+      setLoading(false);
     })();
   }, []);
 
@@ -332,7 +390,16 @@ const ContactsView = () => {
     setSelected(p => p?.id === id ? { ...p, ...updates } : p);
   };
 
-  const counts = CONTACT_STATUSES.reduce((acc, s) => { acc[s] = items.filter(l => l.status === s).length; return acc; }, {});
+  const handleDelete = async (id) => {
+    await supabase.from('contact_submissions').delete().eq('id', id);
+    setItems(p => p.filter(l => l.id !== id));
+    setSelected(null);
+  };
+
+  const counts = CONTACT_STATUSES.reduce((acc, s) => {
+    acc[s] = items.filter(l => l.status === s).length;
+    return acc;
+  }, {});
 
   const stats = [
     { label: 'Total', value: items.length, icon: Mail, color: 'text-blue-600', bgColor: 'bg-blue-50' },
@@ -365,7 +432,7 @@ const ContactsView = () => {
         <FilterBar search={search} onSearch={setSearch} filters={filterOptions} activeFilter={statusFilter} onFilter={setStatusFilter} placeholder="Search contacts…" />
         <DataTable columns={cols} rows={filtered} onRowClick={setSelected} />
       </Card>
-      {selected && <DetailDrawer item={selected} type="contact" onClose={() => setSelected(null)} onUpdate={handleUpdate} />}
+      {selected && <DetailDrawer item={selected} type="contact" onClose={() => setSelected(null)} onUpdate={handleUpdate} onDelete={handleDelete} />}
     </div>
   );
 };
@@ -382,7 +449,8 @@ const FeedbackView = ({ feedbackType }) => {
     (async () => {
       setLoading(true);
       const { data } = await supabase.from('fl_feedback').select('*').eq('type', feedbackType).order('created_at', { ascending: false });
-      setItems(data || []); setLoading(false);
+      setItems(data || []);
+      setLoading(false);
     })();
   }, [feedbackType]);
 
@@ -396,7 +464,16 @@ const FeedbackView = ({ feedbackType }) => {
     setSelected(p => p?.id === id ? { ...p, ...updates } : p);
   };
 
-  const counts = FEEDBACK_STATUSES.reduce((acc, s) => { acc[s] = items.filter(i => i.status === s).length; return acc; }, {});
+  const handleDelete = async (id) => {
+    await supabase.from('fl_feedback').delete().eq('id', id);
+    setItems(p => p.filter(l => l.id !== id));
+    setSelected(null);
+  };
+
+  const counts = FEEDBACK_STATUSES.reduce((acc, s) => {
+    acc[s] = items.filter(i => i.status === s).length;
+    return acc;
+  }, {});
   const isFault = feedbackType === 'fault';
 
   const stats = [
@@ -428,7 +505,7 @@ const FeedbackView = ({ feedbackType }) => {
         <FilterBar search={search} onSearch={setSearch} filters={filterOptions} activeFilter={statusFilter} onFilter={setStatusFilter} placeholder={`Search ${isFault ? 'issues' : 'features'}…`} />
         <DataTable columns={cols} rows={filtered} onRowClick={setSelected} />
       </Card>
-      {selected && <DetailDrawer item={selected} type="feedback" onClose={() => setSelected(null)} onUpdate={handleUpdate} />}
+      {selected && <DetailDrawer item={selected} type="feedback" onClose={() => setSelected(null)} onUpdate={handleUpdate} onDelete={handleDelete} />}
     </div>
   );
 };
@@ -447,10 +524,10 @@ const DashboardView = ({ setView }) => {
         supabase.from('fl_feedback').select('id, user_email, message, status, created_at').eq('type', 'feature').order('created_at', { ascending: false }),
       ]);
       const allActivity = [
-        ...(leads.data || []).slice(0, 5).map(r => ({ ...r, _type: 'lead', _label: 'CRM Lead' })),
-        ...(contacts.data || []).slice(0, 3).map(r => ({ ...r, _type: 'contact', _label: 'Contact Form' })),
-        ...(issues.data || []).slice(0, 3).map(r => ({ ...r, _type: 'issue', _label: 'Issue' })),
-        ...(features.data || []).slice(0, 3).map(r => ({ ...r, _type: 'feature', _label: 'Feature Request' })),
+        ...(leads.data || []).slice(0, 5).map(r => ({ ...r, _type: 'lead' })),
+        ...(contacts.data || []).slice(0, 3).map(r => ({ ...r, _type: 'contact' })),
+        ...(issues.data || []).slice(0, 3).map(r => ({ ...r, _type: 'issue' })),
+        ...(features.data || []).slice(0, 3).map(r => ({ ...r, _type: 'feature' })),
       ].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 10);
 
       setStats({
@@ -485,16 +562,16 @@ const DashboardView = ({ setView }) => {
   ];
 
   const quickLinks = [
-    { label: 'CRM Leads', sub: `${stats.newLeads} new`, view: 'leads', icon: Users, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-100' },
-    { label: 'Contact Forms', sub: `${stats.contacts} total`, view: 'contacts', icon: Mail, color: 'text-cyan-600', bg: 'bg-cyan-50', border: 'border-cyan-100' },
-    { label: 'Bug Reports', sub: `${stats.openIssues} open`, view: 'issues', icon: Bug, color: 'text-red-600', bg: 'bg-red-50', border: 'border-red-100' },
-    { label: 'Feature Requests', sub: `${stats.features} total`, view: 'features', icon: Lightbulb, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' },
+    { label: 'CRM Leads',        sub: `${stats.newLeads} new`,    view: 'leads',    icon: Users,     color: 'text-blue-600',   bg: 'bg-blue-50',   border: 'border-blue-100' },
+    { label: 'Contact Forms',    sub: `${stats.contacts} total`,  view: 'contacts', icon: Mail,      color: 'text-cyan-600',   bg: 'bg-cyan-50',   border: 'border-cyan-100' },
+    { label: 'Bug Reports',      sub: `${stats.openIssues} open`, view: 'issues',   icon: Bug,       color: 'text-red-600',    bg: 'bg-red-50',    border: 'border-red-100' },
+    { label: 'Feature Requests', sub: `${stats.features} total`,  view: 'features', icon: Lightbulb, color: 'text-purple-600', bg: 'bg-purple-50', border: 'border-purple-100' },
   ];
 
   const typeConfig = {
-    lead: { label: 'CRM Lead', color: 'text-blue-600', bg: 'bg-blue-50', icon: '👤' },
-    contact: { label: 'Contact Form', color: 'text-cyan-600', bg: 'bg-cyan-50', icon: '✉️' },
-    issue: { label: 'Issue', color: 'text-red-600', bg: 'bg-red-50', icon: '🐛' },
+    lead:    { label: 'CRM Lead',        color: 'text-blue-600',   bg: 'bg-blue-50',   icon: '👤' },
+    contact: { label: 'Contact Form',    color: 'text-cyan-600',   bg: 'bg-cyan-50',   icon: '✉️' },
+    issue:   { label: 'Issue',           color: 'text-red-600',    bg: 'bg-red-50',    icon: '🐛' },
     feature: { label: 'Feature Request', color: 'text-purple-600', bg: 'bg-purple-50', icon: '💡' },
   };
 
@@ -502,7 +579,6 @@ const DashboardView = ({ setView }) => {
     <div className="space-y-6">
       <StatRow stats={topStats} />
 
-      {/* Quick nav */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {quickLinks.map(lnk => (
           <button
@@ -517,7 +593,6 @@ const DashboardView = ({ setView }) => {
         ))}
       </div>
 
-      {/* Recent activity */}
       <Card className="border border-gray-200 shadow-sm overflow-hidden">
         <CardHeader className="bg-slate-50 border-b border-gray-100 py-3 px-5">
           <div className="flex items-center justify-between">
@@ -561,24 +636,24 @@ const ConfigView = () => {
     {
       title: 'Platform & Hosting', icon: Shield, color: 'text-cyan-600', bg: 'bg-cyan-50',
       items: [
-        { label: 'Main Site', value: 'cy-sec.co.uk → Vercel (auto-deploy from GitHub main)' },
-        { label: 'GitHub', value: 'github.com/GazCocklin/cy-sec-website' },
-        { label: 'Stack', value: 'React + Vite + Tailwind + shadcn/ui' },
+        { label: 'Main Site',    value: 'cy-sec.co.uk → Vercel (auto-deploy from GitHub main)' },
+        { label: 'GitHub',       value: 'github.com/GazCocklin/cy-sec-website' },
+        { label: 'Stack',        value: 'React + Vite + Tailwind + shadcn/ui' },
         { label: 'FortifyLearn', value: 'fortifylearn.co.uk → Vercel' },
-        { label: 'FortifyOne', value: 'fortifyone.co.uk → Vercel' },
-        { label: 'Supabase', value: 'kmnbtnfgeadvvkwsdyml.supabase.co' },
-        { label: 'DNS', value: 'Hostinger (A record → Vercel IP)' },
+        { label: 'FortifyOne',   value: 'fortifyone.co.uk → Vercel' },
+        { label: 'Supabase',     value: 'kmnbtnfgeadvvkwsdyml.supabase.co' },
+        { label: 'DNS',          value: 'Hostinger (A record → Vercel IP)' },
       ],
     },
     {
       title: 'Products & Pricing', icon: TrendingUp, color: 'text-purple-600', bg: 'bg-purple-50',
       items: [
         { label: 'FortifyLearn', value: 'CompTIA PBQ simulator — N10-009 & SY0-701. Free Easy labs, paid packs £12.99–£19.99' },
-        { label: 'FortifyOne', value: 'GRC platform for UK SMEs — from £149/month' },
-        { label: 'vCISO', value: 'From £995/month (FortifyOne included)' },
-        { label: 'DORA Sprint', value: 'Fixed price from £4,000' },
-        { label: 'NIS2 Review', value: 'From £2,500' },
-        { label: 'Cert Training', value: 'CISM, CRISC, AAISM, BCS CISMP via Firebrand' },
+        { label: 'FortifyOne',   value: 'GRC platform for UK SMEs — from £149/month' },
+        { label: 'vCISO',        value: 'From £995/month (FortifyOne included)' },
+        { label: 'DORA Sprint',  value: 'Fixed price from £4,000' },
+        { label: 'NIS2 Review',  value: 'From £2,500' },
+        { label: 'Cert Training',value: 'CISM, CRISC, AAISM, BCS CISMP via Firebrand' },
       ],
     },
     {
@@ -590,11 +665,11 @@ const ConfigView = () => {
     {
       title: 'Content & Brand Rules', icon: Settings2, color: 'text-green-600', bg: 'bg-green-50',
       items: [
-        { label: 'Wordmark', value: "Always 'Cy-Sec' — not CY-SEC and not lowercase" },
-        { label: 'Tone', value: "Direct, practitioner-led, no jargon for jargon's sake" },
-        { label: 'CompTIA', value: 'Use "Authorised" (UK spelling)' },
-        { label: 'eSentire', value: 'Managed security partner — not a Cy-Sec product' },
-        { label: 'DORA', value: 'Enforcement since January 2025 — mandatory' },
+        { label: 'Wordmark',       value: "Always 'Cy-Sec' — not CY-SEC and not lowercase" },
+        { label: 'Tone',           value: "Direct, practitioner-led, no jargon for jargon's sake" },
+        { label: 'CompTIA',        value: 'Use "Authorised" (UK spelling)' },
+        { label: 'eSentire',       value: 'Managed security partner — not a Cy-Sec product' },
+        { label: 'DORA',           value: 'Enforcement since January 2025 — mandatory' },
         { label: 'Primary Colour', value: '#1a6fc4 (Cy-Sec blue), #0ea5e9 (cyan accent)' },
       ],
     },
@@ -628,21 +703,21 @@ const ConfigView = () => {
 
 // ─── Nav ───────────────────────────────────────────────────────────────────────
 const NAV = [
-  { id: 'dashboard', label: 'Dashboard',       icon: LayoutDashboard },
-  { id: 'leads',     label: 'CRM Leads',        icon: Users },
-  { id: 'contacts',  label: 'Contact Forms',     icon: Mail },
-  { id: 'issues',    label: 'Issues',            icon: Bug },
-  { id: 'features',  label: 'Feature Requests',  icon: Lightbulb },
-  { id: 'config',    label: 'Platform Config',   icon: Settings2 },
+  { id: 'dashboard', label: 'Dashboard',      icon: LayoutDashboard },
+  { id: 'leads',     label: 'CRM Leads',       icon: Users },
+  { id: 'contacts',  label: 'Contact Forms',    icon: Mail },
+  { id: 'issues',    label: 'Issues',           icon: Bug },
+  { id: 'features',  label: 'Feature Requests', icon: Lightbulb },
+  { id: 'config',    label: 'Platform Config',  icon: Settings2 },
 ];
 
 const PAGE_TITLES = {
   dashboard: 'Dashboard',
-  leads: 'CRM Leads',
-  contacts: 'Contact Forms',
-  issues: 'Bug Reports & Issues',
-  features: 'Feature Requests',
-  config: 'Platform Configuration',
+  leads:     'CRM Leads',
+  contacts:  'Contact Forms',
+  issues:    'Bug Reports & Issues',
+  features:  'Feature Requests',
+  config:    'Platform Configuration',
 };
 
 // ─── Root ──────────────────────────────────────────────────────────────────────
@@ -667,7 +742,6 @@ export default function AdminHomePage() {
 
       {/* ── Sidebar ── */}
       <div className={`${sidebarOpen ? 'w-56' : 'w-16'} flex-shrink-0 bg-white border-r border-gray-200 flex flex-col transition-all duration-200 shadow-sm`}>
-        {/* Logo */}
         <div className={`border-b border-gray-100 flex items-center gap-3 px-4 py-5 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
           {sidebarOpen && (
             <div className="flex items-center gap-2.5">
@@ -688,7 +762,6 @@ export default function AdminHomePage() {
           </button>
         </div>
 
-        {/* Nav */}
         <nav className="flex-1 py-3 px-2 space-y-0.5">
           {NAV.map(item => {
             const active = view === item.id;
@@ -711,7 +784,6 @@ export default function AdminHomePage() {
           })}
         </nav>
 
-        {/* Footer */}
         {sidebarOpen && (
           <div className="border-t border-gray-100 px-4 py-3">
             <p className="text-xs font-semibold text-slate-600">Gary Cocklin</p>
@@ -722,7 +794,6 @@ export default function AdminHomePage() {
 
       {/* ── Main ── */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top bar */}
         <div className="bg-white border-b border-gray-200 shadow-sm px-7 py-4 flex items-center justify-between">
           <div>
             <h1 className="text-xl font-extrabold text-slate-800" style={{ letterSpacing: '-0.03em' }}>
@@ -732,7 +803,8 @@ export default function AdminHomePage() {
               {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
             </p>
           </div>
-          <a href="/"
+          <a
+            href="/"
             className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-blue-600 border border-gray-200 hover:border-blue-300 px-3 py-1.5 rounded-lg bg-white transition-all"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
@@ -740,7 +812,6 @@ export default function AdminHomePage() {
           </a>
         </div>
 
-        {/* Content */}
         <div className="flex-1 overflow-y-auto p-7">
           {renderView()}
         </div>

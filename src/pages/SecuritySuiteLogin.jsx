@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useToast } from '@/components/ui/use-toast';
@@ -8,6 +8,9 @@ const SecuritySuiteLogin = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { signIn, session, user, loading: authLoading } = useAuth();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || location.state?.from?.pathname || '/fortify-one/dashboard';
+  const isStorePurchase = redirectTo === '/store' || redirectTo.startsWith('/store');
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -18,8 +21,7 @@ const SecuritySuiteLogin = () => {
 
   useEffect(() => {
     if (!authLoading && user && session) {
-      const from = location.state?.from?.pathname || '/fortify-one/dashboard';
-      navigate(from, { replace: true });
+      navigate(redirectTo, { replace: true });
     }
   }, [session, user, authLoading, navigate, location.state]);
 
@@ -165,7 +167,7 @@ const SecuritySuiteLogin = () => {
             </div>
 
             <p style={{ fontSize: 13, color: '#64748b', marginBottom: 28 }}>
-              {mode === 'login' ? 'Sign in to your security dashboard.' : 'Enter your email to reset your password.'}
+              {mode === 'login' ? (isStorePurchase ? 'Sign in or create a free account to complete your purchase.' : 'Sign in to your security dashboard.') : 'Enter your email to reset your password.'}
             </p>
 
             {error && (

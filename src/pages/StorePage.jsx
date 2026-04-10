@@ -248,7 +248,7 @@ export default function StorePage() {
 
   const handleBuy = async (productKey) => {
     if (!user || !session) {
-      navigate('/fortify-one/login?redirect=/store');
+      navigate('/fortify-one/login', { state: { from: { pathname: '/store' } } });
       return;
     }
     setLoading(productKey);
@@ -282,8 +282,8 @@ export default function StorePage() {
   return (
     <div className="min-h-screen" style={{ background: '#F8FAFC' }}>
       <Helmet>
-        <title>CompTIA PBQ Simulation Packs — FortifyLearn Store | Cy-Sec</title>
-        <meta name="description" content="Buy CompTIA PBQ simulation packs for Network+, Security+ and CySA+. Live Cisco IOS topology, real CLI commands. From £19.99 one-time payment, 12 months access." />
+        <title>Cy-Sec Shop — FortifyLearn PBQ Packs | Cy-Sec</title>
+        <meta name="description" content="The official Cy-Sec shop. CompTIA PBQ simulation packs for Network+, Security+ and CySA+ — representative CLI environments, objective-mapped scoring, 12 months access from £19.99." />
       </Helmet>
 
       {/* Hero with photo background */}
@@ -384,7 +384,7 @@ export default function StorePage() {
             <Lock size={16} className="flex-shrink-0" style={{ color: '#0891B2' }} />
             <p className="text-sm text-slate-600">
               You need a FortifyLearn account to purchase.{' '}
-              <button onClick={() => navigate('/fortify-one/login?redirect=/store')}
+              <button onClick={() => navigate('/fortify-one/login', { state: { from: { pathname: '/store' } } })}
                 className="font-semibold underline" style={{ color: '#0891B2' }}>
                 Sign in or create an account →
               </button>
@@ -399,6 +399,11 @@ export default function StorePage() {
           </div>
         )}
 
+        {/* ─── FortifyLearn PBQ Simulation Packs ─── */}
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-slate-800 mb-1">FortifyLearn — CompTIA PBQ Simulation Packs</h2>
+          <p className="text-sm text-slate-500 mb-6">Practice performance-based questions in a representative CLI environment. One-time purchase · 12 months access.</p>
+        </div>
         <div className="mb-8">
           <BundleCard onBuy={handleBuy} loading={loading} />
         </div>

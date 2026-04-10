@@ -92,9 +92,9 @@ const PBQEnginePage = () => {
                     Try Free Lab <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </a>
-                <a href="https://fortifylearn.co.uk/pbq-lab" target="_blank" rel="noopener noreferrer">
+                <a href="https://cy-sec.co.uk/store">
                   <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 px-7 py-5 bg-transparent">
-                    Browse All Labs
+                    Buy Packs
                   </Button>
                 </a>
               </div>
@@ -191,11 +191,18 @@ const PBQEnginePage = () => {
                     </div>
                   ))}
                 </div>
-                <a href="https://fortifylearn.co.uk/pbq-lab" target="_blank" rel="noopener noreferrer"
-                  className="mt-8 flex items-center gap-2 text-sm font-semibold hover:opacity-80 transition-opacity"
-                  style={{ color: '#0891B2' }}>
-                  Start practising <ArrowRight className="w-4 h-4" />
-                </a>
+                {cert.free
+                  ? <a href="https://fortifylearn.co.uk/pbq-lab" target="_blank" rel="noopener noreferrer"
+                      className="mt-8 flex items-center gap-2 text-sm font-semibold hover:opacity-80 transition-opacity"
+                      style={{ color: '#0891B2' }}>
+                      Try free lab <ArrowRight className="w-4 h-4" />
+                    </a>
+                  : <a href="https://cy-sec.co.uk/store"
+                      className="mt-8 flex items-center gap-2 text-sm font-semibold hover:opacity-80 transition-opacity"
+                      style={{ color: '#0891B2' }}>
+                      Buy pack <ArrowRight className="w-4 h-4" />
+                    </a>
+                }
               </div>
             ))}
           </div>
@@ -206,13 +213,20 @@ const PBQEnginePage = () => {
       <section className="py-20" style={{ background: '#0A1628' }}>
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Ready to pass your CompTIA exam?</h2>
-          <p className="text-slate-400 mb-8">Create a free account and start with a beginner lab in under 2 minutes.</p>
-          <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer">
-            <Button className="font-semibold px-8 py-5 border-0 text-base text-slate-900"
-              style={{ background: '#0891B2' }}>
-              Launch FortifyLearn <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </a>
+          <p className="text-slate-400 mb-8">Try a free lab — no card required — or buy a pack to unlock all difficulty levels.</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer">
+              <Button className="font-semibold px-8 py-5 border-0 text-base text-slate-900"
+                style={{ background: '#0891B2' }}>
+                Try Free Lab <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </a>
+            <a href="https://cy-sec.co.uk/store">
+              <Button variant="outline" className="font-semibold px-8 py-5 border-white/20 text-white hover:bg-white/10 bg-transparent">
+                Buy Packs <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </a>
+          </div>
         </div>
       </section>
     </div>

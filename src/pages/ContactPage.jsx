@@ -24,14 +24,14 @@ const INFO = [
 ];
 
 const inputCls = `w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-800 text-sm
-  placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600/25 focus:border-blue-600
+  placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0891B2]/25 focus:border-[#0891B2]
   transition-all duration-150`;
 
 function Field({ label, required, error, children }) {
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-sm font-semibold text-slate-700">
-        {label}{required && <span className="text-blue-500 ml-0.5">*</span>}
+        {label}{required && <span className="text-[#0891B2] ml-0.5">*</span>}
       </label>
       {children}
       {error && <p className="text-xs text-red-500">{error}</p>}
@@ -107,12 +107,12 @@ export default function ContactPage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div initial={{opacity:0,y:16}} animate={{opacity:1,y:0}} className="text-center mb-12">
-          <span className="inline-flex items-center gap-2 text-xs font-semibold text-blue-600 uppercase tracking-widest bg-blue-600/8 px-4 py-2 rounded-full mb-4">
+          <span className="inline-flex items-center gap-2 text-xs font-semibold text-[#0891B2] uppercase tracking-widest bg-[#0891B2]/8 px-4 py-2 rounded-full mb-4">
             <Mail className="h-3.5 w-3.5" /> Get in touch
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             {"Let's talk about your"}<br />
-            <span className="text-blue-600">security needs</span>
+            <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>security needs</span>
           </h1>
           <p className="text-lg text-slate-500 max-w-xl mx-auto">
             Whether you need a vCISO, compliance support, training, or want to explore our platforms — we are here.
@@ -125,8 +125,8 @@ export default function ContactPage() {
           <motion.div initial={{opacity:0,x:-16}} animate={{opacity:1,x:0}} transition={{delay:0.1}} className="flex flex-col gap-5">
             {INFO.map(({ icon: Icon, title, body }) => (
               <div key={title} className="bg-white rounded-2xl border border-slate-200 p-6 flex gap-4 shadow-sm">
-                <div className="w-10 h-10 rounded-xl bg-blue-600/10 flex items-center justify-center flex-shrink-0">
-                  <Icon className="h-5 w-5 text-blue-600" />
+                <div className="w-10 h-10 rounded-xl bg-[#0891B2]/10 flex items-center justify-center flex-shrink-0">
+                  <Icon className="h-5 w-5 text-[#0891B2]" />
                 </div>
                 <div>
                   <p className="font-semibold text-slate-800 text-sm mb-1">{title}</p>
@@ -144,8 +144,8 @@ export default function ContactPage() {
                     onClick={() => set('interest', form.interest === value ? '' : value)}
                     className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all ${
                       form.interest === value
-                        ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-blue-400'
+                        ? 'text-white border-transparent shadow-sm'
+                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-[#0891B2]'
                     }`}
                   >{label}</button>
                 ))}
@@ -170,7 +170,7 @@ export default function ContactPage() {
                       </p>
                     </div>
                     <button onClick={() => { setSubmitted(false); setForm({name:'',email:'',company:'',phone:'',interest:'',message:''}); }}
-                      className="text-sm text-blue-600 font-semibold hover:underline mt-2">
+                      className="text-sm text-[#0891B2] font-semibold hover:underline mt-2">
                       Send another message
                     </button>
                   </motion.div>
@@ -213,7 +213,7 @@ export default function ContactPage() {
                     </div>
 
                     {form.interest && (
-                      <div className="flex items-center gap-2 text-sm text-blue-700 bg-blue-50 px-4 py-2.5 rounded-xl border border-blue-200">
+                      <div className="flex items-center gap-2 text-sm text-[#0a5c8a] bg-cyan-50 px-4 py-2.5 rounded-xl border border-cyan-200">
                         <CheckCircle className="h-4 w-4 flex-shrink-0" />
                         <span>Interested in: <strong>{INTERESTS.find(i=>i.value===form.interest)?.label}</strong></span>
                         <button type="button" onClick={() => set('interest','')} className="ml-auto text-slate-400 hover:text-slate-600 text-xs leading-none">✕</button>
@@ -232,8 +232,9 @@ export default function ContactPage() {
 
                     <button type="submit" disabled={submitting}
                       className="w-full flex items-center justify-center gap-2 py-4 px-6 rounded-xl
-                        bg-blue-600 hover:bg-blue-700 text-white font-bold text-base
-                        transition-all shadow-md hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed">
+                        text-white font-bold text-base
+                        transition-all shadow-md hover:brightness-110 disabled:opacity-60 disabled:cursor-not-allowed"
+                      style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
                       {submitting ? (
                         <><span className="h-4 w-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />Sending…</>
                       ) : (

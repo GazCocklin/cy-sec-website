@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useNavigate } from 'react-router-dom';
-import { Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Tag, Loader2, Star } from 'lucide-react';
+import { Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Tag, Loader2, Star, LogIn } from 'lucide-react';
 
 const SUPABASE_URL = 'https://kmnbtnfgeadvvkwsdyml.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImttbmJ0bmZnZWFkdnZrd3NkeW1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTAxNDEsImV4cCI6MjA4Njc4NjE0MX0.T7yHQmQ3qdobyZEAXoAmDptfrj2yH-ZIJ8RfjNOpEFs';
 const BASKET_KEY = 'cysec_basket';
 
-// ── Product catalogue ───────────────────────────────────────────────────────
 const PACKS = [
   {
     key: 'netplus_pack',
@@ -40,14 +39,8 @@ const PACKS = [
   },
 ];
 
-const BUNDLE = {
-  key: 'bundle',
-  price: 39.99,
-  rrp: 74.97,
-  saving: 35.00,
-};
+const BUNDLE = { key: 'bundle', price: 39.99, rrp: 74.97, saving: 35.00 };
 
-// ── Basket helpers ──────────────────────────────────────────────────────────
 function loadBasket() {
   try { return JSON.parse(localStorage.getItem(BASKET_KEY) || '[]'); }
   catch { return []; }
@@ -55,13 +48,6 @@ function loadBasket() {
 function saveBasket(items) {
   try { localStorage.setItem(BASKET_KEY, JSON.stringify(items)); }
   catch {}
-}
-
-// Compute what to actually check out — if all 3 packs are in basket, use bundle
-function resolveCheckout(basket) {
-  const allThree = PACKS.every(p => basket.includes(p.key));
-  if (allThree) return { key: 'bundle', price: BUNDLE.price };
-  return { key: basket.join('+'), price: basket.reduce((t, k) => t + (PACKS.find(p => p.key === k)?.price || 0), 0) };
 }
 
 // ── Pack card ───────────────────────────────────────────────────────────────
@@ -119,9 +105,7 @@ function PackCard({ pack, inBasket, onToggle }) {
 // ── Bundle card ─────────────────────────────────────────────────────────────
 function BundleCard({ inBasket, onToggle }) {
   return (
-    <div className={`relative rounded-2xl border-2 transition-all overflow-hidden ${
-      inBasket ? 'border-cyan-400' : 'border-transparent'
-    }`}
+    <div className={`relative rounded-2xl border-2 transition-all overflow-hidden ${inBasket ? 'border-cyan-400' : 'border-transparent'}`}
       style={{ background: 'linear-gradient(135deg,#0B1D3A 0%,#0891B2 100%)' }}>
       <div className="absolute inset-0 opacity-[0.04]"
         style={{ backgroundImage: 'linear-gradient(#fff 1px,transparent 1px),linear-gradient(to right,#fff 1px,transparent 1px)', backgroundSize: '32px 32px' }} />
@@ -166,18 +150,35 @@ function BundleCard({ inBasket, onToggle }) {
   );
 }
 
-// ── Basket panel ─────────────────────────────────────────────────────────────
-function BasketBar({ basket, onRemove, onCheckout, checkoutLoading }) {
+// ── Basket bar ──────────────────────────────────────────────────────────────
+function BasketBar({ basket, user, authLoading, onRemove, onCheckout, checkoutLoading }) {
   if (basket.length === 0) return null;
 
   const isBundle = basket[0] === 'bundle';
-  const items = isBundle ? [{ label: 'All Access Bundle', price: BUNDLE.price }]
+  const items = isBundle
+    ? [{ label: 'All Access Bundle', price: BUNDLE.price }]
     : basket.map(k => { const p = PACKS.find(x => x.key === k); return { label: p?.title, price: p?.price || 0 }; });
 
   const rawTotal = items.reduce((t, i) => t + i.price, 0);
   const allThree = PACKS.every(p => basket.includes(p.key));
   const displayPrice = allThree ? BUNDLE.price : rawTotal;
   const savingAmount = allThree ? (rawTotal - BUNDLE.price).toFixed(2) : null;
+
+  const isDisabled = checkoutLoading || authLoading;
+
+  const buttonLabel = checkoutLoading
+    ? 'Processing...'
+    : authLoading
+    ? 'Loading...'
+    : !user
+    ? 'Sign in to Checkout'
+    : `Checkout — £${displayPrice.toFixed(2)}`;
+
+  const ButtonIcon = checkoutLoading || authLoading
+    ? <Loader2 className="w-4 h-4 animate-spin" />
+    : !user
+    ? <LogIn className="w-4 h-4" />
+    : <ArrowRight className="w-4 h-4" />;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
@@ -215,12 +216,12 @@ function BasketBar({ basket, onRemove, onCheckout, checkoutLoading }) {
             </div>
             <button
               onClick={onCheckout}
-              disabled={checkoutLoading}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-slate-900 text-sm transition-all hover:brightness-110 disabled:opacity-60"
+              disabled={isDisabled}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-slate-900 text-sm transition-all hover:brightness-110 disabled:opacity-60 disabled:cursor-not-allowed"
               style={{ background: 'linear-gradient(135deg,#22d3ee,#0891B2)' }}
             >
-              {checkoutLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-              Checkout — £{displayPrice.toFixed(2)} <ArrowRight className="w-4 h-4" />
+              {ButtonIcon}
+              {buttonLabel}
             </button>
           </div>
         </div>
@@ -237,29 +238,23 @@ export default function StorePage() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // After login redirect, restore basket and auto-prompt checkout if basket has items
+  // After returning from login, restore basket from localStorage
   useEffect(() => {
     if (!authLoading && user && session) {
       const stored = loadBasket();
-      if (stored.length > 0) {
-        setBasket(stored);
-      }
+      if (stored.length > 0) setBasket(stored);
     }
   }, [authLoading, user, session]);
 
-  // Sync basket to localStorage whenever it changes
-  useEffect(() => {
-    saveBasket(basket);
-  }, [basket]);
+  // Sync basket to localStorage
+  useEffect(() => { saveBasket(basket); }, [basket]);
 
   function toggleItem(key) {
     setError(null);
     if (key === 'bundle') {
-      // Bundle replaces all individual packs
       setBasket(prev => prev.includes('bundle') ? [] : ['bundle']);
     } else {
       setBasket(prev => {
-        // Remove bundle if individual pack added
         const withoutBundle = prev.filter(k => k !== 'bundle');
         return withoutBundle.includes(key)
           ? withoutBundle.filter(k => k !== key)
@@ -271,23 +266,23 @@ export default function StorePage() {
   async function handleCheckout() {
     if (basket.length === 0) return;
 
+    // ── Auth still loading: user/session are transiently null even for
+    //    already-logged-in users. Never redirect during this window.
+    if (authLoading) return;
+
+    // Genuinely not logged in → save basket, go to login, come back here
     if (!user || !session) {
-      // Save basket, redirect to login — will restore on return
       navigate('/login', { state: { from: { pathname: '/store' } } });
       return;
     }
 
+    // ── Logged in → go straight to Stripe ────────────────────────────────
     setCheckoutLoading(true);
     setError(null);
 
-    // If all 3 packs selected, use bundle
     const allThree = PACKS.every(p => basket.includes(p.key));
-    const productKey = (basket.includes('bundle') || allThree) ? 'bundle'
-      : basket.length === 1 ? basket[0]
-      : basket[0]; // For 2 packs we still use first (edge fn will need updating for multi later)
-
-    // For multi-pack, use the keys list
-    const isMulti = !basket.includes('bundle') && basket.length > 1 && !allThree;
+    const useBundle = basket.includes('bundle') || allThree;
+    const isMulti = !useBundle && basket.length > 1;
 
     try {
       const res = await fetch(`${SUPABASE_URL}/functions/v1/create-checkout-session`, {
@@ -298,14 +293,14 @@ export default function StorePage() {
           'Authorization': `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
-          product_key: productKey,
+          product_key: useBundle ? 'bundle' : !isMulti ? basket[0] : undefined,
           product_keys: isMulti ? basket : undefined,
           cancel_url: 'https://cy-sec.co.uk/store',
         }),
       });
       const data = await res.json();
       if (data.url) {
-        localStorage.removeItem(BASKET_KEY); // Clear basket on successful redirect
+        localStorage.removeItem(BASKET_KEY);
         window.location.href = data.url;
       } else {
         setError(data.error || 'Checkout unavailable. Please try again or contact info@cy-sec.co.uk.');
@@ -316,8 +311,6 @@ export default function StorePage() {
       setCheckoutLoading(false);
     }
   }
-
-  const inBasket = (key) => basket.includes(key) || (key !== 'bundle' && PACKS.every(p => basket.includes(p.key)) && basket.includes(key));
 
   return (
     <div className="min-h-screen pb-32" style={{ background: '#F8FAFC' }}>
@@ -350,14 +343,12 @@ export default function StorePage() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10 space-y-12">
 
-        {/* Error */}
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-5 py-3 rounded-xl flex items-start gap-2">
             <Shield className="w-4 h-4 flex-shrink-0 mt-0.5" />{error}
           </div>
         )}
 
-        {/* ── FortifyLearn PBQ Packs section ── */}
         <div>
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-slate-900 mb-1">FortifyLearn — CompTIA PBQ Simulation Packs</h2>
@@ -370,27 +361,19 @@ export default function StorePage() {
             </p>
           </div>
 
-          {/* Bundle */}
           <div className="mb-8">
             <BundleCard inBasket={basket.includes('bundle')} onToggle={toggleItem} />
           </div>
 
-          {/* Individual packs */}
           <div>
             <p className="text-sm font-semibold text-slate-500 mb-4">Individual Packs</p>
             <div className="grid md:grid-cols-3 gap-6">
               {PACKS.map(pack => (
-                <PackCard
-                  key={pack.key}
-                  pack={pack}
-                  inBasket={basket.includes(pack.key)}
-                  onToggle={toggleItem}
-                />
+                <PackCard key={pack.key} pack={pack} inBasket={basket.includes(pack.key)} onToggle={toggleItem} />
               ))}
             </div>
           </div>
 
-          {/* Trust strip */}
           <div className="mt-8 flex flex-wrap gap-4 items-center justify-center text-slate-400 text-xs">
             {['Secure checkout via Stripe', '12 months access from purchase date', 'No subscription — one-time payment', 'CompTIA Authorised Partner'].map(t => (
               <span key={t} className="flex items-center gap-1.5">
@@ -400,7 +383,6 @@ export default function StorePage() {
           </div>
         </div>
 
-        {/* ── Free taster ── */}
         <div className="bg-white border border-slate-200 rounded-2xl p-6 text-center">
           <p className="font-semibold text-slate-800 mb-1">Try before you buy — taster labs are always free</p>
           <p className="text-sm text-slate-500 mb-4">One Network+ and one Security+ lab are free. Just sign up — no card needed.</p>
@@ -413,9 +395,10 @@ export default function StorePage() {
 
       </div>
 
-      {/* ── Sticky basket bar ── */}
       <BasketBar
         basket={basket}
+        user={user}
+        authLoading={authLoading}
         onRemove={(key) => toggleItem(key)}
         onCheckout={handleCheckout}
         checkoutLoading={checkoutLoading}

@@ -7,7 +7,7 @@ import {
   LayoutDashboard, Users, Mail, Bug, Lightbulb, Settings2,
   ChevronLeft, ChevronRight, ArrowLeft,
   Clock, CheckCircle2, AlertCircle, Inbox,
-  TrendingUp, Shield, Trash2, Tag, Package, Layers,
+  TrendingUp, Shield, Trash2, Tag, Package, Layers, BookOpen,
 } from 'lucide-react';
 
 // ─── Status helpers ────────────────────────────────────────────────────────────

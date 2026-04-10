@@ -537,228 +537,178 @@ const DashboardView = ({ setView }) => {
   );
 };
 
-// ─── Pricing view ──────────────────────────────────────────────────────────────
+// ─── Pricing / Pack Inspector view ────────────────────────────────────────────
 const PricingView = () => {
-  const PriceTag = ({ price, suffix = '' }) => (
-    <div className="mt-3 mb-1">
-      <span className="text-3xl font-extrabold text-slate-800" style={{ letterSpacing: '-0.03em' }}>{price}</span>
-      {suffix && <span className="text-sm text-slate-500 ml-1">{suffix}</span>}
-    </div>
-  );
+  const [packs, setPacks] = useState([]);
+  const [banks, setBanks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState({});
 
-  const Feature = ({ children, highlight }) => (
-    <li className={`flex items-start gap-2 text-sm ${highlight ? 'font-semibold text-blue-700' : 'text-slate-600'}`}>
-      <span className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 text-[10px] font-bold ${highlight ? 'bg-blue-100 text-blue-700' : 'bg-slate-100 text-slate-500'}`}>✓</span>
-      {children}
-    </li>
-  );
+  useEffect(() => {
+    (async () => {
+      const [packsRes, banksRes] = await Promise.all([
+        supabase.from('pbq_packs').select('*').order('certification'),
+        supabase.from('pbq_banks').select('*').order('certification, difficulty, title'),
+      ]);
+      setPacks(packsRes.data || []);
+      setBanks(banksRes.data || []);
+      // Auto-expand all packs
+      const exp = {};
+      (packsRes.data || []).forEach(p => { exp[p.id] = true; });
+      setExpanded(exp);
+      setLoading(false);
+    })();
+  }, []);
 
-  const StripeId = ({ id }) => (
-    <div className="mt-3 pt-3 border-t border-slate-100">
-      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Stripe Price ID</p>
-      <code className="text-[11px] text-slate-500 font-mono break-all">{id}</code>
-    </div>
-  );
+  const toggle = (id) => setExpanded(p => ({ ...p, [id]: !p[id] }));
+
+  const allPackBankIds = new Set(packs.flatMap(p => p.bank_ids || []));
+
+  const diffColour = (d) => ({
+    taster:       'bg-slate-100 text-slate-600 border-slate-300',
+    beginner:     'bg-green-100 text-green-700 border-green-300',
+    intermediate: 'bg-blue-100 text-blue-700 border-blue-300',
+    advanced:     'bg-orange-100 text-orange-700 border-orange-300',
+    expert:       'bg-red-100 text-red-700 border-red-300',
+  }[d] || 'bg-slate-100 text-slate-500 border-slate-200');
+
+  const certColour = (cert) => {
+    if (cert?.includes('Network')) return { ring: 'ring-emerald-400', bg: 'bg-emerald-50', badge: 'bg-emerald-100 text-emerald-700', dot: 'bg-emerald-500' };
+    if (cert?.includes('Security')) return { ring: 'ring-blue-400', bg: 'bg-blue-50', badge: 'bg-blue-100 text-blue-700', dot: 'bg-blue-500' };
+    if (cert?.includes('CySA'))     return { ring: 'ring-purple-400', bg: 'bg-purple-50', badge: 'bg-purple-100 text-purple-700', dot: 'bg-purple-500' };
+    return { ring: 'ring-slate-300', bg: 'bg-slate-50', badge: 'bg-slate-100 text-slate-600', dot: 'bg-slate-400' };
+  };
+
+  const BankRow = ({ bank }) => {
+    const dc = diffColour(bank.difficulty);
+    return (
+      <div className="flex items-center gap-3 py-2.5 px-3 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-100 transition-all">
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-slate-800 truncate">{bank.title}</p>
+          {bank.domain && <p className="text-[11px] text-slate-400 mt-0.5">{bank.domain}</p>}
+        </div>
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border capitalize ${dc}`}>{bank.difficulty}</span>
+          <span className="text-[11px] text-slate-500 w-14 text-right">{bank.question_count} Q</span>
+          <span className="text-[11px] text-slate-400 w-12 text-right">{bank.time_limit_minutes}m</span>
+          <span className={`w-2 h-2 rounded-full flex-shrink-0 ${bank.is_published ? 'bg-green-400' : 'bg-slate-300'}`} title={bank.is_published ? 'Published' : 'Draft'} />
+        </div>
+      </div>
+    );
+  };
+
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" /></div>;
+
+  // Group unassigned banks by cert
+  const unassigned = banks.filter(b => !allPackBankIds.has(b.id) && b.certification !== 'Platform Tutorial');
+  const unassignedByCert = unassigned.reduce((acc, b) => {
+    const k = b.certification || 'Other';
+    if (!acc[k]) acc[k] = [];
+    acc[k].push(b);
+    return acc;
+  }, {});
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
 
-      {/* FortifyLearn PBQ ── */}
-      <div>
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center">
-            <Package className="w-4 h-4 text-blue-600" />
+      {/* Summary strip */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        {[
+          { label: 'Total Packs', value: packs.length, color: 'text-blue-600', bg: 'bg-blue-50' },
+          { label: 'Total Banks', value: banks.filter(b => b.certification !== 'Platform Tutorial').length, color: 'text-slate-600', bg: 'bg-slate-100' },
+          { label: 'Assigned Banks', value: banks.filter(b => allPackBankIds.has(b.id)).length, color: 'text-green-600', bg: 'bg-green-50' },
+          { label: 'Unassigned Banks', value: unassigned.length, color: 'text-amber-600', bg: 'bg-amber-50' },
+        ].map(s => (
+          <div key={s.label} className={`${s.bg} rounded-xl p-4 border border-white`}>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">{s.label}</p>
+            <p className={`text-3xl font-extrabold mt-1 ${s.color}`} style={{ letterSpacing: '-0.03em' }}>{s.value}</p>
           </div>
-          <div>
-            <h2 className="text-base font-extrabold text-slate-800">FortifyLearn — PBQ Packs</h2>
-            <p className="text-xs text-slate-500">One-time purchase · 12-month access · Sold exclusively via cy-sec.co.uk/store</p>
-          </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Bundle highlight */}
-        <div className="mb-4 rounded-2xl border-2 border-blue-500 bg-gradient-to-br from-blue-50 to-cyan-50 p-5 relative overflow-hidden">
-          <div className="absolute top-3 right-4 bg-blue-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">Best Value</div>
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0">
-              <Layers className="w-5 h-5 text-white" />
-            </div>
-            <div className="flex-1">
-              <p className="font-extrabold text-slate-800 text-lg">All Access Bundle</p>
-              <p className="text-sm text-slate-600 mt-0.5">Network+ · Security+ · CySA+ — all three packs</p>
-              <PriceTag price="£39.99" suffix="one-time" />
-              <p className="text-xs text-blue-700 font-semibold">Save £19.98 vs buying separately</p>
-              <StripeId id="price_1TKO4SPp3j8eGdIt0XlJIfYV" />
-            </div>
-          </div>
-        </div>
+      {/* Packs */}
+      <div className="space-y-4">
+        <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest">Packs</h2>
+        {packs.map(pack => {
+          const cc = certColour(pack.certification);
+          const packBanks = (pack.bank_ids || [])
+            .map(id => banks.find(b => b.id === id))
+            .filter(Boolean);
+          const totalQ = packBanks.reduce((sum, b) => sum + (b.question_count || 0), 0);
+          const totalMins = packBanks.reduce((sum, b) => sum + (b.time_limit_minutes || 0), 0);
+          const isOpen = expanded[pack.id];
 
-        {/* Individual packs */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {[
-            {
-              cert: 'Network+', code: 'N10-009', emoji: '🌐',
-              color: 'text-emerald-700', bg: 'bg-emerald-50', border: 'border-emerald-200',
-              stripeId: 'price_1TKO3wPp3j8eGdItvwIpvTCL',
-              features: ['Full PBQ question bank', 'Drag-and-drop scenarios', 'Network topology labs', 'Unlimited attempts'],
-            },
-            {
-              cert: 'Security+', code: 'SY0-701', emoji: '🔐',
-              color: 'text-blue-700', bg: 'bg-blue-50', border: 'border-blue-200',
-              stripeId: 'price_1TKO41Pp3j8eGdItOKEhy5xl',
-              features: ['Full PBQ question bank', 'Firewall config labs', 'Incident response sims', 'Unlimited attempts'],
-            },
-            {
-              cert: 'CySA+', code: 'CS0-003', emoji: '🛡️',
-              color: 'text-purple-700', bg: 'bg-purple-50', border: 'border-purple-200',
-              stripeId: 'price_1TKO4IPp3j8eGdItmitBvdAY',
-              features: ['Full PBQ question bank', 'Threat analysis labs', 'SIEM & log review sims', 'Unlimited attempts'],
-            },
-          ].map(pack => (
-            <div key={pack.cert} className={`rounded-xl border ${pack.border} ${pack.bg} p-4`}>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-xl">{pack.emoji}</span>
-                <div>
-                  <p className={`font-extrabold text-sm ${pack.color}`}>{pack.cert}</p>
-                  <p className="text-[11px] text-slate-500 font-mono">{pack.code}</p>
+          return (
+            <Card key={pack.id} className={`border-2 shadow-sm overflow-hidden ring-2 ring-offset-1 ${cc.ring} ${!pack.is_active ? 'opacity-60' : ''}`}>
+              {/* Pack header */}
+              <button className="w-full text-left" onClick={() => toggle(pack.id)}>
+                <div className={`px-5 py-4 ${cc.bg} flex items-start gap-4`}>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${cc.badge}`}>{pack.certification}</span>
+                      <span className="text-[10px] font-mono text-slate-500">{pack.exam_code}</span>
+                      {!pack.is_active && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-200 text-slate-500">INACTIVE</span>}
+                      {pack.is_featured && <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">FEATURED</span>}
+                    </div>
+                    <p className="font-bold text-slate-800 text-base">{pack.title}</p>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-2xl font-extrabold text-slate-800" style={{ letterSpacing: '-0.03em' }}>£{pack.price_gbp}</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">{packBanks.length} banks · {totalQ} questions · ~{totalMins}m</p>
+                  </div>
+                  <span className="text-slate-400 text-xs mt-1">{isOpen ? '▲' : '▼'}</span>
                 </div>
-              </div>
-              <PriceTag price="£19.99" suffix="one-time" />
-              <ul className="space-y-1.5 mt-3 mb-3">
-                {pack.features.map(f => <Feature key={f}>{f}</Feature>)}
-              </ul>
-              <StripeId id={pack.stripeId} />
-            </div>
-          ))}
-        </div>
+              </button>
 
-        {/* Free tasters */}
-        <div className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-base">🎁</span>
-            <p className="font-bold text-slate-700 text-sm">Free Taster Labs</p>
-            <span className="ml-auto text-xs font-bold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">FREE</span>
-          </div>
-          <p className="text-xs text-slate-500">One free Easy-difficulty PBQ available per certification without login. Designed to drive conversions to paid packs.</p>
-        </div>
-      </div>
-
-      {/* Consulting & Platform ── */}
-      <div>
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center">
-            <Tag className="w-4 h-4 text-purple-600" />
-          </div>
-          <div>
-            <h2 className="text-base font-extrabold text-slate-800">Consulting & Platform Services</h2>
-            <p className="text-xs text-slate-500">Recurring and project-based engagements</p>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[
-            {
-              name: 'FortifyOne GRC Platform', emoji: '🏛️',
-              price: 'From £149', suffix: '/month',
-              color: 'text-cyan-700', bg: 'bg-cyan-50', border: 'border-cyan-200',
-              features: [
-                'Risk & compliance management',
-                'Policy & control library',
-                'Vendor risk assessments',
-                'DPIA & FRIA tooling',
-                'UK SME focused',
-              ],
-              note: 'Hosted on fortifyone.co.uk → Hostinger',
-            },
-            {
-              name: 'vCISO Retainer', emoji: '🎯',
-              price: 'From £995', suffix: '/month',
-              color: 'text-blue-700', bg: 'bg-blue-50', border: 'border-blue-200',
-              features: [
-                'FortifyOne platform included',
-                'Strategic security leadership',
-                'Board & exec reporting',
-                'Incident response support',
-                'Delivered by Gary Cocklin CISSP-ISSAP',
-              ],
-              note: null,
-            },
-            {
-              name: 'DORA Compliance Sprint', emoji: '⚡',
-              price: 'From £4,000', suffix: 'fixed price',
-              color: 'text-orange-700', bg: 'bg-orange-50', border: 'border-orange-200',
-              features: [
-                'Gap analysis against DORA requirements',
-                'ICT risk register setup',
-                'Incident reporting framework',
-                'Third-party risk assessment',
-                'Enforcement mandatory Jan 2025',
-              ],
-              note: 'Targeted at financial sector firms in scope for DORA',
-            },
-            {
-              name: 'NIS2 Compliance Review', emoji: '🔍',
-              price: 'From £2,500', suffix: 'fixed price',
-              color: 'text-rose-700', bg: 'bg-rose-50', border: 'border-rose-200',
-              features: [
-                'Scoping & applicability assessment',
-                'Current-state gap analysis',
-                'Risk management recommendations',
-                'Incident handling review',
-                'Written report & action plan',
-              ],
-              note: null,
-            },
-            {
-              name: 'Tabletop Exercises (TTX)', emoji: '🎲',
-              price: 'POA', suffix: '',
-              color: 'text-slate-700', bg: 'bg-slate-50', border: 'border-slate-200',
-              features: [
-                'Custom scenario design',
-                'Ransomware / supply chain / insider threat',
-                'Executive & technical variants',
-                'Post-exercise report & lessons learned',
-              ],
-              note: 'Price on application — scope-dependent',
-            },
-            {
-              name: 'Certification Training', emoji: '🎓',
-              price: 'POA', suffix: '',
-              color: 'text-indigo-700', bg: 'bg-indigo-50', border: 'border-indigo-200',
-              features: [
-                'CISM · CRISC · AAISM · CGEIT · CCSP',
-                'BCS CISMP · CertNexus',
-                'Delivered via Firebrand partnership',
-                'Blended and instructor-led options',
-              ],
-              note: 'Cy-Sec is a CompTIA Authorised Partner',
-            },
-          ].map(svc => (
-            <div key={svc.name} className={`rounded-xl border ${svc.border} ${svc.bg} p-4`}>
-              <div className="flex items-start gap-2 mb-1">
-                <span className="text-xl mt-0.5">{svc.emoji}</span>
-                <p className={`font-extrabold text-sm ${svc.color} leading-tight`}>{svc.name}</p>
-              </div>
-              <PriceTag price={svc.price} suffix={svc.suffix} />
-              <ul className="space-y-1.5 mt-3">
-                {svc.features.map(f => <Feature key={f}>{f}</Feature>)}
-              </ul>
-              {svc.note && (
-                <p className="text-[11px] text-slate-400 mt-3 italic">{svc.note}</p>
+              {/* Banks list */}
+              {isOpen && (
+                <div className="px-5 py-3 space-y-0.5 border-t border-slate-100">
+                  {packBanks.length === 0 ? (
+                    <p className="text-sm text-slate-400 py-3 text-center">No banks assigned to this pack yet.</p>
+                  ) : packBanks.map(bank => <BankRow key={bank.id} bank={bank} />)}
+                  {/* Stripe ID */}
+                  <div className="pt-3 pb-1 flex items-center gap-2">
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Stripe Price ID</p>
+                    <code className="text-[11px] text-slate-500 font-mono">{pack.stripe_price_id || '—'}</code>
+                  </div>
+                </div>
               )}
-            </div>
-          ))}
-        </div>
+            </Card>
+          );
+        })}
       </div>
 
-      {/* Apple / Store note ── */}
-      <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 flex gap-3">
-        <span className="text-xl flex-shrink-0">🍎</span>
-        <div>
-          <p className="font-bold text-amber-800 text-sm">iOS Compliance Note</p>
-          <p className="text-xs text-amber-700 mt-0.5">FortifyLearn iOS app must never show prices or purchase buttons. cy-sec.co.uk/store is the only compliant purchase route for PBQ packs. This is an Apple App Store requirement.</p>
+      {/* Unassigned banks */}
+      {unassigned.length > 0 && (
+        <div className="space-y-3">
+          <h2 className="text-sm font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+            Unassigned Banks
+            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700">{unassigned.length} not in any pack</span>
+          </h2>
+          {Object.entries(unassignedByCert).map(([cert, certBanks]) => {
+            const cc = certColour(cert);
+            return (
+              <Card key={cert} className="border border-slate-200 shadow-sm overflow-hidden">
+                <div className={`px-5 py-3 ${cc.bg} border-b border-slate-100 flex items-center gap-2`}>
+                  <span className={`w-2 h-2 rounded-full ${cc.dot}`} />
+                  <p className="text-sm font-bold text-slate-700">{cert}</p>
+                  <span className="text-xs text-slate-400 ml-1">{certBanks.length} banks</span>
+                </div>
+                <div className="px-5 py-2 space-y-0.5">
+                  {certBanks.map(bank => <BankRow key={bank.id} bank={bank} />)}
+                </div>
+              </Card>
+            );
+          })}
         </div>
-      </div>
+      )}
 
+      {/* Legend */}
+      <div className="flex flex-wrap gap-4 pt-2 text-[11px] text-slate-400">
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-green-400" /> Published</span>
+        <span className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-slate-300" /> Draft</span>
+        <span>Q = questions · m = time limit in minutes</span>
+      </div>
     </div>
   );
 };

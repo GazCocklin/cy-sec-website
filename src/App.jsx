@@ -106,6 +106,7 @@ function AppContent() {
             <Route path="/training/certnexus-certifications" element={<CertNexusCertificationsPage />} />
             <Route path="/fortify-one" element={<SecuritySuitePage />} />
             <Route path="/fortify-one/login" element={<SecuritySuiteLogin />} />
+            <Route path="/login" element={<SecuritySuiteLogin />} />
             <Route path="/fortify-one/signup" element={<SignUpPage />} />
             <Route path="/pricing" element={<PricingPage />} />
             <Route path="/contact" element={<ContactPage />} />

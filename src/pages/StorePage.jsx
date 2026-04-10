@@ -273,7 +273,7 @@ export default function StorePage() {
 
     if (!user || !session) {
       // Save basket, redirect to login — will restore on return
-      navigate('/fortify-one/login', { state: { from: { pathname: '/store' } } });
+      navigate('/login', { state: { from: { pathname: '/store' } } });
       return;
     }
 

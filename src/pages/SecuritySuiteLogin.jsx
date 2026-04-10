@@ -10,7 +10,8 @@ const SecuritySuiteLogin = () => {
   const { signIn, session, user, loading: authLoading } = useAuth();
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirect') || location.state?.from?.pathname || '/fortify-one/dashboard';
-  const isStorePurchase = redirectTo === '/store' || redirectTo.startsWith('/store');
+  const isStorePurchase = redirectTo === '/store' || redirectTo.startsWith('/store') || location.pathname === '/login';
+  const isGenericLogin = location.pathname === '/login';
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -112,8 +113,8 @@ const SecuritySuiteLogin = () => {
           {/* Logo */}
           <div className="fo-fade" style={{ marginBottom: 48 }}>
             <img
-              src="/logos/fortifyone-logo-dark.svg"
-              alt="FortifyOne"
+src={isGenericLogin ? "/logos/cysec-logo-dark.svg" : "/logos/fortifyone-logo-dark.svg"}
+              alt={isGenericLogin ? "Cy-Sec" : "FortifyOne"}
               style={{ height: 36, display: 'block' }}
             />
           </div>
@@ -160,8 +161,8 @@ const SecuritySuiteLogin = () => {
             {/* Card logo */}
             <div style={{ marginBottom: 24 }}>
               <img
-                src="/logos/fortifyone-logo.svg"
-                alt="FortifyOne"
+src={isGenericLogin ? "/logos/cysec-logo-dark.svg" : "/logos/fortifyone-logo.svg"}
+                alt={isGenericLogin ? "Cy-Sec" : "FortifyOne"}
                 style={{ height: 40, display: 'block' }}
               />
             </div>

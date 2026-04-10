@@ -63,7 +63,7 @@ const PBQEnginePage = () => {
               <p className="text-white/40 text-sm">One free Network+ and one free Security+ lab — just enter your email.</p>
             </motion.div>
 
-            {/* Hero terminal — real IOS command output */}
+            {/* Hero: IOS terminal sample */}
             <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
               <div className="bg-[#030D18] rounded-2xl overflow-hidden border border-white/10 shadow-2xl font-mono text-sm">
                 <div className="bg-[#071624] px-4 py-3 flex items-center gap-2 border-b border-white/5">
@@ -113,38 +113,8 @@ const PBQEnginePage = () => {
         </div>
       </section>
 
-      {/* ── SEE IT FOR YOURSELF ── */}
-      <section className="py-24 bg-white border-t border-slate-100">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#0891B2' }}>No sign-up barrier</p>
-          <h2 className="text-3xl font-bold text-slate-900 mb-5">The best way to see it is to try it</h2>
-          <p className="text-slate-500 leading-relaxed mb-10 max-w-2xl mx-auto">
-            One Network+ lab and one Security+ lab are always free — no card, no commitment. Create a free account in under a minute and you'll be running CLI commands in a live Cisco IOS environment immediately.
-          </p>
-          <div className="grid sm:grid-cols-3 gap-6 mb-12 text-left">
-            {[
-              { step: '01', title: 'Create a free account', desc: 'Just your email. No card required. Takes about 30 seconds.' },
-              { step: '02', title: 'Choose your free lab', desc: 'Pick the Network+ or Security+ beginner lab from the library.' },
-              { step: '03', title: 'Start troubleshooting', desc: 'Live CLI, real topology, real objective scoring. Immediately.' },
-            ].map(item => (
-              <div key={item.step} className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
-                <div className="text-3xl font-black mb-3" style={{ color: 'rgba(8,145,178,0.25)' }}>{item.step}</div>
-                <h3 className="font-bold text-slate-800 mb-2 text-sm">{item.title}</h3>
-                <p className="text-slate-500 text-sm">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-          <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer">
-            <button className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl font-bold text-sm text-white transition-all"
-              style={{ background: 'linear-gradient(135deg, #065F7A, #0891B2)', boxShadow: '0 4px 20px rgba(8,145,178,0.35)' }}>
-              Launch FortifyLearn — it's free <ArrowRight size={16} />
-            </button>
-          </a>
-        </div>
-      </section>
-
       {/* ── CERTIFICATIONS ── */}
-      <section className="py-24 bg-slate-50 border-t border-slate-100">
+      <section className="py-24 bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Available certifications</h2>
@@ -152,7 +122,7 @@ const PBQEnginePage = () => {
           </div>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {certs.map(cert => (
-              <div key={cert.code} className="bg-white border border-slate-200 rounded-2xl p-8">
+              <div key={cert.code} className="border border-slate-200 rounded-2xl p-8">
                 <div className="flex items-center gap-3 mb-5">
                   <img src={cert.logo} alt={cert.name} className="w-10 h-10 object-contain" />
                   <div>

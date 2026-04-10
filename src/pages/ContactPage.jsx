@@ -40,10 +40,10 @@ function Field({ label, required, error, children }) {
 }
 
 export default function ContactPage() {
-  const [form, setForm]           = useState({ name:'', email:'', company:'', phone:'', interest:'', message:'' });
-  const [errors, setErrors]       = useState({});
+  const [form, setForm]             = useState({ name:'', email:'', company:'', phone:'', interest:'', message:'' });
+  const [errors, setErrors]         = useState({});
   const [submitting, setSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted]   = useState(false);
 
   const set = (k, v) => { setForm(f => ({...f, [k]:v})); if(errors[k]) setErrors(e=>({...e,[k]:''})); };
 
@@ -62,6 +62,7 @@ export default function ContactPage() {
     if (Object.keys(errs).length) { setErrors(errs); return; }
     setSubmitting(true);
     try {
+      // 1. Insert into Supabase
       const { error } = await supabase.from('contact_submissions').insert([{
         name:     form.name.trim(),
         email:    form.email.trim(),
@@ -72,9 +73,25 @@ export default function ContactPage() {
         status:   'new',
       }]);
       if (error) throw error;
+
+      // 2. Fire confirmation + admin notification emails via Edge Function
+      // Non-blocking — submission never fails if the email call fails
+      supabase.functions.invoke('send-contact-confirmation', {
+        body: {
+          name:     form.name.trim(),
+          email:    form.email.trim(),
+          company:  form.company.trim() || null,
+          phone:    form.phone.trim() || null,
+          interest: form.interest || null,
+          message:  form.message.trim(),
+        },
+      }).catch((emailErr) => {
+        console.warn('Contact email failed to send:', emailErr);
+      });
+
       setSubmitted(true);
     } catch {
-      setErrors({ _global: 'Something went wrong. Please email us at hello@cy-sec.co.uk' });
+      setErrors({ _global: 'Something went wrong. Please email us at info@cy-sec.co.uk' });
     } finally {
       setSubmitting(false);
     }

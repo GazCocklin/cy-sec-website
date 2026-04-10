@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import FortifyLearnLogo from '@/components/logos/FortifyLearnLogo';
@@ -15,23 +15,24 @@ const features = [
 ];
 
 const certs = [
-  { name: 'CompTIA Network+', code: 'N10-009', levels: ['Beginner', 'Intermediate', 'Advanced', 'Expert'], free: 'Beginner' },
-  { name: 'CompTIA Security+', code: 'SY0-701', levels: ['Easy', 'Intermediate', 'Hard', 'Expert'], free: 'Easy' },
+  { name: 'CompTIA Network+', code: 'N10-009', levels: ['Beginner', 'Intermediate', 'Advanced', 'Expert'], free: 'Beginner', logo: '/logos/comptia-network-plus.svg' },
+  { name: 'CompTIA Security+', code: 'SY0-701', levels: ['Easy', 'Intermediate', 'Hard', 'Expert'], free: 'Easy', logo: '/logos/comptia-security-plus.svg' },
+  { name: 'CompTIA CySA+', code: 'CS0-003', levels: ['Easy', 'Intermediate', 'Hard', 'Expert'], free: null, logo: '/logos/comptia-cysa-plus.svg' },
 ];
 
 const PBQEnginePage = () => {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
-        <title>PBQ Simulator — CompTIA Performance-Based Questions | FortifyLearn</title>
-        <meta name="description" content="Practice CompTIA performance-based questions with live Cisco IOS topology. Network+ and Security+ PBQ simulations with real CLI commands." />
+        <title>FortifyLearn PBQ Simulator — CompTIA Performance-Based Questions | Cy-Sec</title>
+        <meta name="description" content="Practise CompTIA performance-based questions with live Cisco IOS topology. Network+, Security+ and CySA+ PBQ simulations with real CLI commands and objective-mapped scoring." />
       </Helmet>
 
       {/* Hero */}
       <section className="relative pt-32 pb-20 overflow-hidden"
         style={{ background: 'linear-gradient(135deg, #0A1628 0%, #0D2040 50%, #061428 100%)' }}>
         <div className="absolute inset-0 opacity-[0.04]"
-          style={{ backgroundImage: 'linear-gradient(#1A56DB 1px, transparent 1px), linear-gradient(to right, #1A56DB 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
+          style={{ backgroundImage: 'linear-gradient(#0891B2 1px, transparent 1px), linear-gradient(to right, #0891B2 1px, transparent 1px)', backgroundSize: '64px 64px' }} />
         <div className="absolute top-1/3 right-1/4 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl" />
 
         <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
@@ -43,7 +44,7 @@ const PBQEnginePage = () => {
 
               <h1 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
                 CompTIA PBQ simulations.<br />
-                <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #06B6D4, #1A56DB)' }}>
+                <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg, #06B6D4, #0891B2)' }}>
                   Actually realistic.
                 </span>
               </h1>
@@ -106,8 +107,9 @@ const PBQEnginePage = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map(({ icon: Icon, title, desc }) => (
               <div key={title} className="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-md hover:border-slate-200 transition-all">
-                <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center mb-4">
-                  <Icon className="w-5 h-5 text-blue-600" />
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-4"
+                  style={{ background: 'rgba(8,145,178,0.08)' }}>
+                  <Icon className="w-5 h-5" style={{ color: '#0891B2' }} />
                 </div>
                 <h3 className="font-semibold text-slate-900 mb-2">{title}</h3>
                 <p className="text-slate-500 text-sm leading-relaxed">{desc}</p>
@@ -117,18 +119,23 @@ const PBQEnginePage = () => {
         </div>
       </section>
 
-      {/* Certifications */}
+      {/* Certifications — includes CySA+ */}
       <section className="py-24 bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Available certifications</h2>
             <p className="text-slate-500">Beginner labs are free. Paid packs unlock all difficulty levels.</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {certs.map(cert => (
               <div key={cert.code} className="border border-slate-200 rounded-2xl p-8">
-                <p className="text-xs font-bold text-blue-600 uppercase tracking-wider mb-1">{cert.code}</p>
-                <h3 className="text-xl font-bold text-slate-900 mb-6">{cert.name}</h3>
+                <div className="flex items-center gap-3 mb-5">
+                  <img src={cert.logo} alt={cert.name} className="w-10 h-10 object-contain" />
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider" style={{ color: '#0891B2' }}>{cert.code}</p>
+                    <h3 className="font-bold text-slate-900 text-sm leading-tight">{cert.name}</h3>
+                  </div>
+                </div>
                 <div className="space-y-3">
                   {cert.levels.map(level => (
                     <div key={level} className="flex items-center justify-between">
@@ -144,7 +151,8 @@ const PBQEnginePage = () => {
                   ))}
                 </div>
                 <a href="https://fortifylearn.co.uk/pbq-lab" target="_blank" rel="noopener noreferrer"
-                  className="mt-8 flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700">
+                  className="mt-8 flex items-center gap-2 text-sm font-semibold hover:opacity-80 transition-opacity"
+                  style={{ color: '#0891B2' }}>
                   Start practising <ArrowRight className="w-4 h-4" />
                 </a>
               </div>
@@ -154,12 +162,13 @@ const PBQEnginePage = () => {
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-slate-900">
+      <section className="py-20" style={{ background: '#0A1628' }}>
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Ready to pass your CompTIA exam?</h2>
           <p className="text-slate-400 mb-8">Create a free account and start with a beginner lab in under 2 minutes.</p>
           <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer">
-            <Button className="bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold px-8 py-5 border-0 text-base">
+            <Button className="font-semibold px-8 py-5 border-0 text-base text-slate-900"
+              style={{ background: '#0891B2' }}>
               Launch FortifyLearn <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </a>

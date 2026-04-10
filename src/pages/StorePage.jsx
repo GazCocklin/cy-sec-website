@@ -10,17 +10,17 @@ const BASKET_KEY = 'cysec_basket';
 
 const PACKS = [
   {
-    key: 'netplus_pack', title: 'CompTIA Network+', code: 'N10-009',
+    key: 'netplus_pack', title: 'Network+ PBQ Pack 1', code: 'N10-009',
     price: 19.99, rrp: 24.99, logo: '/logos/comptia-network-plus.svg',
     labs: ['DNS server misconfiguration','Default gateway fault diagnosis','DMZ ACL troubleshooting','Dual ACL fault — multi-VLAN routing','Enterprise multi-fault recovery'],
   },
   {
-    key: 'secplus_pack', title: 'CompTIA Security+', code: 'SY0-701',
+    key: 'secplus_pack', title: 'Security+ PBQ Pack 1', code: 'SY0-701',
     price: 19.99, rrp: 24.99, logo: '/logos/comptia-security-plus.svg',
     labs: ['Firewall rule blocking HTTPS traffic','Sensitive file permission hardening','Insecure legacy service exposure','Privilege escalation & audit failure','Post-pentest remediation'],
   },
   {
-    key: 'cysa_pack', title: 'CompTIA CySA+', code: 'CS0-003',
+    key: 'cysa_pack', title: 'CySA+ PBQ Pack 1', code: 'CS0-003',
     price: 19.99, rrp: 24.99, logo: '/logos/comptia-cysa-plus.svg', isNew: true,
     labs: ['Web app brute force investigation','Suspicious process & C2 detection','SSH brute force log analysis','Web shell & lateral movement','APT threat hunt + firewall containment'],
   },
@@ -31,7 +31,7 @@ const BUNDLE = { key: 'bundle', price: 39.99, rrp: 74.97, saving: 35.00 };
 function loadBasket()  { try { return JSON.parse(localStorage.getItem(BASKET_KEY) || '[]'); } catch { return []; } }
 function saveBasket(i) { try { localStorage.setItem(BASKET_KEY, JSON.stringify(i)); } catch {} }
 
-// ── Stripe trigger — standalone, no state dependency ─────────────────────────
+// ── Stripe trigger ────────────────────────────────────────────────────────────
 async function triggerStripe(basketItems, currentSession) {
   if (!basketItems.length || !currentSession) return;
   const allThree = PACKS.every(p => basketItems.includes(p.key));
@@ -53,14 +53,14 @@ async function triggerStripe(basketItems, currentSession) {
 
 // ── Checkout modal ────────────────────────────────────────────────────────────
 function CheckoutModal({ basket, onSuccess, onClose }) {
-  const [tab,        setTab]       = useState('signin');
-  const [email,      setEmail]     = useState('');
-  const [password,   setPassword]  = useState('');
-  const [confirm,    setConfirm]   = useState('');
-  const [showPw,     setShowPw]    = useState(false);
-  const [loading,    setLoading]   = useState(false);
-  const [error,      setError]     = useState('');
-  const [stage,      setStage]     = useState('form'); // 'form' | 'launching'
+  const [tab,       setTab]      = useState('signin');
+  const [email,     setEmail]    = useState('');
+  const [password,  setPassword] = useState('');
+  const [confirm,   setConfirm]  = useState('');
+  const [showPw,    setShowPw]   = useState(false);
+  const [loading,   setLoading]  = useState(false);
+  const [error,     setError]    = useState('');
+  const [stage,     setStage]    = useState('form');
   const emailRef = useRef(null);
 
   useEffect(() => { emailRef.current?.focus(); }, [tab]);
@@ -90,12 +90,10 @@ function CheckoutModal({ basket, onSuccess, onClose }) {
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) { setError(error.message); setLoading(false); return; }
     if (data.session) {
-      // Email confirmation not required — go straight to checkout
       setStage('launching');
       const result = await triggerStripe(basket, data.session);
       if (!result?.url) { setError('Checkout unavailable — please try again.'); setStage('form'); setLoading(false); }
     } else {
-      // Email confirmation required — tell them to confirm and return
       setStage('confirm');
     }
   }
@@ -129,7 +127,6 @@ function CheckoutModal({ basket, onSuccess, onClose }) {
 
   return (
     <ModalShell onClose={onClose}>
-      {/* Header */}
       <div className="text-center mb-6">
         <img src="/logos/fortifylearn-logo.svg" alt="FortifyLearn" className="h-7 mx-auto mb-3"
           onError={e => { e.target.style.display='none'; }} />
@@ -142,8 +139,6 @@ function CheckoutModal({ basket, onSuccess, onClose }) {
             : 'One account for both the store and FortifyLearn labs.'}
         </p>
       </div>
-
-      {/* Tabs */}
       <div className="flex rounded-xl bg-slate-100 p-1 mb-6">
         {[['signin','Sign In'],['signup','Create Account']].map(([t, label]) => (
           <button key={t} onClick={() => { setTab(t); setError(''); }}
@@ -152,12 +147,9 @@ function CheckoutModal({ basket, onSuccess, onClose }) {
             }`}>{label}</button>
         ))}
       </div>
-
-      {/* Form */}
       <form onSubmit={tab === 'signin' ? handleSignIn : handleSignUp} className="space-y-3">
         <input ref={emailRef} type="email" required placeholder="Email address"
           value={email} onChange={e => setEmail(e.target.value)} className={inputCls} />
-
         <div className="relative">
           <input type={showPw ? 'text' : 'password'} required placeholder="Password"
             value={password} onChange={e => setPassword(e.target.value)} className={inputCls} />
@@ -166,14 +158,11 @@ function CheckoutModal({ basket, onSuccess, onClose }) {
             {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
           </button>
         </div>
-
         {tab === 'signup' && (
           <input type="password" required placeholder="Confirm password" minLength={8}
             value={confirm} onChange={e => setConfirm(e.target.value)} className={inputCls} />
         )}
-
         {error && <p className="text-red-600 text-xs bg-red-50 border border-red-200 rounded-lg px-3 py-2">{error}</p>}
-
         <button type="submit" disabled={loading}
           className="w-full py-3.5 rounded-xl font-bold text-white text-sm flex items-center justify-center gap-2 transition-all hover:brightness-110 disabled:opacity-60"
           style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
@@ -183,17 +172,13 @@ function CheckoutModal({ basket, onSuccess, onClose }) {
             : `Create Account & Pay £${displayPrice.toFixed(2)}`}
         </button>
       </form>
-
-      {/* Footer note */}
       <p className="text-center text-xs text-slate-400 mt-4">
         {tab === 'signin'
           ? <>No account? <button onClick={() => { setTab('signup'); setError(''); }} className="font-semibold" style={{ color: '#0891B2' }}>Create one free</button></>
           : <>Already have an account? <button onClick={() => { setTab('signin'); setError(''); }} className="font-semibold" style={{ color: '#0891B2' }}>Sign in</button></>
         }
       </p>
-      <p className="text-center text-xs text-slate-300 mt-2">
-        🔒 Secure payment via Stripe
-      </p>
+      <p className="text-center text-xs text-slate-300 mt-2">🔒 Secure payment via Stripe</p>
     </ModalShell>
   );
 }
@@ -204,8 +189,7 @@ function ModalShell({ children, onClose }) {
       style={{ background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)' }}>
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-sm relative">
         {onClose && (
-          <button onClick={onClose}
-            className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
+          <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 transition-colors">
             <X className="w-5 h-5" />
           </button>
         )}
@@ -227,7 +211,7 @@ function PackCard({ pack, inBasket, onToggle }) {
           <img src={pack.logo} alt={pack.title} className="w-11 h-11 object-contain" />
           <div>
             <p className="text-xs font-bold tracking-wider" style={{ color: '#0891B2' }}>{pack.code}</p>
-            <h3 className="font-bold text-slate-900 text-base">{pack.title}</h3>
+            <h3 className="font-bold text-slate-900 text-base leading-tight">{pack.title}</h3>
           </div>
         </div>
         <div className="flex items-center gap-3 text-xs text-slate-500 mb-4">
@@ -304,12 +288,15 @@ function BundleCard({ inBasket, onToggle }) {
 }
 
 // ── Basket bar ────────────────────────────────────────────────────────────────
-function BasketBar({ basket, user, authLoading, onCheckout, checkoutLoading }) {
+function BasketBar({ basket, user, authLoading, onRemove, onCheckout, checkoutLoading }) {
   if (basket.length === 0) return null;
 
   const isBundle  = basket[0] === 'bundle';
-  const items     = isBundle ? [{ label: 'All Access Bundle', price: BUNDLE.price }]
-    : basket.map(k => { const p = PACKS.find(x => x.key === k); return { label: p?.title, price: p?.price || 0 }; });
+  // Include key in items for remove buttons
+  const items = isBundle
+    ? [{ key: 'bundle', label: 'All Access Bundle', price: BUNDLE.price }]
+    : basket.map(k => { const p = PACKS.find(x => x.key === k); return { key: k, label: p?.title, price: p?.price || 0 }; });
+
   const rawTotal  = items.reduce((t, i) => t + i.price, 0);
   const allThree  = PACKS.every(p => basket.includes(p.key));
   const displayPrice = allThree ? BUNDLE.price : rawTotal;
@@ -327,8 +314,17 @@ function BasketBar({ basket, user, authLoading, onCheckout, checkoutLoading }) {
           <div className="flex items-center gap-2 flex-1 flex-wrap">
             <ShoppingCart className="w-5 h-5 text-cyan-400 flex-shrink-0" />
             <div className="flex flex-wrap gap-2">
-              {items.map((item, i) => (
-                <span key={i} className="bg-white/10 text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20">{item.label}</span>
+              {items.map((item) => (
+                <span key={item.key} className="flex items-center gap-1.5 bg-white/10 text-white text-xs font-semibold px-3 py-1.5 rounded-full border border-white/20">
+                  {item.label}
+                  <button
+                    onClick={() => onRemove(item.key)}
+                    className="text-white/50 hover:text-white ml-0.5 transition-colors"
+                    title={`Remove ${item.label}`}
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
               ))}
             </div>
             {savingAmt && (
@@ -337,7 +333,9 @@ function BasketBar({ basket, user, authLoading, onCheckout, checkoutLoading }) {
               </span>
             )}
             {!isBundle && basket.length === 2 && (
-              <span className="text-white/50 text-xs">Add 3rd pack for £{(BUNDLE.price - displayPrice).toFixed(2)} more — bundle saves £{(rawTotal + 19.99 - BUNDLE.price).toFixed(2)}</span>
+              <span className="text-white/50 text-xs">
+                Add 3rd pack for £{(BUNDLE.price - displayPrice).toFixed(2)} more — bundle saves £{(rawTotal + 19.99 - BUNDLE.price).toFixed(2)}
+              </span>
             )}
           </div>
           <div className="flex items-center gap-4 flex-shrink-0">
@@ -383,14 +381,7 @@ export default function StorePage() {
   async function handleCheckout() {
     if (basket.length === 0) return;
     if (authLoading) return;
-
-    if (!user || !session) {
-      // Show inline auth modal — user never leaves the store
-      setShowModal(true);
-      return;
-    }
-
-    // Already logged in — go straight to Stripe
+    if (!user || !session) { setShowModal(true); return; }
     setCheckoutLoading(true);
     setError(null);
     const result = await triggerStripe(basket, session);
@@ -400,38 +391,32 @@ export default function StorePage() {
     }
   }
 
-  async function handleModalSuccess(newSession) {
-    // Called by modal after successful sign-in or sign-up
-    // triggerStripe is called inside the modal with the fresh session
-    setShowModal(false);
-  }
-
   return (
-    <div className="min-h-screen pb-32" style={{ background: '#F8FAFC' }}>
+    <div className={`min-h-screen ${basket.length > 0 ? 'pb-32' : 'pb-8'}`} style={{ background: '#F8FAFC' }}>
       <Helmet>
-        <title>Cy-Sec Shop — FortifyLearn PBQ Packs | Cy-Sec</title>
-        <meta name="description" content="The official Cy-Sec shop. CompTIA PBQ simulation packs for Network+, Security+ and CySA+ — representative CLI environments, objective-mapped scoring, 12 months access from £19.99." />
+        <title>FortifyLearn Store — CompTIA PBQ Packs | Cy-Sec</title>
+        <meta name="description" content="The official FortifyLearn store. CompTIA PBQ simulation packs for Network+, Security+ and CySA+ — representative CLI environments, objective-mapped scoring, 12 months access from £19.99." />
       </Helmet>
 
       {showModal && (
-        <CheckoutModal basket={basket} onSuccess={handleModalSuccess} onClose={() => setShowModal(false)} />
+        <CheckoutModal basket={basket} onSuccess={() => setShowModal(false)} onClose={() => setShowModal(false)} />
       )}
 
       {/* Hero */}
-      <div className="relative overflow-hidden" style={{ minHeight: 280 }}>
+      <div className="relative overflow-hidden" style={{ minHeight: 260 }}>
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80&fit=crop"
             alt="" className="w-full h-full object-cover" style={{ objectPosition: 'center 40%' }} />
           <div className="absolute inset-0"
             style={{ background: 'linear-gradient(135deg,rgba(10,26,63,0.97) 0%,rgba(7,30,60,0.95) 45%,rgba(8,145,178,0.82) 100%)' }} />
         </div>
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-16">
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-14">
           <div className="max-w-2xl">
-            <p className="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-3">Official Cy-Sec Shop</p>
+            <p className="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-3">Official Store</p>
             <h1 className="text-4xl sm:text-5xl font-black text-white mb-3"
               style={{ letterSpacing: '-0.03em', lineHeight: 1.1 }}>
-              Cy-Sec<br />
-              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg,#22d3ee,#0891B2)' }}>Shop.</span>
+              FortifyLearn<br />
+              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg,#22d3ee,#0891B2)' }}>Store.</span>
             </h1>
             <p className="text-white/60 text-sm">Add items to your basket — create your free FortifyLearn account at checkout.</p>
           </div>
@@ -439,6 +424,7 @@ export default function StorePage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10 space-y-12">
+
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-5 py-3 rounded-xl flex items-start gap-2">
             <Shield className="w-4 h-4 flex-shrink-0 mt-0.5" />{error}
@@ -446,15 +432,26 @@ export default function StorePage() {
         )}
 
         <div>
+          {/* Section header with FL logo */}
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-slate-900 mb-1">FortifyLearn — CompTIA PBQ Simulation Packs</h2>
-            <p className="text-sm text-slate-500">
-              Representative CLI environments for CompTIA exam practice. One-time purchase · 12 months access.
+            <div className="flex items-center gap-3 mb-2">
+              <img src="/logos/fortifylearn-logo.svg" alt="FortifyLearn"
+                className="h-6 w-auto"
+                onError={e => { e.target.style.display='none'; }} />
+              <h2 className="text-2xl font-bold text-slate-900">CompTIA PBQ Simulation Packs</h2>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <p className="text-sm text-slate-500">Representative CLI environments for CompTIA exam practice. One-time purchase · 12 months access.</p>
               <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
-                className="ml-2 font-semibold hover:underline" style={{ color: '#0891B2' }}>Try a free taster lab first →</a>
-            </p>
+                className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full transition-all hover:brightness-110 flex-shrink-0"
+                style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
+                🆓 Try a free taster lab →
+              </a>
+            </div>
           </div>
+
           <div className="mb-8"><BundleCard inBasket={basket.includes('bundle')} onToggle={toggleItem} /></div>
+
           <div>
             <p className="text-sm font-semibold text-slate-500 mb-4">Individual Packs</p>
             <div className="grid md:grid-cols-3 gap-6">
@@ -463,6 +460,7 @@ export default function StorePage() {
               ))}
             </div>
           </div>
+
           <div className="mt-8 flex flex-wrap gap-4 items-center justify-center text-slate-400 text-xs">
             {['Secure checkout via Stripe','12 months access from purchase date','No subscription — one-time payment','CompTIA Authorised Partner'].map(t => (
               <span key={t} className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />{t}</span>
@@ -470,18 +468,29 @@ export default function StorePage() {
           </div>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 text-center">
-          <p className="font-semibold text-slate-800 mb-1">Try before you buy — taster labs are always free</p>
-          <p className="text-sm text-slate-500 mb-4">One Network+ and one Security+ lab are free. Just sign up — no card needed.</p>
+        {/* Free taster strip */}
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-4">
+          <div className="flex-1">
+            <p className="font-semibold text-slate-800 mb-1">Try before you buy — taster labs are always free</p>
+            <p className="text-sm text-slate-500">One Network+ and one Security+ lab are free. Just sign up — no card needed.</p>
+          </div>
           <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm font-semibold hover:opacity-80 transition-opacity" style={{ color: '#0891B2' }}>
+            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:brightness-110"
+            style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
             Launch FortifyLearn <ArrowRight className="w-4 h-4" />
           </a>
         </div>
+
       </div>
 
-      <BasketBar basket={basket} user={user} authLoading={authLoading}
-        onCheckout={handleCheckout} checkoutLoading={checkoutLoading} />
+      <BasketBar
+        basket={basket}
+        user={user}
+        authLoading={authLoading}
+        onRemove={toggleItem}
+        onCheckout={handleCheckout}
+        checkoutLoading={checkoutLoading}
+      />
     </div>
   );
 }

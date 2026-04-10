@@ -19,7 +19,7 @@ const Navbar = () => {
   const trainingLinks = [
     { to: '/training/comptia-certifications', label: 'Professional Certifications' },
     { to: '/pbq-engine', label: 'FortifyLearn PBQ Engine' },
-    { to: '/store', label: 'Shop' },
+    { to: '/store', label: 'FortifyLearn Store' },
   ];
 
   const consultancyLinks = [
@@ -65,10 +65,7 @@ const Navbar = () => {
                         ))}
                       </div>
                     </div>
-                    <div className="h-px bg-white/5 mx-4 mb-2" />
-                    <div className="px-4 pb-4">
-                      <p className="text-[10px] text-gray-500 px-3">CompTIA & CertNexus Authorised</p>
-                    </div>
+
                   </div>
                 </div>
               </div>

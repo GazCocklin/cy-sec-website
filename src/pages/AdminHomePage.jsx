@@ -94,6 +94,11 @@ const DetailDrawer = ({ item, type, onClose, onUpdate, onDelete }) => {
           <div>
             <p className="text-lg font-bold text-slate-800">{item.name || item.user_email || 'Unknown'}</p>
             <p className="text-sm text-slate-500 mt-0.5">{fmt(item.created_at)}</p>
+            {type === 'contact' && (
+              <div className="mt-2">
+                <CountdownBadge createdAt={item.created_at} status={item.status} verbose={true} />
+              </div>
+            )}
           </div>
           <div className="flex items-center gap-2 mt-0.5">
             {!deleteConfirm ? (
@@ -253,32 +258,57 @@ function calcBusinessDeadline(createdAt) {
   return d;
 }
 
-const CountdownBadge = ({ createdAt, status }) => {
+const CountdownBadge = ({ createdAt, status, verbose = false }) => {
   const [now, setNow] = useState(new Date());
   useEffect(() => {
     if (['resolved', 'archived'].includes(status)) return;
     const t = setInterval(() => setNow(new Date()), 60000);
     return () => clearInterval(t);
   }, [status]);
+
   if (['resolved', 'archived'].includes(status))
     return <span className="text-xs text-slate-300">—</span>;
+
   const deadline = calcBusinessDeadline(createdAt);
+  const respondBy = deadline.toLocaleString('en-GB', {
+    weekday: 'short', day: 'numeric', month: 'short',
+    hour: '2-digit', minute: '2-digit',
+  });
   const diff = deadline - now;
+
   if (diff <= 0) return (
-    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-red-100 text-red-700 border border-red-200 whitespace-nowrap">
-      <AlertCircle className="w-3 h-3" /> Overdue
-    </span>
+    <div className="flex flex-col gap-0.5">
+      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold bg-red-100 text-red-700 border border-red-200 whitespace-nowrap w-fit">
+        <AlertCircle className="w-3 h-3" /> Overdue
+      </span>
+      <span className="text-[10px] text-slate-400 whitespace-nowrap">Was due {respondBy}</span>
+    </div>
   );
+
   const h = Math.floor(diff / 3600000);
   const m = Math.floor((diff % 3600000) / 60000);
   const colour = h >= 8 ? 'bg-green-50 text-green-700 border-green-200'
                : h >= 2 ? 'bg-amber-50 text-amber-700 border-amber-200'
                :           'bg-red-50 text-red-700 border-red-200';
+
+  if (verbose) return (
+    <div className={`rounded-xl border p-3 ${colour}`}>
+      <div className="flex items-center gap-1.5 mb-1">
+        <Clock className="w-3.5 h-3.5" />
+        <span className="text-sm font-bold">{h}h {m}m remaining</span>
+      </div>
+      <p className="text-[11px] opacity-80">Respond by {respondBy}</p>
+    </div>
+  );
+
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold border ${colour} whitespace-nowrap`}>
-      <Clock className="w-3 h-3" />
-      {h}h {m}m
-    </span>
+    <div className="flex flex-col gap-0.5">
+      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-bold border ${colour} whitespace-nowrap w-fit`}>
+        <Clock className="w-3 h-3" />
+        {h}h {m}m
+      </span>
+      <span className="text-[10px] text-slate-400 whitespace-nowrap">by {respondBy}</span>
+    </div>
   );
 };
 

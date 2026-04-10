@@ -6,12 +6,12 @@ import { Terminal, ArrowRight, CheckCircle, Layers, Clock, Target, BookOpen, Zap
 import { Button } from '@/components/ui/button';
 
 const features = [
-  { icon: Terminal, title: 'Live Cisco IOS Environment', desc: 'Real router and switch terminals — show run, ping, traceroute, show access-lists, and more.' },
+  { icon: Terminal, title: 'Live Cisco IOS & Linux Environment', desc: 'Real router, switch and server terminals — show run, grep, iptables, ss -an, and more.' },
   { icon: Layers, title: 'Multi-Device Topologies', desc: 'Investigate faults across workstations, switches, routers, firewalls, and servers simultaneously.' },
   { icon: Target, title: 'Objective-by-Objective Scoring', desc: 'Every check maps to a CompTIA exam objective so you know exactly where you stand.' },
   { icon: BookOpen, title: 'Study & Exam Modes', desc: 'Study mode gives guided hints. Exam mode is timed and scored against the full objective set.' },
   { icon: Clock, title: 'Timed Simulations', desc: 'From 20-minute beginner scenarios to 40-minute expert multi-fault topologies.' },
-  { icon: Zap, title: 'Instant Results', desc: 'Submit and see exactly which checks passed, which failed, and why — with explanations.' },
+  { icon: Zap, title: 'Instant Results & Improvement Plans', desc: 'Submit and see which checks passed, which failed, and a targeted study plan for each gap.' },
 ];
 
 const certs = [
@@ -20,12 +20,50 @@ const certs = [
   { name: 'CompTIA CySA+', code: 'CS0-003', levels: ['Easy', 'Intermediate', 'Hard', 'Expert'], free: null, logo: '/logos/comptia-cysa-plus.svg' },
 ];
 
+const screenshots = [
+  {
+    img: '/screenshots/fl-dashboard.png',
+    alt: 'FortifyLearn dashboard showing score, daily streak and strengths vs focus areas',
+    label: 'Your Dashboard',
+    caption: 'Track your average score, daily streak, and see exactly which CompTIA objectives are strengths and which need more work — all in one place.',
+    side: 'right',
+  },
+  {
+    img: '/screenshots/fl-lab-picker.png',
+    alt: 'FortifyLearn lab picker showing difficulty levels for CompTIA CySA+',
+    label: 'Choose Your Level',
+    caption: 'Every certification has labs from Easy through Expert. Start with a free taster — no card required — then unlock harder labs when you\'re ready.',
+    side: 'left',
+  },
+  {
+    img: '/screenshots/fl-lab-briefing.png',
+    alt: 'FortifyLearn lab briefing screen showing scenario, objectives, and network topology',
+    label: 'Real Scenario Briefings',
+    caption: 'Each lab starts with a realistic incident briefing, network topology, and the exact CompTIA exam objectives being tested. You know what you\'re solving — and why it matters.',
+    side: 'right',
+  },
+  {
+    img: '/screenshots/fl-terminal.png',
+    alt: 'FortifyLearn live Linux terminal inside a lab',
+    label: 'Live CLI — Real Commands',
+    caption: 'A real terminal. Real Ubuntu and Cisco IOS environments. Type actual commands — grep, iptables, ss, show access-lists — and see real output. Not simulated. Not multiple choice.',
+    side: 'left',
+  },
+  {
+    img: '/screenshots/fl-results.png',
+    alt: 'FortifyLearn results screen with score breakdown and improvement plan',
+    label: 'Instant Results & Study Plan',
+    caption: 'Submit and immediately see every graded check, the objectives it covers, and a targeted improvement plan. You know exactly what to study next.',
+    side: 'right',
+  },
+];
+
 const PBQEnginePage = () => {
   return (
     <div className="min-h-screen bg-white">
       <Helmet>
         <title>FortifyLearn PBQ Simulator — CompTIA Performance-Based Questions | Cy-Sec</title>
-        <meta name="description" content="Practise CompTIA performance-based questions with live Cisco IOS topology. Network+, Security+ and CySA+ PBQ simulations with real CLI commands and objective-mapped scoring." />
+        <meta name="description" content="Practise CompTIA performance-based questions with live Cisco IOS and Linux environments. Network+, Security+ and CySA+ PBQ simulations with real CLI commands and objective-mapped scoring." />
       </Helmet>
 
       {/* ── HERO ── */}
@@ -46,7 +84,7 @@ const PBQEnginePage = () => {
                 </span>
               </h1>
               <p className="text-white/70 text-lg leading-relaxed">
-                Performance-based questions with live Cisco IOS topology, real CLI commands, and instant objective-mapped scoring. The closest thing to the real exam.
+                Performance-based questions with live Cisco IOS and Linux topology, real CLI commands, and instant objective-mapped scoring. The closest thing to the real exam.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer">
@@ -63,28 +101,14 @@ const PBQEnginePage = () => {
               <p className="text-white/40 text-sm">One free Network+ and one free Security+ lab — just enter your email.</p>
             </motion.div>
 
-            {/* Hero: IOS terminal sample */}
+            {/* Hero screenshot — dashboard */}
             <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
-              <div className="bg-[#030D18] rounded-2xl overflow-hidden border border-white/10 shadow-2xl font-mono text-sm">
-                <div className="bg-[#071624] px-4 py-3 flex items-center gap-2 border-b border-white/5">
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500/60" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/60" />
-                  </div>
-                  <span className="text-slate-500 text-xs ml-2">ROUTER-01 · Cisco IOS</span>
-                </div>
-                <div className="p-5 space-y-1 text-xs">
-                  <p><span className="text-green-400">Router#</span> <span className="text-slate-200">show access-lists</span></p>
-                  <p className="text-slate-400">Extended IP access list 101</p>
-                  <p><span className="text-green-300 ml-4">10 permit ip 192.168.1.0 0.0.0.255 any</span></p>
-                  <p><span className="text-red-400 ml-4">20 deny   ip 192.168.2.0 0.0.0.255 any</span></p>
-                  <p><span className="text-green-300 ml-4">30 permit ip any any</span></p>
-                  <p className="mt-2"><span className="text-green-400">Router#</span> <span className="text-slate-200">ping 8.8.8.8</span></p>
-                  <p className="text-cyan-300">Type escape sequence to abort.</p>
-                  <p className="text-green-400">!!!!! Success rate is 100 percent</p>
-                  <p className="mt-2"><span className="text-green-400">Router#</span> <span className="animate-pulse">▌</span></p>
-                </div>
+              <div className="rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+                <img
+                  src="/screenshots/fl-dashboard.png"
+                  alt="FortifyLearn dashboard"
+                  className="w-full h-auto"
+                />
               </div>
             </motion.div>
           </div>
@@ -112,6 +136,31 @@ const PBQEnginePage = () => {
           </div>
         </div>
       </section>
+
+      {/* ── SCREENSHOTS ── */}
+      {screenshots.slice(1).map((shot, i) => (
+        <section key={i} className={`py-20 ${i % 2 === 0 ? 'bg-white' : 'bg-slate-50'} border-t border-slate-100`}>
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className={`grid lg:grid-cols-2 gap-16 items-center ${shot.side === 'left' ? 'lg:flex-row-reverse' : ''}`}
+              style={{ direction: shot.side === 'left' ? 'rtl' : 'ltr' }}>
+              <motion.div
+                style={{ direction: 'ltr' }}
+                initial={{ opacity: 0, x: shot.side === 'right' ? 20 : -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-200">
+                  <img src={shot.img} alt={shot.alt} className="w-full h-auto" />
+                </div>
+              </motion.div>
+              <div style={{ direction: 'ltr' }}>
+                <p className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: '#0891B2' }}>{shot.label}</p>
+                <p className="text-slate-600 leading-relaxed text-lg">{shot.caption}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      ))}
 
       {/* ── CERTIFICATIONS ── */}
       <section className="py-24 bg-white border-t border-slate-100">

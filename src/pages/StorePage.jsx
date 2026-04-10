@@ -7,6 +7,7 @@ import { Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Tag, Loader2, Star, 
 const SUPABASE_URL = 'https://kmnbtnfgeadvvkwsdyml.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImttbmJ0bmZnZWFkdnZrd3NkeW1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTAxNDEsImV4cCI6MjA4Njc4NjE0MX0.T7yHQmQ3qdobyZEAXoAmDptfrj2yH-ZIJ8RfjNOpEFs';
 const BASKET_KEY = 'cysec_basket';
+const PENDING_KEY = 'cysec_pending_checkout';
 
 const PACKS = [
   {
@@ -230,6 +231,35 @@ function BasketBar({ basket, user, authLoading, onRemove, onCheckout, checkoutLo
   );
 }
 
+
+// ── Standalone Stripe trigger (no state dependency — safe to call from effects) ─
+async function triggerStripe(basketItems, currentSession) {
+  if (!basketItems.length || !currentSession) return;
+  const allThree = PACKS.every(p => basketItems.includes(p.key));
+  const useBundle = basketItems.includes('bundle') || allThree;
+  const isMulti = !useBundle && basketItems.length > 1;
+  try {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/create-checkout-session`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${currentSession.access_token}`,
+      },
+      body: JSON.stringify({
+        product_key: useBundle ? 'bundle' : !isMulti ? basketItems[0] : undefined,
+        product_keys: isMulti ? basketItems : undefined,
+        cancel_url: 'https://cy-sec.co.uk/store',
+      }),
+    });
+    const data = await res.json();
+    if (data.url) {
+      localStorage.removeItem(BASKET_KEY);
+      window.location.href = data.url;
+    }
+  } catch {}
+}
+
 // ── Main page ───────────────────────────────────────────────────────────────
 export default function StorePage() {
   const { user, session, loading: authLoading } = useAuth();
@@ -238,13 +268,20 @@ export default function StorePage() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // After returning from login, restore basket from localStorage
+  // After cross-auth return: Supabase picks up tokens from URL hash automatically.
+  // When session is set + PENDING_KEY exists → auto-trigger Stripe directly.
   useEffect(() => {
-    if (!authLoading && user && session) {
-      const stored = loadBasket();
-      if (stored.length > 0) setBasket(stored);
-    }
-  }, [authLoading, user, session]);
+    if (authLoading || !user || !session) return;
+    const stored = loadBasket();
+    if (stored.length > 0) setBasket(stored);
+    try {
+      const pending = localStorage.getItem(PENDING_KEY);
+      if (!pending || stored.length === 0) return;
+      localStorage.removeItem(PENDING_KEY);
+      // Call Stripe directly using stored basket — avoids stale closure on `basket` state
+      triggerStripe(stored, session);
+    } catch {}
+  }, [user, session, authLoading]);
 
   // Sync basket to localStorage
   useEffect(() => { saveBasket(basket); }, [basket]);
@@ -270,9 +307,14 @@ export default function StorePage() {
     //    already-logged-in users. Never redirect during this window.
     if (authLoading) return;
 
-    // Genuinely not logged in → save basket, go to login, come back here
+    // Not logged in → save basket, redirect to FL for auth, auto-checkout on return
     if (!user || !session) {
-      navigate('/login', { state: { from: { pathname: '/store' } } });
+      try {
+        localStorage.setItem(PENDING_KEY, 'true');
+        // FL will authenticate and redirect back with session tokens in URL hash
+        const returnTo = encodeURIComponent('https://cy-sec.co.uk/store');
+        window.location.href = `https://www.fortifylearn.co.uk?cross_auth=true&return_to=${returnTo}`;
+      } catch {}
       return;
     }
 

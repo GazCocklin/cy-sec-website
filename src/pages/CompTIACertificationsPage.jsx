@@ -9,6 +9,8 @@ const certLogos = {
   'comptia-network-plus': '/logos/comptia-network-plus.svg',
   'comptia-security-plus': '/logos/comptia-security-plus.svg',
   'comptia-cysa-plus': '/logos/comptia-cysa-plus.svg',
+  'comptia-cloud-plus': '/logos/comptia-cloud-plus.svg',
+  'comptia-ai-essentials': '/logos/comptia-ai-essentials.svg',
 };
 
 const allCourses = [
@@ -16,20 +18,20 @@ const allCourses = [
   { name: 'CompTIA Network+', code: 'N10-009', delivery: 'self-study', logo: 'comptia-network-plus', features: ['Access to CompTIA CertMaster', 'Access to CompTIA eBook', 'Access to CompTIA Labs', 'Exam Voucher Included'], ctaSource: 'network_plus_self_study' },
   { name: 'CompTIA Security+', code: 'SY0-701', delivery: 'self-study', logo: 'comptia-security-plus', features: ['Access to CompTIA CertMaster', 'Access to CompTIA eBook', 'Access to CompTIA Labs', 'Exam Voucher Included'], ctaSource: 'security_plus_self_study' },
   { name: 'CompTIA CySA+', code: 'CS0-003', delivery: 'self-study', logo: 'comptia-cysa-plus', features: ['Access to CompTIA CertMaster', 'Access to CompTIA eBook', 'Access to CompTIA Labs', 'Exam Voucher Included'], ctaSource: 'cysa_plus_self_study' },
-  { name: 'CompTIA Cloud+', code: 'CV0-004', delivery: 'self-study', logo: null, features: ['Access to CompTIA CertMaster', 'Access to CompTIA eBook', 'Access to CompTIA Labs', 'Exam Voucher Included'], ctaSource: 'cloud_plus_self_study' },
-  { name: 'CompTIA AI Essentials', code: 'FC0-U71', delivery: 'self-study', logo: null, features: ['Access to CompTIA CertMaster', 'Access to CompTIA eBook', 'Access to CompTIA Labs'], ctaSource: 'ai_essentials_self_study' },
+  { name: 'CompTIA Cloud+', code: 'CV0-004', delivery: 'self-study', logo: 'comptia-cloud-plus', features: ['Access to CompTIA CertMaster', 'Access to CompTIA eBook', 'Access to CompTIA Labs', 'Exam Voucher Included'], ctaSource: 'cloud_plus_self_study' },
+  { name: 'CompTIA AI Essentials', code: 'FC0-U71', delivery: 'self-study', logo: 'comptia-ai-essentials', features: ['Access to CompTIA CertMaster', 'Access to CompTIA eBook', 'Access to CompTIA Labs'], ctaSource: 'ai_essentials_self_study' },
   // Instructor-Led
   { name: 'CompTIA Network+', code: 'N10-009', delivery: 'instructor-led', logo: 'comptia-network-plus', features: ['Live Instructor-Led Sessions', 'Interactive Q&A with Experts', 'Structured Class Schedule', 'All Self-Study Materials Included'], ctaSource: 'network_plus_instructor_led' },
   { name: 'CompTIA Security+', code: 'SY0-701', delivery: 'instructor-led', logo: 'comptia-security-plus', features: ['Live Instructor-Led Sessions', 'Interactive Q&A with Experts', 'Structured Class Schedule', 'All Self-Study Materials Included'], ctaSource: 'security_plus_instructor_led' },
   { name: 'CompTIA CySA+', code: 'CS0-003', delivery: 'instructor-led', logo: 'comptia-cysa-plus', features: ['Live Instructor-Led Sessions', 'Interactive Q&A with Experts', 'Structured Class Schedule', 'All Self-Study Materials Included'], ctaSource: 'cysa_plus_instructor_led' },
-  { name: 'CompTIA Cloud+', code: 'CV0-004', delivery: 'instructor-led', logo: null, features: ['Live Instructor-Led Sessions', 'Interactive Q&A with Experts', 'Structured Class Schedule', 'All Self-Study Materials Included'], ctaSource: 'cloud_plus_instructor_led' },
-  { name: 'CompTIA AI Essentials', code: 'FC0-U71', delivery: 'instructor-led', logo: null, features: ['Live Instructor-Led Sessions', 'Interactive Q&A with Experts', 'Structured Class Schedule', 'All Self-Study Materials Included'], ctaSource: 'ai_essentials_instructor_led' },
+  { name: 'CompTIA Cloud+', code: 'CV0-004', delivery: 'instructor-led', logo: 'comptia-cloud-plus', features: ['Live Instructor-Led Sessions', 'Interactive Q&A with Experts', 'Structured Class Schedule', 'All Self-Study Materials Included'], ctaSource: 'cloud_plus_instructor_led' },
+  { name: 'CompTIA AI Essentials', code: 'FC0-U71', delivery: 'instructor-led', logo: 'comptia-ai-essentials', features: ['Live Instructor-Led Sessions', 'Interactive Q&A with Experts', 'Structured Class Schedule', 'All Self-Study Materials Included'], ctaSource: 'ai_essentials_instructor_led' },
   // Hybrid
   { name: 'CompTIA Network+', code: 'N10-009', delivery: 'hybrid', logo: 'comptia-network-plus', features: ['Self-Paced Learning with Instructor Support', 'On-Demand Videos & Live Workshops', 'Dedicated Mentor Access', 'All Self-Study Materials Included'], ctaSource: 'network_plus_hybrid' },
   { name: 'CompTIA Security+', code: 'SY0-701', delivery: 'hybrid', logo: 'comptia-security-plus', features: ['Self-Paced Learning with Instructor Support', 'On-Demand Videos & Live Workshops', 'Dedicated Mentor Access', 'All Self-Study Materials Included'], ctaSource: 'security_plus_hybrid' },
   { name: 'CompTIA CySA+', code: 'CS0-003', delivery: 'hybrid', logo: 'comptia-cysa-plus', features: ['Self-Paced Learning with Instructor Support', 'On-Demand Videos & Live Workshops', 'Dedicated Mentor Access', 'All Self-Study Materials Included'], ctaSource: 'cysa_plus_hybrid' },
-  { name: 'CompTIA Cloud+', code: 'CV0-004', delivery: 'hybrid', logo: null, features: ['Self-Paced Learning with Instructor Support', 'On-Demand Videos & Live Workshops', 'Dedicated Mentor Access', 'All Self-Study Materials Included'], ctaSource: 'cloud_plus_hybrid' },
-  { name: 'CompTIA AI Essentials', code: 'FC0-U71', delivery: 'hybrid', logo: null, features: ['Self-Paced Learning with Instructor Support', 'On-Demand Videos & Live Workshops', 'Dedicated Mentor Access', 'All Self-Study Materials Included'], ctaSource: 'ai_essentials_hybrid' },
+  { name: 'CompTIA Cloud+', code: 'CV0-004', delivery: 'hybrid', logo: 'comptia-cloud-plus', features: ['Self-Paced Learning with Instructor Support', 'On-Demand Videos & Live Workshops', 'Dedicated Mentor Access', 'All Self-Study Materials Included'], ctaSource: 'cloud_plus_hybrid' },
+  { name: 'CompTIA AI Essentials', code: 'FC0-U71', delivery: 'hybrid', logo: 'comptia-ai-essentials', features: ['Self-Paced Learning with Instructor Support', 'On-Demand Videos & Live Workshops', 'Dedicated Mentor Access', 'All Self-Study Materials Included'], ctaSource: 'ai_essentials_hybrid' },
 ];
 
 const deliveryModes = [

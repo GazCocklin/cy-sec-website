@@ -410,12 +410,11 @@ export default function StorePage() {
           <div className="absolute inset-0"
             style={{ background: 'linear-gradient(135deg,rgba(10,26,63,0.97) 0%,rgba(7,30,60,0.95) 45%,rgba(8,145,178,0.82) 100%)' }} />
         </div>
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-14">
-          <div className="max-w-2xl">
-            <p className="text-cyan-400 text-xs font-bold uppercase tracking-widest mb-3">Official Store</p>
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-12">
+          <div className="max-w-3xl">
             <h1 className="text-4xl sm:text-5xl font-black text-white mb-3"
               style={{ letterSpacing: '-0.03em', lineHeight: 1.1 }}>
-              FortifyLearn<br />
+              FortifyLearn{' '}
               <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg,#22d3ee,#0891B2)' }}>Store.</span>
             </h1>
             <p className="text-white/60 text-sm">Add items to your basket — create your free FortifyLearn account at checkout.</p>
@@ -435,9 +434,11 @@ export default function StorePage() {
           {/* Section header with FL logo */}
           <div className="mb-6">
             <div className="flex items-center gap-3 mb-2">
-              <img src="/logos/fortifylearn-logo.svg" alt="FortifyLearn"
-                className="h-6 w-auto"
-                onError={e => { e.target.style.display='none'; }} />
+              <span className="text-2xl font-black"
+                style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                FortifyLearn
+              </span>
+              <span className="text-slate-300 font-light text-2xl">—</span>
               <h2 className="text-2xl font-bold text-slate-900">CompTIA PBQ Simulation Packs</h2>
             </div>
             <div className="flex flex-wrap items-center gap-3">

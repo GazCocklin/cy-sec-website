@@ -403,14 +403,14 @@ export default function StorePage() {
       )}
 
       {/* Hero */}
-      <div className="relative overflow-hidden" style={{ minHeight: 260 }}>
+      <div className="relative overflow-hidden" style={{ minHeight: 180 }}>
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80&fit=crop"
             alt="" className="w-full h-full object-cover" style={{ objectPosition: 'center 40%' }} />
           <div className="absolute inset-0"
             style={{ background: 'linear-gradient(135deg,rgba(10,26,63,0.97) 0%,rgba(7,30,60,0.95) 45%,rgba(8,145,178,0.82) 100%)' }} />
         </div>
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-12">
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-8">
           <div className="max-w-3xl">
             <h1 className="text-4xl sm:text-5xl font-black text-white mb-3"
               style={{ letterSpacing: '-0.03em', lineHeight: 1.1 }}>

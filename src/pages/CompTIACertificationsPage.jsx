@@ -94,7 +94,9 @@ export default function CompTIACertificationsPage() {
             {/* Left */}
             <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }}>
               <div className="flex items-center gap-3 mb-6">
-                <img src="/logos/comptia-partner-badge.webp" alt="CompTIA Authorised Partner" className="h-14 w-auto" />
+                <div className="bg-white rounded-xl px-4 py-2.5 shadow-md inline-flex items-center">
+                  <img src="/logos/comptia-partner-badge.webp" alt="CompTIA Authorised Partner" className="h-12 w-auto" />
+                </div>
               </div>
               <h1 className="text-4xl lg:text-5xl font-black text-white mb-5" style={{ letterSpacing: '-0.03em', fontFamily: 'Bricolage Grotesque, Inter, system-ui, sans-serif', lineHeight: 1.1 }}>
                 CompTIA<br />

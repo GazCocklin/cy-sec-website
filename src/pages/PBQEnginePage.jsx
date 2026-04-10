@@ -6,7 +6,7 @@ import { Terminal, ArrowRight, CheckCircle, Layers, Clock, Target, BookOpen, Zap
 import { Button } from '@/components/ui/button';
 
 const features = [
-  { icon: Terminal, title: 'Live Cisco IOS & Linux Environment', desc: 'Real router, switch and server terminals — show run, grep, iptables, ss -an, and more.' },
+  { icon: Terminal, title: 'Representative Cisco IOS & Linux Environment', desc: 'Representative router, switch and server terminals — type show run, grep, iptables, ss -an, and see realistic output.' },
   { icon: Layers, title: 'Multi-Device Topologies', desc: 'Investigate faults across workstations, switches, routers, firewalls, and servers simultaneously.' },
   { icon: Target, title: 'Objective-by-Objective Scoring', desc: 'Every check maps to a CompTIA exam objective so you know exactly where you stand.' },
   { icon: BookOpen, title: 'Study & Exam Modes', desc: 'Study mode gives guided hints. Exam mode is timed and scored against the full objective set.' },
@@ -46,7 +46,7 @@ const screenshots = [
     img: '/screenshots/fl-terminal.png',
     alt: 'FortifyLearn live Linux terminal inside a lab',
     label: 'Live CLI — Real Commands',
-    caption: 'A real terminal. Real Ubuntu and Cisco IOS environments. Type actual commands — grep, iptables, ss, show access-lists — and see real output. Not simulated. Not multiple choice.',
+    caption: 'A representative CLI environment. Type actual commands — grep, iptables, ss, show access-lists — and see realistic output that mirrors real-world scenarios. Not multiple choice.',
     side: 'left',
   },
   {
@@ -63,7 +63,7 @@ const PBQEnginePage = () => {
     <div className="min-h-screen bg-white">
       <Helmet>
         <title>FortifyLearn PBQ Simulator — CompTIA Performance-Based Questions | Cy-Sec</title>
-        <meta name="description" content="Practise CompTIA performance-based questions with live Cisco IOS and Linux environments. Network+, Security+ and CySA+ PBQ simulations with real CLI commands and objective-mapped scoring." />
+        <meta name="description" content="Practise CompTIA performance-based questions with representative Cisco IOS and Linux CLI environments. Network+, Security+ and CySA+ PBQ simulations with objective-mapped scoring." />
       </Helmet>
 
       {/* ── HERO ── */}
@@ -84,7 +84,7 @@ const PBQEnginePage = () => {
                 </span>
               </h1>
               <p className="text-white/70 text-lg leading-relaxed">
-                Performance-based questions with live Cisco IOS and Linux topology, real CLI commands, and instant objective-mapped scoring. The closest thing to the real exam.
+                Performance-based questions with representative Cisco IOS and Linux CLI environments, realistic command output, and instant objective-mapped scoring. The closest thing to the real exam.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 pt-2">
                 <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer">
@@ -120,7 +120,7 @@ const PBQEnginePage = () => {
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold text-slate-900 mb-4">Built for exam-ready practice</h2>
-            <p className="text-slate-500 max-w-xl mx-auto">Not multiple choice. Real CLI. Real topology. Real scoring.</p>
+            <p className="text-slate-500 max-w-xl mx-auto">Not multiple choice. Representative CLI environments. Realistic topology. Real scoring.</p>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {features.map(({ icon: Icon, title, desc }) => (

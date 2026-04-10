@@ -43,7 +43,7 @@ const TermsOfService = () => {
             <h2>4. Use of the Service</h2>
             <p>You agree not to misuse the Services. For example, you must not, and must not attempt to, use the services to:</p>
             <ul>
-              <li>Probe, scan, or test the vulnerability of any system or network.</li>
+              <li>Probe, scan, or test the vulnerability of any system or network without authorisation. (This restriction does not apply to activity conducted within FortifyLearn's authorised lab environments, which are designed specifically for this purpose.)</li>
               <li>Breach or otherwise circumvent any security or authentication measures.</li>
               <li>Access, tamper with, or use non-public areas of the Service.</li>
               <li>Interfere with or disrupt any user, host, or network.</li>

@@ -5,7 +5,7 @@ import { Award, Zap, ShieldCheck } from 'lucide-react';
 const newsItems = [
   { icon: <Award className="h-5 w-5 text-yellow-400 mr-2" />, text: "Now an authorised CompTIA Training Partner, talk to us about your training needs." },
   { icon: <Award className="h-5 w-5 text-purple-400 mr-2" />, text: "Now an authorised CertNexus Partner!" },
-  { icon: <Zap className="h-5 w-5 text-green-400 mr-2" />, text: "Introducing FortifyOne: All your cyber risk and compliance. One platform. Total control." },
+  { icon: <ShieldCheck className="h-5 w-5 text-blue-400 mr-2" />, text: "FortifyOne is live — ISO 27001, DORA & NIS2 compliance platform from £149/month." },
   { icon: <Zap className="h-5 w-5 text-cyan-400 mr-2" />, text: "Get in touch to discuss AI-specific Risk Assessments." },
 ];
 

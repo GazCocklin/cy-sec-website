@@ -12,7 +12,7 @@ const VCISOCTASection = () => {
   };
 
   const handleLearnMore = () => {
-    navigate('/fortify-one');
+    window.open('https://fortifyone.co.uk', '_blank');
   };
 
   return (
@@ -60,16 +60,19 @@ const VCISOCTASection = () => {
 
           <div className="pt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="text-4xl font-bold text-cyan-400 mb-2">15+</div>
-              <p className="text-slate-300">Years Combined Experience</p>
+              <div className="text-4xl font-bold text-cyan-400 mb-2">7</div>
+              <p className="text-slate-300">Elite Certifications</p>
+              <p className="text-xs text-slate-400 mt-1">CISSP-ISSAP · CISM · CRISC · CGEIT · CCSP · AAISM · CITP MBCS</p>
             </div>
             <div className="text-center">
-              <div className="text-4xl font-bold text-blue-400 mb-2">100%</div>
-              <p className="text-slate-300">Client Satisfaction</p>
+              <div className="text-4xl font-bold text-blue-400 mb-2">£995</div>
+              <p className="text-slate-300">per month from</p>
+              <p className="text-xs text-slate-400 mt-1">FortifyOne platform included</p>
             </div>
             <div className="text-center">
               <div className="text-4xl font-bold text-cyan-400 mb-2">24/7</div>
               <p className="text-slate-300">Security Support</p>
+              <p className="text-xs text-slate-400 mt-1">Rapid response for critical incidents</p>
             </div>
           </div>
         </motion.div>

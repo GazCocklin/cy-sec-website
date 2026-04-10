@@ -40,6 +40,11 @@ const VCISOPage = () => {
             transition={{ duration: 0.8 }}
             className="space-y-8"
           >
+            <div className="flex justify-center">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold" style={{ background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)', color: 'rgba(255,255,255,0.9)' }}>
+                From £995/month &middot; FortifyOne platform included
+              </span>
+            </div>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
               Virtual CISO <span className="text-cyan-400">Services</span>
             </h1>

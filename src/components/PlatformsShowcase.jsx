@@ -37,7 +37,7 @@ const PlatformsShowcase = () => (
               CompTIA PBQ simulations with live Cisco IOS topology, real CLI commands, and objective-by-objective scoring. Study mode and exam mode included.
             </p>
             <div className="space-y-2 mb-8">
-              {['Live Cisco IOS & Linux environment','Network+ and Security+ coverage','Free to start — no payment required'].map(f => (
+              {['Live Cisco IOS & Linux environment','Network+, Security+ and CySA+ coverage','Free to start — no payment required'].map(f => (
                 <div key={f} className="flex items-center gap-2">
                   <CheckCircle className="w-4 h-4 text-cyan-400 shrink-0" />
                   <span className="text-slate-300 text-sm">{f}</span>

@@ -93,7 +93,7 @@ const CompTIACertificationsPage = () => {
               CompTIA <span className="gradient-text-purple">Certifications</span>
             </h1>
             <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-              Choose your preferred learning style and earn industry-recognized CompTIA certifications to validate your skills and advance your career path.
+              Choose your preferred learning style and earn industry-recognised CompTIA certifications to validate your skills and advance your career path.
             </p>
           </motion.div>
 

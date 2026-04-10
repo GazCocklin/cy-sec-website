@@ -53,7 +53,7 @@ const DORAComplianceSprintPage = () => {
     {
       icon: Target,
       title: "Targeted Remediation Plan",
-      description: "Actionable, prioritized roadmap to address identified compliance gaps efficiently.",
+      description: "Actionable, prioritised roadmap to address identified compliance gaps efficiently.",
       points: ["Risk-based prioritization", "Resource estimation", "Timeline mapping"]
     },
     {
@@ -80,7 +80,7 @@ const DORAComplianceSprintPage = () => {
     {
       phase: "Phase 3: Remediation Strategy",
       duration: "Weeks 6-7",
-      description: "Develop a prioritized action plan to close identified gaps and achieve compliance.",
+      description: "Develop a prioritised action plan to close identified gaps and achieve compliance.",
       deliverables: ["Remediation Roadmap", "Resource Plan"]
     },
     {
@@ -199,7 +199,7 @@ const DORAComplianceSprintPage = () => {
               <BarChart className="h-12 w-12 text-cyan-600 mb-6" />
               <h3 className="text-xl font-bold text-slate-800 mb-4">Core Objectives</h3>
               <p className="text-slate-600">
-                Harmonize ICT risk management rules across the EU, elevate digital resilience, and ensure business continuity during operational disruptions or cyber attacks.
+                Harmonise ICT risk management rules across the EU, elevate digital resilience, and ensure business continuity during operational disruptions or cyber attacks.
               </p>
             </motion.div>
 
@@ -212,7 +212,7 @@ const DORAComplianceSprintPage = () => {
               <Calendar className="h-12 w-12 text-blue-600 mb-6" />
               <h3 className="text-xl font-bold text-slate-800 mb-4">Why Act Now?</h3>
               <p className="text-slate-600">
-                With strict compliance deadlines approaching, organizations must proactively assess gaps, implement complex technical standards, and modernize vendor management practices to avoid penalties.
+                DORA entered into force on 17 January 2025. Organisations must now demonstrate compliance — penalties for non-compliance are active. If you have not yet baselined your posture, the time to act is now.
               </p>
             </motion.div>
           </div>
@@ -365,7 +365,7 @@ const DORAComplianceSprintPage = () => {
               Ready to Accelerate Your <span className="gradient-text">DORA Compliance?</span>
             </h2>
             <p className="text-xl text-slate-600 mb-8 leading-relaxed max-w-2xl mx-auto">
-              Don't wait for deadlines to dictate your strategy. Partner with Cy-Sec to build a robust, compliant digital resilience framework.
+              DORA is now in force. Organisations still building their compliance posture face active enforcement risk. Partner with Cy-Sec to build a robust, compliant digital resilience framework.
             </p>
             <Button
               onClick={handleGetStarted}

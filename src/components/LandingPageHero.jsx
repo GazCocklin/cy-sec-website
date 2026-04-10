@@ -39,8 +39,6 @@ const CARDS = [
   },
 ];
 
-const CERTS = ['CISSP-ISSAP', 'CISM', 'CRISC', 'CCSP', 'CompTIA Authorised'];
-
 export default function LandingPageHero() {
   const navigate = useNavigate();
 
@@ -115,14 +113,6 @@ export default function LandingPageHero() {
               </Button>
             </div>
 
-            {/* Credentials strip */}
-            <div className="flex flex-wrap gap-2 pt-1">
-              {CERTS.map(c => (
-                <span key={c} className="text-[11px] font-semibold text-white/40 border border-white/10 px-3 py-1.5 rounded-full">
-                  {c}
-                </span>
-              ))}
-            </div>
           </motion.div>
 
           {/* ── RIGHT: service cards ── */}

@@ -24,7 +24,7 @@ const BottomCTASection = () => {
           </p>
           <Button 
             onClick={() => navigate('/contact')}
-            className="bg-[#1A56DB] hover:bg-[#1e3a8a] text-white px-12 py-6 text-xl font-bold shadow-lg"
+            className="text-white px-12 py-6 text-xl font-bold shadow-lg hover:brightness-110 transition-all border-0" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}
           >
             Book Your Free Call <ArrowRight className="ml-2 h-6 w-6" />
           </Button>

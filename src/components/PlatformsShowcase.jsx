@@ -1,94 +1,167 @@
 import React from 'react';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Terminal, BarChart3 } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const GradText = ({ children }) => (
   <span style={{
-    background: 'linear-gradient(90deg, #1A56DB, #06B6D4)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-    fontWeight: 700,
+    background: 'linear-gradient(90deg, #22d3ee, #0891B2)',
+    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', fontWeight: 700,
   }}>{children}</span>
 );
 
-const PlatformsShowcase = () => (
-  <section className="py-24 bg-white border-t border-slate-100">
-    <div className="max-w-7xl mx-auto px-6 lg:px-8">
-      <div className="text-center mb-16">
-        <p className="text-sm font-semibold text-blue-600 uppercase tracking-wider mb-3">Our Platforms</p>
-        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Built by practitioners</h2>
-        <p className="text-slate-500 max-w-xl mx-auto">Two platforms that extend Cy-Sec's reach — available independently or as part of a managed vCISO engagement.</p>
-      </div>
+const FL_FEATURES = [
+  'Representative CLI environments for Network+, Security+ & CySA+',
+  'Objective-by-objective scoring, study mode & exam mode',
+  'Free taster labs — no payment required to start',
+];
 
-      <div className="grid lg:grid-cols-2 gap-8">
+const F1_FEATURES = [
+  'ISO 27001, DORA, NIS2, NIST CSF 2.0, GDPR & more',
+  'Gap analysis, vendor risk, DPIA tools & audit-ready reports',
+  'Included with every vCISO engagement',
+];
 
-        {/* FortifyLearn */}
-        <div className="relative bg-slate-900 rounded-3xl p-8 overflow-hidden">
-          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(135deg, #1A56DB 0%, #06B6D4 100%)' }} />
-          <div className="absolute -bottom-16 -right-16 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl" />
-          <div className="relative">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-black">
-                <svg width="22" height="22" viewBox="0 0 256 256" fill="white"><path d="M216 44H40a20 20 0 0 0-20 20v128a20 20 0 0 0 20 20h176a20 20 0 0 0 20-20V64a20 20 0 0 0-20-20Zm-4 144H44V68h168ZM72.5 150.63L100.79 128L72.5 105.37a12 12 0 1 1 15-18.74l40 32a12 12 0 0 1 0 18.74l-40 32a12 12 0 0 1-15-18.74ZM144 172h32a12 12 0 0 0 0-24h-32a12 12 0 0 0 0 24Z"/></svg>
-              </div>
-              <span className="font-bold text-white text-xl">Fortify<GradText>Learn</GradText></span>
-            </div>
-            <p className="text-slate-300 text-sm mb-6 leading-relaxed">
-              CompTIA PBQ simulations with live Cisco IOS topology, real CLI commands, and objective-by-objective scoring. Study mode and exam mode included.
-            </p>
-            <div className="space-y-2 mb-8">
-              {['Live Cisco IOS & Linux environment','Network+, Security+ and CySA+ coverage','Free to start — no payment required'].map(f => (
-                <div key={f} className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-cyan-400 shrink-0" />
-                  <span className="text-slate-300 text-sm">{f}</span>
-                </div>
-              ))}
-            </div>
-            <div className="flex items-center gap-4">
-              <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-cyan-500 hover:bg-cyan-400 text-slate-900 font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors">
-                Try FortifyLearn <ArrowRight className="w-4 h-4" />
-              </a>
-              <span className="text-slate-500 text-sm">Free to start</span>
-            </div>
-          </div>
+export default function PlatformsShowcase() {
+  return (
+    <section className="py-24 bg-white border-t border-slate-100">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+        <div className="text-center mb-14">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] mb-3" style={{ color: '#0891B2' }}>Our Platforms</p>
+          <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Built by practitioners</h2>
+          <p className="text-slate-500 max-w-xl mx-auto text-sm leading-relaxed">
+            Two platforms that extend Cy-Sec's reach — available independently or as part of a managed vCISO engagement.
+          </p>
         </div>
 
-        {/* FortifyOne */}
-        <div className="relative bg-slate-900 rounded-3xl p-8 overflow-hidden">
-          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(135deg, #1E3A8A 0%, #1A56DB 100%)' }} />
-          <div className="absolute -bottom-16 -left-16 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
-          <div className="relative">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-black">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"><path d="M20.341 6.484A10 10 0 0 1 10.266 21.85m-6.607-4.334A10 10 0 0 1 13.74 2.152"/><circle cx="12" cy="12" r="3" fill="white"/><circle cx="19" cy="5" r="2" fill="black"/><circle cx="5" cy="19" r="2" fill="black"/></svg>
+        <div className="grid lg:grid-cols-2 gap-6">
+
+          {/* ── FortifyLearn ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="relative rounded-3xl p-8 overflow-hidden"
+            style={{ background: 'linear-gradient(135deg, #071326 0%, #0B2540 60%, #0a3d5c 100%)' }}
+          >
+            {/* Grid overlay */}
+            <div className="absolute inset-0 opacity-[0.04]"
+              style={{ backgroundImage: 'linear-gradient(#0891B2 1px, transparent 1px), linear-gradient(to right, #0891B2 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+            {/* Glow */}
+            <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full blur-3xl pointer-events-none"
+              style={{ background: 'rgba(8,145,178,0.2)' }} />
+
+            {/* Terminal preview strip */}
+            <div className="relative mb-6 rounded-xl overflow-hidden border border-white/10"
+              style={{ background: 'rgba(0,0,0,0.4)' }}>
+              <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/10">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="text-[10px] text-white/30 ml-2 font-mono">bash — fortifylearn lab</span>
               </div>
-              <span className="font-bold text-white text-xl">Fortify<GradText>One</GradText></span>
+              <div className="px-4 py-3 font-mono text-xs leading-relaxed">
+                <p><span style={{ color: '#22d3ee' }}>router#</span> <span className="text-white/70">show ip route</span></p>
+                <p className="text-white/40">Codes: C - connected, S - static</p>
+                <p><span className="text-emerald-400">C</span> <span className="text-white/60">192.168.1.0/24 is directly connected, Gi0/0</span></p>
+                <p><span className="text-emerald-400">C</span> <span className="text-white/60">10.0.0.0/30 is directly connected, Se0/0/0</span></p>
+                <p className="mt-1"><span style={{ color: '#22d3ee' }}>router#</span> <span className="text-white/70">_</span></p>
+              </div>
             </div>
-            <p className="text-slate-300 text-sm mb-6 leading-relaxed">
-              GRC compliance platform covering ISO 27001, NIST CSF 2.0, GDPR, DORA, and NIS2. Gap analysis, vendor risk, DPIA tools, and audit-ready reports.
-            </p>
-            <div className="space-y-2 mb-8">
-              {['ISO 27001, DORA, NIS2, NIST & more','Vendor risk management built in','Included with every vCISO engagement'].map(f => (
-                <div key={f} className="flex items-center gap-2">
-                  <CheckCircle className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="text-slate-300 text-sm">{f}</span>
+
+            <div className="relative">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.5)' }}>
+                  <Terminal className="w-4 h-4" style={{ color: '#22d3ee' }} />
                 </div>
-              ))}
+                <span className="font-bold text-white text-xl">Fortify<GradText>Learn</GradText></span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full ml-auto" style={{ background: 'rgba(8,145,178,0.2)', color: '#22d3ee', border: '1px solid rgba(8,145,178,0.3)' }}>CompTIA Authorised</span>
+              </div>
+
+              <div className="space-y-2 mb-6">
+                {FL_FEATURES.map(f => (
+                  <div key={f} className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#0891B2' }} />
+                    <span className="text-slate-400 text-sm">{f}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-4">
+                <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-semibold text-sm px-5 py-2.5 rounded-xl transition-all hover:brightness-110"
+                  style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
+                  Try FortifyLearn <ArrowRight className="w-4 h-4" />
+                </a>
+                <span className="text-slate-500 text-sm">Free to start</span>
+              </div>
             </div>
-            <div className="flex items-center gap-4">
-              <a href="https://fortifyone.co.uk" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm px-5 py-2.5 rounded-xl transition-colors">
-                Explore FortifyOne <ArrowRight className="w-4 h-4" />
-              </a>
-              <span className="text-slate-500 text-sm">From £149/month</span>
+          </motion.div>
+
+          {/* ── FortifyOne ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.1 }}
+            className="relative rounded-3xl p-8 overflow-hidden"
+            style={{ background: 'linear-gradient(135deg, #071326 0%, #0B1D3A 60%, #0d2b4a 100%)' }}
+          >
+            {/* Grid overlay */}
+            <div className="absolute inset-0 opacity-[0.04]"
+              style={{ backgroundImage: 'linear-gradient(#0891B2 1px, transparent 1px), linear-gradient(to right, #0891B2 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+            {/* Glow */}
+            <div className="absolute -bottom-20 -left-20 w-72 h-72 rounded-full blur-3xl pointer-events-none"
+              style={{ background: 'rgba(8,145,178,0.15)' }} />
+
+            {/* Dashboard preview strip */}
+            <div className="relative mb-6 rounded-xl overflow-hidden border border-white/10"
+              style={{ background: 'rgba(0,0,0,0.4)' }}>
+              <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/10">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
+                <span className="text-[10px] text-white/30 ml-2 font-mono">FortifyOne — GRC Dashboard</span>
+              </div>
+              <div className="px-4 py-3 space-y-2">
+                {[['ISO 27001','87%',true],['DORA','62%',false],['NIS2','91%',true]].map(([label, pct, done]) => (
+                  <div key={label} className="flex items-center gap-3">
+                    <span className="text-[11px] text-white/50 w-16 font-mono">{label}</span>
+                    <div className="flex-1 h-1.5 rounded-full bg-white/10">
+                      <div className="h-full rounded-full" style={{ width: pct, background: done ? 'linear-gradient(90deg,#0891B2,#22d3ee)' : 'rgba(8,145,178,0.5)' }} />
+                    </div>
+                    <span className="text-[11px] font-semibold w-8 text-right" style={{ color: done ? '#22d3ee' : 'rgba(255,255,255,0.4)' }}>{pct}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+
+            <div className="relative">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(0,0,0,0.5)' }}>
+                  <BarChart3 className="w-4 h-4" style={{ color: '#0891B2' }} />
+                </div>
+                <span className="font-bold text-white text-xl">Fortify<GradText>One</GradText></span>
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full ml-auto" style={{ background: 'rgba(8,145,178,0.2)', color: '#22d3ee', border: '1px solid rgba(8,145,178,0.3)' }}>GRC Platform</span>
+              </div>
+
+              <div className="space-y-2 mb-6">
+                {F1_FEATURES.map(f => (
+                  <div key={f} className="flex items-start gap-2">
+                    <CheckCircle className="w-4 h-4 shrink-0 mt-0.5" style={{ color: '#0891B2' }} />
+                    <span className="text-slate-400 text-sm">{f}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-4">
+                <a href="https://fortifyone.co.uk" target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-semibold text-sm px-5 py-2.5 rounded-xl transition-all hover:brightness-110"
+                  style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
+                  Explore FortifyOne <ArrowRight className="w-4 h-4" />
+                </a>
+                <span className="text-slate-500 text-sm">From £149/month</span>
+              </div>
+            </div>
+          </motion.div>
+
         </div>
-
       </div>
-    </div>
-  </section>
-);
-
-export default PlatformsShowcase;
+    </section>
+  );
+}

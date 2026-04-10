@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
-  LayoutDashboard, Users, Mail, Bug, Lightbulb, Settings2,
+  LayoutDashboard, Users, Mail, Bug, Lightbulb, Settings2, ShoppingBag,
   ChevronLeft, ChevronRight, ArrowLeft,
   Clock, CheckCircle2, AlertCircle, Inbox,
   TrendingUp, Shield, Trash2, Tag, Package, Layers, BookOpen,
@@ -939,6 +939,103 @@ const ConfigView = () => {
 };
 
 // ─── Nav ───────────────────────────────────────────────────────────────────────
+
+const PACK_LABELS = {
+  netplus_pack: 'Network+ PBQ Pack 1',
+  secplus_pack: 'Security+ PBQ Pack 1',
+  cysa_pack:    'CySA+ PBQ Pack 1',
+  bundle:       'All Access Bundle',
+};
+
+function formatPacks(keys) {
+  if (!keys || !keys.length) return '—';
+  if (keys.includes('bundle')) return 'All Access Bundle';
+  return keys.filter(k => k !== 'bundle').map(k => PACK_LABELS[k] || k).join(', ');
+}
+
+const PurchasesView = () => {
+  const [purchases, setPurchases] = useState([]);
+  const [loading, setLoading]     = useState(true);
+
+  useEffect(() => {
+    supabase.rpc('get_purchase_history').then(({ data, error }) => {
+      if (!error) setPurchases(data || []);
+      setLoading(false);
+    });
+  }, []);
+
+  const totalRevenue = purchases.reduce((s, p) => s + Number(p.amount_paid_gbp || 0), 0);
+
+  if (loading) return <div className="p-8 text-slate-400 text-sm">Loading purchases…</div>;
+
+  if (!purchases.length) return (
+    <div className="p-16 text-center">
+      <ShoppingBag className="w-12 h-12 text-slate-200 mx-auto mb-3" />
+      <p className="text-slate-400 text-sm">No purchases yet</p>
+    </div>
+  );
+
+  return (
+    <div className="p-6 space-y-6">
+      {/* Summary cards */}
+      <div className="grid grid-cols-2 gap-4 max-w-md">
+        <Card>
+          <CardContent className="pt-5 pb-4">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Revenue</p>
+            <p className="text-3xl font-extrabold" style={{ color: '#0891B2' }}>£{totalRevenue.toFixed(2)}</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="pt-5 pb-4">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Orders</p>
+            <p className="text-3xl font-extrabold text-slate-800">{purchases.length}</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Purchases table */}
+      <Card className="overflow-hidden">
+        <CardHeader className="pb-3 border-b border-slate-100">
+          <CardTitle className="text-sm font-bold text-slate-700">Purchase History</CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-100">
+                {['Date','Customer','Pack(s)','Amount'].map(h => (
+                  <th key={h} className={`text-xs font-bold text-slate-400 uppercase tracking-wider px-5 py-3 ${h === 'Amount' ? 'text-right' : 'text-left'}`}>{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {purchases.map((p, i) => (
+                <tr key={p.stripe_session_id || i} className="border-b border-slate-50 hover:bg-slate-50/60 transition-colors">
+                  <td className="px-5 py-3 text-slate-500 text-xs whitespace-nowrap">
+                    {p.purchased_at ? new Date(p.purchased_at).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }) : '—'}
+                  </td>
+                  <td className="px-5 py-3">
+                    <p className="font-medium text-slate-800">{p.customer_email || '—'}</p>
+                    {p.customer_name && <p className="text-xs text-slate-400 mt-0.5">{p.customer_name}</p>}
+                  </td>
+                  <td className="px-5 py-3">
+                    <span className="text-xs font-semibold px-2.5 py-1 rounded-full"
+                      style={{ background: 'rgba(8,145,178,0.1)', color: '#0891B2' }}>
+                      {formatPacks(p.product_keys)}
+                    </span>
+                  </td>
+                  <td className="px-5 py-3 text-right font-bold text-slate-800">
+                    {p.amount_paid_gbp ? `£${Number(p.amount_paid_gbp).toFixed(2)}` : '—'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
 const NAV = [
   { id: 'dashboard', label: 'Dashboard',        icon: LayoutDashboard },
   { id: 'leads',     label: 'CRM Leads',         icon: Users },
@@ -947,6 +1044,7 @@ const NAV = [
   { id: 'features',  label: 'Feature Requests',   icon: Lightbulb },
   { id: 'pricing',   label: 'Pricing',            icon: Tag },
   { id: 'config',    label: 'Platform Config',    icon: Settings2 },
+  { id: 'purchases', label: 'Purchases',         icon: ShoppingBag },
 ];
 
 const PAGE_TITLES = {
@@ -957,6 +1055,7 @@ const PAGE_TITLES = {
   features:  'Feature Requests',
   pricing:   'Pricing Overview',
   config:    'Platform Configuration',
+  purchases: 'FortifyLearn Purchases',
 };
 
 // ─── Root ──────────────────────────────────────────────────────────────────────
@@ -973,6 +1072,7 @@ export default function AdminHomePage() {
       case 'features':  return <FeedbackView feedbackType="feature" />;
       case 'pricing':   return <PricingView />;
       case 'config':    return <ConfigView />;
+      case 'purchases': return <PurchasesView />;
       default:          return <DashboardView setView={setView} />;
     }
   };
@@ -983,12 +1083,12 @@ export default function AdminHomePage() {
         <div className={`border-b border-gray-100 flex items-center gap-3 px-4 py-5 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
           {sidebarOpen && (
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center flex-shrink-0 shadow-sm">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
                 <Shield className="w-4 h-4 text-white" />
               </div>
               <div>
                 <p className="text-[15px] font-extrabold text-slate-800 leading-tight" style={{ letterSpacing: '-0.03em' }}>Cy-Sec</p>
-                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest leading-tight">Admin</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest leading-tight" style={{ color: '#0891B2' }}>Admin</p>
               </div>
             </div>
           )}
@@ -1006,7 +1106,7 @@ export default function AdminHomePage() {
                 className={`w-full flex items-center gap-2.5 rounded-lg transition-all px-2.5 py-2
                   ${sidebarOpen ? '' : 'justify-center'}
                   ${active
-                    ? 'bg-blue-50 text-blue-700 font-semibold border-l-2 border-blue-600'
+                    ? 'bg-cyan-50 font-semibold border-l-2' style={{ color: '#0891B2', borderColor: '#0891B2' }}
                     : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border-l-2 border-transparent'
                   }`}>
                 <item.icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-blue-600' : ''}`} />

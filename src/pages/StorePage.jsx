@@ -392,7 +392,7 @@ export default function StorePage() {
   }
 
   return (
-    <div className={`min-h-screen ${basket.length > 0 ? 'pb-32' : 'pb-8'}`} style={{ background: '#F8FAFC' }}>
+    <div className={`min-h-screen ${basket.length > 0 ? 'pb-32' : 'pb-2'}`} style={{ background: '#F8FAFC' }}>
       <Helmet>
         <title>FortifyLearn Store — CompTIA PBQ Packs | Cy-Sec</title>
         <meta name="description" content="The official FortifyLearn store. CompTIA PBQ simulation packs for Network+, Security+ and CySA+ — representative CLI environments, objective-mapped scoring, 12 months access from £19.99." />
@@ -422,7 +422,7 @@ export default function StorePage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-10 space-y-12">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-10 pb-6 space-y-10">
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-5 py-3 rounded-xl flex items-start gap-2">

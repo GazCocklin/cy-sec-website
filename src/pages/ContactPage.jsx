@@ -135,22 +135,7 @@ export default function ContactPage() {
               </div>
             ))}
 
-            <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-              <p className="font-semibold text-slate-800 text-sm mb-3">What are you interested in?</p>
-              <div className="flex flex-wrap gap-2">
-                {INTERESTS.map(({ value, label }) => (
-                  <button
-                    key={value} type="button"
-                    onClick={() => set('interest', form.interest === value ? '' : value)}
-                    className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-all ${
-                      form.interest === value
-                        ? 'text-white border-transparent shadow-sm'
-                        : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-[#0891B2]'
-                    }`}
-                  >{label}</button>
-                ))}
-              </div>
-            </div>
+
           </motion.div>
 
           {/* Form */}
@@ -212,13 +197,23 @@ export default function ContactPage() {
                       </Field>
                     </div>
 
-                    {form.interest && (
-                      <div className="flex items-center gap-2 text-sm text-[#0a5c8a] bg-cyan-50 px-4 py-2.5 rounded-xl border border-cyan-200">
-                        <CheckCircle className="h-4 w-4 flex-shrink-0" />
-                        <span>Interested in: <strong>{INTERESTS.find(i=>i.value===form.interest)?.label}</strong></span>
-                        <button type="button" onClick={() => set('interest','')} className="ml-auto text-slate-400 hover:text-slate-600 text-xs leading-none">✕</button>
+                    <div>
+                      <p className="text-sm font-semibold text-slate-700 mb-2.5">What are you interested in? <span className="text-slate-400 font-normal">(optional)</span></p>
+                      <div className="flex flex-wrap gap-2">
+                        {INTERESTS.map(({ value, label }) => (
+                          <button
+                            key={value} type="button"
+                            onClick={() => set('interest', form.interest === value ? '' : value)}
+                            className={`text-sm px-4 py-2 rounded-full border font-medium transition-all ${
+                              form.interest === value
+                                ? 'text-white border-transparent shadow-sm'
+                                : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-[#0891B2]'
+                            }`}
+                            style={form.interest === value ? { background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' } : {}}
+                          >{label}</button>
+                        ))}
                       </div>
-                    )}
+                    </div>
 
                     <Field label="How can we help?" required error={errors.message}>
                       <textarea rows={5} value={form.message} onChange={e => set('message', e.target.value)}

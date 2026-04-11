@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#0B1D3A"/>
+      <stop offset="55%"  stop-color="#0E5F8A"/>
+      <stop offset="100%" stop-color="#0891B2"/>
+    </linearGradient>
+  </defs>
+  <!-- Rounded square background matching FL brand gradient -->
+  <rect width="100" height="100" rx="20" fill="url(#bg)"/>
+  <!-- Terminal window icon (Phosphor ph:terminal-window-bold, 256x256 → scaled to 72px centred) -->
+  <g transform="translate(14, 14) scale(0.281)">
+    <path fill="white"
+      d="M216 44H40a20 20 0 0 0-20 20v128a20 20 0 0 0 20 20h176a20 20 0 0 0 20-20V64a20 20 0 0 0-20-20Z
+         m-4 144H44V68h168Z
+         M72.5 150.63L100.79 128L72.5 105.37a12 12 0 1 1 15-18.74l40 32a12 12 0 0 1 0 18.74l-40 32a12 12 0 0 1-15-18.74Z
+         M144 172h32a12 12 0 0 0 0-24h-32a12 12 0 0 0 0 24Z"/>
+  </g>
+</svg>

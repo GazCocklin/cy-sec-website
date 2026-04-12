@@ -1079,8 +1079,8 @@ export default function AdminHomePage() {
 
   return (
     <div className="flex min-h-screen font-sans" style={{background:'#F4F7FA'}}>
-      <div className={`${sidebarOpen ? 'w-56' : 'w-16'} flex-shrink-0 flex flex-col transition-all duration-200` style={{background:'#0B1D3A',borderRight:'1px solid rgba(255,255,255,0.07)'}}}>
-        <div className={`flex items-center gap-3 px-4 py-5 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
+      <div className={`${sidebarOpen ? 'w-56' : 'w-16'} flex-shrink-0 flex flex-col transition-all duration-200`} style={{background:'#0B1D3A',borderRight:'1px solid rgba(255,255,255,0.07)'}}>
+        <div className={`flex items-center gap-3 px-4 py-5 ${sidebarOpen ? 'justify-between' : 'justify-center'}`} style={{borderBottom:'1px solid rgba(255,255,255,0.07)'}}>
           {sidebarOpen && (
             <div className="flex items-center gap-2.5">
               <img src="/logos/cysec-favicon.svg" alt="Cy-Sec" style={{width:32,height:32,borderRadius:8,flexShrink:0}} />

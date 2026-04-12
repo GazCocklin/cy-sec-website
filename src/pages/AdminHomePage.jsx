@@ -216,7 +216,7 @@ const DataTable = ({ columns, rows, onRowClick }) => (
           <tr><td colSpan={columns.length} className="px-4 py-12 text-center text-slate-400">No records found</td></tr>
         ) : rows.map((row, i) => (
           <tr key={row.id || i} onClick={() => onRowClick?.(row)}
-            className={`border-b border-gray-100 transition-colors ${onRowClick ? 'cursor-pointer hover:bg-blue-50/50' : ''}`}>
+            className={`border-b border-gray-100 transition-colors ${onRowClick ? 'cursor-pointer hover:bg-slate-50' : ''}`}>
             {columns.map(col => (
               <td key={col.key} className="px-4 py-3 text-slate-600 align-middle">
                 {col.render ? col.render(row[col.key], row) : (row[col.key] || '—')}
@@ -360,7 +360,7 @@ const LeadsView = () => {
     ...LEAD_STAGES.map(s => ({ value: s, label: `${s.charAt(0).toUpperCase() + s.slice(1)} (${stageCounts[s] || 0})` })),
   ];
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0891B2]" /></div>;
   return (
     <div>
       <StatRow stats={stats} />
@@ -423,7 +423,7 @@ const ContactsView = () => {
     ...CONTACT_STATUSES.map(s => ({ value: s, label: s.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) })),
   ];
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0891B2]" /></div>;
   return (
     <div>
       <StatRow stats={stats} />
@@ -486,7 +486,7 @@ const FeedbackView = ({ feedbackType }) => {
     ...FEEDBACK_STATUSES.map(s => ({ value: s, label: `${s.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())} (${counts[s] || 0})` })),
   ];
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0891B2]" /></div>;
   return (
     <div>
       <StatRow stats={stats} />
@@ -568,7 +568,7 @@ const DashboardView = ({ setView }) => {
     return `${Math.floor(h / 24)}d ago`;
   };
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0891B2]" /></div>;
 
   const topStats = [
     { label: 'Total Leads', value: stats.leads, icon: Users, color: 'text-blue-600', bgColor: 'bg-blue-50' },
@@ -618,7 +618,7 @@ const DashboardView = ({ setView }) => {
             const tc = typeConfig[item._type];
             return (
               <div key={i} onClick={() => handleActivityClick(item)}
-                className="flex items-center gap-3 px-5 py-3 border-b border-gray-50 last:border-0 hover:bg-blue-50/40 cursor-pointer transition-colors group">
+                className="flex items-center gap-3 px-5 py-3 border-b border-gray-50 last:border-0 hover:bg-slate-50/60 cursor-pointer transition-colors group">
                 <div className={`w-9 h-9 rounded-lg ${tc.bg} flex items-center justify-center text-base flex-shrink-0`}>{tc.icon}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -669,7 +669,7 @@ const PricingView = () => {
     })();
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0891B2]" /></div>;
 
   const allPackBankIds = new Set(packs.flatMap(p => p.bank_ids || []));
   const mainPacks = packs.filter(p => p.certification !== 'CompTIA').sort((a,b) => a.exam_code.localeCompare(b.exam_code));
@@ -1078,14 +1078,12 @@ export default function AdminHomePage() {
   };
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 font-sans">
-      <div className={`${sidebarOpen ? 'w-56' : 'w-16'} flex-shrink-0 bg-white border-r border-gray-200 flex flex-col transition-all duration-200 shadow-sm`}>
-        <div className={`border-b border-gray-100 flex items-center gap-3 px-4 py-5 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
+    <div className="flex min-h-screen font-sans" style={{background:'#F4F7FA'}}>
+      <div className={`${sidebarOpen ? 'w-56' : 'w-16'} flex-shrink-0 flex flex-col transition-all duration-200` style={{background:'#0B1D3A',borderRight:'1px solid rgba(255,255,255,0.07)'}}}>
+        <div className={`flex items-center gap-3 px-4 py-5 ${sidebarOpen ? 'justify-between' : 'justify-center'}`}>
           {sidebarOpen && (
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 shadow-sm" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-                <Shield className="w-4 h-4 text-white" />
-              </div>
+              <img src="/logos/cysec-favicon.svg" alt="Cy-Sec" style={{width:32,height:32,borderRadius:8,flexShrink:0}} />
               <div>
                 <p className="text-[15px] font-extrabold text-slate-800 leading-tight" style={{ letterSpacing: '-0.03em' }}>Cy-Sec</p>
                 <p className="text-[10px] font-bold uppercase tracking-widest leading-tight" style={{ color: '#0891B2' }}>Admin</p>
@@ -1106,19 +1104,19 @@ export default function AdminHomePage() {
                 className={`w-full flex items-center gap-2.5 rounded-lg transition-all px-2.5 py-2
                   ${sidebarOpen ? '' : 'justify-center'}
                   ${active
-                    ? 'bg-cyan-50 text-cyan-700 font-semibold border-l-2 border-cyan-600'
-                    : 'text-slate-500 hover:bg-slate-50 hover:text-slate-800 border-l-2 border-transparent'
+                    ? 'font-semibold border-l-2 border-[#0891B2] bg-white/10 text-white'
+                    : 'text-white/55 hover:bg-white/[0.07] hover:text-white border-l-2 border-transparent'
                   }`}>
-                <item.icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-cyan-600' : ''}`} />
+                <item.icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-[#7DD3E8]' : ''}`} />
                 {sidebarOpen && <span className="text-sm whitespace-nowrap">{item.label}</span>}
               </button>
             );
           })}
         </nav>
         {sidebarOpen && (
-          <div className="border-t border-gray-100 px-4 py-3">
-            <p className="text-xs font-semibold text-slate-600">Gary Cocklin</p>
-            <p className="text-[10px] text-slate-400 leading-relaxed mt-0.5">CISSP-ISSAP · CISM · CRISC</p>
+          <div className="px-4 py-3" style={{borderTop:'1px solid rgba(255,255,255,0.07)'}}>
+            <p className="text-xs font-semibold text-white">Gary Cocklin</p>
+            <p className="text-[10px] leading-relaxed mt-0.5" style={{color:'rgba(255,255,255,0.35)'}}>CISSP-ISSAP · CISM · CRISC</p>
           </div>
         )}
       </div>
@@ -1131,7 +1129,7 @@ export default function AdminHomePage() {
               {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
             </p>
           </div>
-          <a href="/" className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-blue-600 border border-gray-200 hover:border-blue-300 px-3 py-1.5 rounded-lg bg-white transition-all">
+          <a href="/" className="flex items-center gap-1.5 text-sm font-medium text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white transition-all">
             <ArrowLeft className="w-3.5 h-3.5" />
             Back to site
           </a>

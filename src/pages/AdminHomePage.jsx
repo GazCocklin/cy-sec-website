@@ -650,70 +650,112 @@ const DashboardView = ({ setView }) => {
 };
 
 // ─── Pricing / Pack Inspector view ────────────────────────────────────────────
+const CERT_SERIES = [
+  {
+    cert: 'CompTIA Network+', code: 'N10-009',
+    packs: [
+      { key: 'netplus_pack',   label: 'Pack 1', num: 1 },
+      { key: 'netplus_pack_2', label: 'Pack 2', num: 2 },
+    ],
+  },
+  {
+    cert: 'CompTIA Security+', code: 'SY0-701',
+    packs: [
+      { key: 'secplus_pack',   label: 'Pack 1', num: 1 },
+      { key: 'secplus_pack_2', label: 'Pack 2', num: 2 },
+    ],
+  },
+  {
+    cert: 'CompTIA CySA+', code: 'CS0-003',
+    packs: [
+      { key: 'cysa_pack',   label: 'Pack 1', num: 1 },
+      { key: 'cysa_pack_2', label: 'Pack 2', num: 2 },
+      { key: 'cysa_pack_3', label: 'Pack 3', num: 3 },
+    ],
+  },
+];
+
+const CERT_THEME = {
+  'CompTIA Network+':  { accent: '#10b981', bg: 'bg-emerald-50',  badge: 'bg-emerald-100 text-emerald-700', border: 'border-emerald-200', bar: '#10b981' },
+  'CompTIA Security+': { accent: '#0891B2', bg: 'bg-[#e0f2f9]',   badge: 'bg-[#b3e0f0] text-[#0E5F8A]',   border: 'border-[#b3e0f0]',  bar: '#0891B2' },
+  'CompTIA CySA+':     { accent: '#0B1D3A', bg: 'bg-[#e8f4fb]',   badge: 'bg-[#b3cfe0] text-[#0B1D3A]',   border: 'border-[#b3cfe0]',  bar: '#0B1D3A' },
+};
+
+const DIFF_LABEL  = { taster:'Taster', beginner:'Easy', intermediate:'Inter.', advanced:'Hard', expert:'Expert' };
+const DIFF_COLOUR = {
+  taster:       'bg-slate-100 text-slate-500',
+  beginner:     'bg-green-100 text-green-700',
+  intermediate: 'bg-blue-100 text-blue-700',
+  advanced:     'bg-amber-100 text-amber-700',
+  expert:       'bg-[#0B1D3A]/10 text-[#0B1D3A]',
+};
+
 const PricingView = () => {
-  const [packs, setPacks] = useState([]);
-  const [banks, setBanks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [openPack, setOpenPack] = useState(null);
+  const [packs, setPacks]             = useState([]);
+  const [banks, setBanks]             = useState([]);
+  const [attempts, setAttempts]       = useState([]);
+  const [loading, setLoading]         = useState(true);
   const [showUnassigned, setShowUnassigned] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const [pr, br] = await Promise.all([
+      const [pr, br, ar] = await Promise.all([
         supabase.from('pbq_packs').select('*').order('exam_code'),
         supabase.from('pbq_banks').select('*').order('certification, difficulty, title'),
+        supabase.from('pbq_attempts').select('bank_id, score_percentage, completed_at'),
       ]);
       setPacks(pr.data || []);
       setBanks(br.data || []);
+      setAttempts(ar.data || []);
       setLoading(false);
     })();
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#0891B2]" /></div>;
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{borderColor:'#0891B2'}} /></div>;
 
+  const packsByKey   = Object.fromEntries(packs.filter(p => p.product_key).map(p => [p.product_key, p]));
+  const bundle       = packs.find(p => p.certification === 'CompTIA');
   const allPackBankIds = new Set(packs.flatMap(p => p.bank_ids || []));
-  const mainPacks = packs.filter(p => p.certification !== 'CompTIA').sort((a,b) => a.exam_code.localeCompare(b.exam_code));
-  const bundle = packs.find(p => p.certification === 'CompTIA');
-  const unassigned = banks.filter(b => !allPackBankIds.has(b.id) && b.certification !== 'Platform Tutorial');
+  const unassigned   = banks.filter(b => !allPackBankIds.has(b.id) && b.certification !== 'Platform Tutorial');
 
-  const DIFF_LABEL = { taster:'Taster', beginner:'Easy', intermediate:'Inter.', advanced:'Hard', expert:'Expert' };
-  const DIFF_COLOUR = {
-    taster:       'bg-slate-100 text-slate-500',
-    beginner:     'bg-green-100 text-green-700',
-    intermediate: 'bg-blue-100 text-blue-700',
-    advanced:     'bg-orange-100 text-orange-700',
-    expert:       'bg-red-100 text-red-700',
-  };
-  const CERT_COLOUR = (cert) => {
-    if (cert?.includes('Network')) return { border:'border-l-emerald-500', header:'bg-emerald-50', badge:'bg-emerald-100 text-emerald-700', ring:'ring-emerald-200' };
-    if (cert?.includes('Security')) return { border:'border-l-blue-500',  header:'bg-blue-50',    badge:'bg-blue-100 text-blue-700',    ring:'ring-blue-200' };
-    if (cert?.includes('CySA'))     return { border:'border-l-purple-500',header:'bg-purple-50',  badge:'bg-purple-100 text-purple-700',ring:'ring-purple-200' };
-    return { border:'border-l-slate-400', header:'bg-slate-50', badge:'bg-slate-100 text-slate-600', ring:'ring-slate-200' };
-  };
+  // Per-bank attempt stats
+  const attemptsByBank = {};
+  for (const a of attempts) {
+    if (!attemptsByBank[a.bank_id]) attemptsByBank[a.bank_id] = { count: 0, scores: [] };
+    attemptsByBank[a.bank_id].count++;
+    if (a.score_percentage != null) attemptsByBank[a.bank_id].scores.push(Number(a.score_percentage));
+  }
+
+  const totalPacks = CERT_SERIES.flatMap(s => s.packs).filter(p => packsByKey[p.key]).length;
 
   return (
-    <div className="space-y-4 h-full">
+    <div className="space-y-6">
 
-      {/* ── Platform summary strip ── */}
-      <div className="grid grid-cols-3 gap-4 mb-2">
+      {/* ── Summary strip ── */}
+      <div className="grid grid-cols-3 gap-4">
         <div className="col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm px-5 py-3 flex items-center gap-4">
-          <div className="w-9 h-9 rounded-lg bg-cyan-50 flex items-center justify-center flex-shrink-0">
-            <BookOpen className="w-4 h-4 text-cyan-600" />
+          <div className="w-9 h-9 rounded-lg bg-[#e0f2f9] flex items-center justify-center flex-shrink-0">
+            <BookOpen className="w-4 h-4" style={{color:'#0891B2'}} />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5">FortifyLearn</p>
-            <p className="text-sm text-slate-700">{mainPacks.length} individual pack{mainPacks.length !== 1 ? 's' : ''}{bundle ? ' + 1 bundle' : ''} · {banks.filter(b => b.certification !== 'Platform Tutorial').length} banks total</p>
+            <p className="text-sm text-slate-700">
+              {totalPacks} active pack{totalPacks !== 1 ? 's' : ''} across {CERT_SERIES.length} certifications
+              {bundle ? ' + 1 bundle' : ''}
+              {' \u00b7 '} {banks.filter(b => b.certification !== 'Platform Tutorial').length} labs total
+              {' \u00b7 '} {attempts.length} attempts logged
+            </p>
           </div>
           <div className="text-right flex-shrink-0">
             <p className="text-lg font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>
-              £{mainPacks.reduce((s, p) => s + (Number(p.price_gbp) || 0), 0).toFixed(0)}
+              &pound;{packs.filter(p => p.certification !== 'CompTIA' && p.is_active).reduce((s, p) => s + (Number(p.price_gbp) || 0), 0).toFixed(0)}
             </p>
-            <p className="text-[10px] text-slate-400">pack revenue potential</p>
+            <p className="text-[10px] text-slate-400">total pack value</p>
           </div>
         </div>
         <div className="bg-white rounded-xl border border-gray-200 shadow-sm px-5 py-3 flex items-center gap-4 opacity-60">
-          <div className="w-9 h-9 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
-            <Shield className="w-4 h-4 text-blue-600" />
+          <div className="w-9 h-9 rounded-lg bg-[#e8f4fb] flex items-center justify-center flex-shrink-0">
+            <Shield className="w-4 h-4" style={{color:'#0E5F8A'}} />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5">FortifyOne</p>
@@ -722,65 +764,123 @@ const PricingView = () => {
         </div>
       </div>
 
-      {/* ── FortifyLearn section header ── */}
-      <div className="flex items-center gap-3 pt-1">
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-cyan-50 border border-cyan-200 rounded-lg">
-          <BookOpen className="w-3.5 h-3.5 text-cyan-600" />
-          <span className="text-xs font-bold text-cyan-700 uppercase tracking-wider">FortifyLearn — PBQ Packs</span>
+      {/* ── FortifyLearn header ── */}
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-[#e0f2f9] border border-[#b3e0f0] rounded-lg">
+          <BookOpen className="w-3.5 h-3.5" style={{color:'#0891B2'}} />
+          <span className="text-xs font-bold uppercase tracking-wider" style={{color:'#0891B2'}}>FortifyLearn \u2014 PBQ Packs</span>
         </div>
         <div className="flex-1 h-px bg-slate-100" />
       </div>
 
-      {/* ── 3 pack columns ── */}
-      <div className="grid grid-cols-3 gap-4">
-        {mainPacks.map(pack => {
-          const cc = CERT_COLOUR(pack.certification);
-          const packBanks = (pack.bank_ids || []).map(id => banks.find(b => b.id === id)).filter(Boolean)
-            .sort((a,b) => ['beginner','beginner','intermediate','advanced','expert'].indexOf(a.difficulty) - ['beginner','beginner','intermediate','advanced','expert'].indexOf(b.difficulty));
-          const isOpen = openPack === pack.id;
-          return (
-            <div key={pack.id} className={`rounded-xl border-2 border-l-4 shadow-sm overflow-hidden ring-1 ${cc.border} ${cc.ring} ${!pack.is_active ? 'opacity-60' : ''}`}>
-              {/* Pack header */}
-              <div className={`px-4 py-3 ${cc.header}`}>
-                <div className="flex items-start justify-between gap-2">
-                  <div className="min-w-0">
-                    <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${cc.badge}`}>{pack.exam_code}</span>
-                    <p className="font-bold text-slate-800 text-sm mt-1 leading-tight">{pack.certification}</p>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <p className="text-xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>£{pack.price_gbp}</p>
-                    <p className="text-[10px] text-slate-500">{packBanks.length} banks</p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bank rows */}
-              <div className="divide-y divide-slate-50">
-                {packBanks.map(bank => (
-                  <div key={bank.id} className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 transition-colors">
-                    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${DIFF_COLOUR[bank.difficulty] || 'bg-slate-100 text-slate-500'}`}>
-                      {DIFF_LABEL[bank.difficulty] || bank.difficulty}
-                    </span>
-                    <p className="text-xs text-slate-700 truncate flex-1">{bank.title}</p>
-                    <span className="text-[10px] text-slate-400 flex-shrink-0">{bank.time_limit_minutes}m</span>
-                    <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${bank.is_published ? 'bg-green-400' : 'bg-slate-300'}`} />
-                  </div>
-                ))}
-              </div>
-
-              {/* Stripe ID */}
-              <div className="px-3 py-2 bg-slate-50 border-t border-slate-100">
-                <p className="text-[9px] text-slate-400 font-mono truncate">{pack.stripe_price_id}</p>
-              </div>
+      {/* ── Per-certification sections ── */}
+      {CERT_SERIES.map(series => {
+        const theme = CERT_THEME[series.cert] || CERT_THEME['CompTIA Security+'];
+        return (
+          <div key={series.cert}>
+            {/* Cert header */}
+            <div className="flex items-center gap-3 mb-3">
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${theme.badge}`}>{series.code}</span>
+              <p className="text-sm font-bold text-slate-700">{series.cert}</p>
+              <div className="flex-1 h-px bg-slate-100" />
             </div>
-          );
-        })}
-      </div>
 
-      {/* ── Bundle & unassigned row ── */}
+            {/* Pack columns */}
+            <div className="grid gap-4" style={{gridTemplateColumns: `repeat(${series.packs.length}, 1fr)`}}>
+              {series.packs.map(packDef => {
+                const pack = packsByKey[packDef.key];
+                const exists = !!pack;
+                const packBanks = exists
+                  ? (pack.bank_ids || []).map(id => banks.find(b => b.id === id)).filter(Boolean)
+                    .sort((a, b) => ['taster','beginner','intermediate','advanced','expert'].indexOf(a.difficulty) - ['taster','beginner','intermediate','advanced','expert'].indexOf(b.difficulty))
+                  : [];
+
+                return (
+                  <div key={packDef.key}
+                    className={`rounded-xl border-2 overflow-hidden shadow-sm ${!exists ? 'border-dashed border-slate-200 bg-slate-50/60 opacity-60' : `border-l-4 ${theme.border}`}`}
+                    style={exists ? {borderLeftColor: theme.accent} : {}}
+                  >
+                    {/* Pack header */}
+                    <div className={`px-4 py-3 ${exists ? theme.bg : 'bg-slate-50'}`}>
+                      <div className="flex items-start justify-between gap-2">
+                        <div>
+                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${exists ? theme.badge : 'bg-slate-200 text-slate-500'}`}>
+                            {packDef.label}
+                          </span>
+                          {!exists && (
+                            <span className="ml-2 text-[10px] font-semibold text-slate-400 italic">coming soon</span>
+                          )}
+                          {exists && (
+                            <p className="font-bold text-slate-800 text-sm mt-1 leading-tight truncate max-w-[160px]">{pack.title}</p>
+                          )}
+                        </div>
+                        {exists && (
+                          <div className="text-right flex-shrink-0">
+                            <p className="text-xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>&pound;{pack.price_gbp}</p>
+                            <p className="text-[10px] text-slate-500">{packBanks.length} labs</p>
+                          </div>
+                        )}
+                        {!exists && (
+                          <p className="text-sm font-bold text-slate-300">\u2014</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Lab rows */}
+                    {exists && (
+                      <div className="divide-y divide-slate-50">
+                        {packBanks.map(bank => {
+                          const stats = attemptsByBank[bank.id];
+                          const avgScore = stats?.scores.length
+                            ? Math.round(stats.scores.reduce((a,b) => a+b, 0) / stats.scores.length)
+                            : null;
+                          return (
+                            <div key={bank.id} className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 transition-colors">
+                              <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${DIFF_COLOUR[bank.difficulty] || 'bg-slate-100 text-slate-500'}`}>
+                                {DIFF_LABEL[bank.difficulty] || bank.difficulty}
+                              </span>
+                              <p className="text-xs text-slate-700 truncate flex-1">{bank.title}</p>
+                              {stats ? (
+                                <div className="flex items-center gap-1.5 flex-shrink-0">
+                                  <span className="text-[9px] text-slate-400">{stats.count}x</span>
+                                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${avgScore >= 70 ? 'bg-green-100 text-green-700' : avgScore >= 50 ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-500'}`}>
+                                    {avgScore}%
+                                  </span>
+                                </div>
+                              ) : (
+                                <span className="text-[9px] text-slate-300 flex-shrink-0">{bank.time_limit_minutes}m</span>
+                              )}
+                              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${bank.is_published ? 'bg-green-400' : 'bg-slate-300'}`} />
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {/* Placeholder rows for coming soon */}
+                    {!exists && (
+                      <div className="px-4 py-6 text-center">
+                        <p className="text-xs text-slate-400 font-medium">Not yet created</p>
+                        <p className="text-[10px] text-slate-300 mt-1">Labs will appear here once added to Supabase</p>
+                      </div>
+                    )}
+
+                    {/* Footer */}
+                    {exists && (
+                      <div className="px-3 py-2 bg-slate-50 border-t border-slate-100">
+                        <p className="text-[9px] text-slate-400 font-mono truncate">{pack.stripe_price_id || 'no stripe id'}</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+
+      {/* ── Bundle + Unassigned ── */}
       <div className="grid grid-cols-2 gap-4">
-
-        {/* Bundle */}
         {bundle && (
           <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex items-center gap-4">
             <div className="flex-1 min-w-0">
@@ -791,25 +891,21 @@ const PricingView = () => {
               <p className="text-[10px] text-slate-500 mt-0.5 font-mono">{bundle.stripe_price_id}</p>
             </div>
             <div className="text-right flex-shrink-0">
-              <p className="text-xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>£{bundle.price_gbp}</p>
-              <p className="text-[10px] text-slate-500">{(bundle.bank_ids||[]).length} banks · all 3 certs</p>
+              <p className="text-xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>&pound;{bundle.price_gbp}</p>
+              <p className="text-[10px] text-slate-500">{(bundle.bank_ids||[]).length} labs \u00b7 all certs</p>
             </div>
           </div>
         )}
-
-        {/* Unassigned */}
         <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
-          <button
-            onClick={() => setShowUnassigned(p => !p)}
-            className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors"
-          >
+          <button onClick={() => setShowUnassigned(p => !p)}
+            className="w-full flex items-center justify-between px-4 py-3 hover:bg-slate-50 transition-colors">
             <div className="flex items-center gap-2">
               <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${unassigned.length > 0 ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'}`}>
                 {unassigned.length} unassigned
               </span>
-              <p className="text-sm font-semibold text-slate-700">Unassigned Banks</p>
+              <p className="text-sm font-semibold text-slate-700">Unassigned banks</p>
             </div>
-            <span className="text-slate-400 text-xs">{showUnassigned ? '▲' : '▼'}</span>
+            <span className="text-slate-400 text-xs">{showUnassigned ? '\u25b2' : '\u25bc'}</span>
           </button>
           {showUnassigned && unassigned.length > 0 && (
             <div className="border-t border-slate-100 divide-y divide-slate-50 max-h-40 overflow-y-auto">
@@ -825,26 +921,26 @@ const PricingView = () => {
             </div>
           )}
           {showUnassigned && unassigned.length === 0 && (
-            <div className="px-4 py-3 border-t border-slate-100 text-xs text-green-600 font-semibold">All banks are assigned ✓</div>
+            <div className="px-4 py-3 border-t border-slate-100 text-xs text-green-600 font-semibold">All banks assigned \u2713</div>
           )}
         </div>
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-5 text-[10px] text-slate-400">
+      <div className="flex items-center gap-5 text-[10px] text-slate-400 flex-wrap">
         <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-400" />Published</span>
         <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-slate-300" />Draft</span>
         {['Easy','Inter.','Hard','Expert'].map((d,i) => (
-          <span key={d} className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold ${['bg-green-100 text-green-700','bg-blue-100 text-blue-700','bg-orange-100 text-orange-700','bg-red-100 text-red-700'][i]}`}>{d}</span>
+          <span key={d} className={`px-1.5 py-0.5 rounded-full text-[9px] font-bold ${['bg-green-100 text-green-700','bg-blue-100 text-blue-700','bg-amber-100 text-amber-700','bg-[#0B1D3A]/10 text-[#0B1D3A]'][i]}`}>{d}</span>
         ))}
-        <span className="ml-auto">m = time limit</span>
+        <span className="ml-auto">xN = attempt count \u00b7 % = avg score</span>
       </div>
 
       {/* ── FortifyOne section ── */}
       <div className="flex items-center gap-3 pt-2">
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-lg">
-          <Shield className="w-3.5 h-3.5 text-blue-600" />
-          <span className="text-xs font-bold text-blue-700 uppercase tracking-wider">FortifyOne — Subscriptions</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-[#e8f4fb] border border-[#b0d8ef] rounded-lg">
+          <Shield className="w-3.5 h-3.5" style={{color:'#0E5F8A'}} />
+          <span className="text-xs font-bold uppercase tracking-wider" style={{color:'#0E5F8A'}}>FortifyOne \u2014 Subscriptions</span>
         </div>
         <div className="flex-1 h-px bg-slate-100" />
       </div>
@@ -854,6 +950,136 @@ const PricingView = () => {
         <p className="text-xs text-slate-400">FortifyOne subscription tiers will appear here once added to the platform.</p>
       </div>
 
+    </div>
+  );
+};
+
+
+// ─── Lab Analytics view ────────────────────────────────────────────────────────
+const LabAnalyticsView = () => {
+  const [stats, setStats]   = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const [{ data: attempts }, { data: banks }] = await Promise.all([
+        supabase.from('pbq_attempts').select('bank_id, score_percentage, time_taken_seconds, completed_at, user_id'),
+        supabase.from('pbq_banks').select('id, title, certification, difficulty, time_limit_minutes'),
+      ]);
+      const bankMap = Object.fromEntries((banks || []).map(b => [b.id, b]));
+      const byBank = {};
+      for (const a of (attempts || [])) {
+        if (!byBank[a.bank_id]) byBank[a.bank_id] = { attempts: 0, users: new Set(), scores: [], times: [] };
+        byBank[a.bank_id].attempts++;
+        byBank[a.bank_id].users.add(a.user_id);
+        if (a.score_percentage != null) byBank[a.bank_id].scores.push(Number(a.score_percentage));
+        if (a.time_taken_seconds != null) byBank[a.bank_id].times.push(a.time_taken_seconds);
+      }
+      const rows = Object.entries(byBank).map(([bankId, d]) => {
+        const bank = bankMap[bankId] || {};
+        const avg = d.scores.length ? Math.round(d.scores.reduce((a,b)=>a+b,0)/d.scores.length) : null;
+        const passes = d.scores.filter(s => s >= 70).length;
+        const avgTime = d.times.length ? Math.round(d.times.reduce((a,b)=>a+b,0)/d.times.length / 60) : null;
+        return { bankId, title: bank.title, cert: bank.certification, difficulty: bank.difficulty, attempts: d.attempts, users: d.users.size, avg, passes, passRate: d.scores.length ? Math.round(passes/d.scores.length*100) : null, avgTime };
+      }).sort((a,b) => b.attempts - a.attempts);
+      setStats(rows);
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor:'#0891B2'}} /></div>;
+
+  const totalAttempts = stats.reduce((s,r) => s+r.attempts, 0);
+  const overallAvg = stats.flatMap(r => r.avg != null ? [r.avg] : []);
+  const overallAvgScore = overallAvg.length ? Math.round(overallAvg.reduce((a,b)=>a+b,0)/overallAvg.length) : null;
+
+  const DIFF_COLOUR = { taster:'bg-slate-100 text-slate-500', beginner:'bg-green-100 text-green-700', intermediate:'bg-blue-100 text-blue-700', advanced:'bg-amber-100 text-amber-700', expert:'bg-[#0B1D3A]/10 text-[#0B1D3A]' };
+  const DIFF_LABEL  = { taster:'Taster', beginner:'Easy', intermediate:'Inter.', advanced:'Hard', expert:'Expert' };
+
+  return (
+    <div className="space-y-6">
+      {/* Summary */}
+      <div className="grid grid-cols-3 gap-4">
+        {[
+          { label: 'Total attempts', value: totalAttempts, icon: TrendingUp, color: 'text-[#0891B2]', bg: 'bg-[#e0f2f9]' },
+          { label: 'Avg score', value: overallAvgScore != null ? `${overallAvgScore}%` : '—', icon: CheckCircle2, color: 'text-green-600', bg: 'bg-green-50' },
+          { label: 'Labs attempted', value: stats.length, icon: Layers, color: 'text-amber-600', bg: 'bg-amber-50' },
+        ].map(({ label, value, icon: Icon, color, bg }) => (
+          <Card key={label} className="border border-gray-200 shadow-sm">
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">{label}</p>
+                  <p className="text-3xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>{value}</p>
+                </div>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bg}`}>
+                  <Icon className={`w-5 h-5 ${color}`} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Per-lab table */}
+      <Card className="border border-gray-200 shadow-sm overflow-hidden">
+        <CardHeader className="bg-slate-50 border-b border-gray-100 py-3 px-5">
+          <CardTitle className="text-sm font-bold text-slate-700">Per-lab performance</CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-slate-50 border-b border-slate-100">
+                {['Lab','Cert','Difficulty','Attempts','Avg score','Pass rate','Avg time'].map(h => (
+                  <th key={h} className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-4 py-3 text-left whitespace-nowrap">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {stats.map((row, i) => (
+                <tr key={row.bankId} className="border-b border-slate-50 hover:bg-slate-50/60 transition-colors">
+                  <td className="px-4 py-2.5">
+                    <p className="font-medium text-slate-800 text-xs leading-snug max-w-[240px] truncate">{row.title || row.bankId}</p>
+                  </td>
+                  <td className="px-4 py-2.5">
+                    <span className="text-[10px] text-slate-500 whitespace-nowrap">{row.cert?.replace('CompTIA ', '') || '—'}</span>
+                  </td>
+                  <td className="px-4 py-2.5">
+                    <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${DIFF_COLOUR[row.difficulty] || 'bg-slate-100 text-slate-500'}`}>
+                      {DIFF_LABEL[row.difficulty] || row.difficulty || '—'}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2.5">
+                    <span className="text-sm font-bold text-slate-700">{row.attempts}</span>
+                    {row.users > 1 && <span className="text-[10px] text-slate-400 ml-1">({row.users} users)</span>}
+                  </td>
+                  <td className="px-4 py-2.5">
+                    {row.avg != null ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden flex-shrink-0">
+                          <div className="h-full rounded-full" style={{width:`${row.avg}%`, background: row.avg >= 70 ? '#10b981' : row.avg >= 50 ? '#f59e0b' : '#cbd5e1'}} />
+                        </div>
+                        <span className={`text-xs font-bold ${row.avg >= 70 ? 'text-green-600' : row.avg >= 50 ? 'text-amber-600' : 'text-slate-500'}`}>{row.avg}%</span>
+                      </div>
+                    ) : <span className="text-slate-300">—</span>}
+                  </td>
+                  <td className="px-4 py-2.5">
+                    {row.passRate != null ? (
+                      <span className={`text-xs font-bold ${row.passRate >= 70 ? 'text-green-600' : row.passRate >= 30 ? 'text-amber-600' : 'text-slate-400'}`}>
+                        {row.passRate}%
+                      </span>
+                    ) : <span className="text-slate-300">—</span>}
+                  </td>
+                  <td className="px-4 py-2.5">
+                    <span className="text-xs text-slate-500">{row.avgTime != null ? `${row.avgTime}m` : '—'}</span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </CardContent>
+      </Card>
+      <p className="text-[10px] text-slate-400">Pass threshold: 70%. Avg time calculated from attempts where time was recorded.</p>
     </div>
   );
 };
@@ -1043,6 +1269,7 @@ const NAV = [
   { id: 'issues',    label: 'Issues',             icon: Bug },
   { id: 'features',  label: 'Feature Requests',   icon: Lightbulb },
   { id: 'pricing',   label: 'Pricing',            icon: Tag },
+  { id: 'analytics', label: 'Lab Analytics',      icon: TrendingUp },
   { id: 'config',    label: 'Platform Config',    icon: Settings2 },
   { id: 'purchases', label: 'Purchases',         icon: ShoppingBag },
 ];
@@ -1055,6 +1282,7 @@ const PAGE_TITLES = {
   features:  'Feature Requests',
   pricing:   'Pricing Overview',
   config:    'Platform Configuration',
+  analytics: 'Lab Analytics',
   purchases: 'FortifyLearn Purchases',
 };
 
@@ -1072,6 +1300,7 @@ export default function AdminHomePage() {
       case 'features':  return <FeedbackView feedbackType="feature" />;
       case 'pricing':   return <PricingView />;
       case 'config':    return <ConfigView />;
+      case 'analytics': return <LabAnalyticsView />;
       case 'purchases': return <PurchasesView />;
       default:          return <DashboardView setView={setView} />;
     }

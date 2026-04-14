@@ -33,7 +33,7 @@ export default function PlatformsShowcase() {
         <div>
           <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
             <div>
-              <div className="mb-3"><FortifyLearnLogo height={30} /></div>
+              <div className="mb-3"><FortifyLearnLogo height={30} variant="light" /></div>
               <h2 className="text-2xl font-extrabold text-[#0B1D3A]" style={{ letterSpacing: '-0.6px' }}>CompTIA PBQ simulation labs</h2>
               <p className="text-slate-500 text-sm mt-1 max-w-lg">Live CLI environments, interactive SIEM dashboards and firewall auditors — not flashcards, not videos. The closest thing to the real exam.</p>
             </div>
@@ -85,7 +85,7 @@ export default function PlatformsShowcase() {
         {/* ── FortifyOne ── */}
         <div>
           <div className="mb-8">
-            <div className="mb-3"><FortifyOneLogo height={30} /></div>
+            <div className="mb-3"><FortifyOneLogo height={30} variant="light" /></div>
             <h2 className="text-2xl font-extrabold text-[#0B1D3A]" style={{ letterSpacing: '-0.6px' }}>GRC Compliance Platform</h2>
             <p className="text-slate-500 text-sm mt-1 max-w-xl">
               Purpose-built compliance management for organisations that need to stay ahead of regulation —

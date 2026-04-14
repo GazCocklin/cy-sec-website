@@ -198,11 +198,11 @@ export default function PlatformsShowcase() {
                   Learn about vCISO <ArrowRight className="w-3 h-3" />
                 </a>
               </div>
-              <a href="/fortifyone"
+              <Link to="/fortifyone"
                 className="flex items-center justify-center gap-2 py-3.5 rounded-2xl font-semibold text-sm transition-all hover:brightness-110"
                 style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
-                <Globe className="w-4 h-4" /> Visit fortifyone.co.uk
-              </a>
+                <Globe className="w-4 h-4" /> Explore FortifyOne
+              </Link>
             </motion.div>
           </div>
         </div>

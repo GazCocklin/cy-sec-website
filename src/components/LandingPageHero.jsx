@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Calendar, CheckCircle, ExternalLink } from 'lucide-react';
+import { ArrowRight, Calendar, CheckCircle } from 'lucide-react';
 import FortifyLearnLogo from '@/components/logos/FortifyLearnLogo';
 import { Button } from '@/components/ui/button';
 import { useNavigate, Link } from 'react-router-dom';
@@ -151,11 +151,11 @@ export default function LandingPageHero() {
                 ))}
               </div>
               <div className="flex items-center gap-4">
-                <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
+                <Link to="/store"
                   className="inline-flex items-center gap-2 font-bold text-sm px-5 py-2.5 rounded-xl transition-all hover:brightness-110"
                   style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
-                  Try FortifyLearn <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                  Buy a pack →
+                </Link>
                 <Link to="/pbq-engine"
                   className="text-sm font-semibold transition-colors hover:text-white"
                   style={{ color: '#0891B2' }}>

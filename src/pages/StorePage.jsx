@@ -18,6 +18,11 @@ const CERTS = [
     title: 'CompTIA Network+',
     code: 'N10-009',
     logo: '/logos/comptia-network-plus.svg',
+    landingPage: '/comptia-network-plus-labs',
+    heroImg: '/screenshots/fl-netcap.png',
+    heroAlt: 'NETCAP Analyzer v3.2 — asymmetric routing packet capture in a Network+ lab',
+    toolLabel: 'NETCAP Analyzer v3.2',
+    accent: '#10b981',
     pack1: {
       key: 'netplus_pack',
       label: 'Pack 1',
@@ -56,6 +61,11 @@ const CERTS = [
     title: 'CompTIA Security+',
     code: 'SY0-701',
     logo: '/logos/comptia-security-plus.svg',
+    landingPage: '/comptia-security-plus-labs',
+    heroImg: '/screenshots/fl-fortiguard.png',
+    heroAlt: 'FORTIGUARD Policy Auditor v3.1 — firewall rule audit in a Security+ lab',
+    toolLabel: 'FORTIGUARD Policy Auditor v3.1',
+    accent: '#0891B2',
     pack1: {
       key: 'secplus_pack',
       label: 'Pack 1',
@@ -94,6 +104,11 @@ const CERTS = [
     title: 'CompTIA CySA+',
     code: 'CS0-003',
     logo: '/logos/comptia-cysa-plus.svg',
+    landingPage: '/comptia-cysa-plus-labs',
+    heroImg: '/screenshots/fl-siem.png',
+    heroAlt: 'Arclight SIEM v5.0.3 — alert triage dashboard in a CySA+ lab',
+    toolLabel: 'Arclight SIEM v5.0.3',
+    accent: '#0B1D3A',
     pack1: {
       key: 'cysa_pack',
       label: 'Pack 1',
@@ -402,23 +417,34 @@ function CertCard({ cert, selectedOption, onSelect }) {
   };
 
   return (
-    <div className="relative bg-white rounded-2xl border-2 border-slate-200 hover:border-slate-300 hover:shadow-md transition-all overflow-hidden flex flex-col">
+    <div className="relative bg-white rounded-2xl border-2 border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all overflow-hidden flex flex-col">
+      {/* Tool screenshot header */}
+      {cert.heroImg && (
+        <div className="relative overflow-hidden" style={{ height: 120 }}>
+          <img src={cert.heroImg} alt={cert.heroAlt} className="w-full h-full object-cover" style={{ objectPosition: 'top' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(6,14,31,0.7) 100%)' }} />
+          <div className="absolute bottom-2 left-3 right-3 flex items-center justify-between">
+            <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-1 rounded"
+              style={{ background: 'rgba(6,14,31,0.75)', border: '1px solid rgba(8,145,178,0.4)', color: '#7DD3E8' }}>
+              {cert.toolLabel}
+            </span>
+            <a href={cert.landingPage}
+              className="text-[10px] font-bold px-2 py-1 rounded text-white hover:brightness-110 transition-all"
+              style={{ background: 'rgba(8,145,178,0.7)' }}
+              onClick={e => e.stopPropagation()}>
+              View labs →
+            </a>
+          </div>
+        </div>
+      )}
       {/* Cert header */}
-      <div className="p-6 pb-4 border-b border-slate-100">
+      <div className="px-5 py-4 border-b border-slate-100">
         <div className="flex items-center gap-3">
-          <img src={cert.logo} alt={cert.title} className="w-12 h-12 object-contain"
+          <img src={cert.logo} alt={cert.title} className="w-10 h-10 object-contain flex-shrink-0"
             onError={e => { e.target.style.display='none'; }} />
           <div className="flex-1 min-w-0">
-            <p className="text-[11px] font-black tracking-widest uppercase" style={{ color: '#0891B2' }}>{cert.code}</p>
-            <h3 className="font-black text-slate-900 text-lg leading-tight">{cert.title}</h3>
-            <a
-              href={`/comptia-${{ netplus: 'network-plus', secplus: 'security-plus', cysa: 'cysa-plus' }[cert.key]}-labs`}
-              className="text-[11px] font-semibold mt-1 inline-flex items-center gap-1 hover:underline"
-              style={{ color: '#0891B2' }}
-              onClick={e => e.stopPropagation()}
-            >
-              View all labs →
-            </a>
+            <p className="text-[11px] font-black tracking-widest uppercase" style={{ color: cert.accent || '#0891B2' }}>{cert.code}</p>
+            <h3 className="font-black text-slate-900 text-base leading-tight">{cert.title}</h3>
           </div>
         </div>
       </div>
@@ -558,21 +584,68 @@ export default function StorePage() {
       )}
 
       {/* Hero */}
-      <div className="relative overflow-hidden" style={{ minHeight: 180 }}>
+      <div className="relative overflow-hidden" style={{ minHeight: 420 }}>
         <div className="absolute inset-0">
           <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80&fit=crop"
             alt="" className="w-full h-full object-cover" style={{ objectPosition: 'center 40%' }} />
           <div className="absolute inset-0"
-            style={{ background: 'linear-gradient(135deg,rgba(10,26,63,0.97) 0%,rgba(7,30,60,0.95) 45%,rgba(8,145,178,0.82) 100%)' }} />
+            style={{ background: 'linear-gradient(135deg,rgba(6,14,31,0.97) 0%,rgba(11,29,58,0.95) 45%,rgba(8,80,120,0.80) 100%)' }} />
+          <div className="absolute inset-0 opacity-[0.04]"
+            style={{ backgroundImage: 'linear-gradient(rgba(8,145,178,1) 1px,transparent 1px),linear-gradient(to right,rgba(8,145,178,1) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
         </div>
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-8">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl font-black text-white mb-3"
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-14 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5 border text-xs font-bold tracking-wider uppercase"
+              style={{ background: 'rgba(8,145,178,0.15)', borderColor: 'rgba(8,145,178,0.35)', color: '#7DD3E8' }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#0891B2', display: 'inline-block', flexShrink: 0 }} />
+              CompTIA Authorised Partner
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-black text-white mb-4"
               style={{ letterSpacing: '-0.03em', lineHeight: 1.1 }}>
               FortifyLearn{' '}
-              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg,#22d3ee,#0891B2)' }}>Store.</span>
+              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg,#7DD3E8,#0891B2)' }}>Store.</span>
             </h1>
-            <p className="text-white/60 text-sm">Pick a certification — choose a single pack or go Complete for the full 10-lab progression. Create your free FortifyLearn account at checkout.</p>
+            <p className="text-white/60 mb-6 leading-relaxed max-w-lg">
+              Not flashcards. Not videos. <strong className="text-white/90">Real CLI environments</strong> and interactive simulation tools — Network+, Security+, and CySA+ packs from £19.99.
+            </p>
+            <div className="flex flex-wrap gap-4 mb-6">
+              {[
+                { label: 'Network+ N10-009', href: '/comptia-network-plus-labs', color: '#10b981' },
+                { label: 'Security+ SY0-701', href: '/comptia-security-plus-labs', color: '#0891B2' },
+                { label: 'CySA+ CS0-003', href: '/comptia-cysa-plus-labs', color: '#0B1D3A' },
+              ].map(c => (
+                <a key={c.href} href={c.href}
+                  className="text-xs font-bold px-3 py-1.5 rounded-full border text-white/70 hover:text-white transition-colors"
+                  style={{ borderColor: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.05)' }}>
+                  {c.label} →
+                </a>
+              ))}
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {['10 labs per certification','One-time purchase','12 months access','Free taster labs'].map(t => (
+                <span key={t} className="flex items-center gap-1.5 text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(8,145,178,0.6)', display: 'inline-block' }} />
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+          {/* Tool screenshot preview strip */}
+          <div className="hidden lg:grid grid-cols-3 gap-3">
+            {[
+              { img: '/screenshots/fl-netcap.png', label: 'NETCAP Analyzer v3.2', cert: 'Network+' },
+              { img: '/screenshots/fl-fortiguard.png', label: 'FORTIGUARD Auditor v3.1', cert: 'Security+' },
+              { img: '/screenshots/fl-siem.png', label: 'Arclight SIEM v5.0.3', cert: 'CySA+' },
+            ].map((t, i) => (
+              <div key={t.label} className="rounded-xl overflow-hidden border border-white/10 shadow-xl"
+                style={{ transform: `translateY(${i === 1 ? -12 : i === 2 ? -6 : 0}px)` }}>
+                <img src={t.img} alt={t.label} className="w-full object-cover" style={{ height: 120, objectPosition: 'top' }} />
+                <div className="p-2" style={{ background: 'rgba(6,14,31,0.9)' }}>
+                  <p className="text-[9px] font-bold uppercase tracking-wider" style={{ color: '#7DD3E8' }}>{t.cert}</p>
+                  <p className="text-[10px] text-white/60 truncate">{t.label}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -586,24 +659,18 @@ export default function StorePage() {
         )}
 
         <div>
-          {/* Section header with FL logo */}
-          <div className="mb-6">
-            <div className="flex items-center gap-3 mb-2 flex-wrap">
-              <span className="text-2xl font-black"
-                style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                FortifyLearn
-              </span>
-              <span className="text-slate-300 font-light text-2xl">—</span>
-              <h2 className="text-2xl font-bold text-slate-900">CompTIA PBQ Simulation Packs</h2>
+          {/* Section header */}
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: '#0891B2' }}>FortifyLearn — CompTIA PBQ Simulation Packs</p>
+              <h2 className="text-2xl font-extrabold text-slate-900" style={{ letterSpacing: '-0.5px' }}>Choose your certification</h2>
+              <p className="text-sm text-slate-500 mt-1">One-time purchase · 12 months access · No subscription</p>
             </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <p className="text-sm text-slate-500">Representative CLI environments for CompTIA exam practice. One-time purchase · 12 months access.</p>
-              <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-full transition-all hover:brightness-110 flex-shrink-0"
-                style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
-                🆓 Try a free taster lab →
-              </a>
-            </div>
+            <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm font-bold px-4 py-2.5 rounded-xl transition-all hover:brightness-110 flex-shrink-0 whitespace-nowrap"
+              style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
+              🆓 Try a free taster lab →
+            </a>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">

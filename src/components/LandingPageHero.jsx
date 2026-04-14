@@ -116,7 +116,7 @@ export default function LandingPageHero() {
             <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full blur-3xl pointer-events-none"
               style={{ background: 'rgba(8,145,178,0.25)' }} />
 
-            {/* Screenshot */}
+            {/* Main screenshot */}
             <div className="relative mx-5 mt-5 rounded-xl overflow-hidden border border-white/10 shadow-2xl">
               <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/10"
                 style={{ background: 'rgba(0,0,0,0.5)' }}>
@@ -129,8 +129,25 @@ export default function LandingPageHero() {
                 src="/screenshots/fl-terminal.png"
                 alt="FortifyLearn — Live CLI lab environment"
                 className="w-full object-cover"
-                style={{ maxHeight: 220, objectPosition: 'top' }}
+                style={{ maxHeight: 180, objectPosition: 'top' }}
               />
+            </div>
+
+            {/* Tool preview thumbnails */}
+            <div className="grid grid-cols-2 gap-2 mx-5 mt-2">
+              {[
+                { img: '/screenshots/fl-siem.png', lbl: 'Arclight SIEM v5.0.3', cert: 'CySA+' },
+                { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Auditor v3.1', cert: 'Security+' },
+              ].map(t => (
+                <div key={t.lbl} className="relative rounded-lg overflow-hidden border border-white/10">
+                  <img src={t.img} alt={t.lbl} className="w-full object-cover object-top" style={{ height: 72 }} />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(6,14,31,0.85) 0%, transparent 60%)' }} />
+                  <div className="absolute bottom-1.5 left-2 right-2 flex items-end justify-between">
+                    <span className="text-[8px] font-bold text-white/70 truncate">{t.lbl}</span>
+                    <span className="text-[8px] font-bold flex-shrink-0 ml-1" style={{ color: '#7DD3E8' }}>{t.cert}</span>
+                  </div>
+                </div>
+              ))}
             </div>
 
             {/* Card content */}

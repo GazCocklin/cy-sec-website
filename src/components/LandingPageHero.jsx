@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Calendar, CheckCircle, ExternalLink } from 'lucide-react';
 import FortifyLearnLogo from '@/components/logos/FortifyLearnLogo';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const FL_FEATURES = [
   'Representative CLI environments for N+, Sec+, CySA+',
@@ -19,7 +19,7 @@ export default function LandingPageHero() {
 
       {/* Background */}
       <div className="absolute inset-0"
-        style={{ background: 'linear-gradient(to right, #0a85ae 0%, #0a5c8a 35%, #0B1D3A 75%, #071326 100%)' }} />
+        style={{ background: 'linear-gradient(135deg, #060e1f 0%, #0B1D3A 55%, #0e3a5a 100%)' }} />
 
       {/* Photo texture */}
       <div className="absolute inset-0 opacity-[0.18]"
@@ -28,16 +28,16 @@ export default function LandingPageHero() {
           backgroundSize: 'cover', backgroundPosition: 'center', mixBlendMode: 'luminosity',
         }} />
 
-      {/* Grid */}
-      <div className="absolute inset-0 opacity-[0.025]"
+      {/* Grid overlay */}
+      <div className="absolute inset-0 opacity-[0.04]"
         style={{
-          backgroundImage: 'linear-gradient(#0891B2 1px, transparent 1px), linear-gradient(to right, #0891B2 1px, transparent 1px)',
-          backgroundSize: '64px 64px',
+          backgroundImage: 'linear-gradient(rgba(8,145,178,1) 1px, transparent 1px), linear-gradient(to right, rgba(8,145,178,1) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
         }} />
 
       {/* Glow */}
       <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(8,145,178,0.2) 0%, transparent 70%)' }} />
+        style={{ background: 'radial-gradient(circle, rgba(8,145,178,0.15) 0%, transparent 70%)' }} />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16 w-full">
         <div className="grid lg:grid-cols-2 gap-12 xl:gap-16 items-center">
@@ -49,29 +49,24 @@ export default function LandingPageHero() {
             transition={{ duration: 0.7 }}
             className="space-y-7"
           >
-            {/* Brand identity — prominent */}
-            <div className="flex items-center gap-3">
-              <img src="/logos/cysec-logo-dark.svg" alt="Cy-Sec"
-                className="h-10 w-auto"
-                onError={e => { e.target.style.display = 'none'; }}
-              />
-              <div className="h-6 w-px bg-white/20" />
-              <span className="text-white/60 text-xs font-semibold tracking-widest uppercase">
-                Awareness and Consultancy Ltd
-              </span>
+            {/* Brand pill — replaces old Bubble-style header strip */}
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-bold tracking-wider uppercase"
+              style={{ background: 'rgba(8,145,178,0.15)', borderColor: 'rgba(8,145,178,0.35)', color: '#7DD3E8' }}>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]" />
+              Cy-Sec Awareness and Consultancy Ltd
             </div>
 
-            <h1 className="text-5xl lg:text-6xl font-black text-white leading-[1.05] tracking-tight"
-              style={{ fontFamily: 'Bricolage Grotesque, Inter, system-ui, sans-serif' }}>
+            <h1 className="text-5xl lg:text-6xl font-black text-white leading-[1.05]"
+              style={{ letterSpacing: '-2px' }}>
               Cybersecurity<br />
               Leadership.<br />
               <span className="text-transparent bg-clip-text"
-                style={{ backgroundImage: 'linear-gradient(90deg, #22d3ee, #0891B2)' }}>
+                style={{ backgroundImage: 'linear-gradient(90deg, #7DD3E8, #0891B2)' }}>
                 Compliance.<br />Training.
               </span>
             </h1>
 
-            <p className="text-lg text-white/65 max-w-lg leading-relaxed">
+            <p className="text-[17px] text-white/60 max-w-lg leading-relaxed">
               One partner. Board-level vCISO guidance, DORA &amp; NIS2 readiness,
               CompTIA certified training, and purpose-built security platforms.
             </p>
@@ -79,7 +74,7 @@ export default function LandingPageHero() {
             <div className="flex flex-col sm:flex-row gap-3">
               <Button
                 onClick={() => navigate('/contact')}
-                className="text-white px-7 py-5 text-base font-semibold border-0 shadow-lg hover:brightness-110 transition-all"
+                className="text-white px-7 py-5 text-base font-bold border-0 shadow-lg hover:brightness-110 transition-all"
                 style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}
               >
                 <Calendar className="mr-2 h-4 w-4" />Book a Discovery Call
@@ -87,10 +82,24 @@ export default function LandingPageHero() {
               <Button
                 onClick={() => navigate('/vciso')}
                 variant="outline"
-                className="border-white/20 text-white hover:bg-white/10 px-7 py-5 text-base font-medium bg-transparent"
+                className="border-white/20 text-white hover:bg-white/10 px-7 py-5 text-base font-semibold bg-transparent"
               >
                 Explore Services <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
+            </div>
+
+            {/* Trust points */}
+            <div className="flex flex-wrap gap-5 pt-1">
+              {[
+                'CISSP-ISSAP · CISM · CRISC',
+                'CompTIA Authorised Partner',
+                'CertNexus Partner',
+              ].map(t => (
+                <span key={t} className="flex items-center gap-1.5 text-xs text-white/40">
+                  <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'rgba(8,145,178,0.6)' }} />
+                  {t}
+                </span>
+              ))}
             </div>
           </motion.div>
 
@@ -102,15 +111,12 @@ export default function LandingPageHero() {
             className="relative rounded-3xl overflow-hidden"
             style={{ background: 'linear-gradient(135deg, #071326 0%, #0B2540 60%, #0a3d5c 100%)' }}
           >
-            {/* Grid overlay */}
             <div className="absolute inset-0 opacity-[0.04]"
               style={{ backgroundImage: 'linear-gradient(#0891B2 1px, transparent 1px), linear-gradient(to right, #0891B2 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-
-            {/* Glow */}
             <div className="absolute -top-20 -right-20 w-72 h-72 rounded-full blur-3xl pointer-events-none"
               style={{ background: 'rgba(8,145,178,0.25)' }} />
 
-            {/* Real FL screenshot */}
+            {/* Screenshot */}
             <div className="relative mx-5 mt-5 rounded-xl overflow-hidden border border-white/10 shadow-2xl">
               <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/10"
                 style={{ background: 'rgba(0,0,0,0.5)' }}>
@@ -132,12 +138,10 @@ export default function LandingPageHero() {
               <div className="mb-4">
                 <FortifyLearnLogo height={36} />
               </div>
-
               <p className="text-slate-400 text-sm mb-4 leading-relaxed">
-                Performance-based question simulator with live CLI environments.
-                Study for Network+, Security+ and CySA+ the way you'll actually be tested.
+                Performance-based question simulator with live CLI environments and interactive
+                simulation tools. Study for Network+, Security+ and CySA+ the way you'll actually be tested.
               </p>
-
               <div className="space-y-2 mb-5">
                 {FL_FEATURES.map(f => (
                   <div key={f} className="flex items-start gap-2">
@@ -146,20 +150,18 @@ export default function LandingPageHero() {
                   </div>
                 ))}
               </div>
-
               <div className="flex items-center gap-4">
                 <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 font-bold text-sm px-5 py-2.5 rounded-xl transition-all hover:brightness-110"
                   style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
                   Try FortifyLearn <ExternalLink className="w-3.5 h-3.5" />
                 </a>
-                <a href="/store"
+                <Link to="/pbq-engine"
                   className="text-sm font-semibold transition-colors hover:text-white"
                   style={{ color: '#0891B2' }}>
-                  Buy a pack →
-                </a>
+                  View all labs →
+                </Link>
               </div>
-
             </div>
           </motion.div>
 

@@ -339,13 +339,15 @@ function CertCard({ cert, selectedOption, onSelect }) {
             </span>
           </div>
         )}
-        {config.isNew && !isComplete && (
-          <span className="absolute top-2 right-2 bg-cyan-500 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">New</span>
-        )}
         <div className={`p-4 ${isComplete ? 'pt-7' : ''}`}>
-          <div className="flex items-baseline justify-between mb-1">
-            <h4 className="font-bold text-slate-900 text-sm">{config.label}</h4>
-            <span className="text-[11px] text-slate-400 font-semibold">
+          <div className="flex items-baseline justify-between gap-2 mb-1">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <h4 className="font-bold text-slate-900 text-sm">{config.label}</h4>
+              {config.isNew && !isComplete && (
+                <span className="bg-cyan-500 text-white text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full flex-shrink-0">NEW</span>
+              )}
+            </div>
+            <span className="text-[11px] text-slate-400 font-semibold flex-shrink-0">
               {isComplete ? '10 labs' : '5 labs'}
             </span>
           </div>

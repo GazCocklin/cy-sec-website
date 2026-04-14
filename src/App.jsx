@@ -34,6 +34,9 @@ import ComingSoonPage from '@/pages/ComingSoonPage';
 import PBQEnginePage from '@/pages/PBQEnginePage';
 import FortifyOnePage from '@/pages/FortifyOnePage';
 import StorePage from '@/pages/StorePage';
+import CySAPlusLabsPage from '@/pages/CySAPlusLabsPage';
+import SecurityPlusLabsPage from '@/pages/SecurityPlusLabsPage';
+import NetworkPlusLabsPage from '@/pages/NetworkPlusLabsPage';
 import CookieConsentBanner from '@/components/CookieConsentBanner';
 import usePageTracking from '@/hooks/usePageTracking';
 
@@ -117,6 +120,9 @@ function AppContent() {
             <Route path="/pbq-engine" element={<PBQEnginePage />} />
             <Route path="/fortifyone" element={<FortifyOnePage />} />
             <Route path="/store" element={<StorePage />} />
+            <Route path="/comptia-cysa-plus-labs" element={<CySAPlusLabsPage />} />
+            <Route path="/comptia-security-plus-labs" element={<SecurityPlusLabsPage />} />
+            <Route path="/comptia-network-plus-labs" element={<NetworkPlusLabsPage />} />
             <Route path="/coming-soon" element={<ComingSoonPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />

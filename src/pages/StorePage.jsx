@@ -2,47 +2,164 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { supabase } from '@/lib/customSupabaseClient';
-import { Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Tag, Loader2, Star, LogIn, Eye, EyeOff } from 'lucide-react';
+import { Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Loader2, LogIn, Eye, EyeOff, Sparkles } from 'lucide-react';
 
 const SUPABASE_URL    = 'https://kmnbtnfgeadvvkwsdyml.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImttbmJ0bmZnZWFkdnZrd3NkeW1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTAxNDEsImV4cCI6MjA4Njc4NjE0MX0.T7yHQmQ3qdobyZEAXoAmDptfrj2yH-ZIJ8RfjNOpEFs';
 const BASKET_KEY = 'cysec_basket';
 
-const PACKS = [
+// ── Cert catalogue ───────────────────────────────────────────────────────────
+// Each cert has three purchase options: Pack 1, Pack 2, Complete (both packs).
+// Users pick one option per cert card. Complete is pre-highlighted as the
+// recommended path — 10 labs at a £6.99 discount vs buying the packs separately.
+const CERTS = [
   {
-    key: 'netplus_pack', title: 'Network+ PBQ Pack 1', code: 'N10-009',
-    price: 19.99, rrp: 24.99, logo: '/logos/comptia-network-plus.svg',
-    labs: ['DNS server misconfiguration','Default gateway fault diagnosis','DMZ ACL troubleshooting','Dual ACL fault — multi-VLAN routing','Enterprise multi-fault recovery'],
+    key: 'netplus',
+    title: 'CompTIA Network+',
+    code: 'N10-009',
+    logo: '/logos/comptia-network-plus.svg',
+    pack1: {
+      key: 'netplus_pack',
+      label: 'Pack 1',
+      price: 19.99,
+      highlights: [
+        'DNS server misconfiguration',
+        'Default gateway fault diagnosis',
+        'DMZ ACL troubleshooting',
+        'Dual ACL multi-VLAN routing failure',
+        'Enterprise multi-fault recovery',
+      ],
+    },
+    pack2: {
+      key: 'netplus_pack_2',
+      label: 'Pack 2',
+      price: 19.99,
+      isNew: true,
+      highlights: [
+        'DHCP scope exhaustion',
+        'Port security violation recovery',
+        'VLAN trunk misconfiguration (live topology)',
+        'Asymmetric routing via NETCAP Analyzer',
+        'SNMP multi-site fault triage via NETPULSE NMS',
+      ],
+    },
+    complete: {
+      key: 'netplus_complete',
+      label: 'Complete',
+      price: 32.99,
+      rrp: 39.98,
+      saving: 6.99,
+    },
   },
   {
-    key: 'secplus_pack', title: 'Security+ PBQ Pack 1', code: 'SY0-701',
-    price: 19.99, rrp: 24.99, logo: '/logos/comptia-security-plus.svg',
-    labs: ['Firewall rule blocking HTTPS traffic','Sensitive file permission hardening','Insecure legacy service exposure','Privilege escalation & audit failure','Post-pentest remediation'],
+    key: 'secplus',
+    title: 'CompTIA Security+',
+    code: 'SY0-701',
+    logo: '/logos/comptia-security-plus.svg',
+    pack1: {
+      key: 'secplus_pack',
+      label: 'Pack 1',
+      price: 19.99,
+      highlights: [
+        'Firewall rule blocking HTTPS traffic',
+        'Sensitive file permission hardening',
+        'Insecure legacy service exposure',
+        'Privilege escalation & audit failure',
+        'Post-pentest remediation',
+      ],
+    },
+    pack2: {
+      key: 'secplus_pack_2',
+      label: 'Pack 2',
+      price: 19.99,
+      isNew: true,
+      highlights: [
+        'Stale user account lockdown',
+        'Unauthorised service account audit',
+        'MFA enforcement (TOTP on SSH bastion)',
+        'Firewall policy audit via FORTIGUARD visual',
+        'PKI rotation after CA compromise',
+      ],
+    },
+    complete: {
+      key: 'secplus_complete',
+      label: 'Complete',
+      price: 32.99,
+      rrp: 39.98,
+      saving: 6.99,
+    },
   },
   {
-    key: 'cysa_pack', title: 'CySA+ PBQ Pack 1', code: 'CS0-003',
-    price: 19.99, rrp: 24.99, logo: '/logos/comptia-cysa-plus.svg', isNew: true,
-    labs: ['Web app brute force investigation','Suspicious process & C2 detection','SSH brute force log analysis','Web shell & lateral movement','APT threat hunt + firewall containment'],
+    key: 'cysa',
+    title: 'CompTIA CySA+',
+    code: 'CS0-003',
+    logo: '/logos/comptia-cysa-plus.svg',
+    pack1: {
+      key: 'cysa_pack',
+      label: 'Pack 1',
+      price: 19.99,
+      highlights: [
+        'Suspicious process & C2 detection',
+        'Web application brute force investigation',
+        'SSH brute force containment',
+        'Web shell & lateral movement detection',
+        'APT threat hunt + firewall containment',
+      ],
+    },
+    pack2: {
+      key: 'cysa_pack_2',
+      label: 'Pack 2',
+      price: 19.99,
+      isNew: true,
+      highlights: [
+        'Internal port scan detection & containment',
+        'Malicious cron job persistence removal',
+        'SIEM log correlation via Arclight SIEM visual',
+        'Vulnerability triage via NETSCAN PRO visual',
+        'Credential harvesting & ransomware eradication',
+      ],
+    },
+    complete: {
+      key: 'cysa_complete',
+      label: 'Complete',
+      price: 32.99,
+      rrp: 39.98,
+      saving: 6.99,
+    },
   },
 ];
 
-const BUNDLE = { key: 'bundle', price: 39.99, rrp: 74.97, saving: 35.00 };
+// Flatten all product keys so we can map from a basket key back to its cert + option
+const KEY_LOOKUP = (() => {
+  const out = {};
+  for (const cert of CERTS) {
+    out[cert.pack1.key]    = { cert, option: 'pack1',    config: cert.pack1 };
+    out[cert.pack2.key]    = { cert, option: 'pack2',    config: cert.pack2 };
+    out[cert.complete.key] = { cert, option: 'complete', config: cert.complete };
+  }
+  return out;
+})();
 
 function loadBasket()  { try { return JSON.parse(localStorage.getItem(BASKET_KEY) || '[]'); } catch { return []; } }
 function saveBasket(i) { try { localStorage.setItem(BASKET_KEY, JSON.stringify(i)); } catch {} }
 
+// Strip out any basket keys that no longer map to a valid product (handles stale
+// entries from pre-launch e.g. 'bundle' that were in localStorage before the
+// cert-bundle migration).
+function sanitiseBasket(basket) {
+  return (basket || []).filter(k => KEY_LOOKUP[k]);
+}
+
 // ── Stripe trigger ────────────────────────────────────────────────────────────
 async function triggerStripe(basketItems, currentSession) {
   if (!basketItems.length || !currentSession) return;
-  const allThree = PACKS.every(p => basketItems.includes(p.key));
-  const useBundle = basketItems.includes('bundle') || allThree;
-  const isMulti   = !useBundle && basketItems.length > 1;
+  const isMulti = basketItems.length > 1;
   const res = await fetch(`${SUPABASE_URL}/functions/v1/create-checkout-session`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${currentSession.access_token}` },
     body: JSON.stringify({
-      product_key:  useBundle ? 'bundle' : !isMulti ? basketItems[0] : undefined,
-      product_keys: isMulti   ? basketItems : undefined,
+      product_key:  !isMulti ? basketItems[0] : undefined,
+      product_keys: isMulti  ? basketItems : undefined,
       cancel_url: 'https://cy-sec.co.uk/store',
     }),
   });
@@ -51,8 +168,12 @@ async function triggerStripe(basketItems, currentSession) {
   return data;
 }
 
+function basketTotal(basket) {
+  return basket.reduce((t, k) => t + (KEY_LOOKUP[k]?.config.price || 0), 0);
+}
+
 // ── Checkout modal ────────────────────────────────────────────────────────────
-function CheckoutModal({ basket, onSuccess, onClose }) {
+function CheckoutModal({ basket, onClose }) {
   const [tab,       setTab]      = useState('signin');
   const [email,     setEmail]    = useState('');
   const [password,  setPassword] = useState('');
@@ -65,12 +186,7 @@ function CheckoutModal({ basket, onSuccess, onClose }) {
 
   useEffect(() => { emailRef.current?.focus(); }, [tab]);
 
-  const displayPrice = (() => {
-    if (basket.includes('bundle')) return BUNDLE.price;
-    const allThree = PACKS.every(p => basket.includes(p.key));
-    if (allThree) return BUNDLE.price;
-    return basket.reduce((t, k) => t + (PACKS.find(p => p.key === k)?.price || 0), 0);
-  })();
+  const displayPrice = basketTotal(basket);
 
   async function handleSignIn(e) {
     e.preventDefault();
@@ -199,89 +315,109 @@ function ModalShell({ children, onClose }) {
   );
 }
 
-// ── Pack card ─────────────────────────────────────────────────────────────────
-function PackCard({ pack, inBasket, onToggle }) {
-  return (
-    <div className={`relative bg-white rounded-2xl border-2 transition-all flex flex-col ${
-      inBasket ? 'border-cyan-500 shadow-lg shadow-cyan-100' : 'border-slate-200 hover:border-slate-300 hover:shadow-md'
-    }`}>
-      {pack.isNew && <span className="absolute top-4 right-4 bg-cyan-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">New</span>}
-      <div className="p-6 flex-1">
-        <div className="flex items-center gap-3 mb-4">
-          <img src={pack.logo} alt={pack.title} className="w-11 h-11 object-contain" />
-          <div>
-            <p className="text-xs font-bold tracking-wider" style={{ color: '#0891B2' }}>{pack.code}</p>
-            <h3 className="font-bold text-slate-900 text-base leading-tight">{pack.title}</h3>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 text-xs text-slate-500 mb-4">
-          <span>📋 5 labs</span><span>🎯 Easy → Expert</span>
-        </div>
-        <ul className="space-y-1.5 mb-6">
-          {pack.labs.map(lab => (
-            <li key={lab} className="flex items-start gap-2 text-sm text-slate-600">
-              <CheckCircle2 className="w-4 h-4 text-emerald-500 flex-shrink-0 mt-0.5" />{lab}
-            </li>
-          ))}
-        </ul>
-        <div className="flex items-baseline gap-2">
-          <span className="text-3xl font-black text-slate-800">£{pack.price.toFixed(2)}</span>
-          <span className="text-sm text-slate-400 line-through">£{pack.rrp.toFixed(2)}</span>
-          <span className="text-xs font-semibold text-cyan-600 bg-cyan-50 border border-cyan-200 px-2 py-0.5 rounded-full">Early access</span>
-        </div>
-      </div>
-      <div className="px-6 pb-6">
-        <button onClick={() => onToggle(pack.key)}
-          className={`w-full py-3.5 rounded-xl font-bold text-sm transition-all ${
-            inBasket ? 'bg-cyan-50 text-cyan-700 border-2 border-cyan-300 hover:bg-red-50 hover:text-red-600 hover:border-red-300'
-                     : 'text-white border-2 border-transparent hover:brightness-110'
-          }`}
-          style={inBasket ? {} : { background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-          {inBasket ? '✓ In Basket — Remove' : 'Add to Basket'}
-        </button>
-      </div>
-    </div>
-  );
-}
+// ── Cert card with 3-option picker ────────────────────────────────────────────
+function CertCard({ cert, selectedOption, onSelect }) {
+  const [expanded, setExpanded] = useState(null); // which pack's highlights to show
 
-// ── Bundle card ───────────────────────────────────────────────────────────────
-function BundleCard({ inBasket, onToggle }) {
-  return (
-    <div className={`relative rounded-2xl border-2 transition-all overflow-hidden ${inBasket ? 'border-cyan-400' : 'border-transparent'}`}
-      style={{ background: 'linear-gradient(135deg,#0B1D3A 0%,#0891B2 100%)' }}>
-      <div className="absolute inset-0 opacity-[0.04]"
-        style={{ backgroundImage: 'linear-gradient(#fff 1px,transparent 1px),linear-gradient(to right,#fff 1px,transparent 1px)', backgroundSize: '32px 32px' }} />
-      <div className="relative p-6 md:p-8">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-2">
-              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-              <span className="text-xs font-bold text-white/70 uppercase tracking-wider">Best Value</span>
-            </div>
-            <h2 className="text-2xl md:text-3xl font-black text-white mb-1">All Access Bundle</h2>
-            <p className="text-white/60 text-sm mb-3">Network+ · Security+ · CySA+ · 15 labs across all difficulties</p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {['CompTIA Network+','CompTIA Security+','CompTIA CySA+'].map(c => (
-                <span key={c} className="text-xs font-semibold bg-white/10 text-white/80 px-3 py-1 rounded-full border border-white/20">{c}</span>
-              ))}
-            </div>
-            <div className="flex items-baseline gap-3">
-              <span className="text-4xl font-black text-white">£{BUNDLE.price.toFixed(2)}</span>
-              <span className="text-white/40 line-through text-lg">£{BUNDLE.rrp.toFixed(2)}</span>
-              <span className="text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 px-2.5 py-1 rounded-full">Save £{BUNDLE.saving.toFixed(2)}</span>
-            </div>
-            <p className="text-white/40 text-xs mt-2">One-time · 12 months access · All 15 labs unlocked instantly</p>
+  const OptionTile = ({ optionKey, config, isComplete }) => {
+    const isSelected = selectedOption === optionKey;
+    const showHighlights = expanded === optionKey;
+
+    return (
+      <div className={`relative rounded-xl border-2 transition-all overflow-hidden ${
+        isSelected
+          ? 'border-cyan-500 bg-cyan-50/60 shadow-md shadow-cyan-100'
+          : isComplete
+            ? 'border-slate-300 bg-slate-50/60 hover:border-slate-400'
+            : 'border-slate-200 bg-white hover:border-slate-300'
+      }`}>
+        {isComplete && (
+          <div className="absolute top-0 left-0 right-0 text-center py-1"
+            style={{ background: 'linear-gradient(90deg,#0B1D3A,#0891B2)' }}>
+            <span className="text-[10px] font-black uppercase tracking-widest text-white flex items-center justify-center gap-1">
+              <Sparkles className="w-3 h-3" /> Best Value — Save £{config.saving.toFixed(2)}
+            </span>
           </div>
-          <div className="md:text-right">
-            <button onClick={() => onToggle('bundle')}
-              className={`px-8 py-4 rounded-xl font-bold text-sm transition-all border-2 ${
-                inBasket ? 'bg-white/10 text-white border-white/30 hover:bg-red-500/20 hover:border-red-400/50'
-                         : 'bg-white text-slate-900 border-white hover:bg-cyan-50'
-              }`}>
-              {inBasket ? '✓ In Basket — Remove' : 'Add Bundle to Basket →'}
+        )}
+        {config.isNew && !isComplete && (
+          <span className="absolute top-2 right-2 bg-cyan-500 text-white text-[9px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full">New</span>
+        )}
+        <div className={`p-4 ${isComplete ? 'pt-7' : ''}`}>
+          <div className="flex items-baseline justify-between mb-1">
+            <h4 className="font-bold text-slate-900 text-sm">{config.label}</h4>
+            <span className="text-[11px] text-slate-400 font-semibold">
+              {isComplete ? '10 labs' : '5 labs'}
+            </span>
+          </div>
+          <div className="flex items-baseline gap-2 mb-3">
+            <span className="text-2xl font-black text-slate-800">£{config.price.toFixed(2)}</span>
+            {isComplete && (
+              <span className="text-xs text-slate-400 line-through">£{config.rrp.toFixed(2)}</span>
+            )}
+          </div>
+
+          {!isComplete && config.highlights && (
+            <button type="button"
+              onClick={() => setExpanded(showHighlights ? null : optionKey)}
+              className="text-[11px] font-semibold mb-3 flex items-center gap-1"
+              style={{ color: '#0891B2' }}>
+              {showHighlights ? 'Hide labs' : 'Show labs'}
+              <span className={`transition-transform inline-block ${showHighlights ? 'rotate-180' : ''}`}>▾</span>
             </button>
+          )}
+          {!isComplete && showHighlights && config.highlights && (
+            <ul className="mb-3 space-y-1">
+              {config.highlights.map(h => (
+                <li key={h} className="flex items-start gap-1.5 text-[11px] text-slate-600 leading-snug">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0 mt-0.5" />
+                  {h}
+                </li>
+              ))}
+            </ul>
+          )}
+          {isComplete && (
+            <p className="text-[11px] text-slate-600 leading-snug mb-3">
+              Everything in Pack 1 and Pack 2 — all 10 hands-on labs from Easy to Expert.
+            </p>
+          )}
+
+          <button
+            type="button"
+            onClick={() => onSelect(cert.key, optionKey, config.key)}
+            className={`w-full py-2.5 rounded-lg font-bold text-xs transition-all ${
+              isSelected
+                ? 'bg-cyan-600 text-white hover:bg-cyan-700'
+                : isComplete
+                  ? 'text-white hover:brightness-110'
+                  : 'bg-slate-900 text-white hover:bg-slate-800'
+            }`}
+            style={isSelected ? {} : isComplete ? { background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' } : {}}>
+            {isSelected ? '✓ In Basket' : (isComplete ? 'Choose Complete' : `Choose ${config.label}`)}
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="relative bg-white rounded-2xl border-2 border-slate-200 hover:border-slate-300 hover:shadow-md transition-all overflow-hidden flex flex-col">
+      {/* Cert header */}
+      <div className="p-6 pb-4 border-b border-slate-100">
+        <div className="flex items-center gap-3">
+          <img src={cert.logo} alt={cert.title} className="w-12 h-12 object-contain"
+            onError={e => { e.target.style.display='none'; }} />
+          <div>
+            <p className="text-[11px] font-black tracking-widest uppercase" style={{ color: '#0891B2' }}>{cert.code}</p>
+            <h3 className="font-black text-slate-900 text-lg leading-tight">{cert.title}</h3>
           </div>
         </div>
+      </div>
+
+      {/* 3-option picker */}
+      <div className="p-4 space-y-3 flex-1">
+        <OptionTile optionKey="pack1"    config={cert.pack1}    isComplete={false} />
+        <OptionTile optionKey="pack2"    config={cert.pack2}    isComplete={false} />
+        <OptionTile optionKey="complete" config={cert.complete} isComplete={true}  />
       </div>
     </div>
   );
@@ -291,20 +427,20 @@ function BundleCard({ inBasket, onToggle }) {
 function BasketBar({ basket, user, authLoading, onRemove, onCheckout, checkoutLoading }) {
   if (basket.length === 0) return null;
 
-  const isBundle  = basket[0] === 'bundle';
-  // Include key in items for remove buttons
-  const items = isBundle
-    ? [{ key: 'bundle', label: 'All Access Bundle', price: BUNDLE.price }]
-    : basket.map(k => { const p = PACKS.find(x => x.key === k); return { key: k, label: p?.title, price: p?.price || 0 }; });
+  const items = basket
+    .map(k => {
+      const lookup = KEY_LOOKUP[k];
+      if (!lookup) return null;
+      const label = `${lookup.cert.title} ${lookup.config.label}`;
+      return { key: k, label, price: lookup.config.price };
+    })
+    .filter(Boolean);
 
-  const rawTotal  = items.reduce((t, i) => t + i.price, 0);
-  const allThree  = PACKS.every(p => basket.includes(p.key));
-  const displayPrice = allThree ? BUNDLE.price : rawTotal;
-  const savingAmt = allThree ? (rawTotal - BUNDLE.price).toFixed(2) : null;
+  const total = items.reduce((t, i) => t + i.price, 0);
 
   const isDisabled = checkoutLoading || authLoading;
   const btnLabel   = checkoutLoading ? 'Processing…' : authLoading ? 'Loading…'
-    : user ? `Checkout — £${displayPrice.toFixed(2)}` : `Sign in to Checkout — £${displayPrice.toFixed(2)}`;
+    : user ? `Checkout — £${total.toFixed(2)}` : `Sign in to Checkout — £${total.toFixed(2)}`;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 p-4">
@@ -327,21 +463,11 @@ function BasketBar({ basket, user, authLoading, onRemove, onCheckout, checkoutLo
                 </span>
               ))}
             </div>
-            {savingAmt && (
-              <span className="flex items-center gap-1 text-emerald-400 text-xs font-bold">
-                <Tag className="w-3 h-3" />Bundle applied — saving £{savingAmt}
-              </span>
-            )}
-            {!isBundle && basket.length === 2 && (
-              <span className="text-white/50 text-xs">
-                Add 3rd pack for £{(BUNDLE.price - displayPrice).toFixed(2)} more — bundle saves £{(rawTotal + 19.99 - BUNDLE.price).toFixed(2)}
-              </span>
-            )}
           </div>
           <div className="flex items-center gap-4 flex-shrink-0">
             <div className="text-right">
               <p className="text-white/50 text-xs">Total</p>
-              <p className="text-white font-black text-xl">£{displayPrice.toFixed(2)}</p>
+              <p className="text-white font-black text-xl">£{total.toFixed(2)}</p>
             </div>
             <button onClick={onCheckout} disabled={isDisabled}
               className="flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-slate-900 text-sm transition-all hover:brightness-110 disabled:opacity-60"
@@ -359,23 +485,42 @@ function BasketBar({ basket, user, authLoading, onRemove, onCheckout, checkoutLo
 // ── Main page ─────────────────────────────────────────────────────────────────
 export default function StorePage() {
   const { user, session, loading: authLoading } = useAuth();
-  const [basket,          setBasket]          = useState(() => loadBasket());
+  const [basket,          setBasket]          = useState(() => sanitiseBasket(loadBasket()));
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [showModal,       setShowModal]       = useState(false);
   const [error,           setError]           = useState(null);
 
   useEffect(() => { saveBasket(basket); }, [basket]);
 
-  function toggleItem(key) {
-    setError(null);
-    if (key === 'bundle') {
-      setBasket(prev => prev.includes('bundle') ? [] : ['bundle']);
-    } else {
-      setBasket(prev => {
-        const withoutBundle = prev.filter(k => k !== 'bundle');
-        return withoutBundle.includes(key) ? withoutBundle.filter(k => k !== key) : [...withoutBundle, key];
-      });
+  // Build a map of cert.key -> currently selected option ('pack1' | 'pack2' | 'complete' | null)
+  const selectedOptionByCert = (() => {
+    const out = {};
+    for (const cert of CERTS) out[cert.key] = null;
+    for (const k of basket) {
+      const lookup = KEY_LOOKUP[k];
+      if (lookup) out[lookup.cert.key] = lookup.option;
     }
+    return out;
+  })();
+
+  function handleSelect(certKey, optionKey, productKey) {
+    setError(null);
+    const currentlySelected = selectedOptionByCert[certKey];
+    setBasket(prev => {
+      // Remove any existing selection for this cert
+      const withoutCert = prev.filter(k => {
+        const lookup = KEY_LOOKUP[k];
+        return !lookup || lookup.cert.key !== certKey;
+      });
+      // If the clicked option was already selected, this acts as a toggle-off
+      if (currentlySelected === optionKey) return withoutCert;
+      return [...withoutCert, productKey];
+    });
+  }
+
+  function removeItem(productKey) {
+    setError(null);
+    setBasket(prev => prev.filter(k => k !== productKey));
   }
 
   async function handleCheckout() {
@@ -399,7 +544,7 @@ export default function StorePage() {
       </Helmet>
 
       {showModal && (
-        <CheckoutModal basket={basket} onSuccess={() => setShowModal(false)} onClose={() => setShowModal(false)} />
+        <CheckoutModal basket={basket} onClose={() => setShowModal(false)} />
       )}
 
       {/* Hero */}
@@ -417,7 +562,7 @@ export default function StorePage() {
               FortifyLearn{' '}
               <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg,#22d3ee,#0891B2)' }}>Store.</span>
             </h1>
-            <p className="text-white/60 text-sm">Add items to your basket — create your free FortifyLearn account at checkout.</p>
+            <p className="text-white/60 text-sm">Pick a certification — choose a single pack or go Complete for the full 10-lab progression. Create your free FortifyLearn account at checkout.</p>
           </div>
         </div>
       </div>
@@ -433,7 +578,7 @@ export default function StorePage() {
         <div>
           {/* Section header with FL logo */}
           <div className="mb-6">
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-3 mb-2 flex-wrap">
               <span className="text-2xl font-black"
                 style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
                 FortifyLearn
@@ -451,19 +596,19 @@ export default function StorePage() {
             </div>
           </div>
 
-          <div className="mb-8"><BundleCard inBasket={basket.includes('bundle')} onToggle={toggleItem} /></div>
-
-          <div>
-            <p className="text-sm font-semibold text-slate-500 mb-4">Individual Packs</p>
-            <div className="grid md:grid-cols-3 gap-6">
-              {PACKS.map(pack => (
-                <PackCard key={pack.key} pack={pack} inBasket={basket.includes(pack.key)} onToggle={toggleItem} />
-              ))}
-            </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {CERTS.map(cert => (
+              <CertCard
+                key={cert.key}
+                cert={cert}
+                selectedOption={selectedOptionByCert[cert.key]}
+                onSelect={handleSelect}
+              />
+            ))}
           </div>
 
           <div className="mt-8 flex flex-wrap gap-4 items-center justify-center text-slate-400 text-xs">
-            {['Secure checkout via Stripe','12 months access from purchase date','No subscription — one-time payment','CompTIA Authorised Partner'].map(t => (
+            {['Secure checkout via Stripe','12 months access from purchase date','No subscription — one-time payment','CompTIA exam-aligned'].map(t => (
               <span key={t} className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />{t}</span>
             ))}
           </div>
@@ -488,7 +633,7 @@ export default function StorePage() {
         basket={basket}
         user={user}
         authLoading={authLoading}
-        onRemove={toggleItem}
+        onRemove={removeItem}
         onCheckout={handleCheckout}
         checkoutLoading={checkoutLoading}
       />

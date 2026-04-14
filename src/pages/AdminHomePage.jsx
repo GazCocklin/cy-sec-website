@@ -670,7 +670,6 @@ const CERT_SERIES = [
     packs: [
       { key: 'cysa_pack',   label: 'Pack 1', num: 1 },
       { key: 'cysa_pack_2', label: 'Pack 2', num: 2 },
-      { key: 'cysa_pack_3', label: 'Pack 3', num: 3 },
     ],
   },
 ];
@@ -1167,10 +1166,17 @@ const ConfigView = () => {
 // ─── Nav ───────────────────────────────────────────────────────────────────────
 
 const PACK_LABELS = {
-  netplus_pack: 'Network+ PBQ Pack 1',
-  secplus_pack: 'Security+ PBQ Pack 1',
-  cysa_pack:    'CySA+ PBQ Pack 1',
-  bundle:       'All Access Bundle',
+  netplus_pack:     'Network+ PBQ Pack 1',
+  netplus_pack_2:   'Network+ PBQ Pack 2',
+  netplus_complete: 'Network+ Complete',
+  secplus_pack:     'Security+ PBQ Pack 1',
+  secplus_pack_2:   'Security+ PBQ Pack 2',
+  secplus_complete: 'Security+ Complete',
+  cysa_pack:        'CySA+ PBQ Pack 1',
+  cysa_pack_2:      'CySA+ PBQ Pack 2',
+  cysa_complete:    'CySA+ Complete',
+  // Legacy — retained for backwards display of any pre-deprecation bundle purchases
+  bundle:           'All Access Bundle (legacy)',
 };
 
 function formatPacks(keys) {

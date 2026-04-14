@@ -59,14 +59,14 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
       <div className="p-5 text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A)' }}>
         <p className="text-[10px] font-bold tracking-widest text-[#7DD3E8] uppercase mb-1">{code}</p>
         <h3 className="text-lg font-extrabold" style={{ letterSpacing: '-0.3px' }}>{title}</h3>
-        <p className="text-[12px] text-white/50 mt-1">{labs} labs · Easy → Expert · 12 months</p>
+        <p className="text-[12px] text-white/50 mt-1">{labs} labs · Easy → Expert · Lifetime access</p>
       </div>
       <div className="p-5 bg-white">
         <div className="flex items-baseline gap-2 mb-1">
           <span className="text-3xl font-black text-[#0B1D3A]" style={{ letterSpacing: '-1px' }}>£{price}</span>
           {oldPrice && <><span className="text-sm text-slate-400 line-through">£{oldPrice}</span><span className="text-xs font-bold bg-[#e0f2f9] text-[#0891B2] px-2 py-0.5 rounded-full">Save £{(parseFloat(oldPrice)-parseFloat(price)).toFixed(2)}</span></>}
         </div>
-        <p className="text-xs text-slate-400 mb-4">One-time · 12 months from purchase</p>
+        <p className="text-xs text-slate-400 mb-4">One-time · Lifetime access from purchase</p>
         <a href="/store" className="block w-full text-center text-white font-bold text-sm py-3 rounded-xl mb-3 hover:brightness-110 transition-all" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
           Add to basket →
         </a>
@@ -88,7 +88,7 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
 const TRUST = [
   { icon: Lock, label: 'Secure checkout via Stripe', sub: 'Account created at checkout — no separate sign-up' },
   { icon: CheckCircle2, label: 'Exam objective mapped', sub: 'Every graded check maps to an N10-009 domain' },
-  { icon: Clock, label: 'Unlimited retries, 12 months', sub: 'Run each lab as many times as you need' },
+  { icon: Clock, label: 'Unlimited retries, Lifetime access', sub: 'Run each lab as many times as you need' },
   { icon: Shield, label: 'CompTIA Authorised Partner', sub: 'Developed and delivered by Cy-Sec' },
 ];
 
@@ -105,7 +105,7 @@ export default function NetworkPlusLabsPage() {
     <>
       <Helmet>
         <title>CompTIA Network+ N10-009 Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="10 hands-on Network+ N10-009 simulation labs across 2 packs. Live Cisco IOS environments, FL-NETSIM network topology, NETCAP packet analyser, and NETPULSE NMS. One-time purchase, 12 months access. CompTIA Authorised Partner." />
+        <meta name="description" content="10 hands-on Network+ N10-009 simulation labs across 2 packs. Live Cisco IOS environments, FL-NETSIM network topology, NETCAP packet analyser, and NETPULSE NMS. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA Network+ labs, N10-009 practice, Network+ PBQ simulation, Cisco IOS troubleshooting, VLAN ACL labs, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-network-plus-labs" />
       </Helmet>
@@ -139,7 +139,7 @@ export default function NetworkPlusLabsPage() {
               </a>
             </div>
             <div className="flex gap-4 flex-wrap">
-              {['10 labs across 2 packs', 'Free taster lab', 'Live Cisco IOS + visual tools', '12 months access'].map(t => (
+              {['10 labs across 2 packs', 'Free taster lab', 'Live Cisco IOS + visual tools', 'Lifetime access'].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/40"><span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]/60" />{t}</span>
               ))}
             </div>

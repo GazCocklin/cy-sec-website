@@ -61,7 +61,7 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
       <div className="p-5 text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A)' }}>
         <p className="text-[10px] font-bold tracking-widest text-[#7DD3E8] uppercase mb-1">{code}</p>
         <h3 className="text-lg font-extrabold" style={{ letterSpacing: '-0.3px' }}>{title}</h3>
-        <p className="text-[12px] text-white/50 mt-1">{labs} labs · Easy → Expert · 12 months</p>
+        <p className="text-[12px] text-white/50 mt-1">{labs} labs · Easy → Expert · Lifetime access</p>
       </div>
       <div className="p-5 bg-white">
         <div className="flex items-baseline gap-2 mb-1">
@@ -69,7 +69,7 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
           {oldPrice && <span className="text-sm text-slate-400 line-through">£{oldPrice}</span>}
           {oldPrice && <span className="text-xs font-bold bg-[#e0f2f9] text-[#0891B2] px-2 py-0.5 rounded-full">Save £{(parseFloat(oldPrice) - parseFloat(price)).toFixed(2)}</span>}
         </div>
-        <p className="text-xs text-slate-400 mb-4">One-time · 12 months from purchase</p>
+        <p className="text-xs text-slate-400 mb-4">One-time · Lifetime access from purchase</p>
         <a
           href="/store"
           className="block w-full text-center text-white font-bold text-sm py-3 rounded-xl mb-3 transition-all hover:brightness-110"
@@ -96,7 +96,7 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
 const TRUST = [
   { icon: Lock, label: 'Secure checkout via Stripe', sub: 'Account created at checkout — no separate sign-up' },
   { icon: CheckCircle2, label: 'Exam objective mapped', sub: 'Every graded check maps to a CS0-003 domain' },
-  { icon: Clock, label: 'Unlimited retries, 12 months', sub: 'Run each lab as many times as you need' },
+  { icon: Clock, label: 'Unlimited retries, Lifetime access', sub: 'Run each lab as many times as you need' },
   { icon: Shield, label: 'CompTIA Authorised Partner', sub: 'Developed and delivered by Cy-Sec' },
 ];
 
@@ -108,7 +108,7 @@ export default function CySAPlusLabsPage() {
     <>
       <Helmet>
         <title>CompTIA CySA+ CS0-003 Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="10 hands-on CySA+ CS0-003 simulation labs across 2 packs. Live CLI investigation, Arclight SIEM triage, and NETSCAN PRO vulnerability assessment. One-time purchase, 12 months access. CompTIA Authorised Partner." />
+        <meta name="description" content="10 hands-on CySA+ CS0-003 simulation labs across 2 packs. Live CLI investigation, Arclight SIEM triage, and NETSCAN PRO vulnerability assessment. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA CySA+ labs, CS0-003 practice, CySA+ PBQ simulation, SIEM triage, vulnerability assessment, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-cysa-plus-labs" />
       </Helmet>
@@ -142,7 +142,7 @@ export default function CySAPlusLabsPage() {
               </a>
             </div>
             <div className="flex gap-4 flex-wrap">
-              {['10 labs across 2 packs', 'CompTIA Authorised Partner', '12 months access', 'One-time payment'].map(t => (
+              {['10 labs across 2 packs', 'CompTIA Authorised Partner', 'Lifetime access', 'One-time payment'].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/40">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]/60" />{t}
                 </span>
@@ -222,7 +222,7 @@ export default function CySAPlusLabsPage() {
               {tab === 'p2' && <PackCard title="CySA+ Pack 2" code="CS0-003 · Pack 2" price="19.99" labs={5} />}
               {tab === 'complete' && (
                 <PackCard title="CySA+ Complete" code="CS0-003 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
-                  includes={['Pack 1 — 5 CLI investigation labs', 'Pack 2 — 5 labs inc. Arclight SIEM & NETSCAN PRO', 'All 10 labs unlocked immediately', '12 months access from purchase']}
+                  includes={['Pack 1 — 5 CLI investigation labs', 'Pack 2 — 5 labs inc. Arclight SIEM & NETSCAN PRO', 'All 10 labs unlocked immediately', 'Lifetime access from purchase']}
                 />
               )}
             </div>

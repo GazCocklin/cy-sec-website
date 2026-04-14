@@ -576,7 +576,7 @@ export default function StorePage() {
     <div className={`min-h-screen ${basket.length > 0 ? 'pb-32' : 'pb-2'}`} style={{ background: '#F8FAFC' }}>
       <Helmet>
         <title>FortifyLearn Store — CompTIA PBQ Packs | Cy-Sec</title>
-        <meta name="description" content="The official FortifyLearn store. CompTIA PBQ simulation packs for Network+, Security+ and CySA+ — representative CLI environments, objective-mapped scoring, 12 months access from £19.99." />
+        <meta name="description" content="The official FortifyLearn store. CompTIA PBQ simulation packs for Network+, Security+ and CySA+ — representative CLI environments, objective-mapped scoring, Lifetime access from £19.99." />
       </Helmet>
 
       {showModal && (
@@ -622,7 +622,7 @@ export default function StorePage() {
               ))}
             </div>
             <div className="flex flex-wrap gap-4">
-              {['10 labs per certification','One-time purchase','12 months access','Free taster labs'].map(t => (
+              {['10 labs per certification','One-time purchase','Lifetime access','Free taster labs'].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
                   <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(8,145,178,0.6)', display: 'inline-block' }} />
                   {t}
@@ -664,7 +664,7 @@ export default function StorePage() {
             <div>
               <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: '#0891B2' }}>FortifyLearn — CompTIA PBQ Simulation Packs</p>
               <h2 className="text-2xl font-extrabold text-slate-900" style={{ letterSpacing: '-0.5px' }}>Choose your certification</h2>
-              <p className="text-sm text-slate-500 mt-1">One-time purchase · 12 months access · No subscription</p>
+              <p className="text-sm text-slate-500 mt-1">One-time purchase · Lifetime access · No subscription</p>
             </div>
             <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-sm font-bold px-4 py-2.5 rounded-xl transition-all hover:brightness-110 flex-shrink-0 whitespace-nowrap"
@@ -685,7 +685,7 @@ export default function StorePage() {
           </div>
 
           <div className="mt-8 flex flex-wrap gap-4 items-center justify-center text-slate-400 text-xs">
-            {['Secure checkout via Stripe','12 months access from purchase date','No subscription — one-time payment','CompTIA exam-aligned'].map(t => (
+            {['Secure checkout via Stripe','Lifetime access from purchase','No subscription — one-time payment','CompTIA exam-aligned'].map(t => (
               <span key={t} className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />{t}</span>
             ))}
           </div>

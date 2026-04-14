@@ -118,7 +118,7 @@ export default function PBQEnginePage() {
               </Link>
             </div>
             <div className="flex gap-5 flex-wrap">
-              {['Free taster labs — no card needed', 'One-time purchase', '12 months access'].map(t => (
+              {['Free taster labs — no card needed', 'One-time purchase', 'Lifetime access'].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/40">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]/60" />{t}
                 </span>
@@ -283,7 +283,7 @@ export default function PBQEnginePage() {
           {[
             { icon: Lock, label: 'Secure checkout via Stripe', sub: 'Account created at checkout — no sign-up needed' },
             { icon: CheckCircle, label: 'Exam objective mapped', sub: 'Every check maps to a specific CompTIA domain' },
-            { icon: Clock, label: 'Unlimited retries, 12 months', sub: 'Run each lab as many times as you need' },
+            { icon: Clock, label: 'Unlimited retries, Lifetime access', sub: 'Run each lab as many times as you need' },
             { icon: Shield, label: 'CompTIA Authorised Partner', sub: 'Developed and delivered by Cy-Sec' },
           ].map(({ icon: Icon, label, sub }) => (
             <div key={label} className="flex gap-3 items-start p-4 bg-[#F4F7FA] rounded-xl border border-[rgba(8,145,178,0.1)]">

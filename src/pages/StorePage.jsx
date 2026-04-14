@@ -408,9 +408,17 @@ function CertCard({ cert, selectedOption, onSelect }) {
         <div className="flex items-center gap-3">
           <img src={cert.logo} alt={cert.title} className="w-12 h-12 object-contain"
             onError={e => { e.target.style.display='none'; }} />
-          <div>
+          <div className="flex-1 min-w-0">
             <p className="text-[11px] font-black tracking-widest uppercase" style={{ color: '#0891B2' }}>{cert.code}</p>
             <h3 className="font-black text-slate-900 text-lg leading-tight">{cert.title}</h3>
+            <a
+              href={`/comptia-${{ netplus: 'network-plus', secplus: 'security-plus', cysa: 'cysa-plus' }[cert.key]}-labs`}
+              className="text-[11px] font-semibold mt-1 inline-flex items-center gap-1 hover:underline"
+              style={{ color: '#0891B2' }}
+              onClick={e => e.stopPropagation()}
+            >
+              View all labs →
+            </a>
           </div>
         </div>
       </div>

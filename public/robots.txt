@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin/
+Disallow: /fortify-one/dashboard
+Disallow: /fortify-one/compliance
+Disallow: /fortify-one/vendor-risk
+Disallow: /fortify-one/settings
+Disallow: /fortify-one/reports
+Disallow: /fortify-one/calendar
+Disallow: /security-suite/
+
+Sitemap: https://cy-sec.co.uk/sitemap.xml

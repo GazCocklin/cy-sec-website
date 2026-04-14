@@ -12,7 +12,6 @@ import SecuritySuitePage from '@/pages/SecuritySuitePage';
 import SecuritySuiteLogin from '@/pages/SecuritySuiteLogin';
 import SignUpPage from '@/pages/SignUpPage';
 import ContactPage from '@/pages/ContactPage'; 
-import NewsBanner from '@/components/NewsBanner';
 import HybridCoursesPage from '@/pages/HybridCoursesPage';
 import SelfStudyModulesPage from '@/pages/SelfStudyModulesPage';
 import InstructorLedPage from '@/pages/InstructorLedPage';
@@ -92,14 +91,13 @@ function AppContent() {
 
   // Adjust padding for new immersive home page design
   const isHomePage = location.pathname === '/';
-  const mainPaddingClass = isHomePage ? "pt-0" : (isFortifyOnePage || isAdminPage ? "pt-20" : "pt-32");
+  const mainPaddingClass = isHomePage ? "pt-0" : (isFortifyOnePage || isAdminPage ? "pt-20" : "pt-24");
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       {!isAdminPage && <Navbar />}
       
       <div className={`flex-grow ${mainPaddingClass}`}>
-        {!isFortifyOnePage && !isAdminPage && !isHomePage && <NewsBanner />}
         <main>
           <Routes>
             <Route path="/" element={<HomePage />} />

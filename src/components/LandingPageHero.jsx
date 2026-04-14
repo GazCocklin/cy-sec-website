@@ -15,7 +15,7 @@ export default function LandingPageHero() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section className="relative flex items-center pt-20 overflow-hidden">
 
       {/* Background */}
       <div className="absolute inset-0"
@@ -39,7 +39,7 @@ export default function LandingPageHero() {
       <div className="absolute top-1/4 right-1/3 w-[500px] h-[500px] rounded-full blur-3xl pointer-events-none"
         style={{ background: 'radial-gradient(circle, rgba(8,145,178,0.15) 0%, transparent 70%)' }} />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-16 w-full">
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 py-12 w-full">
         <div className="grid lg:grid-cols-2 gap-12 xl:gap-16 items-center">
 
           {/* ── LEFT: copy ── */}
@@ -91,9 +91,9 @@ export default function LandingPageHero() {
             {/* Trust points */}
             <div className="flex flex-wrap gap-5 pt-1">
               {[
-                'CISSP-ISSAP · CISM · CRISC',
                 'CompTIA Authorised Partner',
-                'CertNexus Partner',
+                'CertNexus Authorised Partner',
+                'One-time purchase · No subscription',
               ].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/40">
                   <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'rgba(8,145,178,0.6)' }} />

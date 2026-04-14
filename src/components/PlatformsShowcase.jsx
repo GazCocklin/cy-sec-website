@@ -1,5 +1,7 @@
 import React from 'react';
 import { ArrowRight, CheckCircle, BarChart3, Shield, Globe } from 'lucide-react';
+import FortifyLearnLogo from '@/components/logos/FortifyLearnLogo';
+import FortifyOneLogo from '@/components/logos/FortifyOneLogo';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
@@ -31,7 +33,7 @@ export default function PlatformsShowcase() {
         <div>
           <div className="flex flex-wrap items-end justify-between gap-4 mb-8">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#0891B2' }}>FortifyLearn</p>
+              <div className="mb-3"><FortifyLearnLogo height={30} /></div>
               <h2 className="text-2xl font-extrabold text-[#0B1D3A]" style={{ letterSpacing: '-0.6px' }}>CompTIA PBQ simulation labs</h2>
               <p className="text-slate-500 text-sm mt-1 max-w-lg">Live CLI environments, interactive SIEM dashboards and firewall auditors — not flashcards, not videos. The closest thing to the real exam.</p>
             </div>
@@ -83,7 +85,7 @@ export default function PlatformsShowcase() {
         {/* ── FortifyOne ── */}
         <div>
           <div className="mb-8">
-            <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#0891B2' }}>FortifyOne</p>
+            <div className="mb-3"><FortifyOneLogo height={30} /></div>
             <h2 className="text-2xl font-extrabold text-[#0B1D3A]" style={{ letterSpacing: '-0.6px' }}>GRC Compliance Platform</h2>
             <p className="text-slate-500 text-sm mt-1 max-w-xl">
               Purpose-built compliance management for organisations that need to stay ahead of regulation —

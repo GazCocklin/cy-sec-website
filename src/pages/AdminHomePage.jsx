@@ -1455,7 +1455,7 @@ const NAV = [
   { id: 'analytics', label: 'Lab Analytics',      icon: TrendingUp },
   { id: 'config',    label: 'Platform Config',    icon: Settings2 },
   { id: 'purchases',   label: 'Purchases',        icon: ShoppingBag },
-  { id: 'fl_activity', label: 'FL Learners',       icon: GraduationCap },
+  { id: 'fl_activity', label: 'FL Learners',       icon: BookOpen },
 ];
 
 const PAGE_TITLES = {

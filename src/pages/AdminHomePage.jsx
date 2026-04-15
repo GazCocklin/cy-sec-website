@@ -1163,6 +1163,183 @@ const ConfigView = () => {
   );
 };
 
+
+// ─── FortifyLearn Learner Activity view ───────────────────────────────────────
+const FL_ADMIN_SECRET   = 'fl-admin-3338c175a9b3ad2f45ac3326';
+const FL_ADMIN_ENDPOINT = 'https://kmnbtnfgeadvvkwsdyml.supabase.co/functions/v1/admin-stats';
+
+const REVIEW_CONFIG = {
+  ask:  { label: '\u2605 Ask for review', classes: 'bg-green-100 text-green-700' },
+  warm: { label: 'Warming up',          classes: 'bg-amber-100 text-amber-700' },
+  cold: { label: 'Inactive',            classes: 'bg-slate-100 text-slate-500' },
+};
+
+const FortifyLearnActivityView = () => {
+  const [data, setData]       = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError]     = useState(null);
+  const [expanded, setExpanded] = useState({});
+
+  const load = useCallback(async () => {
+    setLoading(true); setError(null);
+    try {
+      const res  = await fetch(FL_ADMIN_ENDPOINT, { headers: { 'x-admin-secret': FL_ADMIN_SECRET } });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || res.status);
+      setData(json);
+    } catch (e) { setError(e.message); }
+    setLoading(false);
+  }, []);
+  useEffect(() => { load(); }, [load]);
+
+  const toggle = (id) => setExpanded(p => ({ ...p, [id]: !p[id] }));
+
+  const fmtDate = (iso) => {
+    if (!iso) return 'never';
+    const d = Math.floor((Date.now() - new Date(iso).getTime()) / 86400000);
+    if (d === 0) return 'today'; if (d === 1) return 'yesterday';
+    if (d < 7) return d + 'd ago'; if (d < 30) return Math.floor(d / 7) + 'w ago';
+    return Math.floor(d / 30) + 'mo ago';
+  };
+  const fmtShort = (iso) => iso ? new Date(iso).toLocaleDateString('en-GB', { day: '2-digit', month: 'short' }) : '';
+  const fmtTime  = (s) => { if (!s) return '\u2014'; const m = Math.floor(s / 60); return m < 60 ? m + 'm' : Math.floor(m / 60) + 'h ' + (m % 60) + 'm'; };
+  const initials = (n) => (n || '?').split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
+  const avBg     = (e) => ['bg-cyan-100 text-cyan-700', 'bg-blue-100 text-blue-700', 'bg-emerald-100 text-emerald-700'][(e?.charCodeAt(0) || 0) % 3];
+
+  const DIFF_PILL  = { taster: 'bg-slate-100 text-slate-500', beginner: 'bg-green-100 text-green-700', intermediate: 'bg-blue-100 text-blue-700', hard: 'bg-amber-100 text-amber-700', expert: 'bg-[#0B1D3A]/10 text-[#0B1D3A]' };
+  const DIFF_LABEL = { taster: 'Taster', beginner: 'Easy', intermediate: 'Inter.', hard: 'Hard', expert: 'Expert' };
+
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor:'#0891B2'}} /></div>;
+  if (error)   return <div className="p-8 text-red-600 text-sm">Error loading data: {error}</div>;
+  if (!data)   return null;
+
+  const { summary, users } = data;
+  const summaryStats = [
+    { label: 'Learners',         value: summary.total_users,       icon: Users,        color: 'text-blue-600',   bgColor: 'bg-blue-50'   },
+    { label: 'Lab completions',  value: summary.total_completions, icon: CheckCircle2, color: 'text-green-600',  bgColor: 'bg-green-50'  },
+    { label: 'Active this week', value: summary.active_this_week,  icon: TrendingUp,   color: 'text-amber-600',  bgColor: 'bg-amber-50'  },
+    { label: 'Ready to ask',     value: summary.ready_for_review,  icon: Lightbulb,    color: 'text-purple-600', bgColor: 'bg-purple-50' },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <p className="text-xs text-slate-400">
+          Updated {data.generated_at ? new Date(data.generated_at).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }) : '\u2014'}
+        </p>
+        <button onClick={load}
+          className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 transition-colors">
+          Refresh
+        </button>
+      </div>
+
+      <StatRow stats={summaryStats} />
+
+      <div className="space-y-2">
+        {users.map((u) => {
+          const rc   = REVIEW_CONFIG[u.review_signal] || REVIEW_CONFIG.cold;
+          const open = expanded[u.id];
+          return (
+            <Card key={u.id} className="border border-gray-200 shadow-sm overflow-hidden">
+              <button onClick={() => toggle(u.id)}
+                className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left">
+                <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 ${avBg(u.email)}`}>
+                  {initials(u.full_name)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="font-semibold text-sm text-slate-800 truncate">{u.full_name || u.email}</p>
+                  <p className="text-xs text-slate-400 truncate">{u.email}</p>
+                </div>
+                <div className="flex items-center gap-5 flex-shrink-0">
+                  <div className="text-center hidden sm:block">
+                    <p className="text-base font-extrabold text-slate-800" style={{letterSpacing:'-0.02em'}}>{u.completions}</p>
+                    <p className="text-[10px] text-slate-400">labs done</p>
+                  </div>
+                  <div className="text-center hidden sm:block">
+                    <p className="text-base font-extrabold text-slate-800" style={{letterSpacing:'-0.02em'}}>
+                      {u.avg_score_pct != null ? `${u.avg_score_pct}%` : '\u2014'}
+                    </p>
+                    <p className="text-[10px] text-slate-400">avg score</p>
+                  </div>
+                  <div className="text-center hidden md:block">
+                    <p className="text-sm font-semibold text-slate-600">{fmtDate(u.last_activity)}</p>
+                    <p className="text-[10px] text-slate-400">last active</p>
+                  </div>
+                  <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold whitespace-nowrap ${rc.classes}`}>
+                    {rc.label}
+                  </span>
+                  <span className={`text-slate-400 text-xs inline-block transition-transform ${open ? 'rotate-180' : ''}`}>▼</span>
+                </div>
+              </button>
+
+              {open && (
+                <div className="border-t border-gray-100 px-5 py-4">
+                  {u.entitlements && u.entitlements.length > 0 ? (
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {u.entitlements.map(e => (
+                        <span key={e} className="text-[11px] font-semibold px-2.5 py-1 rounded-full"
+                          style={{background:'rgba(8,145,178,0.1)', color:'#0891B2'}}>
+                          {e.replace(/_/g, ' ')}
+                        </span>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-slate-400 mb-4">No paid entitlements</p>
+                  )}
+
+                  {u.recent_labs && u.recent_labs.length > 0 ? (
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="bg-slate-50 border-b border-slate-100">
+                          {['Lab', 'Level', 'Score', 'Time', 'Date'].map(h => (
+                            <th key={h} className="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 py-2 text-left whitespace-nowrap">{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {u.recent_labs.map((lab, i) => {
+                          const pct = Math.round(lab.score_pct || 0);
+                          const bc  = pct >= 80 ? '#10b981' : pct >= 50 ? '#f59e0b' : '#cbd5e1';
+                          return (
+                            <tr key={i} className="border-b border-slate-50 hover:bg-slate-50/60 transition-colors">
+                              <td className="px-3 py-2 text-xs text-slate-700 max-w-[240px] truncate">{lab.bank_title}</td>
+                              <td className="px-3 py-2">
+                                <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${DIFF_PILL[lab.difficulty] || 'bg-slate-100 text-slate-500'}`}>
+                                  {DIFF_LABEL[lab.difficulty] || lab.difficulty}
+                                </span>
+                              </td>
+                              <td className="px-3 py-2">
+                                <div className="flex items-center gap-2">
+                                  <div className="w-14 h-1.5 bg-slate-100 rounded-full overflow-hidden flex-shrink-0">
+                                    <div className="h-full rounded-full" style={{width: pct + '%', background: bc}} />
+                                  </div>
+                                  <span className="text-xs font-bold" style={{color: bc}}>{pct}%</span>
+                                </div>
+                              </td>
+                              <td className="px-3 py-2 text-xs text-slate-500">{fmtTime(lab.time_seconds)}</td>
+                              <td className="px-3 py-2 text-xs text-slate-400">{fmtShort(lab.completed_at)}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <p className="text-xs text-slate-400">No completions yet.</p>
+                  )}
+                </div>
+              )}
+            </Card>
+          );
+        })}
+      </div>
+
+      <p className="text-[10px] text-slate-400">
+        \u2605 Ask for review = 3+ completions, active \u22647 days, avg \u226560%. Warming up = active \u226414 days.
+      </p>
+    </div>
+  );
+};
+
 // ─── Nav ───────────────────────────────────────────────────────────────────────
 
 const PACK_LABELS = {
@@ -1277,7 +1454,8 @@ const NAV = [
   { id: 'pricing',   label: 'Pricing',            icon: Tag },
   { id: 'analytics', label: 'Lab Analytics',      icon: TrendingUp },
   { id: 'config',    label: 'Platform Config',    icon: Settings2 },
-  { id: 'purchases', label: 'Purchases',         icon: ShoppingBag },
+  { id: 'purchases',   label: 'Purchases',        icon: ShoppingBag },
+  { id: 'fl_activity', label: 'FL Learners',       icon: GraduationCap },
 ];
 
 const PAGE_TITLES = {
@@ -1289,7 +1467,8 @@ const PAGE_TITLES = {
   pricing:   'Pricing Overview',
   config:    'Platform Configuration',
   analytics: 'Lab Analytics',
-  purchases: 'FortifyLearn Purchases',
+  purchases:   'FortifyLearn Purchases',
+  fl_activity: 'FortifyLearn Learner Activity',
 };
 
 // ─── Root ──────────────────────────────────────────────────────────────────────
@@ -1307,7 +1486,8 @@ export default function AdminHomePage() {
       case 'pricing':   return <PricingView />;
       case 'config':    return <ConfigView />;
       case 'analytics': return <LabAnalyticsView />;
-      case 'purchases': return <PurchasesView />;
+      case 'purchases':   return <PurchasesView />;
+      case 'fl_activity': return <FortifyLearnActivityView />;
       default:          return <DashboardView setView={setView} />;
     }
   };

@@ -7,6 +7,11 @@ import {
   Send, CheckCircle, Shield, Clock, BookOpen, Cpu, Globe
 } from 'lucide-react';
 
+// Shared secret required by send-contact-confirmation edge function.
+// Not a true secret (it ships in the browser bundle and can be read via DevTools),
+// but blocks unauthenticated direct calls that bypass the form UI.
+const CONTACT_FORM_SECRET = 'I0EaNqHxvPPlvuqbWZnpokVefeXReIpfUfDXCIUlQYk';
+
 const INTERESTS = [
   { value: 'vciso',        label: 'Virtual CISO (vCISO)' },
   { value: 'dora',         label: 'DORA Compliance Sprint' },
@@ -77,6 +82,9 @@ export default function ContactPage() {
       // 2. Fire confirmation + admin notification emails via Edge Function
       // Non-blocking — submission never fails if the email call fails
       supabase.functions.invoke('send-contact-confirmation', {
+        headers: {
+          'x-contact-secret': CONTACT_FORM_SECRET,
+        },
         body: {
           name:     form.name.trim(),
           email:    form.email.trim(),

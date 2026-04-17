@@ -3,7 +3,8 @@ import { Helmet } from 'react-helmet';
 import { Shield, Clock, CheckCircle2, Lock } from 'lucide-react';
 
 const PACK1_LABS = [
-  { num: 'F', title: 'SSH hardening: root login vulnerability', diff: 'Easy', obj: '3.2 / 4.1', tool: 'Linux CLI', free: true },
+  { num: 'F', title: 'Firewall rule review — unauthorised remote access',                          diff: 'Easy',         obj: '3.2',                          tool: 'FORTIGUARD Auditor', free: true },
+  { num: 'F', title: 'SSH hardening: root login vulnerability',                                    diff: 'Easy',         obj: '3.2 / 4.1',                    tool: 'Linux CLI', free: true },
   { num: 1, title: 'Firewall rule misconfiguration',                                           diff: 'Easy',         time: 8,  obj: '1.1 / 3.2',       tool: 'Linux CLI' },
   { num: 2, title: 'Sensitive file permission misconfiguration',                               diff: 'Easy',         time: 8,  obj: '1.1 / 3.3',       tool: 'Linux CLI' },
   { num: 3, title: 'Insecure legacy services: Telnet and FTP exposure',                       diff: 'Intermediate', time: 30, obj: '1.1 / 3.2',       tool: 'Linux CLI' },
@@ -133,7 +134,7 @@ export default function SecurityPlusLabsPage() {
               </a>
             </div>
             <div className="flex gap-4 flex-wrap">
-              {['10 labs across 2 packs', 'Free taster lab', 'Lifetime access', 'One-time payment'].map(t => (
+              {['10 labs across 2 packs', 'Free taster labs', 'Lifetime access', 'One-time payment'].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/40"><span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]/60" />{t}</span>
               ))}
             </div>
@@ -161,7 +162,7 @@ export default function SecurityPlusLabsPage() {
             </p>
           </div>
           <div className="grid grid-cols-3 gap-3 lg:grid-cols-1 lg:gap-3">
-            {[['10', 'Labs across 2 packs'], ['SY0-701', 'CompTIA exam code'], ['Free', '1 taster lab — no card needed']].map(([n, l]) => (
+            {[['10', 'Labs across 2 packs'], ['SY0-701', 'CompTIA exam code'], ['Free', '2 taster labs — no card needed']].map(([n, l]) => (
               <div key={l} className="bg-[#F4F7FA] rounded-xl p-4 border border-[rgba(8,145,178,0.1)]">
                 <div className="text-2xl font-black text-[#0891B2]" style={{ letterSpacing: '-0.5px' }}>{n}</div>
                 <div className="text-xs text-slate-400 mt-1">{l}</div>
@@ -208,7 +209,7 @@ export default function SecurityPlusLabsPage() {
               {tab === 'p2' && <PackCard title="Security+ Pack 2" code="SY0-701 · Pack 2" price="19.99" labs={5} />}
               {tab === 'complete' && (
                 <PackCard title="Security+ Complete" code="SY0-701 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
-                  includes={['Pack 1 — 5 server hardening labs', 'Pack 2 — 5 labs inc. FORTIGUARD Auditor', 'Free SSH hardening taster lab', 'All 10 labs unlocked immediately']}
+                  includes={['Pack 1 — 5 server hardening labs', 'Pack 2 — 5 labs inc. FORTIGUARD Auditor', '2 free taster labs (CLI + visual)', 'All 10 labs unlocked immediately']}
                 />
               )}
             </div>

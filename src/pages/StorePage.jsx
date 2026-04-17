@@ -695,7 +695,7 @@ export default function StorePage() {
         <div className="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-4">
           <div className="flex-1">
             <p className="font-semibold text-slate-800 mb-1">Try before you buy — taster labs are always free</p>
-            <p className="text-sm text-slate-500">Two Network+ tasters (CLI + visual) and one Security+ taster — free. Just sign up, no card needed.</p>
+            <p className="text-sm text-slate-500">Two Network+ tasters (CLI + visual) and two Security+ tasters (CLI + visual) — free. Just sign up, no card needed.</p>
           </div>
           <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
             className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:brightness-110"

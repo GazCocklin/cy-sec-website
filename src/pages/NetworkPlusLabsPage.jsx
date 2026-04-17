@@ -3,7 +3,8 @@ import { Helmet } from 'react-helmet';
 import { Shield, Clock, CheckCircle2, Lock } from 'lucide-react';
 
 const PACK1_LABS = [
-  { num: 'F', title: 'Static IP gateway misconfiguration', diff: 'Easy', obj: '1.4 / 5.3', tool: 'Cisco IOS', free: true },
+  { num: 'F', title: 'Port down — finance workstation offline',                                 diff: 'Easy',         obj: '2.3 / 5.3',                    tool: 'FL-NETSIM', free: true },
+  { num: 'F', title: 'Static IP gateway misconfiguration',                                      diff: 'Easy',         obj: '1.4 / 5.3',                    tool: 'Cisco IOS', free: true },
   { num: 1, title: 'DNS server misconfiguration',                                                diff: 'Easy',         time: 8,  obj: '1.6 / 5.3 / 5.5',             tool: 'Cisco IOS' },
   { num: 2, title: 'Default gateway fault diagnosis',                                           diff: 'Easy',         time: 8,  obj: '1.4 / 5.3',                    tool: 'Cisco IOS' },
   { num: 3, title: 'DMZ configuration and ACL troubleshooting',                                diff: 'Intermediate', time: 30, obj: '3.5 / 2.4 / 3.2',              tool: 'FL-NETSIM' },
@@ -139,7 +140,7 @@ export default function NetworkPlusLabsPage() {
               </a>
             </div>
             <div className="flex gap-4 flex-wrap">
-              {['10 labs across 2 packs', 'Free taster lab', 'Live Cisco IOS + visual tools', 'Lifetime access'].map(t => (
+              {['10 labs across 2 packs', 'Free taster labs', 'Live Cisco IOS + visual tools', 'Lifetime access'].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/40"><span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]/60" />{t}</span>
               ))}
             </div>
@@ -214,7 +215,7 @@ export default function NetworkPlusLabsPage() {
               {tab === 'p2' && <PackCard title="Network+ Pack 2" code="N10-009 · Pack 2" price="19.99" labs={5} />}
               {tab === 'complete' && (
                 <PackCard title="Network+ Complete" code="N10-009 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
-                  includes={['Pack 1 — 5 Cisco IOS troubleshooting labs', 'Pack 2 — 5 labs inc. FL-NETSIM, NETCAP, NETPULSE', 'Free static IP taster lab', 'All 10 labs unlocked immediately']}
+                  includes={['Pack 1 — 5 Cisco IOS troubleshooting labs', 'Pack 2 — 5 labs inc. FL-NETSIM, NETCAP, NETPULSE', '2 free taster labs (CLI + visual)', 'All 10 labs unlocked immediately']}
                 />
               )}
             </div>

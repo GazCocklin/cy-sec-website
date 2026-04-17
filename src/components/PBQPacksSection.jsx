@@ -233,7 +233,7 @@ const PBQPacksSection = () => {
         >
           <div>
             <p className="font-semibold text-slate-700">Try before you buy — taster labs are always free</p>
-            <p className="text-sm text-slate-500">One Network+ and one Security+ lab are free. Just enter your email — no card needed.</p>
+            <p className="text-sm text-slate-500">Two Network+ tasters (CLI + visual) and one Security+ taster — free. Just enter your email, no card needed.</p>
           </div>
           <a
             href="https://fortifylearn.co.uk"

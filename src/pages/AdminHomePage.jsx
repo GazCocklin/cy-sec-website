@@ -1508,22 +1508,24 @@ const MCQRedTeamView = () => {
           const findings = Array.isArray(r.findings) ? r.findings : [];
           return (
             <Card key={r.id} className="border border-gray-200 shadow-sm overflow-hidden">
-              <div onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left cursor-pointer">
+              <div onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left cursor-pointer select-none">
                 <span className={`text-[11px] font-bold uppercase px-2 py-0.5 rounded ${STATUS_PILL[r.status]||STATUS_PILL.pending}`}>{r.status}</span>
                 <span className="text-xs font-bold text-slate-600 tabular-nums w-8">{r.score ?? '—'}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-slate-800 truncate">{r.question_title || r.question_id}</p>
                   <p className="text-[11px] text-slate-400">{r.certification} · {r.difficulty} · {fmtTime(r.triggered_at)}</p>
                 </div>
-                <button onClick={(e) => { e.stopPropagation(); rerun(r); }} disabled={rerunning[r.id]}
-                  className="flex items-center gap-1 text-[11px] font-semibold text-cyan-700 border border-cyan-200 px-2.5 py-1 rounded-md bg-cyan-50 hover:bg-cyan-100 disabled:opacity-50 flex-shrink-0">
-                  {rerunning[r.id] ? 'Running...' : 'Re-run'}
-                </button>
               </div>
 
               {open && (
                 <div className="px-5 pb-4 space-y-3 border-t border-gray-100 pt-3">
-                  {r.summary && <p className="text-sm text-slate-700 font-medium">{r.summary}</p>}
+                  <div className="flex items-center justify-between">
+                    {r.summary ? <p className="text-sm text-slate-700 font-medium flex-1">{r.summary}</p> : <div />}
+                    <button onClick={() => rerun(r)} disabled={rerunning[r.id]}
+                      className="ml-3 px-4 py-1.5 text-xs font-bold text-white rounded-lg bg-[#0891B2] hover:bg-[#0E7490] disabled:opacity-50 flex-shrink-0 transition-colors">
+                      {rerunning[r.id] ? 'Running...' : 'Re-run Audit'}
+                    </button>
+                  </div>
 
                   {r.question_text_snapshot && (
                     <div className="rounded-lg bg-slate-50 p-3 space-y-2">
@@ -1640,22 +1642,24 @@ const PBQRedTeamView = () => {
           const findings = Array.isArray(r.findings) ? r.findings : [];
           return (
             <Card key={r.id} className="border border-gray-200 shadow-sm overflow-hidden">
-              <div onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left cursor-pointer">
+              <div onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left cursor-pointer select-none">
                 <span className={`text-[11px] font-bold uppercase px-2 py-0.5 rounded ${STATUS_PILL[r.status]||STATUS_PILL.pending}`}>{r.status}</span>
                 <span className="text-xs font-bold text-slate-600 tabular-nums w-8">{r.score ?? '—'}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-slate-800 truncate">{r.question_title || r.question_id}</p>
                   <p className="text-[11px] text-slate-400">{r.certification} · {r.difficulty} · {fmtTime(r.triggered_at)}</p>
                 </div>
-                <button onClick={(e) => { e.stopPropagation(); rerun(r); }} disabled={rerunning[r.id]}
-                  className="flex items-center gap-1 text-[11px] font-semibold text-cyan-700 border border-cyan-200 px-2.5 py-1 rounded-md bg-cyan-50 hover:bg-cyan-100 disabled:opacity-50 flex-shrink-0">
-                  {rerunning[r.id] ? 'Running...' : 'Re-run'}
-                </button>
               </div>
 
               {open && (
                 <div className="px-5 pb-4 space-y-3 border-t border-gray-100 pt-3">
-                  {r.summary && <p className="text-sm text-slate-700 font-medium">{r.summary}</p>}
+                  <div className="flex items-center justify-between">
+                    {r.summary ? <p className="text-sm text-slate-700 font-medium flex-1">{r.summary}</p> : <div />}
+                    <button onClick={() => rerun(r)} disabled={rerunning[r.id]}
+                      className="ml-3 px-4 py-1.5 text-xs font-bold text-white rounded-lg bg-[#0891B2] hover:bg-[#0E7490] disabled:opacity-50 flex-shrink-0 transition-colors">
+                      {rerunning[r.id] ? 'Running...' : 'Re-run Audit'}
+                    </button>
+                  </div>
 
                   {findings.length > 0 && (
                     <div className="space-y-1.5">

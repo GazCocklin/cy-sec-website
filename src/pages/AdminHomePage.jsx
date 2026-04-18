@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
   LayoutDashboard, Users, Mail, Bug, Lightbulb, Settings2, ShoppingBag,
-  ChevronLeft, ChevronRight, ArrowLeft,
+  ChevronLeft, ChevronRight, ArrowLeft, Activity,
   Clock, CheckCircle2, AlertCircle, Inbox,
   TrendingUp, Shield, Trash2, Tag, Package, Layers, BookOpen,
 } from 'lucide-react';
@@ -1445,6 +1445,253 @@ const PurchasesView = () => {
   );
 };
 
+// ─── MCQ Red Team Reports view ────────────────────────────────────────────────
+const SUPABASE_FN_BASE = 'https://kmnbtnfgeadvvkwsdyml.supabase.co/functions/v1';
+const STATUS_PILL = { pass: 'bg-green-100 text-green-700', warn: 'bg-amber-100 text-amber-700', fail: 'bg-red-100 text-red-700', error: 'bg-slate-100 text-slate-500', pending: 'bg-blue-100 text-blue-700' };
+const OPT_LETTERS = ['A','B','C','D'];
+
+const MCQRedTeamView = () => {
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState({});
+  const [rerunning, setRerunning] = useState({});
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    const { data } = await supabase.from('mcq_red_team_reports').select('*').eq('is_archived', false).order('triggered_at', { ascending: false }).limit(100);
+    setReports(data || []);
+    setLoading(false);
+  }, []);
+  useEffect(() => { load(); }, [load]);
+
+  const toggle = (id) => setExpanded(p => ({ ...p, [id]: !p[id] }));
+
+  const rerun = async (r) => {
+    if (!window.confirm(`Re-run Red Team audit for "${r.question_title || r.question_id}"?`)) return;
+    setRerunning(p => ({ ...p, [r.id]: true }));
+    try {
+      await supabase.from('mcq_red_team_reports').update({ is_archived: true }).eq('question_id', r.question_id).eq('is_archived', false);
+      await fetch(`${SUPABASE_FN_BASE}/mcq-red-team-agent`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: r.question_id, bank_id: r.bank_id })
+      });
+      setTimeout(load, 8000);
+    } catch (e) { alert('Re-run failed: ' + e.message); }
+    setRerunning(p => ({ ...p, [r.id]: false }));
+  };
+
+  const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) : '';
+
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor:'#0891B2'}} /></div>;
+
+  const counts = { pass:0, warn:0, fail:0, error:0, pending:0 };
+  reports.forEach(r => { counts[r.status] = (counts[r.status]||0)+1; });
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between">
+        <div className="flex gap-3 text-xs font-semibold">
+          <span className="px-2 py-1 rounded bg-green-50 text-green-700">{counts.pass} Pass</span>
+          <span className="px-2 py-1 rounded bg-amber-50 text-amber-700">{counts.warn} Warn</span>
+          <span className="px-2 py-1 rounded bg-red-50 text-red-700">{counts.fail} Fail</span>
+          <span className="px-2 py-1 rounded bg-slate-50 text-slate-500">{counts.error+counts.pending} Other</span>
+        </div>
+        <button onClick={load} className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50">Refresh</button>
+      </div>
+
+      {reports.length === 0 && <p className="text-sm text-slate-400 text-center py-12">No MCQ Red Team reports yet.</p>}
+
+      <div className="space-y-2">
+        {reports.map(r => {
+          const open = expanded[r.id];
+          const opts = r.options_snapshot || {};
+          const findings = Array.isArray(r.findings) ? r.findings : [];
+          return (
+            <Card key={r.id} className="border border-gray-200 shadow-sm overflow-hidden">
+              <button onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left">
+                <span className={`text-[11px] font-bold uppercase px-2 py-0.5 rounded ${STATUS_PILL[r.status]||STATUS_PILL.pending}`}>{r.status}</span>
+                <span className="text-xs font-bold text-slate-600 tabular-nums w-8">{r.score ?? '—'}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-slate-800 truncate">{r.question_title || r.question_id}</p>
+                  <p className="text-[11px] text-slate-400">{r.certification} · {r.difficulty} · {fmtTime(r.triggered_at)}</p>
+                </div>
+                <button onClick={(e) => { e.stopPropagation(); rerun(r); }} disabled={rerunning[r.id]}
+                  className="flex items-center gap-1 text-[11px] font-semibold text-cyan-700 border border-cyan-200 px-2.5 py-1 rounded-md bg-cyan-50 hover:bg-cyan-100 disabled:opacity-50 flex-shrink-0">
+                  {rerunning[r.id] ? 'Running...' : 'Re-run'}
+                </button>
+              </button>
+
+              {open && (
+                <div className="px-5 pb-4 space-y-3 border-t border-gray-100 pt-3">
+                  {r.summary && <p className="text-sm text-slate-700 font-medium">{r.summary}</p>}
+
+                  {r.question_text_snapshot && (
+                    <div className="rounded-lg bg-slate-50 p-3 space-y-2">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Question</p>
+                      <p className="text-sm text-slate-800">{r.question_text_snapshot}</p>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mt-2">
+                        {OPT_LETTERS.map(letter => (
+                          <div key={letter} className={`text-xs px-2.5 py-1.5 rounded border ${r.correct_snapshot === letter ? 'bg-green-50 border-green-300 font-bold text-green-800' : 'bg-white border-gray-200 text-slate-600'}`}>
+                            <span className="font-bold mr-1.5">{letter})</span>{opts[letter] || '—'}
+                          </div>
+                        ))}
+                      </div>
+                      {r.reasoning_snapshot && (
+                        <div className="mt-2">
+                          <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">Explanation</p>
+                          <p className="text-xs text-slate-600 leading-relaxed">{r.reasoning_snapshot}</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {r.agent_answer && (
+                    <div className="rounded-lg bg-blue-50/60 p-3">
+                      <p className="text-xs font-bold text-blue-500 uppercase tracking-wider mb-1">Agent Answer: <span className="text-blue-800">{Array.isArray(r.agent_answer) ? r.agent_answer.join(', ') : r.agent_answer}</span> {r.correct_snapshot && r.agent_answer !== r.correct_snapshot && <span className="text-red-600 ml-1">(disagrees with key: {r.correct_snapshot})</span>}</p>
+                      {r.agent_reasoning && <p className="text-xs text-blue-700 leading-relaxed">{r.agent_reasoning}</p>}
+                    </div>
+                  )}
+
+                  {findings.length > 0 && (
+                    <div className="space-y-1.5">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Findings ({findings.length})</p>
+                      {findings.map((f, i) => (
+                        <div key={i} className="flex items-start gap-2 text-xs">
+                          <span className={`px-1.5 py-0.5 rounded font-bold uppercase text-[10px] flex-shrink-0 ${f.severity === 'critical' ? 'bg-red-100 text-red-700' : f.severity === 'major' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600'}`}>{f.severity}</span>
+                          <div><span className="font-semibold text-slate-700">[{f.category}]</span> {f.finding}{f.recommendation && <span className="text-slate-400"> — {f.recommendation}</span>}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {r.narrative && (
+                    <div>
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Narrative</p>
+                      <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap">{r.narrative}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// ─── PBQ Red Team Reports view ────────────────────────────────────────────────
+const PBQRedTeamView = () => {
+  const [reports, setReports] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [expanded, setExpanded] = useState({});
+  const [rerunning, setRerunning] = useState({});
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    const { data } = await supabase.from('red_team_reports').select('*').eq('is_archived', false).order('triggered_at', { ascending: false }).limit(100);
+    setReports(data || []);
+    setLoading(false);
+  }, []);
+  useEffect(() => { load(); }, [load]);
+
+  const toggle = (id) => setExpanded(p => ({ ...p, [id]: !p[id] }));
+
+  const rerun = async (r) => {
+    if (!window.confirm(`Re-run Red Team audit for "${r.question_title || r.question_id}"?`)) return;
+    setRerunning(p => ({ ...p, [r.id]: true }));
+    try {
+      await supabase.from('red_team_reports').update({ is_archived: true }).eq('question_id', r.question_id).eq('is_archived', false);
+      const { data: q } = await supabase.from('pbq_questions').select('*').eq('id', r.question_id).single();
+      if (!q) { alert('Question not found'); setRerunning(p => ({ ...p, [r.id]: false })); return; }
+      await fetch(`${SUPABASE_FN_BASE}/red-team-agent`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(q)
+      });
+      setTimeout(load, 8000);
+    } catch (e) { alert('Re-run failed: ' + e.message); }
+    setRerunning(p => ({ ...p, [r.id]: false }));
+  };
+
+  const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) : '';
+
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor:'#0891B2'}} /></div>;
+
+  const counts = { pass:0, warn:0, fail:0, error:0, pending:0 };
+  reports.forEach(r => { counts[r.status] = (counts[r.status]||0)+1; });
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between">
+        <div className="flex gap-3 text-xs font-semibold">
+          <span className="px-2 py-1 rounded bg-green-50 text-green-700">{counts.pass} Pass</span>
+          <span className="px-2 py-1 rounded bg-amber-50 text-amber-700">{counts.warn} Warn</span>
+          <span className="px-2 py-1 rounded bg-red-50 text-red-700">{counts.fail} Fail</span>
+          <span className="px-2 py-1 rounded bg-slate-50 text-slate-500">{counts.error+counts.pending} Other</span>
+        </div>
+        <button onClick={load} className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50">Refresh</button>
+      </div>
+
+      {reports.length === 0 && <p className="text-sm text-slate-400 text-center py-12">No PBQ Red Team reports yet.</p>}
+
+      <div className="space-y-2">
+        {reports.map(r => {
+          const open = expanded[r.id];
+          const findings = Array.isArray(r.findings) ? r.findings : [];
+          return (
+            <Card key={r.id} className="border border-gray-200 shadow-sm overflow-hidden">
+              <button onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left">
+                <span className={`text-[11px] font-bold uppercase px-2 py-0.5 rounded ${STATUS_PILL[r.status]||STATUS_PILL.pending}`}>{r.status}</span>
+                <span className="text-xs font-bold text-slate-600 tabular-nums w-8">{r.score ?? '—'}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-slate-800 truncate">{r.question_title || r.question_id}</p>
+                  <p className="text-[11px] text-slate-400">{r.certification} · {r.difficulty} · {fmtTime(r.triggered_at)}</p>
+                </div>
+                <button onClick={(e) => { e.stopPropagation(); rerun(r); }} disabled={rerunning[r.id]}
+                  className="flex items-center gap-1 text-[11px] font-semibold text-cyan-700 border border-cyan-200 px-2.5 py-1 rounded-md bg-cyan-50 hover:bg-cyan-100 disabled:opacity-50 flex-shrink-0">
+                  {rerunning[r.id] ? 'Running...' : 'Re-run'}
+                </button>
+              </button>
+
+              {open && (
+                <div className="px-5 pb-4 space-y-3 border-t border-gray-100 pt-3">
+                  {r.summary && <p className="text-sm text-slate-700 font-medium">{r.summary}</p>}
+
+                  {findings.length > 0 && (
+                    <div className="space-y-1.5">
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Findings ({findings.length})</p>
+                      {findings.map((f, i) => (
+                        <div key={i} className="flex items-start gap-2 text-xs">
+                          <span className={`px-1.5 py-0.5 rounded font-bold uppercase text-[10px] flex-shrink-0 ${f.severity === 'critical' ? 'bg-red-100 text-red-700' : f.severity === 'major' ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-600'}`}>{f.severity}</span>
+                          <div><span className="font-semibold text-slate-700">[{f.category}]</span> {f.finding}{f.recommendation && <span className="text-slate-400"> — {f.recommendation}</span>}</div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {r.narrative && (
+                    <div>
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Narrative</p>
+                      <p className="text-xs text-slate-600 leading-relaxed whitespace-pre-wrap">{r.narrative}</p>
+                    </div>
+                  )}
+
+                  {r.recommended_next && (
+                    <div>
+                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Recommended Next</p>
+                      <p className="text-xs text-slate-600">{r.recommended_next}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 const NAV = [
   { id: 'dashboard', label: 'Dashboard',        icon: LayoutDashboard },
   { id: 'leads',     label: 'CRM Leads',         icon: Users },
@@ -1456,6 +1703,8 @@ const NAV = [
   { id: 'config',    label: 'Platform Config',    icon: Settings2 },
   { id: 'purchases',   label: 'Purchases',        icon: ShoppingBag },
   { id: 'fl_activity', label: 'FL Learners',       icon: BookOpen },
+  { id: 'mcq_redteam', label: 'MCQ Red Team',     icon: Activity },
+  { id: 'pbq_redteam', label: 'PBQ Red Team',     icon: Shield },
 ];
 
 const PAGE_TITLES = {
@@ -1469,6 +1718,8 @@ const PAGE_TITLES = {
   analytics: 'Lab Analytics',
   purchases:   'FortifyLearn Purchases',
   fl_activity: 'FortifyLearn Learner Activity',
+  mcq_redteam: 'MCQ Red Team Reports',
+  pbq_redteam: 'PBQ Red Team Reports',
 };
 
 // ─── Root ──────────────────────────────────────────────────────────────────────
@@ -1488,6 +1739,8 @@ export default function AdminHomePage() {
       case 'analytics': return <LabAnalyticsView />;
       case 'purchases':   return <PurchasesView />;
       case 'fl_activity': return <FortifyLearnActivityView />;
+      case 'mcq_redteam': return <MCQRedTeamView />;
+      case 'pbq_redteam': return <PBQRedTeamView />;
       default:          return <DashboardView setView={setView} />;
     }
   };

@@ -1508,7 +1508,7 @@ const MCQRedTeamView = () => {
           const findings = Array.isArray(r.findings) ? r.findings : [];
           return (
             <Card key={r.id} className="border border-gray-200 shadow-sm overflow-hidden">
-              <button onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left">
+              <div onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left cursor-pointer">
                 <span className={`text-[11px] font-bold uppercase px-2 py-0.5 rounded ${STATUS_PILL[r.status]||STATUS_PILL.pending}`}>{r.status}</span>
                 <span className="text-xs font-bold text-slate-600 tabular-nums w-8">{r.score ?? '—'}</span>
                 <div className="flex-1 min-w-0">
@@ -1519,7 +1519,7 @@ const MCQRedTeamView = () => {
                   className="flex items-center gap-1 text-[11px] font-semibold text-cyan-700 border border-cyan-200 px-2.5 py-1 rounded-md bg-cyan-50 hover:bg-cyan-100 disabled:opacity-50 flex-shrink-0">
                   {rerunning[r.id] ? 'Running...' : 'Re-run'}
                 </button>
-              </button>
+              </div>
 
               {open && (
                 <div className="px-5 pb-4 space-y-3 border-t border-gray-100 pt-3">
@@ -1640,7 +1640,7 @@ const PBQRedTeamView = () => {
           const findings = Array.isArray(r.findings) ? r.findings : [];
           return (
             <Card key={r.id} className="border border-gray-200 shadow-sm overflow-hidden">
-              <button onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left">
+              <div onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left cursor-pointer">
                 <span className={`text-[11px] font-bold uppercase px-2 py-0.5 rounded ${STATUS_PILL[r.status]||STATUS_PILL.pending}`}>{r.status}</span>
                 <span className="text-xs font-bold text-slate-600 tabular-nums w-8">{r.score ?? '—'}</span>
                 <div className="flex-1 min-w-0">
@@ -1651,7 +1651,7 @@ const PBQRedTeamView = () => {
                   className="flex items-center gap-1 text-[11px] font-semibold text-cyan-700 border border-cyan-200 px-2.5 py-1 rounded-md bg-cyan-50 hover:bg-cyan-100 disabled:opacity-50 flex-shrink-0">
                   {rerunning[r.id] ? 'Running...' : 'Re-run'}
                 </button>
-              </button>
+              </div>
 
               {open && (
                 <div className="px-5 pb-4 space-y-3 border-t border-gray-100 pt-3">

@@ -1455,13 +1455,16 @@ const MCQRedTeamView = () => {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState({});
   const [rerunning, setRerunning] = useState({});
+  const [showArchived, setShowArchived] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
-    const { data } = await supabase.from('mcq_red_team_reports').select('*').eq('is_archived', false).order('triggered_at', { ascending: false }).limit(100);
+    let q = supabase.from('mcq_red_team_reports').select('*').order('triggered_at', { ascending: false }).limit(100);
+    if (!showArchived) q = q.eq('is_archived', false);
+    const { data } = await q;
     setReports(data || []);
     setLoading(false);
-  }, []);
+  }, [showArchived]);
   useEffect(() => { load(); }, [load]);
 
   const toggle = (id) => setExpanded(p => ({ ...p, [id]: !p[id] }));
@@ -1482,6 +1485,17 @@ const MCQRedTeamView = () => {
 
   const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) : '';
 
+  const archiveReport = async (r) => {
+    if (!window.confirm(`Archive this report?`)) return;
+    await supabase.from('mcq_red_team_reports').update({ is_archived: true }).eq('id', r.id);
+    load();
+  };
+
+  const unarchiveReport = async (r) => {
+    await supabase.from('mcq_red_team_reports').update({ is_archived: false }).eq('id', r.id);
+    load();
+  };
+
   if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor:'#0891B2'}} /></div>;
 
   const counts = { pass:0, warn:0, fail:0, error:0, pending:0 };
@@ -1496,7 +1510,10 @@ const MCQRedTeamView = () => {
           <span className="px-2 py-1 rounded bg-red-50 text-red-700">{counts.fail} Fail</span>
           <span className="px-2 py-1 rounded bg-slate-50 text-slate-500">{counts.error+counts.pending} Other</span>
         </div>
-        <button onClick={load} className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50">Refresh</button>
+        <div className="flex gap-2">
+          <button onClick={() => setShowArchived(p => !p)} className={`flex items-center gap-1.5 text-xs font-semibold border px-3 py-1.5 rounded-lg transition-colors ${showArchived ? 'bg-slate-800 text-white border-slate-800 hover:bg-slate-700' : 'text-slate-500 border-gray-200 bg-white hover:bg-slate-50'}`}>{showArchived ? 'Hide Archived' : 'Show Archived'}</button>
+          <button onClick={load} className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50">Refresh</button>
+        </div>
       </div>
 
       {reports.length === 0 && <p className="text-sm text-slate-400 text-center py-12">No MCQ Red Team reports yet.</p>}
@@ -1507,13 +1524,13 @@ const MCQRedTeamView = () => {
           const opts = r.options_snapshot || {};
           const findings = Array.isArray(r.findings) ? r.findings : [];
           return (
-            <Card key={r.id} className="border border-gray-200 shadow-sm overflow-hidden">
+            <Card key={r.id} className={`border border-gray-200 shadow-sm overflow-hidden ${r.is_archived ? 'opacity-50' : ''}`}>
               <div onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left cursor-pointer select-none">
                 <span className={`text-[11px] font-bold uppercase px-2 py-0.5 rounded ${STATUS_PILL[r.status]||STATUS_PILL.pending}`}>{r.status}</span>
                 <span className="text-xs font-bold text-slate-600 tabular-nums w-8">{r.score ?? '—'}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-slate-800 truncate">{r.question_title || r.question_id}</p>
-                  <p className="text-[11px] text-slate-400">{r.certification} · {r.difficulty} · {fmtTime(r.triggered_at)}</p>
+                  <p className="text-[11px] text-slate-400">{r.certification} · {r.difficulty} · {fmtTime(r.triggered_at)}{r.is_archived ? ' · Archived' : ''}</p>
                 </div>
               </div>
 
@@ -1521,10 +1538,16 @@ const MCQRedTeamView = () => {
                 <div className="px-5 pb-4 space-y-3 border-t border-gray-100 pt-3">
                   <div className="flex items-center justify-between">
                     {r.summary ? <p className="text-sm text-slate-700 font-medium flex-1">{r.summary}</p> : <div />}
-                    <button onClick={() => rerun(r)} disabled={rerunning[r.id]}
-                      className="ml-3 px-4 py-1.5 text-xs font-bold text-white rounded-lg bg-[#0891B2] hover:bg-[#0E7490] disabled:opacity-50 flex-shrink-0 transition-colors">
-                      {rerunning[r.id] ? 'Running...' : 'Re-run Audit'}
-                    </button>
+                    <div className="flex gap-2 flex-shrink-0 ml-3">
+                      {r.is_archived
+                        ? <button onClick={() => unarchiveReport(r)} className="px-4 py-1.5 text-xs font-bold text-slate-600 rounded-lg border border-gray-200 bg-white hover:bg-slate-50 transition-colors">Unarchive</button>
+                        : <button onClick={() => archiveReport(r)} className="px-4 py-1.5 text-xs font-bold text-slate-600 rounded-lg border border-gray-200 bg-white hover:bg-slate-50 transition-colors">Archive</button>
+                      }
+                      <button onClick={() => rerun(r)} disabled={rerunning[r.id]}
+                        className="px-4 py-1.5 text-xs font-bold text-white rounded-lg bg-[#0891B2] hover:bg-[#0E7490] disabled:opacity-50 transition-colors">
+                        {rerunning[r.id] ? 'Running...' : 'Re-run Audit'}
+                      </button>
+                    </div>
                   </div>
 
                   {r.question_text_snapshot && (
@@ -1588,13 +1611,16 @@ const PBQRedTeamView = () => {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState({});
   const [rerunning, setRerunning] = useState({});
+  const [showArchived, setShowArchived] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
-    const { data } = await supabase.from('red_team_reports').select('*').eq('is_archived', false).order('triggered_at', { ascending: false }).limit(100);
+    let q = supabase.from('red_team_reports').select('*').order('triggered_at', { ascending: false }).limit(100);
+    if (!showArchived) q = q.eq('is_archived', false);
+    const { data } = await q;
     setReports(data || []);
     setLoading(false);
-  }, []);
+  }, [showArchived]);
   useEffect(() => { load(); }, [load]);
 
   const toggle = (id) => setExpanded(p => ({ ...p, [id]: !p[id] }));
@@ -1617,6 +1643,17 @@ const PBQRedTeamView = () => {
 
   const fmtTime = (iso) => iso ? new Date(iso).toLocaleString('en-GB', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' }) : '';
 
+  const archiveReport = async (r) => {
+    if (!window.confirm(`Archive this report?`)) return;
+    await supabase.from('red_team_reports').update({ is_archived: true }).eq('id', r.id);
+    load();
+  };
+
+  const unarchiveReport = async (r) => {
+    await supabase.from('red_team_reports').update({ is_archived: false }).eq('id', r.id);
+    load();
+  };
+
   if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{borderColor:'#0891B2'}} /></div>;
 
   const counts = { pass:0, warn:0, fail:0, error:0, pending:0 };
@@ -1631,7 +1668,10 @@ const PBQRedTeamView = () => {
           <span className="px-2 py-1 rounded bg-red-50 text-red-700">{counts.fail} Fail</span>
           <span className="px-2 py-1 rounded bg-slate-50 text-slate-500">{counts.error+counts.pending} Other</span>
         </div>
-        <button onClick={load} className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50">Refresh</button>
+        <div className="flex gap-2">
+          <button onClick={() => setShowArchived(p => !p)} className={`flex items-center gap-1.5 text-xs font-semibold border px-3 py-1.5 rounded-lg transition-colors ${showArchived ? 'bg-slate-800 text-white border-slate-800 hover:bg-slate-700' : 'text-slate-500 border-gray-200 bg-white hover:bg-slate-50'}`}>{showArchived ? 'Hide Archived' : 'Show Archived'}</button>
+          <button onClick={load} className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50">Refresh</button>
+        </div>
       </div>
 
       {reports.length === 0 && <p className="text-sm text-slate-400 text-center py-12">No PBQ Red Team reports yet.</p>}
@@ -1641,13 +1681,13 @@ const PBQRedTeamView = () => {
           const open = expanded[r.id];
           const findings = Array.isArray(r.findings) ? r.findings : [];
           return (
-            <Card key={r.id} className="border border-gray-200 shadow-sm overflow-hidden">
+            <Card key={r.id} className={`border border-gray-200 shadow-sm overflow-hidden ${r.is_archived ? 'opacity-50' : ''}`}>
               <div onClick={() => toggle(r.id)} className="w-full flex items-center gap-3 px-5 py-3.5 hover:bg-slate-50/70 transition-colors text-left cursor-pointer select-none">
                 <span className={`text-[11px] font-bold uppercase px-2 py-0.5 rounded ${STATUS_PILL[r.status]||STATUS_PILL.pending}`}>{r.status}</span>
                 <span className="text-xs font-bold text-slate-600 tabular-nums w-8">{r.score ?? '—'}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-slate-800 truncate">{r.question_title || r.question_id}</p>
-                  <p className="text-[11px] text-slate-400">{r.certification} · {r.difficulty} · {fmtTime(r.triggered_at)}</p>
+                  <p className="text-[11px] text-slate-400">{r.certification} · {r.difficulty} · {fmtTime(r.triggered_at)}{r.is_archived ? ' · Archived' : ''}</p>
                 </div>
               </div>
 
@@ -1655,10 +1695,16 @@ const PBQRedTeamView = () => {
                 <div className="px-5 pb-4 space-y-3 border-t border-gray-100 pt-3">
                   <div className="flex items-center justify-between">
                     {r.summary ? <p className="text-sm text-slate-700 font-medium flex-1">{r.summary}</p> : <div />}
-                    <button onClick={() => rerun(r)} disabled={rerunning[r.id]}
-                      className="ml-3 px-4 py-1.5 text-xs font-bold text-white rounded-lg bg-[#0891B2] hover:bg-[#0E7490] disabled:opacity-50 flex-shrink-0 transition-colors">
-                      {rerunning[r.id] ? 'Running...' : 'Re-run Audit'}
-                    </button>
+                    <div className="flex gap-2 flex-shrink-0 ml-3">
+                      {r.is_archived
+                        ? <button onClick={() => unarchiveReport(r)} className="px-4 py-1.5 text-xs font-bold text-slate-600 rounded-lg border border-gray-200 bg-white hover:bg-slate-50 transition-colors">Unarchive</button>
+                        : <button onClick={() => archiveReport(r)} className="px-4 py-1.5 text-xs font-bold text-slate-600 rounded-lg border border-gray-200 bg-white hover:bg-slate-50 transition-colors">Archive</button>
+                      }
+                      <button onClick={() => rerun(r)} disabled={rerunning[r.id]}
+                        className="px-4 py-1.5 text-xs font-bold text-white rounded-lg bg-[#0891B2] hover:bg-[#0E7490] disabled:opacity-50 transition-colors">
+                        {rerunning[r.id] ? 'Running...' : 'Re-run Audit'}
+                      </button>
+                    </div>
                   </div>
 
                   {findings.length > 0 && (

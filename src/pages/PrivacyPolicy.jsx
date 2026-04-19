@@ -22,7 +22,7 @@ const PrivacyPolicy = () => {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4 bg-gradient-to-r from-[#0B1D3A] via-[#0E5F8A] to-[#0891B2] bg-clip-text text-transparent">
             Privacy policy
           </h1>
-          <p className="text-slate-600">Last updated: 14 April 2026</p>
+          <p className="text-slate-600">Last updated: 19 April 2026</p>
         </motion.div>
 
         <motion.div
@@ -43,9 +43,9 @@ const PrivacyPolicy = () => {
               <h2 className="text-2xl font-bold text-slate-900 mb-3">1. Who we are</h2>
               <p>Cy-Sec Awareness and Consultancy Ltd is the data controller for personal data collected through cy-sec.co.uk and our products.</p>
               <ul className="list-disc pl-6 mt-3 space-y-1">
-                <li>Registered in England and Wales, company no. [Companies House number]</li>
-                <li>Registered office: [registered address]</li>
-                <li>ICO registration number: [ICO number]</li>
+                <li>Registered in England and Wales, company no. 13176798</li>
+                <li>Registered office: Office 1 Izabella House, 24-26 Regent Place, Birmingham, England, B1 3NJ</li>
+                <li>ICO registration number: <em className="text-slate-500">(pending registration)</em></li>
                 <li>Contact: <a href="mailto:info@cy-sec.co.uk" className="text-[#0891B2] hover:underline font-medium">info@cy-sec.co.uk</a></li>
               </ul>
             </section>
@@ -121,6 +121,8 @@ const PrivacyPolicy = () => {
                 <li><strong className="text-slate-900">Supabase</strong> — authentication and database hosting for FortifyLearn, FortifyOne and cy-sec.co.uk.</li>
                 <li><strong className="text-slate-900">Vercel</strong> — website hosting and delivery.</li>
                 <li><strong className="text-slate-900">Google Analytics</strong> — anonymous website usage analytics, loaded only if you accept analytics cookies.</li>
+                <li><strong className="text-slate-900">LinkedIn (Insight Tag)</strong> — measures the effectiveness of LinkedIn advertising campaigns and provides anonymised website demographics. Loaded only if you accept marketing cookies.</li>
+                <li><strong className="text-slate-900">Meta (Facebook Pixel)</strong> — measures the effectiveness of Facebook and Instagram advertising campaigns and enables retargeting. Loaded only if you accept marketing cookies.</li>
                 <li><strong className="text-slate-900">Email and communication providers</strong> — for sending transactional emails (purchase confirmations, password resets) and, with your consent, marketing emails.</li>
                 <li><strong className="text-slate-900">Professional advisers</strong> — accountants, auditors and legal advisers, where necessary.</li>
                 <li><strong className="text-slate-900">Law enforcement or regulators</strong> — where we are legally required to disclose information.</li>
@@ -130,7 +132,7 @@ const PrivacyPolicy = () => {
 
             <section>
               <h2 className="text-2xl font-bold text-slate-900 mb-3">5. International transfers</h2>
-              <p>Some of our processors are based outside the UK, including in the United States (for example, Stripe and Google Analytics). Where personal data is transferred outside the UK, we rely on UK International Data Transfer Agreements, the UK Addendum to the EU Standard Contractual Clauses, or the UK Extension to the EU–US Data Privacy Framework, as appropriate, to ensure your data receives an equivalent level of protection.</p>
+              <p>Some of our processors are based outside the UK, including in the United States (for example, Stripe, Google Analytics, LinkedIn and Meta). Where personal data is transferred outside the UK, we rely on UK International Data Transfer Agreements, the UK Addendum to the EU Standard Contractual Clauses, or the UK Extension to the EU–US Data Privacy Framework, as appropriate, to ensure your data receives an equivalent level of protection.</p>
             </section>
 
             <section>
@@ -168,7 +170,7 @@ const PrivacyPolicy = () => {
               <ul className="list-disc pl-6 mt-3 space-y-2">
                 <li><strong className="text-slate-900">Strictly necessary</strong> — required for the site to work, including authentication and shopping basket state. These are always on.</li>
                 <li><strong className="text-slate-900">Analytics</strong> — Google Analytics (G-LRMVJPVBMZ) helps us understand how visitors use the site. These are loaded only if you accept analytics cookies via the consent banner.</li>
-                <li><strong className="text-slate-900">Marketing</strong> — if enabled in the future, loaded only with your consent.</li>
+                <li><strong className="text-slate-900">Marketing</strong> — LinkedIn Insight Tag and Meta (Facebook) Pixel help us measure advertising effectiveness and reach relevant audiences. These are loaded only if you accept marketing cookies via the consent banner.</li>
               </ul>
               <p className="mt-3">You can change your cookie preferences at any time via the cookie settings link on the site, or by clearing cookies in your browser.</p>
             </section>

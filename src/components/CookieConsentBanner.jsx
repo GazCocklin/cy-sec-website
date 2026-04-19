@@ -19,15 +19,17 @@ const CookieConsentBanner = () => {
   const handleAccept = () => {
     Cookies.set(COOKIE_CONSENT_KEY, 'granted', { expires: 365 });
     if (typeof window.gtag === 'function') {
-      window.gtag('consent', 'update', { analytics_storage: 'granted' });
+      window.gtag('consent', 'update', { analytics_storage: 'granted', ad_storage: 'granted' });
     }
+    if (typeof window.__loadLinkedIn === 'function') window.__loadLinkedIn();
+    if (typeof window.__loadMetaPixel === 'function') window.__loadMetaPixel();
     setIsVisible(false);
   };
 
   const handleDecline = () => {
     Cookies.set(COOKIE_CONSENT_KEY, 'denied', { expires: 365 });
     if (typeof window.gtag === 'function') {
-      window.gtag('consent', 'update', { analytics_storage: 'denied' });
+      window.gtag('consent', 'update', { analytics_storage: 'denied', ad_storage: 'denied' });
     }
     setIsVisible(false);
   };
@@ -55,7 +57,7 @@ const CookieConsentBanner = () => {
                 aria-hidden="true"
               />
               <p className="text-sm leading-relaxed" style={{ color: '#CBD5E1' }}>
-                We use cookies for analytics to improve your experience. You can accept or decline &mdash; see our{' '}
+                We use cookies for analytics and marketing to improve your experience. You can accept or decline &mdash; see our{' '}
                 <Link
                   to="/privacy-policy"
                   style={{ color: '#0891B2' }}

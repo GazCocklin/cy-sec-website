@@ -22,7 +22,7 @@ const TermsOfService = () => {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4 bg-gradient-to-r from-[#0B1D3A] via-[#0E5F8A] to-[#0891B2] bg-clip-text text-transparent">
             Terms of service
           </h1>
-          <p className="text-slate-600">Last updated: 14 April 2026</p>
+          <p className="text-slate-600">Last updated: 19 April 2026</p>
         </motion.div>
 
         <motion.div
@@ -35,7 +35,7 @@ const TermsOfService = () => {
 
             <section>
               <p className="text-slate-600">
-                These terms form a binding agreement between you and Cy-Sec Awareness and Consultancy Ltd, a company registered in England and Wales (company no. [Companies House number], registered office [registered address]) ("Cy-Sec", "we", "us", "our"). By accessing cy-sec.co.uk or purchasing any of our products or services, you agree to these terms. If you do not agree, do not use the site or buy our services.
+                These terms form a binding agreement between you and Cy-Sec Awareness and Consultancy Ltd, a company registered in England and Wales (company no. 13176798, registered office Office 1 Izabella House, 24-26 Regent Place, Birmingham, England, B1 3NJ) ("Cy-Sec", "we", "us", "our"). By accessing cy-sec.co.uk or purchasing any of our products or services, you agree to these terms. If you do not agree, do not use the site or buy our services.
               </p>
             </section>
 

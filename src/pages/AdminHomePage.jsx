@@ -1111,7 +1111,7 @@ const ConfigView = () => {
     {
       title: 'Outstanding Items', icon: AlertCircle, color: 'text-amber-600', bg: 'bg-amber-50',
       items: [
-        { label: 'Privacy Policy', value: '3 placeholders still need real values: (1) Company registration number — Companies House, (2) Registered office address, (3) ICO registration number' },
+        { label: 'Privacy Policy', value: 'Company number and registered address filled. ICO registration number pending — update once registered.' },
       ],
     },
     {

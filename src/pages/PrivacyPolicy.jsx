@@ -46,7 +46,7 @@ const PrivacyPolicy = () => {
                 <li>Registered in England and Wales, company no. 13176798</li>
                 <li>Registered office: Office 1 Izabella House, 24-26 Regent Place, Birmingham, England, B1 3NJ</li>
                 <li>ICO registration number: <em className="text-slate-500">(pending registration)</em></li>
-                <li>Contact: <a href="mailto:info@cy-sec.co.uk" className="text-[#0891B2] hover:underline font-medium">info@cy-sec.co.uk</a></li>
+                <li>Contact: <a href="mailto:privacy@cy-sec.co.uk" className="text-[#0891B2] hover:underline font-medium">privacy@cy-sec.co.uk</a> (please include &ldquo;Privacy&rdquo; in the subject line)</li>
               </ul>
             </section>
 
@@ -160,7 +160,7 @@ const PrivacyPolicy = () => {
                 <li><strong className="text-slate-900">Not be subject to solely automated decisions</strong> that produce legal or similarly significant effects on you. We do not carry out such automated decision-making.</li>
                 <li><strong className="text-slate-900">Withdraw consent</strong> at any time where we rely on consent as our lawful basis.</li>
               </ul>
-              <p className="mt-3">To exercise any of these rights, email <a href="mailto:info@cy-sec.co.uk" className="text-[#0891B2] hover:underline font-medium">info@cy-sec.co.uk</a>. We will respond within one month.</p>
+              <p className="mt-3">To exercise any of these rights, email <a href="mailto:privacy@cy-sec.co.uk" className="text-[#0891B2] hover:underline font-medium">privacy@cy-sec.co.uk</a> with &ldquo;Privacy&rdquo; in the subject line. We will respond within one month.</p>
               <p className="mt-3">If you are not satisfied with how we have handled your data, you have the right to lodge a complaint with the Information Commissioner's Office (ICO) at <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer" className="text-[#0891B2] hover:underline font-medium">ico.org.uk</a> or on 0303 123 1113. We would appreciate the chance to address your concerns first, so please consider contacting us before going to the ICO.</p>
             </section>
 
@@ -192,7 +192,7 @@ const PrivacyPolicy = () => {
 
             <section>
               <h2 className="text-2xl font-bold text-slate-900 mb-3">12. Contact us</h2>
-              <p>Questions, concerns or requests about privacy? Email <a href="mailto:info@cy-sec.co.uk" className="text-[#0891B2] hover:underline font-medium">info@cy-sec.co.uk</a> or write to us at the registered office above.</p>
+              <p>Questions, concerns or requests about privacy? Email <a href="mailto:privacy@cy-sec.co.uk" className="text-[#0891B2] hover:underline font-medium">privacy@cy-sec.co.uk</a> with &ldquo;Privacy&rdquo; in the subject line, or write to us at the registered office above.</p>
             </section>
 
           </div>

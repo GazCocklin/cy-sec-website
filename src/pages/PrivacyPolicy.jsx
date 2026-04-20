@@ -22,7 +22,7 @@ const PrivacyPolicy = () => {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4 bg-gradient-to-r from-[#0B1D3A] via-[#0E5F8A] to-[#0891B2] bg-clip-text text-transparent">
             Privacy policy
           </h1>
-          <p className="text-slate-600">Last updated: 19 April 2026</p>
+          <p className="text-slate-600">Last updated: 20 April 2026</p>
         </motion.div>
 
         <motion.div
@@ -45,7 +45,7 @@ const PrivacyPolicy = () => {
               <ul className="list-disc pl-6 mt-3 space-y-1">
                 <li>Registered in England and Wales, company no. 13176798</li>
                 <li>Registered office: Office 1 Izabella House, 24-26 Regent Place, Birmingham, England, B1 3NJ</li>
-                <li>ICO registration number: <em className="text-slate-500">(pending registration)</em></li>
+                <li>ICO registration number: ZC127066</li>
                 <li>Contact: <a href="mailto:privacy@cy-sec.co.uk" className="text-[#0891B2] hover:underline font-medium">privacy@cy-sec.co.uk</a> (please include &ldquo;Privacy&rdquo; in the subject line)</li>
               </ul>
             </section>

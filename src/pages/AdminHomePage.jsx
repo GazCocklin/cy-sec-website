@@ -650,72 +650,41 @@ const DashboardView = ({ setView }) => {
 };
 
 // ─── Pricing / Pack Inspector view ────────────────────────────────────────────
-const CERT_SERIES = [
-  {
-    cert: 'CompTIA Network+', code: 'N10-009',
-    packs: [
-      { key: 'netplus_pack',   label: 'Pack 1', num: 1 },
-      { key: 'netplus_pack_2', label: 'Pack 2', num: 2 },
-    ],
-  },
-  {
-    cert: 'CompTIA Security+', code: 'SY0-701',
-    packs: [
-      { key: 'secplus_pack',   label: 'Pack 1', num: 1 },
-      { key: 'secplus_pack_2', label: 'Pack 2', num: 2 },
-    ],
-  },
-  {
-    cert: 'CompTIA CySA+', code: 'CS0-003',
-    packs: [
-      { key: 'cysa_pack',   label: 'Pack 1', num: 1 },
-      { key: 'cysa_pack_2', label: 'Pack 2', num: 2 },
-    ],
-  },
-];
-
-const CERT_THEME = {
-  'CompTIA Network+':  { accent: '#10b981', bg: 'bg-emerald-50',  badge: 'bg-emerald-100 text-emerald-700', border: 'border-emerald-200', bar: '#10b981' },
-  'CompTIA Security+': { accent: '#0891B2', bg: 'bg-[#e0f2f9]',   badge: 'bg-[#b3e0f0] text-[#0E5F8A]',   border: 'border-[#b3e0f0]',  bar: '#0891B2' },
-  'CompTIA CySA+':     { accent: '#0B1D3A', bg: 'bg-[#e8f4fb]',   badge: 'bg-[#b3cfe0] text-[#0B1D3A]',   border: 'border-[#b3cfe0]',  bar: '#0B1D3A' },
-};
-
-const DIFF_LABEL  = { taster:'Taster', beginner:'Easy', intermediate:'Inter.', advanced:'Hard', expert:'Expert' };
-const DIFF_COLOUR = {
-  taster:       'bg-slate-100 text-slate-500',
-  beginner:     'bg-green-100 text-green-700',
-  intermediate: 'bg-blue-100 text-blue-700',
-  advanced:     'bg-amber-100 text-amber-700',
-  expert:       'bg-[#0B1D3A]/10 text-[#0B1D3A]',
-};
 
 const PricingView = () => {
-  const [packs, setPacks]             = useState([]);
-  const [banks, setBanks]             = useState([]);
-  const [attempts, setAttempts]       = useState([]);
-  const [loading, setLoading]         = useState(true);
+  const [packs, setPacks]         = useState([]);
+  const [banks, setBanks]         = useState([]);
+  const [attempts, setAttempts]   = useState([]);
+  const [mcqBanks, setMcqBanks]   = useState([]);
+  const [mcqSessions, setMcqSessions] = useState([]);
+  const [loading, setLoading]     = useState(true);
   const [showUnassigned, setShowUnassigned] = useState(false);
 
   useEffect(() => {
     (async () => {
-      const [pr, br, ar] = await Promise.all([
-        supabase.from('pbq_packs').select('*').order('exam_code'),
+      const [pr, br, ar, mr, ms] = await Promise.all([
+        supabase.from('pbq_packs').select('*').order('certification, title'),
         supabase.from('pbq_banks').select('*').order('certification, difficulty, title'),
         supabase.from('pbq_attempts').select('bank_id, score_percentage, completed_at'),
+        supabase.from('mcq_banks').select('*').order('sort_order'),
+        supabase.from('mcq_sessions').select('bank_id, score, total_questions, mode'),
       ]);
       setPacks(pr.data || []);
       setBanks(br.data || []);
       setAttempts(ar.data || []);
+      setMcqBanks(mr.data || []);
+      setMcqSessions(ms.data || []);
       setLoading(false);
     })();
   }, []);
 
   if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-10 w-10 border-b-2" style={{borderColor:'#0891B2'}} /></div>;
 
-  const packsByKey   = Object.fromEntries(packs.filter(p => p.product_key).map(p => [p.product_key, p]));
-  const bundle       = packs.find(p => p.certification === 'CompTIA');
+  // Group packs by certification (exclude bundle)
+  const bundle = packs.find(p => p.certification === 'CompTIA');
+  const certPacks = packs.filter(p => p.certification !== 'CompTIA');
   const allPackBankIds = new Set(packs.flatMap(p => p.bank_ids || []));
-  const unassigned   = banks.filter(b => !allPackBankIds.has(b.id) && b.certification !== 'Platform Tutorial');
+  const unassigned = banks.filter(b => !allPackBankIds.has(b.id) && b.certification !== 'Platform Tutorial');
 
   // Per-bank attempt stats
   const attemptsByBank = {};
@@ -725,151 +694,161 @@ const PricingView = () => {
     if (a.score_percentage != null) attemptsByBank[a.bank_id].scores.push(Number(a.score_percentage));
   }
 
-  const totalPacks = CERT_SERIES.flatMap(s => s.packs).filter(p => packsByKey[p.key]).length;
+  // MCQ session stats
+  const mcqStatsByBank = {};
+  for (const s of mcqSessions) {
+    if (!mcqStatsByBank[s.bank_id]) mcqStatsByBank[s.bank_id] = { total: 0, study: 0, exam: 0 };
+    mcqStatsByBank[s.bank_id].total++;
+    if (s.mode === 'study') mcqStatsByBank[s.bank_id].study++;
+    else mcqStatsByBank[s.bank_id].exam++;
+  }
+
+  // Group packs by cert name
+  const CERT_ORDER = ['CompTIA Network+', 'CompTIA Security+', 'CompTIA CySA+'];
+  const CERT_THEME = {
+    'CompTIA Network+':  { accent: '#10b981', bg: 'bg-emerald-50',  badge: 'bg-emerald-100 text-emerald-700', border: 'border-emerald-200', code: 'N10-009' },
+    'CompTIA Security+': { accent: '#0891B2', bg: 'bg-[#e0f2f9]',   badge: 'bg-[#b3e0f0] text-[#0E5F8A]',   border: 'border-[#b3e0f0]',  code: 'SY0-701' },
+    'CompTIA CySA+':     { accent: '#0B1D3A', bg: 'bg-[#e8f4fb]',   badge: 'bg-[#b3cfe0] text-[#0B1D3A]',   border: 'border-[#b3cfe0]',  code: 'CS0-003' },
+  };
+  const DIFF_LABEL  = { taster:'Taster', beginner:'Easy', intermediate:'Inter.', advanced:'Hard', expert:'Expert' };
+  const DIFF_COLOUR = {
+    taster:       'bg-slate-100 text-slate-500',
+    beginner:     'bg-green-100 text-green-700',
+    intermediate: 'bg-blue-100 text-blue-700',
+    advanced:     'bg-amber-100 text-amber-700',
+    expert:       'bg-[#0B1D3A]/10 text-[#0B1D3A]',
+  };
+
+  const packsByCert = {};
+  for (const p of certPacks) {
+    if (!packsByCert[p.certification]) packsByCert[p.certification] = [];
+    packsByCert[p.certification].push(p);
+  }
+
+  // Classify packs: Pack 1, Pack 2, Complete
+  const classifyPack = (title) => {
+    if (title.includes('Complete')) return { order: 3, label: 'Complete', type: 'complete' };
+    if (title.includes('Pack 2')) return { order: 2, label: 'Pack 2', type: 'pack' };
+    return { order: 1, label: 'Pack 1', type: 'pack' };
+  };
+
+  const activePacks = certPacks.filter(p => p.is_active);
+  const totalPBQRevenue = activePacks.reduce((s, p) => s + (Number(p.price_gbp) || 0), 0);
+  const totalMCQRevenue = mcqBanks.reduce((s, b) => s + (Number(b.price_gbp) || 0), 0);
 
   return (
     <div className="space-y-6">
 
       {/* ── Summary strip ── */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-2 bg-white rounded-xl border border-gray-200 shadow-sm px-5 py-3 flex items-center gap-4">
-          <div className="w-9 h-9 rounded-lg bg-[#e0f2f9] flex items-center justify-center flex-shrink-0">
-            <BookOpen className="w-4 h-4" style={{color:'#0891B2'}} />
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5">FortifyLearn</p>
-            <p className="text-sm text-slate-700">
-              {totalPacks} active pack{totalPacks !== 1 ? 's' : ''} across {CERT_SERIES.length} certifications
-              {bundle ? ' + 1 bundle' : ''}
-              {' \u00b7 '} {banks.filter(b => b.certification !== 'Platform Tutorial').length} labs total
-              {' \u00b7 '} {attempts.length} attempts logged
-            </p>
-          </div>
-          <div className="text-right flex-shrink-0">
-            <p className="text-lg font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>
-              &pound;{packs.filter(p => p.certification !== 'CompTIA' && p.is_active).reduce((s, p) => s + (Number(p.price_gbp) || 0), 0).toFixed(0)}
-            </p>
-            <p className="text-[10px] text-slate-400">total pack value</p>
-          </div>
-        </div>
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm px-5 py-3 flex items-center gap-4 opacity-60">
-          <div className="w-9 h-9 rounded-lg bg-[#e8f4fb] flex items-center justify-center flex-shrink-0">
-            <Shield className="w-4 h-4" style={{color:'#0E5F8A'}} />
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-0.5">FortifyOne</p>
-            <p className="text-sm text-slate-400">No products configured yet</p>
-          </div>
-        </div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {[
+          { label: 'PBQ Packs', value: activePacks.length, sub: `£${totalPBQRevenue.toFixed(0)} total value`, icon: Package, color: 'text-[#0891B2]', bg: 'bg-[#e0f2f9]' },
+          { label: 'MCQ Banks', value: mcqBanks.length, sub: `£${totalMCQRevenue.toFixed(0)} total value`, icon: BookOpen, color: 'text-blue-600', bg: 'bg-blue-50' },
+          { label: 'PBQ Labs', value: banks.filter(b => b.certification !== 'Platform Tutorial').length, sub: `${attempts.length} attempts`, icon: Layers, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+          { label: 'MCQ Questions', value: mcqBanks.reduce((s, b) => s + (b.question_count || 0), 0), sub: `${mcqSessions.length} sessions`, icon: Activity, color: 'text-purple-600', bg: 'bg-purple-50' },
+        ].map(({ label, value, sub, icon: Icon, color, bg }) => (
+          <Card key={label} className="border border-gray-200 shadow-sm">
+            <CardContent className="pt-4 pb-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">{label}</p>
+                  <p className="text-2xl font-extrabold text-slate-800" style={{ letterSpacing: '-0.03em' }}>{value}</p>
+                  <p className="text-[10px] text-slate-400 mt-0.5">{sub}</p>
+                </div>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bg}`}>
+                  <Icon className={`w-5 h-5 ${color}`} />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      {/* ── FortifyLearn header ── */}
+      {/* ── PBQ Packs header ── */}
       <div className="flex items-center gap-3">
         <div className="flex items-center gap-2 px-3 py-1.5 bg-[#e0f2f9] border border-[#b3e0f0] rounded-lg">
-          <BookOpen className="w-3.5 h-3.5" style={{color:'#0891B2'}} />
-          <span className="text-xs font-bold uppercase tracking-wider" style={{color:'#0891B2'}}>FortifyLearn \u2014 PBQ Packs</span>
+          <Package className="w-3.5 h-3.5" style={{color:'#0891B2'}} />
+          <span className="text-xs font-bold uppercase tracking-wider" style={{color:'#0891B2'}}>PBQ Packs</span>
         </div>
         <div className="flex-1 h-px bg-slate-100" />
       </div>
 
-      {/* ── Per-certification sections ── */}
-      {CERT_SERIES.map(series => {
-        const theme = CERT_THEME[series.cert] || CERT_THEME['CompTIA Security+'];
+      {/* ── Per-certification PBQ sections ── */}
+      {CERT_ORDER.map(certName => {
+        const theme = CERT_THEME[certName];
+        const certPackList = (packsByCert[certName] || [])
+          .map(p => ({ ...p, ...classifyPack(p.title) }))
+          .sort((a, b) => a.order - b.order);
+
+        if (!certPackList.length) return null;
         return (
-          <div key={series.cert}>
-            {/* Cert header */}
+          <div key={certName}>
             <div className="flex items-center gap-3 mb-3">
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${theme.badge}`}>{series.code}</span>
-              <p className="text-sm font-bold text-slate-700">{series.cert}</p>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${theme.badge}`}>{theme.code}</span>
+              <p className="text-sm font-bold text-slate-700">{certName}</p>
               <div className="flex-1 h-px bg-slate-100" />
             </div>
 
-            {/* Pack columns */}
-            <div className="grid gap-4" style={{gridTemplateColumns: `repeat(${series.packs.length}, 1fr)`}}>
-              {series.packs.map(packDef => {
-                const pack = packsByKey[packDef.key];
-                const exists = !!pack;
-                const packBanks = exists
-                  ? (pack.bank_ids || []).map(id => banks.find(b => b.id === id)).filter(Boolean)
-                    .sort((a, b) => ['taster','beginner','intermediate','advanced','expert'].indexOf(a.difficulty) - ['taster','beginner','intermediate','advanced','expert'].indexOf(b.difficulty))
-                  : [];
+            <div className="grid gap-4" style={{gridTemplateColumns: `repeat(${certPackList.length}, 1fr)`}}>
+              {certPackList.map(pack => {
+                const packBanks = (pack.bank_ids || []).map(id => banks.find(b => b.id === id)).filter(Boolean)
+                  .sort((a, b) => ['taster','beginner','intermediate','advanced','expert'].indexOf(a.difficulty) - ['taster','beginner','intermediate','advanced','expert'].indexOf(b.difficulty));
 
                 return (
-                  <div key={packDef.key}
-                    className={`rounded-xl border-2 overflow-hidden shadow-sm ${!exists ? 'border-dashed border-slate-200 bg-slate-50/60 opacity-60' : `border-l-4 ${theme.border}`}`}
-                    style={exists ? {borderLeftColor: theme.accent} : {}}
-                  >
+                  <div key={pack.id}
+                    className={`rounded-xl border-2 overflow-hidden shadow-sm ${theme.border}`}
+                    style={{ borderLeftColor: theme.accent, borderLeftWidth: 4 }}>
                     {/* Pack header */}
-                    <div className={`px-4 py-3 ${exists ? theme.bg : 'bg-slate-50'}`}>
+                    <div className={`px-4 py-3 ${theme.bg}`}>
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${exists ? theme.badge : 'bg-slate-200 text-slate-500'}`}>
-                            {packDef.label}
-                          </span>
-                          {!exists && (
-                            <span className="ml-2 text-[10px] font-semibold text-slate-400 italic">coming soon</span>
-                          )}
-                          {exists && (
-                            <p className="font-bold text-slate-800 text-sm mt-1 leading-tight truncate max-w-[160px]">{pack.title}</p>
-                          )}
-                        </div>
-                        {exists && (
-                          <div className="text-right flex-shrink-0">
-                            <p className="text-xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>&pound;{pack.price_gbp}</p>
-                            <p className="text-[10px] text-slate-500">{packBanks.length} labs</p>
+                          <div className="flex items-center gap-2">
+                            <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${theme.badge}`}>{pack.label}</span>
+                            {!pack.is_active && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-600">Inactive</span>}
+                            {pack.type === 'complete' && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-100 text-amber-700">COMPLETE</span>}
                           </div>
-                        )}
-                        {!exists && (
-                          <p className="text-sm font-bold text-slate-300">\u2014</p>
-                        )}
+                          <p className="font-bold text-slate-800 text-sm mt-1 leading-tight">{pack.title}</p>
+                        </div>
+                        <div className="text-right flex-shrink-0">
+                          <p className="text-xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>&pound;{pack.price_gbp}</p>
+                          <p className="text-[10px] text-slate-500">{packBanks.length} labs</p>
+                        </div>
                       </div>
                     </div>
 
                     {/* Lab rows */}
-                    {exists && (
-                      <div className="divide-y divide-slate-50">
-                        {packBanks.map(bank => {
-                          const stats = attemptsByBank[bank.id];
-                          const avgScore = stats?.scores.length
-                            ? Math.round(stats.scores.reduce((a,b) => a+b, 0) / stats.scores.length)
-                            : null;
-                          return (
-                            <div key={bank.id} className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 transition-colors">
-                              <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${DIFF_COLOUR[bank.difficulty] || 'bg-slate-100 text-slate-500'}`}>
-                                {DIFF_LABEL[bank.difficulty] || bank.difficulty}
-                              </span>
-                              <p className="text-xs text-slate-700 truncate flex-1">{bank.title}</p>
-                              {stats ? (
-                                <div className="flex items-center gap-1.5 flex-shrink-0">
-                                  <span className="text-[9px] text-slate-400">{stats.count}x</span>
-                                  <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${avgScore >= 70 ? 'bg-green-100 text-green-700' : avgScore >= 50 ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-500'}`}>
-                                    {avgScore}%
-                                  </span>
-                                </div>
-                              ) : (
-                                <span className="text-[9px] text-slate-300 flex-shrink-0">{bank.time_limit_minutes}m</span>
-                              )}
-                              <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${bank.is_published ? 'bg-green-400' : 'bg-slate-300'}`} />
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
+                    <div className="divide-y divide-slate-50">
+                      {packBanks.map(bank => {
+                        const stats = attemptsByBank[bank.id];
+                        const avgScore = stats?.scores.length
+                          ? Math.round(stats.scores.reduce((a,b) => a+b, 0) / stats.scores.length)
+                          : null;
+                        return (
+                          <div key={bank.id} className="flex items-center gap-2 px-3 py-2 hover:bg-slate-50 transition-colors">
+                            <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full flex-shrink-0 ${DIFF_COLOUR[bank.difficulty] || 'bg-slate-100 text-slate-500'}`}>
+                              {DIFF_LABEL[bank.difficulty] || bank.difficulty}
+                            </span>
+                            <p className="text-xs text-slate-700 truncate flex-1">{bank.title}</p>
+                            {stats ? (
+                              <div className="flex items-center gap-1.5 flex-shrink-0">
+                                <span className="text-[9px] text-slate-400">{stats.count}x</span>
+                                <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${avgScore >= 70 ? 'bg-green-100 text-green-700' : avgScore >= 50 ? 'bg-amber-100 text-amber-700' : 'bg-slate-100 text-slate-500'}`}>
+                                  {avgScore}%
+                                </span>
+                              </div>
+                            ) : (
+                              <span className="text-[9px] text-slate-300 flex-shrink-0">{bank.time_limit_minutes}m</span>
+                            )}
+                            <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${bank.is_published ? 'bg-green-400' : 'bg-slate-300'}`} />
+                          </div>
+                        );
+                      })}
+                    </div>
 
-                    {/* Placeholder rows for coming soon */}
-                    {!exists && (
-                      <div className="px-4 py-6 text-center">
-                        <p className="text-xs text-slate-400 font-medium">Not yet created</p>
-                        <p className="text-[10px] text-slate-300 mt-1">Labs will appear here once added to Supabase</p>
-                      </div>
-                    )}
-
-                    {/* Footer */}
-                    {exists && (
-                      <div className="px-3 py-2 bg-slate-50 border-t border-slate-100">
-                        <p className="text-[9px] text-slate-400 font-mono truncate">{pack.stripe_price_id || 'no stripe id'}</p>
-                      </div>
-                    )}
+                    {/* Footer — Stripe ID */}
+                    <div className="px-3 py-2 bg-slate-50 border-t border-slate-100">
+                      <p className="text-[9px] text-slate-400 font-mono truncate">{pack.stripe_price_id || 'no stripe id'}</p>
+                    </div>
                   </div>
                 );
               })}
@@ -881,17 +860,18 @@ const PricingView = () => {
       {/* ── Bundle + Unassigned ── */}
       <div className="grid grid-cols-2 gap-4">
         {bundle && (
-          <div className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 flex items-center gap-4">
+          <div className={`rounded-xl border px-4 py-3 flex items-center gap-4 ${bundle.is_active ? 'border-amber-200 bg-amber-50' : 'border-slate-200 bg-slate-50 opacity-60'}`}>
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-amber-200 text-amber-800">BUNDLE</span>
+                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${bundle.is_active ? 'bg-amber-200 text-amber-800' : 'bg-slate-200 text-slate-500'}`}>BUNDLE</span>
+                {!bundle.is_active && <span className="text-[10px] font-bold text-red-500">ARCHIVED</span>}
                 <p className="text-sm font-bold text-slate-800 truncate">{bundle.title}</p>
               </div>
               <p className="text-[10px] text-slate-500 mt-0.5 font-mono">{bundle.stripe_price_id}</p>
             </div>
             <div className="text-right flex-shrink-0">
               <p className="text-xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>&pound;{bundle.price_gbp}</p>
-              <p className="text-[10px] text-slate-500">{(bundle.bank_ids||[]).length} labs \u00b7 all certs</p>
+              <p className="text-[10px] text-slate-500">{(bundle.bank_ids||[]).length} labs</p>
             </div>
           </div>
         )}
@@ -923,6 +903,89 @@ const PricingView = () => {
             <div className="px-4 py-3 border-t border-slate-100 text-xs text-green-600 font-semibold">All banks assigned \u2713</div>
           )}
         </div>
+      </div>
+
+      {/* ── MCQ Question Banks header ── */}
+      <div className="flex items-center gap-3 pt-2">
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-50 border border-blue-200 rounded-lg">
+          <BookOpen className="w-3.5 h-3.5 text-blue-600" />
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-600">MCQ Question Banks</span>
+        </div>
+        <div className="flex-1 h-px bg-slate-100" />
+      </div>
+
+      {/* ── MCQ Bank cards ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {mcqBanks.map(bank => {
+          const pct = bank.target_count > 0 ? Math.round((bank.question_count / bank.target_count) * 100) : 0;
+          const stats = mcqStatsByBank[bank.id];
+          const certShort = bank.certification?.replace('CompTIA ', '') || bank.certification;
+          const theme = CERT_THEME[`CompTIA ${bank.certification}`] || CERT_THEME['CompTIA Security+'];
+          return (
+            <Card key={bank.id} className="border border-gray-200 shadow-sm overflow-hidden">
+              <div className={`px-4 py-3 ${theme.bg}`}>
+                <div className="flex items-start justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${theme.badge}`}>{bank.exam_code}</span>
+                      {bank.is_published && <span className="w-1.5 h-1.5 rounded-full bg-green-400" />}
+                      {!bank.is_published && <span className="text-[9px] text-slate-400">Draft</span>}
+                      {bank.is_for_sale && <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-green-100 text-green-700">On Sale</span>}
+                    </div>
+                    <p className="font-bold text-slate-800 text-sm leading-tight">{certShort}</p>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-xl font-extrabold text-slate-800" style={{letterSpacing:'-0.03em'}}>&pound;{bank.price_gbp}</p>
+                  </div>
+                </div>
+              </div>
+              <CardContent className="pt-3 pb-4 space-y-3">
+                {/* Question progress */}
+                <div>
+                  <div className="flex justify-between text-[10px] mb-1">
+                    <span className="font-bold text-slate-500 uppercase tracking-wider">Questions</span>
+                    <span className="font-bold text-slate-700">{bank.question_count} / {bank.target_count}</span>
+                  </div>
+                  <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-full rounded-full transition-all"
+                      style={{ width: `${Math.min(pct, 100)}%`, background: pct >= 80 ? '#10b981' : pct >= 40 ? '#f59e0b' : '#cbd5e1' }} />
+                  </div>
+                  <p className="text-[10px] text-slate-400 mt-0.5">{pct}% complete</p>
+                </div>
+
+                {/* Exam config */}
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div className="bg-slate-50 rounded-lg px-2 py-1.5">
+                    <p className="text-sm font-extrabold text-slate-800">{bank.exam_time_minutes}m</p>
+                    <p className="text-[9px] text-slate-400">Time</p>
+                  </div>
+                  <div className="bg-slate-50 rounded-lg px-2 py-1.5">
+                    <p className="text-sm font-extrabold text-slate-800">{bank.exam_question_count}Q</p>
+                    <p className="text-[9px] text-slate-400">Per Exam</p>
+                  </div>
+                  <div className="bg-slate-50 rounded-lg px-2 py-1.5">
+                    <p className="text-sm font-extrabold text-slate-800">{bank.exam_pass_threshold}</p>
+                    <p className="text-[9px] text-slate-400">Pass</p>
+                  </div>
+                </div>
+
+                {/* Sessions */}
+                {stats ? (
+                  <div className="flex items-center gap-3 text-[10px]">
+                    <span className="text-slate-400">{stats.total} sessions</span>
+                    <span className="text-blue-500">{stats.study} study</span>
+                    <span className="text-purple-500">{stats.exam} exam</span>
+                  </div>
+                ) : (
+                  <p className="text-[10px] text-slate-300">No sessions yet</p>
+                )}
+
+                {/* Stripe ID */}
+                <p className="text-[9px] text-slate-400 font-mono truncate">{bank.stripe_price_id || 'no stripe id'}</p>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       {/* Legend */}
@@ -1089,50 +1152,79 @@ const ConfigView = () => {
     {
       title: 'Platform & Hosting', icon: Shield, color: 'text-cyan-600', bg: 'bg-cyan-50',
       items: [
-        { label: 'Main Site', value: 'cy-sec.co.uk → Vercel (auto-deploy from GitHub main branch on push)' },
-        { label: 'GitHub', value: 'github.com/GazCocklin/cy-sec-website (main branch)' },
-        { label: 'Stack', value: 'React + Vite + Tailwind CSS + shadcn/ui' },
-        { label: 'FortifyLearn', value: 'fortifylearn.co.uk → Vercel static' },
-        { label: 'FortifyOne', value: 'fortifyone.co.uk → Hostinger' },
-        { label: 'Supabase', value: 'kmnbtnfgeadvvkwsdyml.supabase.co (shared across cy-sec + FortifyLearn — single auth)' },
-        { label: 'Admin Login', value: 'cy-sec.co.uk/admin/login — allowed: gazc@cy-sec.co.uk, aimeec@cy-sec.co.uk' },
-        { label: 'Store URL', value: 'cy-sec.co.uk/store — only place PBQ packs can be purchased (Apple compliance)' },
+        { label: 'Cy-Sec Site', value: 'cy-sec.co.uk \u2192 Vercel (auto-deploy from GitHub main branch on push)' },
+        { label: 'Cy-Sec Repo', value: 'github.com/GazCocklin/cy-sec-website \u2014 React + Vite + Tailwind + shadcn/ui' },
+        { label: 'FortifyLearn', value: 'fortifylearn.co.uk \u2192 Vercel \u2014 React 18 SPA, Vite build from source' },
+        { label: 'FL Repo', value: 'github.com/GazCocklin/fortify-learn (main + staging branches)' },
+        { label: 'FortifyOne', value: 'fortifyone.co.uk \u2192 Hostinger' },
+        { label: 'Supabase', value: 'kmnbtnfgeadvvkwsdyml.supabase.co \u2014 shared across Cy-Sec + FortifyLearn (single auth)' },
+        { label: 'Admin Login', value: 'cy-sec.co.uk/admin/login \u2014 allowed: gazc@cy-sec.co.uk, aimeec@cy-sec.co.uk' },
+        { label: 'Store URL', value: 'cy-sec.co.uk/store \u2014 PBQ packs + MCQ banks purchased here (Apple compliance)' },
       ],
     },
     {
-      title: 'Supabase — Key Patterns', icon: Settings2, color: 'text-blue-600', bg: 'bg-blue-50',
+      title: 'Edge Functions', icon: Activity, color: 'text-purple-600', bg: 'bg-purple-50',
+      items: [
+        { label: 'send-welcome-email', value: 'v9 \u2014 new user signup, auto-detects entitlements, PBQ/MCQ/Both template variants' },
+        { label: 'send-fl-feedback-email', value: 'Feedback FAB \u2192 emails admin (info@cy-sec.co.uk) + student confirmation' },
+        { label: 'send-contact-confirmation', value: 'Contact form confirmation email' },
+        { label: 'create-checkout-session', value: 'Stripe checkout for pack/MCQ purchases \u2014 requires user JWT' },
+        { label: 'stripe-webhook', value: 'Handles completed/refunded/expired Stripe sessions \u2192 fl_entitlements' },
+        { label: 'admin-stats', value: 'Per-user completions, avg scores, review signal \u2014 powers FL Learners view' },
+        { label: 'red-team-agent', value: 'PBQ quality audit via Groq \u2014 pg_net trigger on pbq_questions insert' },
+        { label: 'mcq-red-team-agent', value: 'MCQ quality audit via Groq \u2014 pg_net trigger on mcq_questions insert' },
+      ],
+    },
+    {
+      title: 'Supabase \u2014 Key Patterns', icon: Settings2, color: 'text-blue-600', bg: 'bg-blue-50',
       items: [
         { label: 'fl_feedback UPDATE', value: 'Must use RPC: supabase.rpc("update_feedback_status", { feedback_id, new_status }). Direct .update() silently fails due to RLS.' },
-        { label: 'fl_feedback trigger', value: 'No trigger — Notion sync removed Apr 2026. Feedback is self-contained in admin panel only.' },
-        { label: 'Checkout', value: 'FL Supabase edge function create-checkout-session — requires user JWT. Cancel: cy-sec.co.uk/store · Success: fortifylearn.co.uk/?payment=success' },
-        { label: 'Anon key', value: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9… (in customSupabaseClient.js and StorePage.jsx)' },
+        { label: 'fl_feedback trigger', value: 'on_fl_feedback_insert fires send-fl-feedback-email edge function via pg_net.' },
+        { label: 'Entitlements', value: 'fl_entitlements stores product_key per user. PBQ: netplus_pack, secplus_pack, etc. MCQ: mcq_netplus, mcq_secplus, mcq_cysa. Bundle: "bundle" key.' },
+        { label: 'Checkout flow', value: 'create-checkout-session edge function. Cancel: cy-sec.co.uk/store \u00b7 Success: fortifylearn.co.uk/?payment=success' },
+        { label: 'Dark mode', value: 'isDark from useAuth(). T = isDark ? DARK : LIGHT from theme.js. Card wrappers MUST be inside component (module-level = white-screen crash).' },
+      ],
+    },
+    {
+      title: 'MCQ Product State', icon: BookOpen, color: 'text-indigo-600', bg: 'bg-indigo-50',
+      items: [
+        { label: 'Network+ MCQ', value: 'mcq_netplus \u2014 20/1,000 questions authored. Published, on sale. \u00a314.99. Stripe price configured.' },
+        { label: 'Security+ MCQ', value: 'mcq_secplus \u2014 0/1,000 questions. Published, on sale. \u00a314.99. Stripe price configured.' },
+        { label: 'CySA+ MCQ', value: 'mcq_cysa \u2014 0/1,000 questions. Published, on sale. \u00a314.99. Stripe price configured.' },
+        { label: 'Onboarding', value: 'MCQ 3-step onboarding: welcome \u2192 banks \u2192 modes. Auto-advances, auto-dismisses on session start.' },
+        { label: 'Open items', value: 'Welcome email MCQ screenshots (swap image URLs). Unlock buttons paywall/coming-soon (pending).' },
       ],
     },
     {
       title: 'Outstanding Items', icon: AlertCircle, color: 'text-amber-600', bg: 'bg-amber-50',
       items: [
-        { label: 'Privacy Policy', value: 'Company number and registered address filled. ICO registration number pending — update once registered.' },
+        { label: 'Privacy Policy', value: 'Company number and registered address filled. ICO registration number pending \u2014 update once registered.' },
+        { label: 'MCQ Screenshots', value: 'Welcome email MCQ screenshots need swapping in send-welcome-email edge function.' },
+        { label: 'MCQ Unlock Btns', value: 'Exam Engine MCQ Unlock buttons \u2014 paywall vs coming-soon decision pending.' },
+        { label: 'GitHub Pro', value: 'Upgrade pending for branch protection (merge blocking on main).' },
       ],
     },
     {
       title: 'Content & Brand Rules', icon: TrendingUp, color: 'text-green-600', bg: 'bg-green-50',
       items: [
-        { label: 'Wordmark', value: "Always 'Cy-Sec' — never CY-SEC or cy-sec" },
+        { label: 'Wordmark', value: "Always 'Cy-Sec' \u2014 never CY-SEC or cy-sec" },
         { label: 'Tone', value: "Direct, practitioner-led. No jargon for jargon's sake." },
         { label: 'CompTIA', value: 'Always "Authorised" (UK spelling). Cy-Sec is a CompTIA Authorised Partner.' },
-        { label: 'eSentire', value: 'Managed security partner — not a Cy-Sec product. Do not present as owned.' },
-        { label: 'PBQ store', value: 'Always show 12-month access. Never mention iOS or Apple on store page.' },
-        { label: 'Primary colour', value: '#1A56DB (Cy-Sec blue) · Navy: #0A1E3F' },
-        { label: 'Typography', value: 'Bricolage Grotesque (headings) · system-ui (body)' },
-        { label: 'CompTIA logos', value: '/public/logos/comptia-network-plus.svg · comptia-security-plus.svg · comptia-cysa-plus.svg' },
+        { label: 'eSentire', value: 'Managed security partner \u2014 not a Cy-Sec product. Do not present as owned.' },
+        { label: 'Store rules', value: 'Always show 12-month access. Never mention iOS or Apple on store page.' },
+        { label: 'Cy-Sec colours', value: '#1A56DB (primary blue) \u00b7 #0A1E3F (navy)' },
+        { label: 'FL colours', value: '#0891B2 (teal accent) \u00b7 #0B1D3A (dark bg) \u00b7 #F1F5F9 (surface)' },
+        { label: 'Cy-Sec fonts', value: 'Bricolage Grotesque (headings) \u00b7 system-ui (body)' },
+        { label: 'FL fonts', value: 'system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif' },
+        { label: 'CompTIA logos', value: '/public/logos/comptia-network-plus.svg \u00b7 comptia-security-plus.svg \u00b7 comptia-cysa-plus.svg' },
       ],
     },
     {
       title: 'Business & Owner', icon: Users, color: 'text-slate-600', bg: 'bg-slate-100',
       items: [
         { label: 'Company', value: 'Cy-Sec Awareness and Consultancy Ltd' },
-        { label: 'Owner', value: 'Gary Cocklin (Gaz) — Senior Executive Security Consultant & vCISO' },
-        { label: 'Certifications', value: 'CISSP-ISSAP · CISM · CRISC · CGEIT · CCSP · AAISM · CITP MBCS' },
+        { label: 'Owner', value: 'Gary Cocklin (Gaz) \u2014 Senior Executive Security Consultant & vCISO' },
+        { label: 'Certifications', value: 'CISSP-ISSAP \u00b7 CISM \u00b7 CRISC \u00b7 CGEIT \u00b7 CCSP \u00b7 AAISM \u00b7 CITP MBCS' },
       ],
     },
   ];

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '@/lib/customSupabaseClient';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -1742,40 +1742,109 @@ const PBQRedTeamView = () => {
   );
 };
 
-const NAV = [
-  { id: 'dashboard', label: 'Dashboard',        icon: LayoutDashboard },
-  { id: 'leads',     label: 'CRM Leads',         icon: Users },
-  { id: 'contacts',  label: 'Contact Forms',      icon: Mail },
-  { id: 'issues',    label: 'Issues',             icon: Bug },
-  { id: 'features',  label: 'Feature Requests',   icon: Lightbulb },
-  { id: 'pricing',   label: 'Pricing',            icon: Tag },
-  { id: 'analytics', label: 'Lab Analytics',      icon: TrendingUp },
-  { id: 'config',    label: 'Platform Config',    icon: Settings2 },
-  { id: 'purchases',   label: 'Purchases',        icon: ShoppingBag },
-  { id: 'fl_activity', label: 'FL Learners',       icon: BookOpen },
-  { id: 'mcq_redteam', label: 'MCQ Red Team',     icon: Activity },
-  { id: 'pbq_redteam', label: 'PBQ Red Team',     icon: Shield },
+const NAV_GROUPS = [
+  {
+    label: null,
+    items: [
+      { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+    ],
+  },
+  {
+    label: 'CRM & Sales',
+    items: [
+      { id: 'leads',     label: 'Leads',         icon: Users },
+      { id: 'contacts',  label: 'Contact Forms',  icon: Mail },
+      { id: 'purchases', label: 'Purchases',      icon: ShoppingBag },
+    ],
+  },
+  {
+    label: 'Support',
+    items: [
+      { id: 'issues',   label: 'Bug Reports',       icon: Bug },
+      { id: 'features', label: 'Feature Requests',   icon: Lightbulb },
+    ],
+  },
+  {
+    label: 'FortifyLearn',
+    items: [
+      { id: 'fl_activity', label: 'Learner Activity', icon: BookOpen },
+      { id: 'analytics',   label: 'Lab Analytics',    icon: TrendingUp },
+      { id: 'pricing',     label: 'Packs & Pricing',  icon: Tag },
+    ],
+  },
+  {
+    label: 'Quality',
+    items: [
+      { id: 'mcq_redteam', label: 'MCQ Red Team', icon: Activity },
+      { id: 'pbq_redteam', label: 'PBQ Red Team', icon: Shield },
+    ],
+  },
+  {
+    label: null,
+    items: [
+      { id: 'config', label: 'Configuration', icon: Settings2 },
+    ],
+  },
 ];
 
-const PAGE_TITLES = {
-  dashboard: 'Dashboard',
-  leads:     'CRM Leads',
-  contacts:  'Contact Forms',
-  issues:    'Bug Reports & Issues',
-  features:  'Feature Requests',
-  pricing:   'Pricing Overview',
-  config:    'Platform Configuration',
-  analytics: 'Lab Analytics',
-  purchases:   'FortifyLearn Purchases',
-  fl_activity: 'FortifyLearn Learner Activity',
-  mcq_redteam: 'MCQ Red Team Reports',
-  pbq_redteam: 'PBQ Red Team Reports',
+const PAGE_META = {
+  dashboard:   { title: 'Dashboard',                    section: 'Overview' },
+  leads:       { title: 'CRM Leads',                    section: 'CRM & Sales' },
+  contacts:    { title: 'Contact Forms',                section: 'CRM & Sales' },
+  purchases:   { title: 'Purchase History',             section: 'CRM & Sales' },
+  issues:      { title: 'Bug Reports & Issues',         section: 'Support' },
+  features:    { title: 'Feature Requests',             section: 'Support' },
+  fl_activity: { title: 'Learner Activity',             section: 'FortifyLearn' },
+  analytics:   { title: 'Lab Analytics',                section: 'FortifyLearn' },
+  pricing:     { title: 'Packs & Pricing',              section: 'FortifyLearn' },
+  mcq_redteam: { title: 'MCQ Red Team Reports',         section: 'Quality' },
+  pbq_redteam: { title: 'PBQ Red Team Reports',         section: 'Quality' },
+  config:      { title: 'Platform Configuration',       section: 'Configuration' },
 };
 
 // ─── Root ──────────────────────────────────────────────────────────────────────
 export default function AdminHomePage() {
-  const [view, setView] = useState('dashboard');
+  const [view, setViewRaw] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [history, setHistory] = useState(['dashboard']);
+  const [historyIdx, setHistoryIdx] = useState(0);
+  const navigatingRef = useRef(false);
+
+  // Navigation with history tracking
+  const setView = useCallback((id) => {
+    if (id === history[historyIdx]) return;
+    const newHistory = [...history.slice(0, historyIdx + 1), id];
+    setHistory(newHistory);
+    setHistoryIdx(newHistory.length - 1);
+    setViewRaw(id);
+  }, [history, historyIdx]);
+
+  const canGoBack = historyIdx > 0;
+  const canGoForward = historyIdx < history.length - 1;
+  const goBack = useCallback(() => {
+    if (!canGoBack) return;
+    const newIdx = historyIdx - 1;
+    setHistoryIdx(newIdx);
+    setViewRaw(history[newIdx]);
+  }, [canGoBack, historyIdx, history]);
+  const goForward = useCallback(() => {
+    if (!canGoForward) return;
+    const newIdx = historyIdx + 1;
+    setHistoryIdx(newIdx);
+    setViewRaw(history[newIdx]);
+  }, [canGoForward, historyIdx, history]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.altKey && e.key === 'ArrowLeft') { e.preventDefault(); goBack(); }
+      if (e.altKey && e.key === 'ArrowRight') { e.preventDefault(); goForward(); }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [goBack, goForward]);
+
+  const meta = PAGE_META[view] || PAGE_META.dashboard;
 
   const renderView = () => {
     switch (view) {
@@ -1796,62 +1865,143 @@ export default function AdminHomePage() {
   };
 
   return (
-    <div className="flex min-h-screen font-sans" style={{background:'#F4F7FA'}}>
-      <div className={`${sidebarOpen ? 'w-56' : 'w-16'} flex-shrink-0 flex flex-col transition-all duration-200`} style={{background:'#0B1D3A',borderRight:'1px solid rgba(255,255,255,0.07)'}}>
-        <div className={`flex items-center gap-3 px-4 py-5 ${sidebarOpen ? 'justify-between' : 'justify-center'}`} style={{borderBottom:'1px solid rgba(255,255,255,0.07)'}}>
-          {sidebarOpen && (
-            <div className="flex items-center gap-2.5">
-              <img src="/logos/cysec-favicon.svg" alt="Cy-Sec" style={{width:32,height:32,borderRadius:8,flexShrink:0}} />
+    <div className="flex min-h-screen font-sans" style={{ background: '#F4F7FA', fontFamily: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" }}>
+      {/* ── Sidebar ── */}
+      <div
+        className={`${sidebarOpen ? 'w-60' : 'w-[52px]'} flex-shrink-0 flex flex-col transition-all duration-200`}
+        style={{ background: '#0A1E3F', borderRight: '1px solid rgba(255,255,255,0.06)' }}
+      >
+        {/* Logo + collapse */}
+        <div className={`flex items-center gap-3 ${sidebarOpen ? 'px-5 py-5 justify-between' : 'px-2 py-5 justify-center'}`}
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          {sidebarOpen ? (
+            <div className="flex items-center gap-3">
+              <img src="/logos/cysec-favicon.svg" alt="Cy-Sec" style={{ width: 30, height: 30, borderRadius: 6, flexShrink: 0 }} />
               <div>
-                <p className="text-[15px] font-extrabold text-slate-800 leading-tight" style={{ letterSpacing: '-0.03em' }}>Cy-Sec</p>
-                <p className="text-[10px] font-bold uppercase tracking-widest leading-tight" style={{ color: '#0891B2' }}>Admin</p>
+                <p className="text-[15px] font-extrabold text-white leading-tight" style={{ letterSpacing: '-0.03em', fontFamily: "'Bricolage Grotesque', system-ui, sans-serif" }}>Cy-Sec</p>
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] leading-tight" style={{ color: '#5B9BD5' }}>Admin Console</p>
               </div>
             </div>
+          ) : (
+            <img src="/logos/cysec-favicon.svg" alt="Cy-Sec" style={{ width: 28, height: 28, borderRadius: 6 }} />
           )}
           <button onClick={() => setSidebarOpen(p => !p)}
-            className="text-slate-400 hover:text-slate-600 p-1 rounded-lg hover:bg-slate-100 transition-colors flex-shrink-0">
+            className="text-white/30 hover:text-white/70 p-1 rounded transition-colors flex-shrink-0"
+            title={sidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}>
             {sidebarOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
           </button>
         </div>
-        <nav className="flex-1 py-3 px-2 space-y-0.5">
-          {NAV.map(item => {
-            const active = view === item.id;
-            return (
-              <button key={item.id} onClick={() => setView(item.id)}
-                title={!sidebarOpen ? item.label : undefined}
-                className={`w-full flex items-center gap-2.5 rounded-lg transition-all px-2.5 py-2
-                  ${sidebarOpen ? '' : 'justify-center'}
-                  ${active
-                    ? 'font-semibold border-l-2 border-[#0891B2] bg-white/10 text-white'
-                    : 'text-white/55 hover:bg-white/[0.07] hover:text-white border-l-2 border-transparent'
-                  }`}>
-                <item.icon className={`w-4 h-4 flex-shrink-0 ${active ? 'text-[#7DD3E8]' : ''}`} />
-                {sidebarOpen && <span className="text-sm whitespace-nowrap">{item.label}</span>}
-              </button>
-            );
-          })}
+
+        {/* Navigation groups */}
+        <nav className="flex-1 py-2 overflow-y-auto" style={{ scrollbarWidth: 'thin' }}>
+          {NAV_GROUPS.map((group, gi) => (
+            <div key={gi} className={gi > 0 ? 'mt-1' : ''}>
+              {/* Section label */}
+              {group.label && sidebarOpen && (
+                <p className="px-5 pt-4 pb-1.5 text-[9px] font-bold uppercase tracking-[0.18em]"
+                  style={{ color: 'rgba(255,255,255,0.25)' }}>{group.label}</p>
+              )}
+              {group.label && !sidebarOpen && (
+                <div className="mx-auto my-2 w-5 h-px" style={{ background: 'rgba(255,255,255,0.08)' }} />
+              )}
+              {/* Items */}
+              <div className={sidebarOpen ? 'px-3 space-y-0.5' : 'px-1 space-y-0.5'}>
+                {group.items.map(item => {
+                  const active = view === item.id;
+                  return (
+                    <button key={item.id} onClick={() => setView(item.id)}
+                      title={!sidebarOpen ? item.label : undefined}
+                      className={`w-full flex items-center gap-2.5 rounded-lg transition-all
+                        ${sidebarOpen ? 'px-3 py-[7px]' : 'px-2 py-[7px] justify-center'}
+                        ${active
+                          ? 'bg-white/[0.12] text-white font-semibold'
+                          : 'text-white/50 hover:bg-white/[0.06] hover:text-white/80'
+                        }`}
+                      style={active ? { boxShadow: 'inset 3px 0 0 #5B9BD5' } : {}}>
+                      <item.icon className={`w-[15px] h-[15px] flex-shrink-0 ${active ? 'text-[#5B9BD5]' : ''}`} />
+                      {sidebarOpen && <span className="text-[13px] whitespace-nowrap">{item.label}</span>}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
+
+        {/* Footer */}
         {sidebarOpen && (
-          <div className="px-4 py-3" style={{borderTop:'1px solid rgba(255,255,255,0.07)'}}>
-            <p className="text-xs font-semibold text-white">Gary Cocklin</p>
-            <p className="text-[10px] leading-relaxed mt-0.5" style={{color:'rgba(255,255,255,0.35)'}}>CISSP-ISSAP · CISM · CRISC</p>
+          <div className="px-5 py-4" style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+            <div className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0"
+                style={{ background: 'rgba(91,155,213,0.2)', color: '#5B9BD5' }}>GC</div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold text-white/80 truncate">Gary Cocklin</p>
+                <p className="text-[10px] text-white/25 truncate">CISSP-ISSAP · CISM</p>
+              </div>
+            </div>
           </div>
         )}
       </div>
 
+      {/* ── Main ── */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <div className="bg-white border-b border-gray-200 shadow-sm px-7 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-extrabold text-slate-800" style={{ letterSpacing: '-0.03em' }}>{PAGE_TITLES[view]}</h1>
-            <p className="text-xs text-slate-400 mt-0.5">
-              {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-            </p>
+        {/* Top bar */}
+        <div className="bg-white border-b border-gray-200/80 shadow-sm">
+          <div className="px-7 py-3.5 flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              {/* Back / Forward */}
+              <div className="flex items-center gap-0.5">
+                <button onClick={goBack} disabled={!canGoBack}
+                  title="Go back (Alt+←)"
+                  className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors
+                    ${canGoBack
+                      ? 'text-slate-500 hover:bg-slate-100 hover:text-slate-700'
+                      : 'text-slate-200 cursor-default'
+                    }`}>
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button onClick={goForward} disabled={!canGoForward}
+                  title="Go forward (Alt+→)"
+                  className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors
+                    ${canGoForward
+                      ? 'text-slate-500 hover:bg-slate-100 hover:text-slate-700'
+                      : 'text-slate-200 cursor-default'
+                    }`}>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Breadcrumb + title */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  {meta.section !== 'Overview' && (
+                    <>
+                      <span className="text-[11px] font-medium text-slate-400">{meta.section}</span>
+                      <span className="text-[11px] text-slate-300">/</span>
+                    </>
+                  )}
+                  <span className="text-[11px] font-semibold text-slate-500">{meta.title}</span>
+                </div>
+                <h1 className="text-lg font-extrabold text-slate-800" style={{ letterSpacing: '-0.03em', fontFamily: "'Bricolage Grotesque', system-ui, sans-serif" }}>
+                  {meta.title}
+                </h1>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-slate-400 hidden sm:block">
+                {new Date().toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}
+              </span>
+              <a href="/"
+                className="flex items-center gap-1.5 text-[13px] font-medium text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 hover:text-slate-700 transition-colors">
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Back to site</span>
+              </a>
+            </div>
           </div>
-          <a href="/" className="flex items-center gap-1.5 text-sm font-medium text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white transition-all">
-            <ArrowLeft className="w-3.5 h-3.5" />
-            Back to site
-          </a>
         </div>
+
+        {/* Content */}
         <div className="flex-1 overflow-y-auto p-7">
           {renderView()}
         </div>

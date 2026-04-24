@@ -124,11 +124,11 @@ export default function LandingPageHero() {
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500/60" />
                 <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/60" />
                 <div className="w-2.5 h-2.5 rounded-full bg-green-500/60" />
-                <span className="text-[10px] text-white/30 ml-2 font-mono">FortifyLearn — Live Lab</span>
+                <span className="text-[10px] text-white/30 ml-2 font-mono">FortifyLearn — Mock Exam</span>
               </div>
               <img
-                src="/screenshots/fl-terminal.png"
-                alt="FortifyLearn — Live CLI lab environment"
+                src="/screenshots/fl-exam-question.png"
+                alt="FortifyLearn Mock Exam — performance-based question in progress"
                 className="w-full object-cover"
                 style={{ maxHeight: 180, objectPosition: 'top' }}
               />
@@ -137,9 +137,9 @@ export default function LandingPageHero() {
             {/* Tool preview thumbnails */}
             <div className="grid grid-cols-3 gap-1.5 mx-5 mt-2">
               {[
-                { img: '/screenshots/fl-siem.png', lbl: 'Arclight SIEM', cert: 'CySA+' },
-                { img: '/screenshots/fl-exam-results.png', lbl: 'Mock Exam · Scored', cert: 'All certs' },
+                { img: '/screenshots/fl-netsim.png', lbl: 'FL-NETSIM · Cisco IOS', cert: 'N+' },
                 { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Auditor', cert: 'Sec+' },
+                { img: '/screenshots/fl-siem.png', lbl: 'Arclight SIEM', cert: 'CySA+' },
               ].map(t => (
                 <div key={t.lbl} className="relative rounded-lg overflow-hidden border border-white/10">
                   <img src={t.img} alt={t.lbl} className="w-full object-cover object-top" style={{ height: 72 }} />

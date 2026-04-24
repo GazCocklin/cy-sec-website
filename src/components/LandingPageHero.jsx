@@ -6,9 +6,10 @@ import { Button } from '@/components/ui/button';
 import { useNavigate, Link } from 'react-router-dom';
 
 const FL_FEATURES = [
-  'Representative CLI environments for N+, Sec+, CySA+',
-  'Objective-by-objective scoring & detailed results',
-  'Free taster labs — no payment needed to start',
+  'Mock exams — PBQs + MCQs under one combined timer',
+  '10 hands-on labs per cert with live CLI & visual tools',
+  '1,000 MCQs per cert with full reasoning',
+  'Lifetime access · no subscription · 14-day refund',
 ];
 
 export default function LandingPageHero() {
@@ -134,17 +135,18 @@ export default function LandingPageHero() {
             </div>
 
             {/* Tool preview thumbnails */}
-            <div className="grid grid-cols-2 gap-2 mx-5 mt-2">
+            <div className="grid grid-cols-3 gap-1.5 mx-5 mt-2">
               {[
-                { img: '/screenshots/fl-siem.png', lbl: 'Arclight SIEM v5.0.3', cert: 'CySA+' },
-                { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Auditor v3.1', cert: 'Security+' },
+                { img: '/screenshots/fl-siem.png', lbl: 'Arclight SIEM', cert: 'CySA+' },
+                { img: '/screenshots/fl-exam-results.png', lbl: 'Mock Exam · Scored', cert: 'All certs' },
+                { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Auditor', cert: 'Sec+' },
               ].map(t => (
                 <div key={t.lbl} className="relative rounded-lg overflow-hidden border border-white/10">
                   <img src={t.img} alt={t.lbl} className="w-full object-cover object-top" style={{ height: 72 }} />
                   <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(6,14,31,0.85) 0%, transparent 60%)' }} />
-                  <div className="absolute bottom-1.5 left-2 right-2 flex items-end justify-between">
+                  <div className="absolute bottom-1.5 left-1.5 right-1.5 flex items-end justify-between gap-1">
                     <span className="text-[8px] font-bold text-white/70 truncate">{t.lbl}</span>
-                    <span className="text-[8px] font-bold flex-shrink-0 ml-1" style={{ color: '#7DD3E8' }}>{t.cert}</span>
+                    <span className="text-[8px] font-bold flex-shrink-0" style={{ color: '#7DD3E8' }}>{t.cert}</span>
                   </div>
                 </div>
               ))}
@@ -156,8 +158,9 @@ export default function LandingPageHero() {
                 <FortifyLearnLogo height={36} />
               </div>
               <p className="text-slate-400 text-sm mb-4 leading-relaxed">
-                Performance-based question simulator with live CLI environments and interactive
-                simulation tools. Study for Network+, Security+ and CySA+ the way you'll actually be tested.
+                The complete CompTIA exam prep stack for Network+, Security+ and CySA+ — live CLI
+                labs, interactive tools, an MCQ study bank, and mock exams that mirror the real
+                test structure.
               </p>
               <div className="space-y-2 mb-5">
                 {FL_FEATURES.map(f => (
@@ -171,7 +174,7 @@ export default function LandingPageHero() {
                 <Link to="/store"
                   className="inline-flex items-center gap-2 font-bold text-sm px-5 py-2.5 rounded-xl transition-all hover:brightness-110"
                   style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
-                  Buy a pack →
+                  Shop prep bundles →
                 </Link>
                 <Link to="/pbq-engine"
                   className="text-sm font-semibold transition-colors hover:text-white"

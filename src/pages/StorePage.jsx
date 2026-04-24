@@ -56,8 +56,8 @@ const CERTS = [
       ],
     },
     complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netcap.png' },
-    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
-    mcq:       { key: 'mcq_netplus',          label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
+    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-netplus.png' },
+    mcq:       { key: 'mcq_netplus',          label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-netplus.png' },
     prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   {
@@ -96,8 +96,8 @@ const CERTS = [
       ],
     },
     complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-linux-cli.png' },
-    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
-    mcq:       { key: 'mcq_secplus',          label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
+    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: null, comingSoon: true },
+    mcq:       { key: 'mcq_secplus',          label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: null, comingSoon: true },
     prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   {
@@ -136,8 +136,8 @@ const CERTS = [
       ],
     },
     complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netscan.png' },
-    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
-    mcq:       { key: 'mcq_cysa',             label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
+    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: null, comingSoon: true },
+    mcq:       { key: 'mcq_cysa',             label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: null, comingSoon: true },
     prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
 ];
@@ -557,6 +557,12 @@ function ProductCard({ cert, config, inBasket, onToggle, onView, onShowDetails }
           <span className="absolute top-1.5 right-1.5 text-[9px] font-extrabold px-1.5 py-0.5 rounded"
             style={{ background: '#FDE8E8', color: '#A91818' }}>-18%</span>
         )}
+        {config.comingSoon && (
+          <div className="absolute bottom-0 left-0 right-0 text-center text-[9px] font-extrabold text-white py-0.5"
+            style={{ background: 'linear-gradient(90deg, rgba(11,29,58,0.92), rgba(8,145,178,0.92))', letterSpacing: '1px' }}>
+            LAUNCHING SOON
+          </div>
+        )}
       </div>
       <div className="p-3 flex flex-col flex-1">
         <p className="text-xs font-semibold text-slate-900 leading-snug mb-2" style={{ minHeight: 32 }}>
@@ -729,6 +735,17 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
                 style={{ background: '#FDE8E8', color: '#A91818' }}>SAVE £{config.saving.toFixed(2)}</span>
             )}
           </div>
+          {/* Launching soon notice — content-gated SKUs */}
+          {config.comingSoon && (
+            <div className="mb-5 p-3 rounded-lg flex items-start gap-2.5"
+              style={{ background: '#FEF3C7', border: '1px solid #F59E0B' }}>
+              <Clock className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#92400E' }} />
+              <div className="text-xs text-amber-900 leading-snug">
+                <p className="font-bold mb-1">Content launching soon</p>
+                <p>We're authoring the {cert.short} question pool now — Network+ is live today, {cert.short} follows. You can purchase now for lifetime access; we'll email you the moment the full content unlocks.</p>
+              </div>
+            </div>
+          )}
           {/* Sections */}
           {sections.map((section, idx) => (
             <div key={idx} className={idx < sections.length - 1 ? 'mb-5' : ''}>

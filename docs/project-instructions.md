@@ -4,7 +4,7 @@
 > Kept in the repo as a backup and so it travels with the code.
 > When the Claude.ai project instructions are updated, update this file too (and vice versa).
 
-**Last updated:** 24 April 2026 (store screenshots wired in; webhook v30; docs-mirror sync rule added)
+**Last updated:** 24 April 2026 (store screenshots wired in; webhook v30; docs-mirror sync rule added; Prep Bundle banner reverted; ProductDetailsModal added)
 
 ---
 
@@ -225,7 +225,7 @@ Labs packs: pre-existing. Look up in Stripe Dashboard if needed — all referenc
 
 ## Store page — architecture (v3, 24-Apr-2026)
 
-**File:** `src/pages/StorePage.jsx` (~860 lines)
+**File:** `src/pages/StorePage.jsx` (~1070 lines as of 24-Apr evening; grew with ProductDetailsModal addition)
 **Style:** Marketplace (Emmable-inspired, Cy-Sec branded). Replaced previous cert-tab-focused layout.
 
 ### Section order (top to bottom)
@@ -260,21 +260,38 @@ Every SKU config in the CERTS array has a `thumbnail` field. `ProductCard` and `
 | `netplus_complete` | `/screenshots/fl-netcap.png` |
 | `netplus_exam` | `/screenshots/fl-exam-question.png` |
 | `mcq_netplus` | `/screenshots/fl-mcq-reasoning.png` |
-| `netplus_prep_bundle` | `/screenshots/fl-exam-banner.png` |
+| `netplus_prep_bundle` | **`null`** (banner experiment reverted 24-Apr — see below) |
 | `secplus_pack` | `/screenshots/fl-linux-cli.png` |
 | `secplus_pack_2` | `/screenshots/fl-fortiguard.png` |
 | `secplus_complete` | `/screenshots/fl-linux-cli.png` |
 | `secplus_exam` | `/screenshots/fl-exam-question.png` |
 | `mcq_secplus` | `/screenshots/fl-mcq-reasoning.png` |
-| `secplus_prep_bundle` | `/screenshots/fl-exam-banner.png` |
+| `secplus_prep_bundle` | **`null`** (banner experiment reverted 24-Apr) |
 | `cysa_pack` | **`null`** (fallback to cert badge — no distinctive Pack 1 shot yet) |
 | `cysa_pack_2` | `/screenshots/fl-siem.png` |
 | `cysa_complete` | `/screenshots/fl-netscan.png` |
 | `cysa_exam` | `/screenshots/fl-exam-question.png` |
 | `mcq_cysa` | `/screenshots/fl-mcq-reasoning.png` |
-| `cysa_prep_bundle` | `/screenshots/fl-exam-banner.png` |
+| `cysa_prep_bundle` | **`null`** (banner experiment reverted 24-Apr) |
 
-Prep Bundles use `fl-exam-banner.png` specifically because it's a cropped, cert-agnostic version of the readiness screen — the full `fl-exam-results.png` contains "CompTIA Network+" branding and would look wrong on Sec+/CySA+ bundle cards.
+**Prep Bundle banner — reverted 24-Apr-2026.** An earlier experiment had Prep Bundle featured cards using `fl-exam-banner.png` (a cropped cert-agnostic version of the readiness screen) as a backdrop. The crop cut off the 746/PASS score, leaving a meaningless teal strip. Reverted to the clean light-gradient + centred cert badge design. `fl-exam-banner.png` remains in `public/screenshots/` unused — keep for future retry with a better crop, or delete if next screenshot pass replaces it.
+
+### Product details modal — "What's inside →" (24-Apr-2026)
+
+Every product card and Prep Bundle card has a "What's inside →" link beneath its CTA. Clicking it opens `ProductDetailsModal` (defined near the bottom of StorePage.jsx, ~line 570), which explains what's actually in the SKU. Content is derived per SKU type from the config/cert data — we never hard-code per-SKU marketing copy here, so adding a new cert/SKU doesn't require touching the modal code.
+
+| SKU type | Modal content source |
+|---|---|
+| Pack 1 (`*_pack`) | `cert.pack1.highlights` array (real lab names) |
+| Pack 2 (`*_pack_2`) | `cert.pack2.highlights` array |
+| Complete labs (`*_complete`) | Both `pack1.highlights` and `pack2.highlights`, grouped with headings |
+| Exam Engine (`*_exam`) | Static spec — exam format (3–6 PBQs + 85–90 MCQs, one combined timer), scoring (100–900 scaled, per-domain diagnostic, focus-three), and the honesty block (±50pt approximation disclaimer) |
+| MCQ Study Bank (`mcq_*`) | Static spec — 500+ questions, full reasoning panel, per-distractor "why this is wrong", objective tags, flag-to-revisit |
+| Prep Bundle (`*_prep_bundle`) | Itemised value breakdown (Pack 1 £19.99 + Pack 2 £19.99 + Exam £24.99 + MCQ £14.99) plus the why-the-bundle math |
+
+Modal UX: backdrop click closes, `Escape` closes, body-scroll locked while open. Hero banner uses the config thumbnail when present. Layout: thumbnail band top, cert+code header, price row with SAVE pill if applicable, content sections with teal check-icon bullets, lifetime/refund/instant trust strip, branded navy→teal gradient CTA (reuses `onToggle` from parent so basket state stays consistent).
+
+**Why this matters for conversion:** cards stay scannable but curious visitors can deep-dive without leaving the store. "What's inside" is also how we give lab packs a second layer of value — the cards just say "5 foundation labs" but the modal names every lab, letting a buyer confirm relevance before committing.
 
 ### Cert filter tiles behaviour
 

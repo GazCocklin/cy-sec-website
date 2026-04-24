@@ -5,6 +5,7 @@ import { supabase } from '@/lib/customSupabaseClient';
 import {
   Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Loader2, LogIn, Eye, EyeOff,
   Star, Infinity as InfinityIcon, Zap, RotateCcw, MapPin, Clock, Sparkles,
+  Award, Lock, Database,
 } from 'lucide-react';
 
 const SUPABASE_URL    = 'https://kmnbtnfgeadvvkwsdyml.supabase.co';
@@ -29,7 +30,7 @@ const CERTS = [
     includes: [
       '10 hands-on CLI simulation labs',
       'Mock exam engine (PBQ + MCQ)',
-      '500+ MCQ study bank with reasoning',
+      '1,000 MCQ study bank with reasoning',
       'Lifetime access',
     ],
     pack1: {
@@ -56,7 +57,7 @@ const CERTS = [
     },
     complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netcap.png' },
     exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
-    mcq:       { key: 'mcq_netplus',          label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
+    mcq:       { key: 'mcq_netplus',          label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
     prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   {
@@ -69,7 +70,7 @@ const CERTS = [
     includes: [
       '10 hands-on security labs',
       'Mock exam engine (PBQ + MCQ)',
-      '500+ MCQ study bank with reasoning',
+      '1,000 MCQ study bank with reasoning',
       'Lifetime access',
     ],
     pack1: {
@@ -96,7 +97,7 @@ const CERTS = [
     },
     complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-linux-cli.png' },
     exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
-    mcq:       { key: 'mcq_secplus',          label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
+    mcq:       { key: 'mcq_secplus',          label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
     prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   {
@@ -109,7 +110,7 @@ const CERTS = [
     includes: [
       '10 SOC analyst labs',
       'Mock exam engine (PBQ + MCQ)',
-      '500+ MCQ study bank with reasoning',
+      '1,000 MCQ study bank with reasoning',
       'Lifetime access',
     ],
     pack1: {
@@ -136,7 +137,7 @@ const CERTS = [
     },
     complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netscan.png' },
     exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
-    mcq:       { key: 'mcq_cysa',             label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
+    mcq:       { key: 'mcq_cysa',             label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
     prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
 ];
@@ -378,7 +379,7 @@ function PromoHero({ onShopBundles }) {
           Save £29.97 on<br />exam-ready prep.
         </h1>
         <p className="text-white/70 text-sm leading-relaxed mb-5 max-w-md">
-          Real CLI labs, mock exam engine, and 500+ MCQ study bank — bundled for Network+, Security+ and CySA+.
+          Real CLI labs, mock exam engine, and a 1,000-question MCQ study bank — bundled for Network+, Security+ and CySA+.
           One price. Lifetime access.
         </p>
         <div className="flex items-center gap-4 flex-wrap">
@@ -444,7 +445,7 @@ function FeaturedBundleCard({ cert, inBasket, onToggle, onShowDetails }) {
             style={{ background: '#FDE8E8', color: '#A91818' }}>
             SAVE £{prepBundle.saving.toFixed(2)}
           </span>
-          <span className="text-[11px] text-slate-500 font-semibold">10 labs · mock exam · 500 MCQs</span>
+          <span className="text-[11px] text-slate-500 font-semibold">10 labs · mock exam · 1,000 MCQs</span>
         </div>
         <button onClick={() => onToggle(prepBundle.key)}
           className={`mt-auto w-full py-2.5 rounded-lg text-sm font-bold transition-all ${
@@ -479,7 +480,7 @@ function CertTile({ cert, active, onClick }) {
           style={{ width: 56, height: 56 }} onError={e => { e.target.style.display='none'; }} />
       </div>
       <p className="text-sm font-extrabold text-slate-900 mb-1">{cert.short}</p>
-      <p className="text-[11px] text-slate-500 mb-2">{cert.code} · 10 labs · 500 MCQs</p>
+      <p className="text-[11px] text-slate-500 mb-2">{cert.code} · 10 labs · 1,000 MCQs</p>
       <p className="text-[11px] font-bold" style={{ color: '#0891B2' }}>
         {active ? 'Showing ✓' : 'View products →'}
       </p>
@@ -598,9 +599,18 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
       title: 'Exam format',
       items: [
         '3–6 real performance-based questions (PBQs) per session',
-        '85–90 multiple-choice questions',
+        '85–90 multiple-choice questions per session',
         'One combined timer — mirrors the real CompTIA exam',
-        'Unlimited replays with fresh question mixes',
+        'Unlimited replays — every attempt shuffles a fresh mix',
+      ],
+    });
+    sections.push({
+      title: 'Question pool',
+      items: [
+        '50 exam-grade PBQs per cert — the pool each session draws from',
+        '500 exam-grade MCQs per cert — the pool each session draws from',
+        'Separate from the MCQ Study Bank (1,000 questions, standalone practice mode)',
+        'Pool expands as we author new content — all included, no upsell',
       ],
     });
     sections.push({
@@ -620,11 +630,12 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
     sections.push({
       title: 'What\'s in the bank',
       items: [
-        '500+ multiple-choice questions covering every exam objective',
+        '1,000 multiple-choice questions covering every exam objective',
         'Full reasoning panel for the correct answer on every question',
         'Per-option "why this is wrong" explanations for all distractors',
         'Objective tags so you can drill specific weak domains',
         'Flag questions to revisit later during study sessions',
+        'Standalone study mode — pair with the Exam Engine for timed mock practice',
       ],
     });
   } else if (isBundle) {
@@ -634,7 +645,7 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
         `Pack 1 — 5 foundation labs (£19.99 value)`,
         `Pack 2 — 5 advanced labs (£19.99 value)`,
         `Exam Engine — mock exam with full scoring (£24.99 value)`,
-        `MCQ Study Bank — 500+ questions with reasoning (£14.99 value)`,
+        `MCQ Study Bank — 1,000 questions with reasoning (£14.99 value)`,
       ],
     });
     sections.push({
@@ -781,13 +792,17 @@ function RecentlyViewed({ productKeys, basket, onToggle, onClear }) {
 }
 
 // ── Trusted partners strip ───────────────────────────────────────────────────
+// Brand-consistent: teal icon, navy name, slate subtitle. Mirrors the features
+// trust strip above it. We deliberately don't use vendor brand colours here —
+// the site's palette is navy + teal and introducing red/purple/green for each
+// partner makes the row look like third-party ads instead of our own signal.
 function TrustedPartners() {
   const partners = [
-    { title: 'CompTIA',   sub: 'Authorised Partner', color: '#D91E1E', weight: 900 },
-    { title: 'stripe',    sub: 'Secure payments',    color: '#635bff', weight: 800 },
-    { title: 'Vercel',    sub: 'Edge-hosted',        color: '#0B1D3A', weight: 900 },
-    { title: 'supabase',  sub: 'EU data residency',  color: '#3FCF8E', weight: 800 },
-    { title: 'UK GDPR',   sub: 'ICO registered',     color: '#0B1D3A', weight: 900 },
+    { title: 'CompTIA',  sub: 'Authorised Partner',  icon: Award },
+    { title: 'Stripe',   sub: 'Secure payments',     icon: Lock },
+    { title: 'Vercel',   sub: 'Edge-hosted',         icon: Zap },
+    { title: 'Supabase', sub: 'EU data residency',   icon: Database },
+    { title: 'UK GDPR',  sub: 'ICO registered',      icon: Shield },
   ];
   return (
     <div>
@@ -796,10 +811,11 @@ function TrustedPartners() {
         <h2 className="text-[15px] font-extrabold text-slate-900" style={{ letterSpacing: '-0.3px' }}>Built with trusted partners</h2>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-        {partners.map(p => (
-          <div key={p.title} className="bg-white rounded-xl border border-slate-200 px-3 py-4 text-center">
-            <p className="text-xs font-extrabold mb-1" style={{ color: p.color, fontWeight: p.weight, letterSpacing: '-0.3px' }}>{p.title}</p>
-            <p className="text-[10px] text-slate-500 font-semibold">{p.sub}</p>
+        {partners.map(({ title, sub, icon: Icon }) => (
+          <div key={title} className="bg-white rounded-xl border border-slate-200 px-3 py-4 text-center">
+            <Icon className="w-5 h-5 mx-auto mb-2" style={{ color: '#0891B2' }} strokeWidth={2} />
+            <p className="text-xs font-extrabold mb-1 text-slate-900" style={{ letterSpacing: '-0.3px' }}>{title}</p>
+            <p className="text-[10px] text-slate-500 font-semibold">{sub}</p>
           </div>
         ))}
       </div>

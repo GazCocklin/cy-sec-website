@@ -114,7 +114,7 @@ const CERTS = [
       'Lifetime access',
     ],
     pack1: {
-      key: 'cysa_pack', label: 'Foundation Labs', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: null,
+      key: 'cysa_pack', label: 'Foundation Labs', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: '/screenshots/fl-cysa-cli.png',
       kind: 'labs', meta: '5 PBQ labs',
       highlights: [
         'Suspicious process & C2 detection',

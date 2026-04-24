@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Shield, Clock, CheckCircle2, Lock } from 'lucide-react';
+import CompleteYourPrep from '../components/CompleteYourPrep';
 
 const PACK1_LABS = [
   { num: 'F', title: 'Firewall rule review — unauthorised remote access',                          diff: 'Easy',         obj: '3.2',                          tool: 'FORTIGUARD Auditor', free: true },
@@ -216,6 +217,9 @@ export default function SecurityPlusLabsPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Complete your prep (cross-sell: Exam Engine / MCQ Bank / Prep Bundle) ── */}
+      <CompleteYourPrep cert="secplus" certLabel="Security+" code="SY0-701" />
 
       {/* ── Tools ── */}
       <section className="bg-[#F4F7FA] py-14 px-8">

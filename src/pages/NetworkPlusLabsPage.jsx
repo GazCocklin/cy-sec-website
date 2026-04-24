@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Shield, Clock, CheckCircle2, Lock } from 'lucide-react';
+import CompleteYourPrep from '../components/CompleteYourPrep';
 
 const PACK1_LABS = [
   { num: 'F', title: 'Port down — finance workstation offline',                                 diff: 'Easy',         obj: '2.3 / 5.3',                    tool: 'FL-NETSIM', free: true },
@@ -222,6 +223,9 @@ export default function NetworkPlusLabsPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Complete your prep (cross-sell: Exam Engine / MCQ Bank / Prep Bundle) ── */}
+      <CompleteYourPrep cert="netplus" certLabel="Network+" code="N10-009" />
 
       {/* ── Tools ── */}
       <section className="bg-[#F4F7FA] py-14 px-8">

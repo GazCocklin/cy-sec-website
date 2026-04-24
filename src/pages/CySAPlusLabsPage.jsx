@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Clock, CheckCircle2, ChevronRight, Lock } from 'lucide-react';
+import CompleteYourPrep from '../components/CompleteYourPrep';
 
 const PACK1_LABS = [
   { num: 1, title: 'Suspicious process and outbound connection investigation', diff: 'Easy',         time: 10, obj: '1.2 / 1.3',             tool: 'Linux CLI' },
@@ -229,6 +230,9 @@ export default function CySAPlusLabsPage() {
           </div>
         </div>
       </section>
+
+      {/* ── Complete your prep (cross-sell: Exam Engine / MCQ Bank / Prep Bundle) ── */}
+      <CompleteYourPrep cert="cysa" certLabel="CySA+" code="CS0-003" />
 
       {/* ── Tools ── */}
       <section className="bg-[#F4F7FA] py-14 px-8">

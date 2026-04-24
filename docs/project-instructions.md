@@ -4,7 +4,7 @@
 > Kept in the repo as a backup and so it travels with the code.
 > When the Claude.ai project instructions are updated, update this file too (and vice versa).
 
-**Last updated:** 24 April 2026
+**Last updated:** 24 April 2026 (store screenshots wired in; webhook v30; docs-mirror sync rule added)
 
 ---
 
@@ -59,14 +59,20 @@ In `/public/logos/`:
 
 | File | Tool / context |
 |---|---|
+| `fl-exam-question.png` | **Exam Engine — question in progress** (NTP Drift PBQ, 1:29:35 timer, network diagram). Used on all 3 Exam Engine product cards and in purchase-confirmation emails for Exam Engine buyers. |
+| `fl-exam-results.png` | **Exam Engine — readiness outcome** (746/900 PASS, Focus three domains). Used in purchase-confirmation emails for Prep Bundle buyers. |
+| `fl-mcq-reasoning.png` | **MCQ Study Bank — full reasoning** (DNS cache poisoning question with CORRECT ANSWER + "Why the other options are wrong"). Used on all 3 MCQ Bank cards and in MCQ purchase-confirmation emails. |
+| `fl-exam-banner.png` | **Cert-agnostic crop of the readiness banner** (1800×360, just the "READINESS 746/900 PASS" teal bar, no Network+ branding). Used as the backdrop on all 3 Prep Bundle featured cards. |
 | `fl-siem.png` | Arclight SIEM v5.0.3 (CySA+ Pack 2) |
-| `fl-netscan.png` | NETSCAN PRO v4.2.1 (CySA+ Pack 2) |
+| `fl-netscan.png` | NETSCAN PRO v4.2.1 (CySA+ Pack 2 / Complete) |
 | `fl-netsim.png` | FL-NETSIM v2.0 / Cisco IOS terminal (N+ packs) |
-| `fl-netcap.png` | NETCAP Analyzer v3.2 (N+ Pack 2) |
+| `fl-netcap.png` | NETCAP Analyzer v3.2 (N+ Pack 2 / Complete) |
 | `fl-netpulse.png` | NETPULSE NMS v6.1 (N+ Pack 2) |
-| `fl-fortiguard.png` | FORTIGUARD Policy Auditor v3.1 (Sec+ Pack 2) |
+| `fl-fortiguard.png` | FORTIGUARD Policy Auditor v3.1 (Sec+ Pack 2 / Complete) |
 | `fl-linux-cli.png` | Linux CLI / SSH hardening (Sec+ Pack 1) |
-| `fl-dashboard.png` / `fl-terminal.png` / `fl-lab-briefing.png` / `fl-lab-picker.png` / `fl-results.png` | Platform UI shots |
+| `fl-dashboard.png` / `fl-terminal.png` / `fl-lab-briefing.png` / `fl-lab-picker.png` / `fl-results.png` | Platform UI shots (fallbacks, abandoned-cart email, etc.) |
+
+**Format convention:** All files stored with `.png` extension but are actually JPEG content (smaller files, browsers handle it). When adding new screenshots, follow this pattern: `convert input.png -resize '1800x>' -quality 82 "jpeg:output.png"`.
 
 ### Logo spec (do not deviate)
 
@@ -243,6 +249,33 @@ Labs packs: pre-existing. Look up in Stripe Dashboard if needed — all referenc
 - `triggerStripe` — `product_key` singular, `product_keys` array for multi
 - `CheckoutModal` / `ModalShell` / `BasketBar`
 
+### Product card thumbnails (24-Apr-2026)
+
+Every SKU config in the CERTS array has a `thumbnail` field. `ProductCard` and `FeaturedBundleCard` render this image and overlay a small cert-badge chip so viewers still identify the cert at a glance. When `thumbnail: null`, ProductCard falls back to the pre-screenshot cert-badge placeholder.
+
+| SKU key | thumbnail |
+|---|---|
+| `netplus_pack` | `/screenshots/fl-netsim.png` |
+| `netplus_pack_2` | `/screenshots/fl-netpulse.png` |
+| `netplus_complete` | `/screenshots/fl-netcap.png` |
+| `netplus_exam` | `/screenshots/fl-exam-question.png` |
+| `mcq_netplus` | `/screenshots/fl-mcq-reasoning.png` |
+| `netplus_prep_bundle` | `/screenshots/fl-exam-banner.png` |
+| `secplus_pack` | `/screenshots/fl-linux-cli.png` |
+| `secplus_pack_2` | `/screenshots/fl-fortiguard.png` |
+| `secplus_complete` | `/screenshots/fl-linux-cli.png` |
+| `secplus_exam` | `/screenshots/fl-exam-question.png` |
+| `mcq_secplus` | `/screenshots/fl-mcq-reasoning.png` |
+| `secplus_prep_bundle` | `/screenshots/fl-exam-banner.png` |
+| `cysa_pack` | **`null`** (fallback to cert badge — no distinctive Pack 1 shot yet) |
+| `cysa_pack_2` | `/screenshots/fl-siem.png` |
+| `cysa_complete` | `/screenshots/fl-netscan.png` |
+| `cysa_exam` | `/screenshots/fl-exam-question.png` |
+| `mcq_cysa` | `/screenshots/fl-mcq-reasoning.png` |
+| `cysa_prep_bundle` | `/screenshots/fl-exam-banner.png` |
+
+Prep Bundles use `fl-exam-banner.png` specifically because it's a cropped, cert-agnostic version of the readiness screen — the full `fl-exam-results.png` contains "CompTIA Network+" branding and would look wrong on Sec+/CySA+ bundle cards.
+
 ### Cert filter tiles behaviour
 
 - Click tile → filters product grid to that cert, smooth-scrolls to grid
@@ -333,18 +366,32 @@ FortifyLearn welcome email. Lists 5 free tasters. Upsell block: Complete £32.99
 
 FL bug report + feature request emails. Bug = red (`#ef4444`), Feature = teal (`#0891B2`). Custom CORS allowlist.
 
-### stripe-webhook (v29, verify_jwt:false — Stripe calls without JWT)
+### stripe-webhook (v30, verify_jwt:false — Stripe calls without JWT)
 
 **Split into two files** as of v28. Single-file deploys over ~38KB fail.
 
 - `index.ts` (~13KB): handlers + `PACK_LABELS` + `PACK_UUID_MAP` + `COMPLETE_EXPANSION` + `PREP_BUNDLE_EXPANSION` + `BUNDLE_PACKS`
-- `emails.ts` (~25KB): all email template functions, exports 6 sendX functions (admin/customer × confirmation/refund/abandoned-cart)
+- `emails.ts` (~25.5KB): all email template functions, exports 6 sendX functions (admin/customer × confirmation/refund/abandoned-cart)
 
 `PREP_BUNDLE_EXPANSION` includes `mcq_{cert}` — prep_bundle purchases grant 4 entitlements per cert (Pack 1, Pack 2, Exam, MCQ).
 
 **Handles:** `checkout.session.completed`, `charge.refunded`, `checkout.session.expired`.
 
 `certLandingForKey`: MCQ/exam emails route to `fortifylearn.co.uk/?page=examengine` (was `cy-sec.co.uk` — bug fixed in v28).
+
+`heroScreenshotForKey` (v30, 24-Apr-2026) routes purchase-confirmation email hero images:
+
+| Key match | Screenshot | Alt text |
+|---|---|---|
+| `isPrepBundleKey` | `fl-exam-results.png` | FortifyLearn exam readiness projection |
+| `isExamKey` | `fl-exam-question.png` | FortifyLearn Exam Engine — question in progress |
+| `isMcqKey` | `fl-mcq-reasoning.png` | FortifyLearn MCQ Study Bank — question with reasoning |
+| `netplus*` | `fl-netpulse.png` | NETPULSE NMS v6.1 |
+| `secplus*` | `fl-fortiguard.png` | FORTIGUARD Policy Auditor v3.1 |
+| `cysa*` | `fl-siem.png` | Arclight SIEM v5.0.3 |
+| fallback | `fl-dashboard.png` | FortifyLearn |
+
+**Critical ordering:** `isPrepBundleKey` check must come before `key.startsWith("netplus")` etc., otherwise `netplus_prep_bundle` matches the Network+ labs route first.
 
 ### create-checkout-session (v23, verify_jwt:true)
 
@@ -405,7 +452,7 @@ FL bug report + feature request emails. Bug = red (`#ef4444`), Feature = teal (`
 
 ### Rule 1 — always update these instructions
 
-At the end of any conversation where changes were made, update these instructions. Do not wait to be asked.
+At the end of any conversation where changes were made, update these instructions. Do not wait to be asked. **Update both copies together:** the Claude.ai project UI (source of truth for Claude's session context) AND `docs/project-instructions.md` (version-controlled mirror in the repo). They must not drift.
 
 ### Rule 2 — cross-project instruction updates
 
@@ -453,9 +500,16 @@ Single-file Edge Function deploys over ~38KB fail. `stripe-webhook` is split int
   - Locations: `src/pages/PrivacyPolicy.jsx` lines 46-48; `src/pages/TermsOfService.jsx` line 38
   - Best done in one pass when all 3 values in hand.
 
-- **Exam Engine results screenshot** (`fl-exam-results.png` or similar) for purchase confirmation email. Currently MCQ/exam emails route to `fl-dashboard.png` placeholder.
-
 - **Cert landing pages** (`NetworkPlusLabsPage.jsx` etc.) don't yet cover Exam Engine + MCQ Bank SKUs — only show lab packs. Update to include the new test-prep SKUs so SEO-landed visitors see the full product range.
+
+### Screenshot pickups
+
+Tier 1 delivered 24-Apr-2026 (`fl-exam-question`, `fl-exam-results`, `fl-mcq-reasoning`, `fl-exam-banner`). Remaining gaps:
+
+- **Tier 2 #4 — CySA+ Pack 1 distinctive shot.** Currently the only grid card falling back to the cert-badge placeholder. Ideal: process-detection or suspicious-activity triage screen — something that reads differently from the SIEM (Pack 2) shot.
+- **Tier 2 #5 — "Labs + Exam + MCQ" composite/montage.** Three-device stack showing a terminal, an exam question, and an MCQ side-by-side. Would replace the "37% OFF" hero visual with something concrete. Cert-agnostic.
+- **Tier 3 #6 — Lab briefing screen** for card hover states (optional).
+- **Tier 3 #7 — Real customer logos** for the trusted-partners strip once we have named references.
 
 ### When scale warrants (likely with A+ Core 1 + Core 2 launch)
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Shield, Clock, CheckCircle2, Lock } from 'lucide-react';
-import CompleteYourPrep from '../components/CompleteYourPrep';
+import ExamPrepSection from '../components/ExamPrepSection';
 
 const PACK1_LABS = [
   { num: 'F', title: 'Port down — finance workstation offline',                                 diff: 'Easy',         obj: '2.3 / 5.3',                    tool: 'FL-NETSIM', free: true },
@@ -72,7 +72,7 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
         <a href="/store" className="block w-full text-center text-white font-bold text-sm py-3 rounded-xl mb-3 hover:brightness-110 transition-all" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
           Add to basket →
         </a>
-        {!complete && <p className="text-[11px] text-slate-400 text-center">Or get both packs for <span className="font-bold text-[#0891B2]">£32.99</span> — saves £6.99</p>}
+        {!complete && <p className="text-[11px] text-slate-400 text-center">Or get both tiers for <span className="font-bold text-[#0891B2]">£32.99</span> — saves £6.99</p>}
         {complete && includes && (
           <div className="border-t border-slate-100 pt-3 mt-1 space-y-1.5">
             {includes.map((inc, i) => (
@@ -95,9 +95,9 @@ const TRUST = [
 ];
 
 const TOOLS = [
-  { img: '/screenshots/fl-netsim.png', lbl: 'FL-NETSIM v2.0', title: 'FL-NETSIM — live Cisco IOS environment', desc: 'Real Cisco IOS commands in a live switch or router terminal. Run show vlan brief, show interfaces trunk, or show running-config — the available commands panel guides your investigation while you interact with a realistic IOS environment.', pack: 'Pack 1 labs 3–5 · Pack 2 lab 3' },
-  { img: '/screenshots/fl-netcap.png', lbl: 'NETCAP Analyzer v3.2', title: 'NETCAP Analyzer — packet capture and asymmetric routing', desc: 'Colour-coded flow topology showing exactly where forward and return paths diverge, TCP retransmit count, and a one-click static route remediation action — the exact scenario type that appears in N10-009 PBQs.', pack: 'Pack 2 · lab 4' },
-  { img: '/screenshots/fl-netpulse.png', lbl: 'NETPULSE NMS v6.1', title: 'NETPULSE NMS — multi-site SNMP monitoring', desc: 'Live site map with SNMP polling status, CRC error detection, unreachable host diagnosis, and interface fault triage across a multi-site topology — the kind of NMS work N10-009 tests in its harder PBQs.', pack: 'Pack 2 · lab 5' },
+  { img: '/screenshots/fl-netsim.png', lbl: 'FL-NETSIM v2.0', title: 'FL-NETSIM — live Cisco IOS environment', desc: 'Real Cisco IOS commands in a live switch or router terminal. Run show vlan brief, show interfaces trunk, or show running-config — the available commands panel guides your investigation while you interact with a realistic IOS environment.', pack: 'Foundation Labs labs 3–5 · Advanced Labs lab 3' },
+  { img: '/screenshots/fl-netcap.png', lbl: 'NETCAP Analyzer v3.2', title: 'NETCAP Analyzer — packet capture and asymmetric routing', desc: 'Colour-coded flow topology showing exactly where forward and return paths diverge, TCP retransmit count, and a one-click static route remediation action — the exact scenario type that appears in N10-009 PBQs.', pack: 'Advanced Labs · lab 4' },
+  { img: '/screenshots/fl-netpulse.png', lbl: 'NETPULSE NMS v6.1', title: 'NETPULSE NMS — multi-site SNMP monitoring', desc: 'Live site map with SNMP polling status, CRC error detection, unreachable host diagnosis, and interface fault triage across a multi-site topology — the kind of NMS work N10-009 tests in its harder PBQs.', pack: 'Advanced Labs · lab 5' },
 ];
 
 export default function NetworkPlusLabsPage() {
@@ -107,7 +107,7 @@ export default function NetworkPlusLabsPage() {
     <>
       <Helmet>
         <title>CompTIA Network+ N10-009 Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="10 hands-on Network+ N10-009 simulation labs across 2 packs. Live Cisco IOS environments, FL-NETSIM network topology, NETCAP packet analyser, and NETPULSE NMS. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
+        <meta name="description" content="10 hands-on Network+ N10-009 simulation labs across 2 tiers. Live Cisco IOS environments, FL-NETSIM network topology, NETCAP packet analyser, and NETPULSE NMS. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA Network+ labs, N10-009 practice, Network+ PBQ simulation, Cisco IOS troubleshooting, VLAN ACL labs, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-network-plus-labs" />
       </Helmet>
@@ -141,7 +141,7 @@ export default function NetworkPlusLabsPage() {
               </a>
             </div>
             <div className="flex gap-4 flex-wrap">
-              {['10 labs across 2 packs', 'Free taster labs', 'Live Cisco IOS + visual tools', 'Lifetime access'].map(t => (
+              {['10 labs across 2 tiers', 'Free taster labs', 'Live Cisco IOS + visual tools', 'Lifetime access'].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/40"><span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]/60" />{t}</span>
               ))}
             </div>
@@ -165,11 +165,11 @@ export default function NetworkPlusLabsPage() {
               The <span className="font-semibold text-[#0891B2]">CompTIA Network+ N10-009 exam</span> includes performance-based questions requiring you to diagnose and fix live network faults — VLAN trunk misconfigurations, ACL errors, DHCP exhaustion, asymmetric routing. FortifyLearn's <span className="font-semibold text-[#0891B2]">Network+ practice labs</span> give you real Cisco IOS environments across 10 scenario labs.
             </p>
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              Pack 1 covers the core troubleshooting scenarios — DNS, default gateway, DMZ ACL, dual VLAN routing, and a complex enterprise multi-fault. Pack 2 adds <strong className="text-[#0B1D3A]">NETCAP Analyzer</strong> for packet capture analysis and <strong className="text-[#0B1D3A]">NETPULSE NMS</strong> for multi-site SNMP monitoring — the scenarios most candidates are underprepared for.
+              Foundation Labs covers the core troubleshooting scenarios — DNS, default gateway, DMZ ACL, dual VLAN routing, and a complex enterprise multi-fault. Advanced Labs adds <strong className="text-[#0B1D3A]">NETCAP Analyzer</strong> for packet capture analysis and <strong className="text-[#0B1D3A]">NETPULSE NMS</strong> for multi-site SNMP monitoring — the scenarios most candidates are underprepared for.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-3 lg:grid-cols-1 lg:gap-3">
-            {[['10', 'Labs across 2 packs'], ['N10-009', 'CompTIA exam code'], ['3', 'Visual tools in Pack 2']].map(([n, l]) => (
+            {[['10', 'Labs across 2 tiers'], ['N10-009', 'CompTIA exam code'], ['3', 'Tools in Advanced Labs']].map(([n, l]) => (
               <div key={l} className="bg-[#F4F7FA] rounded-xl p-4 border border-[rgba(8,145,178,0.1)]">
                 <div className="text-2xl font-black text-[#0891B2]" style={{ letterSpacing: '-0.5px' }}>{n}</div>
                 <div className="text-xs text-slate-400 mt-1">{l}</div>
@@ -184,7 +184,7 @@ export default function NetworkPlusLabsPage() {
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">Network+ N10-009 labs</p>
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Two packs. Ten labs. One progression.</h2>
-          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Pack 1 builds CLI troubleshooting skills. Pack 2 adds FL-NETSIM, NETCAP Analyzer, and NETPULSE NMS.</p>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Foundation Labs builds CLI troubleshooting skills. Advanced Labs adds FL-NETSIM, NETCAP Analyzer, and NETPULSE NMS.</p>
 
           <div className="flex border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
@@ -206,7 +206,7 @@ export default function NetworkPlusLabsPage() {
               {tab === 'p2' && PACK2_LABS.map(l => <LabRow key={l.num} lab={l} />)}
               {tab === 'complete' && (
                 <>
-                  <p className="text-xs text-slate-400 mb-2">All 10 labs — Pack 1 then Pack 2 in difficulty order.</p>
+                  <p className="text-xs text-slate-400 mb-2">All 10 labs — Foundation Labs then Advanced Labs in difficulty order.</p>
                   {[...PACK1_LABS, ...PACK2_LABS].map((l, i) => <LabRow key={i} lab={{ ...l, num: l.free ? 'F' : i }} />)}
                 </>
               )}
@@ -216,7 +216,7 @@ export default function NetworkPlusLabsPage() {
               {tab === 'p2' && <PackCard title="Network+ Advanced Labs" code="N10-009 · Advanced" price="19.99" labs={5} />}
               {tab === 'complete' && (
                 <PackCard title="Network+ Complete" code="N10-009 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
-                  includes={['Pack 1 — 5 Cisco IOS troubleshooting labs', 'Pack 2 — 5 labs inc. FL-NETSIM, NETCAP, NETPULSE', '2 free taster labs (CLI + visual)', 'All 10 labs unlocked immediately']}
+                  includes={['Foundation Labs — 5 Cisco IOS troubleshooting labs', 'Advanced Labs — 5 labs inc. FL-NETSIM, NETCAP, NETPULSE', '2 free taster labs (CLI + visual)', 'All 10 labs unlocked immediately']}
                 />
               )}
             </div>
@@ -224,15 +224,15 @@ export default function NetworkPlusLabsPage() {
         </div>
       </section>
 
-      {/* ── Complete your prep (cross-sell: Exam Engine / MCQ Bank / Prep Bundle) ── */}
-      <CompleteYourPrep cert="netplus" certLabel="Network+" code="N10-009" />
+      {/* ── Exam prep (deep-dive: Exam Engine + MCQ Study Bank + Prep Bundle savings) ── */}
+      <ExamPrepSection cert="netplus" certLabel="Network+" code="N10-009" />
 
       {/* ── Tools ── */}
       <section className="bg-[#F4F7FA] py-14 px-8">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">The tools you'll use</p>
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Three visual tools. No other prep platform has them.</h2>
-          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Pack 2 introduces three interactive simulation tools built to mirror real network management software.</p>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Advanced Labs introduces three interactive simulation tools built to mirror real network management software.</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {TOOLS.map(tool => (
               <div key={tool.lbl} className="bg-white rounded-2xl overflow-hidden border border-[rgba(8,145,178,0.12)]">

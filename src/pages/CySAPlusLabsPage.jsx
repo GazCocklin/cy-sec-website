@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Clock, CheckCircle2, ChevronRight, Lock } from 'lucide-react';
-import CompleteYourPrep from '../components/CompleteYourPrep';
+import ExamPrepSection from '../components/ExamPrepSection';
 
 const PACK1_LABS = [
   { num: 1, title: 'Suspicious process and outbound connection investigation', diff: 'Easy',         time: 10, obj: '1.2 / 1.3',             tool: 'Linux CLI' },
@@ -78,7 +78,7 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
         >
           Add to basket →
         </a>
-        {!complete && <p className="text-[11px] text-slate-400 text-center">Or get both packs for <span className="font-bold text-[#0891B2]">£32.99</span> — saves £6.99</p>}
+        {!complete && <p className="text-[11px] text-slate-400 text-center">Or get both tiers for <span className="font-bold text-[#0891B2]">£32.99</span> — saves £6.99</p>}
         {complete && includes && (
           <div className="border-t border-slate-100 pt-3 mt-1 space-y-1.5">
             {includes.map((inc, i) => (
@@ -109,7 +109,7 @@ export default function CySAPlusLabsPage() {
     <>
       <Helmet>
         <title>CompTIA CySA+ CS0-003 Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="10 hands-on CySA+ CS0-003 simulation labs across 2 packs. Live CLI investigation, Arclight SIEM triage, and NETSCAN PRO vulnerability assessment. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
+        <meta name="description" content="10 hands-on CySA+ CS0-003 simulation labs across 2 tiers. Live CLI investigation, Arclight SIEM triage, and NETSCAN PRO vulnerability assessment. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA CySA+ labs, CS0-003 practice, CySA+ PBQ simulation, SIEM triage, vulnerability assessment, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-cysa-plus-labs" />
       </Helmet>
@@ -132,7 +132,7 @@ export default function CySAPlusLabsPage() {
               Real analyst workflows.
             </h1>
             <p className="text-[15px] text-white/60 leading-relaxed mb-7 max-w-lg">
-              <strong className="text-white/90">CompTIA CySA+ CS0-003</strong> tests you on live threat investigation, SIEM triage, and incident containment. FortifyLearn gives you real CLI environments, an interactive SIEM dashboard, and a vulnerability scanner — 10 labs across 2 packs.
+              <strong className="text-white/90">CompTIA CySA+ CS0-003</strong> tests you on live threat investigation, SIEM triage, and incident containment. FortifyLearn gives you real CLI environments, an interactive SIEM dashboard, and a vulnerability scanner — 10 labs across 2 tiers.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
@@ -143,7 +143,7 @@ export default function CySAPlusLabsPage() {
               </a>
             </div>
             <div className="flex gap-4 flex-wrap">
-              {['10 labs across 2 packs', 'CompTIA Authorised Partner', 'Lifetime access', 'One-time payment'].map(t => (
+              {['10 labs across 2 tiers', 'CompTIA Authorised Partner', 'Lifetime access', 'One-time payment'].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/40">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]/60" />{t}
                 </span>
@@ -169,11 +169,11 @@ export default function CySAPlusLabsPage() {
               The <span className="font-semibold text-[#0891B2]">CompTIA CySA+ CS0-003 exam</span> is built around analyst workflows — investigating active compromises, triaging SIEM alerts, assessing vulnerability scan results, and making containment decisions. FortifyLearn's <span className="font-semibold text-[#0891B2]">CySA+ practice labs</span> put you inside those workflows directly: two packs of five scenario labs, progressing from CLI investigation fundamentals through interactive SIEM and vulnerability scanner tooling.
             </p>
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              Pack 1 covers core CLI skills — log analysis, process investigation, brute force detection, lateral movement tracing, and a full APT campaign threat hunt. Pack 2 introduces FortifyLearn's visual simulation tools: the <strong className="text-[#0B1D3A]">Arclight SIEM</strong> dashboard and <strong className="text-[#0B1D3A]">NETSCAN PRO</strong> vulnerability scanner, mirroring the tooling CS0-003 tests you on.
+              Foundation Labs covers core CLI skills — log analysis, process investigation, brute force detection, lateral movement tracing, and a full APT campaign threat hunt. Advanced Labs introduces FortifyLearn's visual simulation tools: the <strong className="text-[#0B1D3A]">Arclight SIEM</strong> dashboard and <strong className="text-[#0B1D3A]">NETSCAN PRO</strong> vulnerability scanner, mirroring the tooling CS0-003 tests you on.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-3 lg:grid-cols-1 lg:gap-3">
-            {[['10', 'Labs across 2 packs'], ['CS0-003', 'CompTIA exam code'], ['£32.99', 'Complete — both packs']].map(([n, l]) => (
+            {[['10', 'Labs across 2 tiers'], ['CS0-003', 'CompTIA exam code'], ['£32.99', 'Complete — all 10 labs']].map(([n, l]) => (
               <div key={l} className="bg-[#F4F7FA] rounded-xl p-4 border border-[rgba(8,145,178,0.1)]">
                 <div className="text-2xl font-black text-[#0891B2]" style={{ letterSpacing: '-0.5px' }}>{n}</div>
                 <div className="text-xs text-slate-400 mt-1">{l}</div>
@@ -188,7 +188,7 @@ export default function CySAPlusLabsPage() {
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">CySA+ CS0-003 labs</p>
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Two packs. Ten labs. One progression.</h2>
-          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Start with CLI fundamentals in Pack 1, then add interactive tooling in Pack 2. Or go Complete for the full 10-lab journey.</p>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Start with CLI fundamentals in Foundation Labs, then add interactive tooling in Advanced Labs. Or go Complete for the full 10-lab journey.</p>
 
           <div className="flex border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
@@ -210,7 +210,7 @@ export default function CySAPlusLabsPage() {
               {tab === 'p2' && PACK2_LABS.map(l => <LabRow key={l.num} lab={l} />)}
               {tab === 'complete' && (
                 <>
-                  <p className="text-xs text-slate-400 mb-2">All 10 labs — Pack 1 then Pack 2 in difficulty order.</p>
+                  <p className="text-xs text-slate-400 mb-2">All 10 labs — Foundation Labs then Advanced Labs in difficulty order.</p>
                   {[...PACK1_LABS, ...PACK2_LABS].sort((a, b) => {
                     const order = { Easy: 0, Intermediate: 1, Hard: 2, Expert: 3 };
                     return order[a.diff] - order[b.diff];
@@ -223,7 +223,7 @@ export default function CySAPlusLabsPage() {
               {tab === 'p2' && <PackCard title="CySA+ Advanced Labs" code="CS0-003 · Advanced" price="19.99" labs={5} />}
               {tab === 'complete' && (
                 <PackCard title="CySA+ Complete" code="CS0-003 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
-                  includes={['Pack 1 — 5 CLI investigation labs', 'Pack 2 — 5 labs inc. Arclight SIEM & NETSCAN PRO', 'All 10 labs unlocked immediately', 'Lifetime access from purchase']}
+                  includes={['Foundation Labs — 5 CLI investigation labs', 'Advanced Labs — 5 labs inc. Arclight SIEM & NETSCAN PRO', 'All 10 labs unlocked immediately', 'Lifetime access from purchase']}
                 />
               )}
             </div>
@@ -231,15 +231,15 @@ export default function CySAPlusLabsPage() {
         </div>
       </section>
 
-      {/* ── Complete your prep (cross-sell: Exam Engine / MCQ Bank / Prep Bundle) ── */}
-      <CompleteYourPrep cert="cysa" certLabel="CySA+" code="CS0-003" />
+      {/* ── Exam prep (deep-dive: Exam Engine + MCQ Study Bank + Prep Bundle savings) ── */}
+      <ExamPrepSection cert="cysa" certLabel="CySA+" code="CS0-003" />
 
       {/* ── Tools ── */}
       <section className="bg-[#F4F7FA] py-14 px-8">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">The tools you'll use</p>
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Not described. Actually used.</h2>
-          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">These screenshots are from real FortifyLearn labs. Pack 2 introduces interactive simulation tools built to mirror real analyst tooling.</p>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">These screenshots are from real FortifyLearn labs. Advanced Labs introduces interactive simulation tools built to mirror real analyst tooling.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { img: '/screenshots/fl-siem.png', lbl: 'ARCLIGHT SIEM v5.0.3', title: 'Arclight SIEM — alert triage and incident containment', desc: 'Filter events by source IP, correlate alerts across a timeline, identify attack patterns, and trigger containment actions inside a simulated SOC dashboard with realistic event data.', pack: 'CySA+ Advanced Labs · lab 3' },

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { Shield, Clock, CheckCircle2, Lock } from 'lucide-react';
-import CompleteYourPrep from '../components/CompleteYourPrep';
+import ExamPrepSection from '../components/ExamPrepSection';
 
 const PACK1_LABS = [
   { num: 'F', title: 'Firewall rule review — unauthorised remote access',                          diff: 'Easy',         obj: '3.2',                          tool: 'FORTIGUARD Auditor', free: true },
@@ -72,7 +72,7 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
         <a href="/store" className="block w-full text-center text-white font-bold text-sm py-3 rounded-xl mb-3 hover:brightness-110 transition-all" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
           Add to basket →
         </a>
-        {!complete && <p className="text-[11px] text-slate-400 text-center">Or get both packs for <span className="font-bold text-[#0891B2]">£32.99</span> — saves £6.99</p>}
+        {!complete && <p className="text-[11px] text-slate-400 text-center">Or get both tiers for <span className="font-bold text-[#0891B2]">£32.99</span> — saves £6.99</p>}
         {complete && includes && (
           <div className="border-t border-slate-100 pt-3 mt-1 space-y-1.5">
             {includes.map((inc, i) => (
@@ -101,7 +101,7 @@ export default function SecurityPlusLabsPage() {
     <>
       <Helmet>
         <title>CompTIA Security+ SY0-701 Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="10 hands-on Security+ SY0-701 simulation labs across 2 packs. Live Linux CLI hardening, FORTIGUARD firewall policy auditing, and identity management. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
+        <meta name="description" content="10 hands-on Security+ SY0-701 simulation labs across 2 tiers. Live Linux CLI hardening, FORTIGUARD firewall policy auditing, and identity management. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA Security+ labs, SY0-701 practice, Security+ PBQ simulation, Linux hardening, firewall audit, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-security-plus-labs" />
       </Helmet>
@@ -135,14 +135,14 @@ export default function SecurityPlusLabsPage() {
               </a>
             </div>
             <div className="flex gap-4 flex-wrap">
-              {['10 labs across 2 packs', 'Free taster labs', 'Lifetime access', 'One-time payment'].map(t => (
+              {['10 labs across 2 tiers', 'Free taster labs', 'Lifetime access', 'One-time payment'].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/40"><span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]/60" />{t}</span>
               ))}
             </div>
           </div>
           <div className="relative hidden lg:block">
             <div className="text-[10px] font-bold text-[#7DD3E8] tracking-wider uppercase absolute -top-4 left-4 bg-gradient-to-r from-[#0B1D3A] to-[#0891B2] px-3 py-1.5 rounded-md z-10">
-              FORTIGUARD Policy Auditor v3.1 — Sec+ Pack 2
+              FORTIGUARD Policy Auditor v3.1 — Sec+ Advanced Labs
             </div>
             <div className="rounded-xl overflow-hidden shadow-2xl border border-white/10">
               <img src="/screenshots/fl-fortiguard.png" alt="FORTIGUARD Policy Auditor v3.1 inside a FortifyLearn Security+ Advanced Labs lab — firewall rule audit dashboard" className="w-full" />
@@ -156,14 +156,14 @@ export default function SecurityPlusLabsPage() {
         <div className="max-w-6xl mx-auto px-8 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-2 space-y-4">
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              The <span className="font-semibold text-[#0891B2]">CompTIA Security+ SY0-701 exam</span> includes performance-based questions that test practical hardening skills — fixing misconfigured firewalls, removing insecure services, auditing file permissions, and investigating privilege escalation. FortifyLearn's <span className="font-semibold text-[#0891B2]">Security+ practice labs</span> build these skills through live Linux CLI environments and, in Pack 2, the <strong className="text-[#0B1D3A]">FORTIGUARD Policy Auditor</strong> — a visual firewall rule audit interface.
+              The <span className="font-semibold text-[#0891B2]">CompTIA Security+ SY0-701 exam</span> includes performance-based questions that test practical hardening skills — fixing misconfigured firewalls, removing insecure services, auditing file permissions, and investigating privilege escalation. FortifyLearn's <span className="font-semibold text-[#0891B2]">Security+ practice labs</span> build these skills through live Linux CLI environments and, in Advanced Labs, the <strong className="text-[#0B1D3A]">FORTIGUARD Policy Auditor</strong> — a visual firewall rule audit interface.
             </p>
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              Pack 1 covers server hardening fundamentals. Pack 2 moves into identity and access management — service account auditing, MFA enforcement, stale account remediation, and PKI management — alongside the FORTIGUARD visual tool for firewall policy review.
+              Foundation Labs covers server hardening fundamentals. Advanced Labs moves into identity and access management — service account auditing, MFA enforcement, stale account remediation, and PKI management — alongside the FORTIGUARD visual tool for firewall policy review.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-3 lg:grid-cols-1 lg:gap-3">
-            {[['10', 'Labs across 2 packs'], ['SY0-701', 'CompTIA exam code'], ['Free', '2 taster labs — no card needed']].map(([n, l]) => (
+            {[['10', 'Labs across 2 tiers'], ['SY0-701', 'CompTIA exam code'], ['Free', '2 taster labs — no card needed']].map(([n, l]) => (
               <div key={l} className="bg-[#F4F7FA] rounded-xl p-4 border border-[rgba(8,145,178,0.1)]">
                 <div className="text-2xl font-black text-[#0891B2]" style={{ letterSpacing: '-0.5px' }}>{n}</div>
                 <div className="text-xs text-slate-400 mt-1">{l}</div>
@@ -178,7 +178,7 @@ export default function SecurityPlusLabsPage() {
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">Security+ SY0-701 labs</p>
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Two packs. Ten labs. One progression.</h2>
-          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Pack 1 builds core hardening skills. Pack 2 adds identity management and visual firewall auditing. Go Complete for all 10.</p>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Foundation Labs builds core hardening skills. Advanced Labs adds identity management and visual firewall auditing. Go Complete for all 10.</p>
 
           <div className="flex border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
@@ -200,7 +200,7 @@ export default function SecurityPlusLabsPage() {
               {tab === 'p2' && PACK2_LABS.map(l => <LabRow key={l.num} lab={l} />)}
               {tab === 'complete' && (
                 <>
-                  <p className="text-xs text-slate-400 mb-2">All 10 labs — Pack 1 then Pack 2 in difficulty order.</p>
+                  <p className="text-xs text-slate-400 mb-2">All 10 labs — Foundation Labs then Advanced Labs in difficulty order.</p>
                   {[PACK1_LABS[0], ...PACK1_LABS.slice(1), ...PACK2_LABS].map((l, i) => <LabRow key={i} lab={{ ...l, num: l.free ? 'F' : i }} />)}
                 </>
               )}
@@ -210,7 +210,7 @@ export default function SecurityPlusLabsPage() {
               {tab === 'p2' && <PackCard title="Security+ Advanced Labs" code="SY0-701 · Advanced" price="19.99" labs={5} />}
               {tab === 'complete' && (
                 <PackCard title="Security+ Complete" code="SY0-701 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
-                  includes={['Pack 1 — 5 server hardening labs', 'Pack 2 — 5 labs inc. FORTIGUARD Auditor', '2 free taster labs (CLI + visual)', 'All 10 labs unlocked immediately']}
+                  includes={['Foundation Labs — 5 server hardening labs', 'Advanced Labs — 5 labs inc. FORTIGUARD Auditor', '2 free taster labs (CLI + visual)', 'All 10 labs unlocked immediately']}
                 />
               )}
             </div>
@@ -218,19 +218,19 @@ export default function SecurityPlusLabsPage() {
         </div>
       </section>
 
-      {/* ── Complete your prep (cross-sell: Exam Engine / MCQ Bank / Prep Bundle) ── */}
-      <CompleteYourPrep cert="secplus" certLabel="Security+" code="SY0-701" />
+      {/* ── Exam prep (deep-dive: Exam Engine + MCQ Study Bank + Prep Bundle savings) ── */}
+      <ExamPrepSection cert="secplus" certLabel="Security+" code="SY0-701" />
 
       {/* ── Tools ── */}
       <section className="bg-[#F4F7FA] py-14 px-8">
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">The tools you'll use</p>
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Not described. Actually used.</h2>
-          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Pack 1 is all CLI. Pack 2 introduces the FORTIGUARD Policy Auditor — a visual firewall rule table that mirrors real-world audit tooling.</p>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Foundation Labs is all CLI. Advanced Labs introduces the FORTIGUARD Policy Auditor — a visual firewall rule table that mirrors real-world audit tooling.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Policy Auditor v3.1', title: 'FORTIGUARD Policy Auditor — firewall rule audit and remediation', desc: 'Review a full firewall rule set, identify anomaly indicators (zero-hit DENY rules, overly broad ALLOW-ANY), analyse hit distribution across rules, and remove redundant policies — mirroring the firewall audit workflow tested in SY0-701.', pack: 'Security+ Advanced Labs · lab 4' },
-              { img: '/screenshots/fl-linux-cli.png', lbl: 'Linux CLI — Security+ Foundation Labs', title: 'Live Linux CLI — all Pack 1 labs', desc: 'Real commands, real output. Run ss -tlnp, ls /etc/ssh/, grep PermitRootLogin — the available commands panel guides the investigation, but you type every command yourself. The output reflects the actual vulnerability in the scenario.', pack: 'Security+ Foundation Labs · all labs' },
+              { img: '/screenshots/fl-linux-cli.png', lbl: 'Linux CLI — Security+ Foundation Labs', title: 'Live Linux CLI — all Foundation Labs labs', desc: 'Real commands, real output. Run ss -tlnp, ls /etc/ssh/, grep PermitRootLogin — the available commands panel guides the investigation, but you type every command yourself. The output reflects the actual vulnerability in the scenario.', pack: 'Security+ Foundation Labs · all labs' },
             ].map(tool => (
               <div key={tool.lbl} className="bg-white rounded-2xl overflow-hidden border border-[rgba(8,145,178,0.12)]">
                 <div className="relative">

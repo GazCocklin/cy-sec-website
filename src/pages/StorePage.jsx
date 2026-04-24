@@ -34,8 +34,8 @@ const CERTS = [
       'Lifetime access',
     ],
     pack1: {
-      key: 'netplus_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: '/screenshots/fl-netsim.png',
-      kind: 'labs', meta: 'Foundation labs',
+      key: 'netplus_pack', label: 'Foundation Labs', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: '/screenshots/fl-netsim.png',
+      kind: 'labs', meta: '5 PBQ labs',
       highlights: [
         'DNS server misconfiguration',
         'Default gateway fault diagnosis',
@@ -45,8 +45,8 @@ const CERTS = [
       ],
     },
     pack2: {
-      key: 'netplus_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-netpulse.png', isNew: true,
-      kind: 'labs', meta: 'Advanced labs',
+      key: 'netplus_pack_2', label: 'Advanced Labs', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-netpulse.png', isNew: true,
+      kind: 'labs', meta: '5 PBQ labs',
       highlights: [
         'DHCP scope exhaustion',
         'Port security violation recovery',
@@ -55,7 +55,7 @@ const CERTS = [
         'SNMP multi-site fault triage via NETPULSE NMS',
       ],
     },
-    complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netcap.png' },
+    complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netcap.png' },
     exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
     mcq:       { key: 'mcq_netplus',          label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
     prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
@@ -74,8 +74,8 @@ const CERTS = [
       'Lifetime access',
     ],
     pack1: {
-      key: 'secplus_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: '/screenshots/fl-linux-cli.png',
-      kind: 'labs', meta: 'Foundation labs',
+      key: 'secplus_pack', label: 'Foundation Labs', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: '/screenshots/fl-linux-cli.png',
+      kind: 'labs', meta: '5 PBQ labs',
       highlights: [
         'Firewall rule blocking HTTPS traffic',
         'Sensitive file permission hardening',
@@ -85,8 +85,8 @@ const CERTS = [
       ],
     },
     pack2: {
-      key: 'secplus_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-fortiguard.png', isNew: true,
-      kind: 'labs', meta: 'Advanced labs',
+      key: 'secplus_pack_2', label: 'Advanced Labs', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-fortiguard.png', isNew: true,
+      kind: 'labs', meta: '5 PBQ labs',
       highlights: [
         'Stale user account lockdown',
         'Unauthorised service account audit',
@@ -95,7 +95,7 @@ const CERTS = [
         'PKI rotation after CA compromise',
       ],
     },
-    complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-linux-cli.png' },
+    complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-linux-cli.png' },
     exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
     mcq:       { key: 'mcq_secplus',          label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
     prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
@@ -114,8 +114,8 @@ const CERTS = [
       'Lifetime access',
     ],
     pack1: {
-      key: 'cysa_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: null,
-      kind: 'labs', meta: 'Foundation labs',
+      key: 'cysa_pack', label: 'Foundation Labs', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: null,
+      kind: 'labs', meta: '5 PBQ labs',
       highlights: [
         'Suspicious process & C2 detection',
         'Web application brute force investigation',
@@ -125,8 +125,8 @@ const CERTS = [
       ],
     },
     pack2: {
-      key: 'cysa_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-siem.png', isNew: true,
-      kind: 'labs', meta: 'Advanced labs',
+      key: 'cysa_pack_2', label: 'Advanced Labs', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-siem.png', isNew: true,
+      kind: 'labs', meta: '5 PBQ labs',
       highlights: [
         'Internal port scan detection & containment',
         'Malicious cron job persistence removal',
@@ -135,7 +135,7 @@ const CERTS = [
         'Credential harvesting & ransomware eradication',
       ],
     },
-    complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netscan.png' },
+    complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netscan.png' },
     exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
     mcq:       { key: 'mcq_cysa',             label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
     prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
@@ -154,7 +154,7 @@ const KEY_LOOKUP = (() => {
 })();
 
 // Flat product list for the main grid (excludes prep bundles — those get their
-// own featured section). Ordered: Complete, Exam, MCQ, Pack 1, Pack 2 per cert.
+// own featured section). Ordered: Complete, Exam, MCQ, Foundation Labs, Advanced Labs per cert.
 const GRID_PRODUCTS = CERTS.flatMap(cert => [
   { cert, config: cert.complete },
   { cert, config: cert.exam },
@@ -395,22 +395,49 @@ function PromoHero({ onShopBundles }) {
           </span>
         </div>
       </div>
-      <div className="relative flex-1 hidden sm:block" style={{ minHeight: 230 }}>
-        <div className="absolute font-black leading-none text-white"
-          style={{ top: 36, right: 8, fontSize: 120, letterSpacing: '-6px' }}>
-          37<span className="text-[52px]" style={{ letterSpacing: 0 }}>%</span>
-        </div>
-        <div className="absolute font-extrabold tracking-wide"
-          style={{ top: 46, right: 10, background: '#fed7aa', color: '#7c2d12', fontSize: 10, padding: '3px 8px', borderRadius: 4 }}>
-          OFF
-        </div>
-        <div className="absolute font-extrabold rounded-md"
-          style={{ top: 160, right: 28, background: '#7DD3E8', color: '#0B1D3A', fontSize: 11, padding: '4px 11px' }}>
+      <div className="relative flex-1 hidden sm:block overflow-hidden" style={{ minHeight: 230 }}>
+        {/* CySA+ Arclight SIEM dashboard — communicates 'real advanced tool' at a glance */}
+        <img src="/screenshots/fl-siem.png"
+          alt="Arclight SIEM — a real tool inside FortifyLearn's CySA+ labs"
+          className="absolute block"
+          loading="lazy"
+          style={{
+            top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%)',
+            maxHeight: '78%', maxWidth: '92%',
+            borderRadius: 10,
+            boxShadow: '0 20px 45px rgba(0,0,0,0.45), 0 0 0 1px rgba(125,211,232,0.12)',
+          }} />
+
+        {/* SAVE £29.97 — prominent value pill, top-left */}
+        <div className="absolute z-10 font-extrabold rounded-md shadow-lg"
+          style={{
+            top: 20, left: 20,
+            background: '#FDE8E8', color: '#A91818',
+            fontSize: 11, padding: '5px 11px',
+            letterSpacing: '0.02em',
+          }}>
           SAVE £29.97
         </div>
-        <div className="absolute rotate-45" style={{ top: 20, left: 20, width: 6, height: 6, background: 'rgba(255,255,255,0.5)' }} />
-        <div className="absolute rotate-45" style={{ top: 100, right: 210, width: 10, height: 10, background: 'rgba(125,211,232,0.8)' }} />
-        <div className="absolute rotate-45" style={{ bottom: 50, left: 20, width: 8, height: 8, background: 'rgba(255,255,255,0.4)' }} />
+
+        {/* 37% off — secondary reinforcement, top-right */}
+        <div className="absolute z-10 font-extrabold rounded-full"
+          style={{
+            top: 20, right: 20,
+            background: '#7DD3E8', color: '#0B1D3A',
+            fontSize: 10, padding: '4px 10px',
+            letterSpacing: '0.02em',
+          }}>
+          37% OFF
+        </div>
+
+        {/* Caption — so viewers know what they're looking at */}
+        <div className="absolute z-10 text-[9px] font-bold tracking-wider uppercase"
+          style={{ bottom: 18, left: 20, color: 'rgba(255,255,255,0.6)' }}>
+          CySA+ · Arclight SIEM
+        </div>
+
+        {/* Pricing disclaimer preserved bottom-right */}
         <div className="absolute text-[10px] text-white/50" style={{ bottom: 16, right: 20 }}>
           *bundle pricing
         </div>
@@ -592,8 +619,8 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
   } else if (isPackTwo && cert.pack2?.highlights) {
     sections.push({ title: 'What you\'ll practise', items: cert.pack2.highlights });
   } else if (isComplete) {
-    if (cert.pack1?.highlights) sections.push({ title: 'Pack 1 — foundations', items: cert.pack1.highlights });
-    if (cert.pack2?.highlights) sections.push({ title: 'Pack 2 — advanced', items: cert.pack2.highlights });
+    if (cert.pack1?.highlights) sections.push({ title: 'Foundation Labs', items: cert.pack1.highlights });
+    if (cert.pack2?.highlights) sections.push({ title: 'Advanced Labs', items: cert.pack2.highlights });
   } else if (isExam) {
     sections.push({
       title: 'Exam format',
@@ -642,8 +669,8 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
     sections.push({
       title: 'What\'s included',
       items: [
-        `Pack 1 — 5 foundation labs (£19.99 value)`,
-        `Pack 2 — 5 advanced labs (£19.99 value)`,
+        `Foundation Labs — 5 PBQs (£19.99 value)`,
+        `Advanced Labs — 5 PBQs (£19.99 value)`,
         `Exam Engine — mock exam with full scoring (£24.99 value)`,
         `MCQ Study Bank — 1,000 questions with reasoning (£14.99 value)`,
       ],
@@ -891,6 +918,7 @@ export default function StorePage() {
   const [showModal,       setShowModal]       = useState(false);
   const [error,           setError]           = useState(null);
   const [activeFilter,    setActiveFilter]    = useState('all'); // 'all' | 'netplus' | 'secplus' | 'cysa'
+  const [activeProductKind, setActiveProductKind] = useState('all'); // 'all' | 'labs' | 'mock' | 'study'
   const [detailsFor,      setDetailsFor]      = useState(null); // product key whose details modal is open
   const bundleRef = useRef(null);
   const gridRef   = useRef(null);
@@ -937,9 +965,9 @@ export default function StorePage() {
     }
   }
 
-  const filteredProducts = activeFilter === 'all'
-    ? GRID_PRODUCTS
-    : GRID_PRODUCTS.filter(p => p.cert.key === activeFilter);
+  const filteredProducts = GRID_PRODUCTS
+    .filter(p => activeFilter === 'all' || p.cert.key === activeFilter)
+    .filter(p => activeProductKind === 'all' || p.config.kind === activeProductKind);
 
   return (
     <div className={`min-h-screen ${basket.length > 0 ? 'pb-36 sm:pb-32' : 'pb-2'}`} style={{ background: '#F4F7FA' }}>
@@ -1029,15 +1057,51 @@ export default function StorePage() {
               {filteredProducts.length} items · Lifetime access
             </span>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3">
-            {filteredProducts.map(({ cert, config }) => (
-              <ProductCard key={config.key}
-                cert={cert} config={config}
-                inBasket={basket.includes(config.key)}
-                onToggle={toggleItem}
-                onShowDetails={() => setDetailsFor(config.key)} />
-            ))}
+
+          {/* Product-kind filter chips — combines with the cert filter above */}
+          <div className="flex items-center gap-1.5 mb-4 flex-wrap">
+            {[
+              { key: 'all',   label: 'All' },
+              { key: 'labs',  label: 'PBQ labs' },
+              { key: 'mock',  label: 'Mock exams' },
+              { key: 'study', label: 'MCQ banks' },
+            ].map(chip => {
+              const active = activeProductKind === chip.key;
+              return (
+                <button key={chip.key}
+                  onClick={() => setActiveProductKind(chip.key)}
+                  className="text-[11px] font-bold px-3 py-1.5 rounded-full transition-all"
+                  style={active
+                    ? { background: '#0B1D3A', color: '#fff', letterSpacing: '-0.2px' }
+                    : { background: '#fff', color: '#334155', border: '1px solid #e2e8f0', letterSpacing: '-0.2px' }}>
+                  {chip.label}
+                </button>
+              );
+            })}
           </div>
+
+          {filteredProducts.length === 0 ? (
+            <div className="bg-white rounded-xl border border-slate-200 px-6 py-12 text-center">
+              <p className="text-sm font-semibold text-slate-900 mb-1">Nothing matches those filters.</p>
+              <p className="text-xs text-slate-500 mb-4">
+                Try clearing a filter or switching to "All".
+              </p>
+              <button onClick={() => { setActiveFilter('all'); setActiveProductKind('all'); }}
+                className="text-xs font-semibold" style={{ color: '#0891B2' }}>
+                Clear filters →
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3">
+              {filteredProducts.map(({ cert, config }) => (
+                <ProductCard key={config.key}
+                  cert={cert} config={config}
+                  inBasket={basket.includes(config.key)}
+                  onToggle={toggleItem}
+                  onShowDetails={() => setDetailsFor(config.key)} />
+              ))}
+            </div>
+          )}
           {activeFilter !== 'all' && (
             <div className="mt-4 text-center">
               <a href={CERTS.find(c => c.key === activeFilter)?.landingPage}

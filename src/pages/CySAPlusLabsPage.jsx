@@ -136,7 +136,7 @@ export default function CySAPlusLabsPage() {
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-                CySA+ Pack 1 — £19.99
+                CySA+ Foundation Labs — £19.99
               </a>
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-semibold text-white border border-white/20 bg-white/8 hover:bg-white/14 transition-all">
                 Complete (10 labs) — £32.99
@@ -152,10 +152,10 @@ export default function CySAPlusLabsPage() {
           </div>
           <div className="relative hidden lg:block">
             <div className="text-[10px] font-bold text-[#7DD3E8] tracking-wider uppercase absolute -top-4 left-4 bg-gradient-to-r from-[#0B1D3A] to-[#0891B2] px-3 py-1.5 rounded-md z-10">
-              Arclight SIEM v5.0.3 — CySA+ Pack 2
+              Arclight SIEM v5.0.3 — CySA+ Advanced Labs
             </div>
             <div className="rounded-xl overflow-hidden shadow-2xl border border-white/10">
-              <img src="/screenshots/fl-siem.png" alt="Arclight SIEM v5.0.3 inside a FortifyLearn CySA+ Pack 2 lab — live alert triage dashboard" className="w-full" />
+              <img src="/screenshots/fl-siem.png" alt="Arclight SIEM v5.0.3 inside a FortifyLearn CySA+ Advanced Labs lab — live alert triage dashboard" className="w-full" />
             </div>
           </div>
         </div>
@@ -192,8 +192,8 @@ export default function CySAPlusLabsPage() {
 
           <div className="flex border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
-              { id: 'p1', label: 'Pack 1', meta: '5 labs · £19.99' },
-              { id: 'p2', label: 'Pack 2', meta: '5 labs · £19.99' },
+              { id: 'p1', label: 'Foundation', meta: '5 labs · £19.99' },
+              { id: 'p2', label: 'Advanced', meta: '5 labs · £19.99' },
               { id: 'complete', label: 'Complete', meta: '10 labs · £32.99' },
             ].map(t => (
               <button key={t.id} onClick={() => setTab(t.id)}
@@ -219,8 +219,8 @@ export default function CySAPlusLabsPage() {
               )}
             </div>
             <div>
-              {tab === 'p1' && <PackCard title="CySA+ Pack 1" code="CS0-003 · Pack 1" price="19.99" labs={5} />}
-              {tab === 'p2' && <PackCard title="CySA+ Pack 2" code="CS0-003 · Pack 2" price="19.99" labs={5} />}
+              {tab === 'p1' && <PackCard title="CySA+ Foundation Labs" code="CS0-003 · Foundation" price="19.99" labs={5} />}
+              {tab === 'p2' && <PackCard title="CySA+ Advanced Labs" code="CS0-003 · Advanced" price="19.99" labs={5} />}
               {tab === 'complete' && (
                 <PackCard title="CySA+ Complete" code="CS0-003 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
                   includes={['Pack 1 — 5 CLI investigation labs', 'Pack 2 — 5 labs inc. Arclight SIEM & NETSCAN PRO', 'All 10 labs unlocked immediately', 'Lifetime access from purchase']}
@@ -242,8 +242,8 @@ export default function CySAPlusLabsPage() {
           <p className="text-[15px] text-slate-500 mb-8 max-w-xl">These screenshots are from real FortifyLearn labs. Pack 2 introduces interactive simulation tools built to mirror real analyst tooling.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { img: '/screenshots/fl-siem.png', lbl: 'ARCLIGHT SIEM v5.0.3', title: 'Arclight SIEM — alert triage and incident containment', desc: 'Filter events by source IP, correlate alerts across a timeline, identify attack patterns, and trigger containment actions inside a simulated SOC dashboard with realistic event data.', pack: 'CySA+ Pack 2 · lab 3' },
-              { img: '/screenshots/fl-netscan.png', lbl: 'NETSCAN PRO v4.2.1', title: 'NETSCAN PRO — vulnerability assessment and remediation triage', desc: 'Review CVSS-scored findings across multiple hosts, filter by severity, identify false positives, and prioritise remediation — replicating the analyst workflow CS0-003 tests directly.', pack: 'CySA+ Pack 2 · lab 4' },
+              { img: '/screenshots/fl-siem.png', lbl: 'ARCLIGHT SIEM v5.0.3', title: 'Arclight SIEM — alert triage and incident containment', desc: 'Filter events by source IP, correlate alerts across a timeline, identify attack patterns, and trigger containment actions inside a simulated SOC dashboard with realistic event data.', pack: 'CySA+ Advanced Labs · lab 3' },
+              { img: '/screenshots/fl-netscan.png', lbl: 'NETSCAN PRO v4.2.1', title: 'NETSCAN PRO — vulnerability assessment and remediation triage', desc: 'Review CVSS-scored findings across multiple hosts, filter by severity, identify false positives, and prioritise remediation — replicating the analyst workflow CS0-003 tests directly.', pack: 'CySA+ Advanced Labs · lab 4' },
             ].map(tool => (
               <div key={tool.lbl} className="bg-white rounded-2xl overflow-hidden border border-[rgba(8,145,178,0.12)]">
                 <div className="relative">

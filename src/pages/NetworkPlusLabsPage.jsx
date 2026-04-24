@@ -134,7 +134,7 @@ export default function NetworkPlusLabsPage() {
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-                Network+ Pack 1 — £19.99
+                Network+ Foundation Labs — £19.99
               </a>
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-semibold text-white border border-white/20 bg-white/8 hover:bg-white/14 transition-all">
                 Complete (10 labs) — £32.99
@@ -188,8 +188,8 @@ export default function NetworkPlusLabsPage() {
 
           <div className="flex border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
-              { id: 'p1', label: 'Pack 1', meta: '5 labs · £19.99' },
-              { id: 'p2', label: 'Pack 2', meta: '5 labs · £19.99' },
+              { id: 'p1', label: 'Foundation', meta: '5 labs · £19.99' },
+              { id: 'p2', label: 'Advanced', meta: '5 labs · £19.99' },
               { id: 'complete', label: 'Complete', meta: '10 labs · £32.99' },
             ].map(t => (
               <button key={t.id} onClick={() => setTab(t.id)}
@@ -212,8 +212,8 @@ export default function NetworkPlusLabsPage() {
               )}
             </div>
             <div>
-              {tab === 'p1' && <PackCard title="Network+ Pack 1" code="N10-009 · Pack 1" price="19.99" labs={5} />}
-              {tab === 'p2' && <PackCard title="Network+ Pack 2" code="N10-009 · Pack 2" price="19.99" labs={5} />}
+              {tab === 'p1' && <PackCard title="Network+ Foundation Labs" code="N10-009 · Foundation" price="19.99" labs={5} />}
+              {tab === 'p2' && <PackCard title="Network+ Advanced Labs" code="N10-009 · Advanced" price="19.99" labs={5} />}
               {tab === 'complete' && (
                 <PackCard title="Network+ Complete" code="N10-009 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
                   includes={['Pack 1 — 5 Cisco IOS troubleshooting labs', 'Pack 2 — 5 labs inc. FL-NETSIM, NETCAP, NETPULSE', '2 free taster labs (CLI + visual)', 'All 10 labs unlocked immediately']}

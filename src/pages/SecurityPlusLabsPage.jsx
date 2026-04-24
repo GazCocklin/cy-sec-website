@@ -128,7 +128,7 @@ export default function SecurityPlusLabsPage() {
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-                Security+ Pack 1 — £19.99
+                Security+ Foundation Labs — £19.99
               </a>
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-semibold text-white border border-white/20 bg-white/8 hover:bg-white/14 transition-all">
                 Complete (10 labs) — £32.99
@@ -145,7 +145,7 @@ export default function SecurityPlusLabsPage() {
               FORTIGUARD Policy Auditor v3.1 — Sec+ Pack 2
             </div>
             <div className="rounded-xl overflow-hidden shadow-2xl border border-white/10">
-              <img src="/screenshots/fl-fortiguard.png" alt="FORTIGUARD Policy Auditor v3.1 inside a FortifyLearn Security+ Pack 2 lab — firewall rule audit dashboard" className="w-full" />
+              <img src="/screenshots/fl-fortiguard.png" alt="FORTIGUARD Policy Auditor v3.1 inside a FortifyLearn Security+ Advanced Labs lab — firewall rule audit dashboard" className="w-full" />
             </div>
           </div>
         </div>
@@ -182,8 +182,8 @@ export default function SecurityPlusLabsPage() {
 
           <div className="flex border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
-              { id: 'p1', label: 'Pack 1', meta: '5 labs · £19.99' },
-              { id: 'p2', label: 'Pack 2', meta: '5 labs · £19.99' },
+              { id: 'p1', label: 'Foundation', meta: '5 labs · £19.99' },
+              { id: 'p2', label: 'Advanced', meta: '5 labs · £19.99' },
               { id: 'complete', label: 'Complete', meta: '10 labs · £32.99' },
             ].map(t => (
               <button key={t.id} onClick={() => setTab(t.id)}
@@ -206,8 +206,8 @@ export default function SecurityPlusLabsPage() {
               )}
             </div>
             <div>
-              {tab === 'p1' && <PackCard title="Security+ Pack 1" code="SY0-701 · Pack 1" price="19.99" labs={5} />}
-              {tab === 'p2' && <PackCard title="Security+ Pack 2" code="SY0-701 · Pack 2" price="19.99" labs={5} />}
+              {tab === 'p1' && <PackCard title="Security+ Foundation Labs" code="SY0-701 · Foundation" price="19.99" labs={5} />}
+              {tab === 'p2' && <PackCard title="Security+ Advanced Labs" code="SY0-701 · Advanced" price="19.99" labs={5} />}
               {tab === 'complete' && (
                 <PackCard title="Security+ Complete" code="SY0-701 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
                   includes={['Pack 1 — 5 server hardening labs', 'Pack 2 — 5 labs inc. FORTIGUARD Auditor', '2 free taster labs (CLI + visual)', 'All 10 labs unlocked immediately']}
@@ -229,8 +229,8 @@ export default function SecurityPlusLabsPage() {
           <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Pack 1 is all CLI. Pack 2 introduces the FORTIGUARD Policy Auditor — a visual firewall rule table that mirrors real-world audit tooling.</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Policy Auditor v3.1', title: 'FORTIGUARD Policy Auditor — firewall rule audit and remediation', desc: 'Review a full firewall rule set, identify anomaly indicators (zero-hit DENY rules, overly broad ALLOW-ANY), analyse hit distribution across rules, and remove redundant policies — mirroring the firewall audit workflow tested in SY0-701.', pack: 'Security+ Pack 2 · lab 4' },
-              { img: '/screenshots/fl-linux-cli.png', lbl: 'Linux CLI — Security+ Pack 1', title: 'Live Linux CLI — all Pack 1 labs', desc: 'Real commands, real output. Run ss -tlnp, ls /etc/ssh/, grep PermitRootLogin — the available commands panel guides the investigation, but you type every command yourself. The output reflects the actual vulnerability in the scenario.', pack: 'Security+ Pack 1 · all labs' },
+              { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Policy Auditor v3.1', title: 'FORTIGUARD Policy Auditor — firewall rule audit and remediation', desc: 'Review a full firewall rule set, identify anomaly indicators (zero-hit DENY rules, overly broad ALLOW-ANY), analyse hit distribution across rules, and remove redundant policies — mirroring the firewall audit workflow tested in SY0-701.', pack: 'Security+ Advanced Labs · lab 4' },
+              { img: '/screenshots/fl-linux-cli.png', lbl: 'Linux CLI — Security+ Foundation Labs', title: 'Live Linux CLI — all Pack 1 labs', desc: 'Real commands, real output. Run ss -tlnp, ls /etc/ssh/, grep PermitRootLogin — the available commands panel guides the investigation, but you type every command yourself. The output reflects the actual vulnerability in the scenario.', pack: 'Security+ Foundation Labs · all labs' },
             ].map(tool => (
               <div key={tool.lbl} className="bg-white rounded-2xl overflow-hidden border border-[rgba(8,145,178,0.12)]">
                 <div className="relative">

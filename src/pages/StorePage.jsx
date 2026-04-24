@@ -33,7 +33,7 @@ const CERTS = [
       'Lifetime access',
     ],
     pack1: {
-      key: 'netplus_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99,
+      key: 'netplus_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: '/screenshots/fl-netsim.png',
       kind: 'labs', meta: 'Foundation labs',
       highlights: [
         'DNS server misconfiguration',
@@ -44,7 +44,7 @@ const CERTS = [
       ],
     },
     pack2: {
-      key: 'netplus_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, isNew: true,
+      key: 'netplus_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-netpulse.png', isNew: true,
       kind: 'labs', meta: 'Advanced labs',
       highlights: [
         'DHCP scope exhaustion',
@@ -54,10 +54,10 @@ const CERTS = [
         'SNMP multi-site fault triage via NETPULSE NMS',
       ],
     },
-    complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs' },
-    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed' },
-    mcq:       { key: 'mcq_netplus',          label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank' },
-    prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular' },
+    complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netcap.png' },
+    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
+    mcq:       { key: 'mcq_netplus',          label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
+    prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: '/screenshots/fl-exam-banner.png' },
   },
   {
     key: 'secplus',
@@ -73,7 +73,7 @@ const CERTS = [
       'Lifetime access',
     ],
     pack1: {
-      key: 'secplus_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99,
+      key: 'secplus_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: '/screenshots/fl-linux-cli.png',
       kind: 'labs', meta: 'Foundation labs',
       highlights: [
         'Firewall rule blocking HTTPS traffic',
@@ -84,7 +84,7 @@ const CERTS = [
       ],
     },
     pack2: {
-      key: 'secplus_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, isNew: true,
+      key: 'secplus_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-fortiguard.png', isNew: true,
       kind: 'labs', meta: 'Advanced labs',
       highlights: [
         'Stale user account lockdown',
@@ -94,10 +94,10 @@ const CERTS = [
         'PKI rotation after CA compromise',
       ],
     },
-    complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs' },
-    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed' },
-    mcq:       { key: 'mcq_secplus',          label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank' },
-    prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular' },
+    complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-linux-cli.png' },
+    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
+    mcq:       { key: 'mcq_secplus',          label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
+    prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: '/screenshots/fl-exam-banner.png' },
   },
   {
     key: 'cysa',
@@ -113,7 +113,7 @@ const CERTS = [
       'Lifetime access',
     ],
     pack1: {
-      key: 'cysa_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99,
+      key: 'cysa_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: null,
       kind: 'labs', meta: 'Foundation labs',
       highlights: [
         'Suspicious process & C2 detection',
@@ -124,7 +124,7 @@ const CERTS = [
       ],
     },
     pack2: {
-      key: 'cysa_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, isNew: true,
+      key: 'cysa_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-siem.png', isNew: true,
       kind: 'labs', meta: 'Advanced labs',
       highlights: [
         'Internal port scan detection & containment',
@@ -134,10 +134,10 @@ const CERTS = [
         'Credential harvesting & ransomware eradication',
       ],
     },
-    complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs' },
-    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed' },
-    mcq:       { key: 'mcq_cysa',             label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank' },
-    prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular' },
+    complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netscan.png' },
+    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
+    mcq:       { key: 'mcq_cysa',             label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
+    prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: '/screenshots/fl-exam-banner.png' },
   },
 ];
 
@@ -428,9 +428,17 @@ function FeaturedBundleCard({ cert, inBasket, onToggle }) {
         style={{ background: '#0891B2', color: '#fff' }}>
         <Star className="w-3 h-3" /> Recommended
       </div>
-      <div className="relative flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#E6F7FB,#F4F7FA)', height: 110 }}>
-        <img src={cert.badge} alt={cert.title} className="object-contain"
-          style={{ width: 72, height: 72 }} onError={e => { e.target.style.display='none'; }} />
+      <div className="relative overflow-hidden" style={{ height: 110 }}>
+        <img src={prepBundle.thumbnail} alt=""
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: 'center' }} loading="lazy" />
+        {/* Cert badge lockup — identifies which cert this bundle is for */}
+        <div className="absolute bottom-2 right-2 bg-white/95 rounded-lg flex items-center gap-1.5 px-2 py-1.5 shadow-sm backdrop-blur-sm"
+          style={{ border: '1px solid rgba(11,29,58,0.08)' }}>
+          <img src={cert.badge} alt={cert.title} className="w-7 h-7 object-contain"
+            onError={e => { e.target.style.display='none'; }} />
+          <span className="text-[10px] font-extrabold text-slate-900 pr-0.5 tracking-wide">{cert.short}</span>
+        </div>
       </div>
       <div className="p-4 flex flex-col flex-1">
         <p className="text-sm font-bold text-slate-900 mb-0.5">{cert.short} Prep Bundle</p>
@@ -491,24 +499,41 @@ function ProductCard({ cert, config, inBasket, onToggle, onView }) {
   return (
     <div className="bg-white rounded-xl overflow-hidden flex flex-col hover:shadow-sm transition-all"
       style={{ border: thumbBorder }}>
-      <div className="relative flex items-center justify-center" style={{ background: thumbBg, height: 92 }}>
-        <div className="flex flex-col items-center">
-          <img src={cert.badge} alt="" className="object-contain mb-1"
-            style={{ width: 34, height: 34, opacity: 0.9 }} onError={e => { e.target.style.display='none'; }} />
-          <p className="text-[10px] font-extrabold text-slate-700 tracking-wider uppercase">
-            {cert.short} · {config.label}
-          </p>
-        </div>
+      <div className="relative overflow-hidden" style={{ background: thumbBg, height: 92 }}>
+        {config.thumbnail ? (
+          <>
+            <img src={config.thumbnail} alt={`${cert.short} ${config.label}`}
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: 'center top' }}
+              loading="lazy"
+              onError={e => { e.target.style.display='none'; }} />
+            {/* Cert badge chip overlay (identifies which cert at a glance) */}
+            <div className="absolute top-1.5 left-1.5 bg-white/95 rounded-md flex items-center gap-1 px-1 py-0.5 shadow-sm backdrop-blur-sm"
+              style={{ border: '1px solid rgba(11,29,58,0.08)' }}>
+              <img src={cert.badge} alt="" className="w-4 h-4 object-contain"
+                onError={e => { e.target.style.display='none'; }} />
+              <span className="text-[9px] font-extrabold text-slate-900 pr-0.5 tracking-wide">{cert.short}</span>
+            </div>
+          </>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full">
+            <img src={cert.badge} alt="" className="object-contain mb-1"
+              style={{ width: 34, height: 34, opacity: 0.9 }} onError={e => { e.target.style.display='none'; }} />
+            <p className="text-[10px] font-extrabold text-slate-700 tracking-wider uppercase">
+              {cert.short} · {config.label}
+            </p>
+          </div>
+        )}
         {config.isNew && !inBasket && (
-          <span className="absolute top-2 right-2 text-[9px] font-extrabold text-white px-1.5 py-0.5 rounded"
+          <span className="absolute top-1.5 right-1.5 text-[9px] font-extrabold text-white px-1.5 py-0.5 rounded"
             style={{ background: '#0891B2' }}>NEW</span>
         )}
         {isComplete && (
-          <span className="absolute top-2 right-2 text-[9px] font-extrabold px-1.5 py-0.5 rounded"
+          <span className="absolute top-1.5 right-1.5 text-[9px] font-extrabold px-1.5 py-0.5 rounded"
             style={{ background: '#FDE8E8', color: '#A91818' }}>-18%</span>
         )}
         {kindLabel && !config.isNew && !isComplete && (
-          <span className="absolute bottom-2 right-2 text-[9px] font-bold text-slate-600 bg-white px-1.5 py-0.5 rounded border border-slate-200">
+          <span className="absolute bottom-1.5 right-1.5 text-[9px] font-bold text-slate-600 bg-white/95 px-1.5 py-0.5 rounded border border-slate-200 backdrop-blur-sm">
             {kindLabel}
           </span>
         )}

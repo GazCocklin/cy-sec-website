@@ -57,7 +57,7 @@ const CERTS = [
     complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netcap.png' },
     exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
     mcq:       { key: 'mcq_netplus',          label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
-    prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: '/screenshots/fl-exam-banner.png' },
+    prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   {
     key: 'secplus',
@@ -97,7 +97,7 @@ const CERTS = [
     complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-linux-cli.png' },
     exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
     mcq:       { key: 'mcq_secplus',          label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
-    prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: '/screenshots/fl-exam-banner.png' },
+    prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   {
     key: 'cysa',
@@ -137,7 +137,7 @@ const CERTS = [
     complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netscan.png' },
     exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-question.png' },
     mcq:       { key: 'mcq_cysa',             label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-reasoning.png' },
-    prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: '/screenshots/fl-exam-banner.png' },
+    prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
 ];
 
@@ -419,7 +419,7 @@ function PromoHero({ onShopBundles }) {
 }
 
 // ── Featured prep bundle card ────────────────────────────────────────────────
-function FeaturedBundleCard({ cert, inBasket, onToggle }) {
+function FeaturedBundleCard({ cert, inBasket, onToggle, onShowDetails }) {
   const { prepBundle } = cert;
   return (
     <div className="bg-white rounded-2xl overflow-hidden relative flex flex-col"
@@ -428,17 +428,9 @@ function FeaturedBundleCard({ cert, inBasket, onToggle }) {
         style={{ background: '#0891B2', color: '#fff' }}>
         <Star className="w-3 h-3" /> Recommended
       </div>
-      <div className="relative overflow-hidden" style={{ height: 110 }}>
-        <img src={prepBundle.thumbnail} alt=""
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center' }} loading="lazy" />
-        {/* Cert badge lockup — identifies which cert this bundle is for */}
-        <div className="absolute bottom-2 right-2 bg-white/95 rounded-lg flex items-center gap-1.5 px-2 py-1.5 shadow-sm backdrop-blur-sm"
-          style={{ border: '1px solid rgba(11,29,58,0.08)' }}>
-          <img src={cert.badge} alt={cert.title} className="w-7 h-7 object-contain"
-            onError={e => { e.target.style.display='none'; }} />
-          <span className="text-[10px] font-extrabold text-slate-900 pr-0.5 tracking-wide">{cert.short}</span>
-        </div>
+      <div className="relative flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#E6F7FB,#F4F7FA)', height: 110 }}>
+        <img src={cert.badge} alt={cert.title} className="object-contain"
+          style={{ width: 72, height: 72 }} onError={e => { e.target.style.display='none'; }} />
       </div>
       <div className="p-4 flex flex-col flex-1">
         <p className="text-sm font-bold text-slate-900 mb-0.5">{cert.short} Prep Bundle</p>
@@ -463,6 +455,12 @@ function FeaturedBundleCard({ cert, inBasket, onToggle }) {
           style={inBasket ? {} : { background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
           {inBasket ? '✓ In basket' : 'Add bundle →'}
         </button>
+        {onShowDetails && (
+          <button onClick={onShowDetails}
+            className="mt-2 w-full text-[11px] font-semibold text-slate-500 hover:text-cyan-700 transition-colors py-1">
+            What's inside the bundle →
+          </button>
+        )}
       </div>
     </div>
   );
@@ -490,8 +488,7 @@ function CertTile({ cert, active, onClick }) {
 }
 
 // ── Product card (main grid) ─────────────────────────────────────────────────
-function ProductCard({ cert, config, inBasket, onToggle, onView }) {
-  const kindLabel = { labs: 'LABS', mock: 'MOCK', study: 'STUDY' }[config.kind] || '';
+function ProductCard({ cert, config, inBasket, onToggle, onView, onShowDetails }) {
   const isComplete = config.key.endsWith('_complete');
   const thumbBg = isComplete ? 'linear-gradient(135deg,#E6F7FB,#F4F7FA)' : '#F4F7FA';
   const thumbBorder = isComplete ? '1px solid #0891B2' : '1px solid #e5e7eb';
@@ -532,11 +529,6 @@ function ProductCard({ cert, config, inBasket, onToggle, onView }) {
           <span className="absolute top-1.5 right-1.5 text-[9px] font-extrabold px-1.5 py-0.5 rounded"
             style={{ background: '#FDE8E8', color: '#A91818' }}>-18%</span>
         )}
-        {kindLabel && !config.isNew && !isComplete && (
-          <span className="absolute bottom-1.5 right-1.5 text-[9px] font-bold text-slate-600 bg-white/95 px-1.5 py-0.5 rounded border border-slate-200 backdrop-blur-sm">
-            {kindLabel}
-          </span>
-        )}
       </div>
       <div className="p-3 flex flex-col flex-1">
         <p className="text-xs font-semibold text-slate-900 leading-snug mb-2" style={{ minHeight: 32 }}>
@@ -560,6 +552,180 @@ function ProductCard({ cert, config, inBasket, onToggle, onView }) {
           }`}>
           {inBasket ? '✓ In basket' : 'Add to basket'}
         </button>
+        {onShowDetails && (
+          <button onClick={onShowDetails}
+            className="mt-1.5 w-full text-[10px] font-semibold text-slate-500 hover:text-cyan-700 transition-colors py-1">
+            What's inside →
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ── Product details modal ────────────────────────────────────────────────────
+// Click "What's inside →" on any card to see what's actually in the SKU.
+// Content is derived from the config/cert — pack1/2 show highlights arrays,
+// complete shows both, exam/mcq show the feature spec, prepBundle itemises.
+function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
+  useEffect(() => {
+    const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleEsc);
+    return () => { document.body.style.overflow = prevOverflow; document.removeEventListener('keydown', handleEsc); };
+  }, [onClose]);
+
+  // Build the "what's inside" content per SKU type
+  const isPackOne  = config.key.endsWith('_pack');
+  const isPackTwo  = config.key.endsWith('_pack_2');
+  const isComplete = config.key.endsWith('_complete');
+  const isExam     = config.key.endsWith('_exam');
+  const isMcq      = config.key.startsWith('mcq_');
+  const isBundle   = config.key.endsWith('_prep_bundle');
+
+  const sections = []; // { title: string, items: string[], desc?: string }
+
+  if (isPackOne && cert.pack1?.highlights) {
+    sections.push({ title: 'What you\'ll practise', items: cert.pack1.highlights });
+  } else if (isPackTwo && cert.pack2?.highlights) {
+    sections.push({ title: 'What you\'ll practise', items: cert.pack2.highlights });
+  } else if (isComplete) {
+    if (cert.pack1?.highlights) sections.push({ title: 'Pack 1 — foundations', items: cert.pack1.highlights });
+    if (cert.pack2?.highlights) sections.push({ title: 'Pack 2 — advanced', items: cert.pack2.highlights });
+  } else if (isExam) {
+    sections.push({
+      title: 'Exam format',
+      items: [
+        '3–6 real performance-based questions (PBQs) per session',
+        '85–90 multiple-choice questions',
+        'One combined timer — mirrors the real CompTIA exam',
+        'Unlimited replays with fresh question mixes',
+      ],
+    });
+    sections.push({
+      title: 'Scoring & diagnostics',
+      items: [
+        'Scaled score 100–900 with a configurable pass threshold',
+        'Per-domain breakdown so you know where you\'re strong or weak',
+        'Focus-three weakest domains surfaced at the end of each attempt',
+        'Targeted study recommendations based on your performance',
+      ],
+    });
+    sections.push({
+      title: 'The honesty bit',
+      desc: 'Our score is an approximation of CompTIA\'s scaled score with a ±50 point margin. It\'s designed to tell you if you\'re exam-ready, not to predict your exact score on the day. Use it as a readiness signal.',
+    });
+  } else if (isMcq) {
+    sections.push({
+      title: 'What\'s in the bank',
+      items: [
+        '500+ multiple-choice questions covering every exam objective',
+        'Full reasoning panel for the correct answer on every question',
+        'Per-option "why this is wrong" explanations for all distractors',
+        'Objective tags so you can drill specific weak domains',
+        'Flag questions to revisit later during study sessions',
+      ],
+    });
+  } else if (isBundle) {
+    sections.push({
+      title: 'What\'s included',
+      items: [
+        `Pack 1 — 5 foundation labs (£19.99 value)`,
+        `Pack 2 — 5 advanced labs (£19.99 value)`,
+        `Exam Engine — mock exam with full scoring (£24.99 value)`,
+        `MCQ Study Bank — 500+ questions with reasoning (£14.99 value)`,
+      ],
+    });
+    sections.push({
+      title: 'Why the bundle',
+      desc: `Buying the four items separately costs £${(19.99+19.99+24.99+14.99).toFixed(2)}. The bundle is £${config.price.toFixed(2)} — you save £${config.saving.toFixed(2)}. Same lifetime access, same content, just a better price.`,
+    });
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      style={{ background: 'rgba(11, 29, 58, 0.55)', backdropFilter: 'blur(4px)' }}
+      onClick={onClose}>
+      <div className="bg-white rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+        onClick={e => e.stopPropagation()}>
+        {/* Thumbnail banner (or fallback gradient with cert badge) */}
+        <div className="relative" style={{ height: 180, overflow: 'hidden' }}>
+          {config.thumbnail ? (
+            <img src={config.thumbnail} alt="" className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: 'center top' }} />
+          ) : (
+            <div className="flex items-center justify-center h-full"
+              style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A,#0891B2)' }}>
+              <img src={cert.badge} alt={cert.title} className="object-contain"
+                style={{ width: 96, height: 96 }} onError={e => { e.target.style.display='none'; }} />
+            </div>
+          )}
+          <button onClick={onClose}
+            className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 flex items-center justify-center shadow-md hover:bg-white transition-colors"
+            aria-label="Close details">
+            <X className="w-4 h-4 text-slate-900" />
+          </button>
+          {config.thumbnail && (
+            <div className="absolute top-3 left-3 bg-white/95 rounded-md flex items-center gap-1.5 px-2 py-1 shadow-sm"
+              style={{ border: '1px solid rgba(11,29,58,0.08)' }}>
+              <img src={cert.badge} alt="" className="w-5 h-5 object-contain"
+                onError={e => { e.target.style.display='none'; }} />
+              <span className="text-[10px] font-extrabold text-slate-900 tracking-wide">{cert.short}</span>
+            </div>
+          )}
+        </div>
+        {/* Body */}
+        <div className="p-6">
+          <p className="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">{cert.short} &middot; {cert.code}</p>
+          <h2 className="text-xl font-black text-slate-900 mb-1" style={{ letterSpacing: '-0.3px' }}>{config.label}</h2>
+          <p className="text-sm text-slate-600 mb-4">{config.sub}</p>
+          {/* Price */}
+          <div className="flex items-baseline gap-2 mb-5 pb-5 border-b border-slate-100">
+            <span className="text-3xl font-black text-slate-900" style={{ letterSpacing: '-0.5px' }}>£{config.price.toFixed(2)}</span>
+            {config.rrp != null && (
+              <span className="text-base text-slate-400 line-through">£{config.rrp.toFixed(2)}</span>
+            )}
+            {config.saving != null && (
+              <span className="text-[11px] font-extrabold px-2 py-0.5 rounded ml-1"
+                style={{ background: '#FDE8E8', color: '#A91818' }}>SAVE £{config.saving.toFixed(2)}</span>
+            )}
+          </div>
+          {/* Sections */}
+          {sections.map((section, idx) => (
+            <div key={idx} className={idx < sections.length - 1 ? 'mb-5' : ''}>
+              <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">{section.title}</p>
+              {section.desc && (
+                <p className="text-sm text-slate-700 leading-relaxed">{section.desc}</p>
+              )}
+              {section.items && (
+                <ul className="space-y-1.5">
+                  {section.items.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-sm text-slate-800">
+                      <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#0891B2' }} />
+                      <span className="leading-snug">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+          {/* Lifetime access reassurance */}
+          <div className="mt-5 pt-5 border-t border-slate-100 flex items-center gap-2 text-xs text-slate-500">
+            <InfinityIcon className="w-4 h-4" style={{ color: '#0891B2' }} />
+            <span>Lifetime access &middot; 14-day refund &middot; Instant unlock</span>
+          </div>
+          {/* CTA */}
+          <button onClick={() => { onToggle(config.key); onClose(); }}
+            className={`mt-5 w-full py-3 rounded-lg text-sm font-bold transition-all ${
+              inBasket
+                ? 'bg-cyan-600 text-white hover:bg-cyan-700'
+                : 'text-white hover:brightness-110'
+            }`}
+            style={inBasket ? {} : { background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
+            {inBasket ? '✓ Added to basket — close' : (isBundle ? 'Add bundle →' : 'Add to basket')}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -709,6 +875,7 @@ export default function StorePage() {
   const [showModal,       setShowModal]       = useState(false);
   const [error,           setError]           = useState(null);
   const [activeFilter,    setActiveFilter]    = useState('all'); // 'all' | 'netplus' | 'secplus' | 'cysa'
+  const [detailsFor,      setDetailsFor]      = useState(null); // product key whose details modal is open
   const bundleRef = useRef(null);
   const gridRef   = useRef(null);
 
@@ -769,6 +936,19 @@ export default function StorePage() {
         <CheckoutModal basket={basket} onClose={() => setShowModal(false)} />
       )}
 
+      {detailsFor && (() => {
+        const entry = KEY_LOOKUP[detailsFor];
+        if (!entry) return null;
+        return (
+          <ProductDetailsModal
+            cert={entry.cert}
+            config={entry.config}
+            inBasket={basket.includes(detailsFor)}
+            onToggle={toggleItem}
+            onClose={() => setDetailsFor(null)} />
+        );
+      })()}
+
       <UtilityStrip />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 space-y-6 sm:space-y-8">
@@ -795,7 +975,8 @@ export default function StorePage() {
             {CERTS.map(cert => (
               <FeaturedBundleCard key={cert.key} cert={cert}
                 inBasket={basket.includes(cert.prepBundle.key)}
-                onToggle={toggleItem} />
+                onToggle={toggleItem}
+                onShowDetails={() => setDetailsFor(cert.prepBundle.key)} />
             ))}
           </div>
         </div>
@@ -837,7 +1018,8 @@ export default function StorePage() {
               <ProductCard key={config.key}
                 cert={cert} config={config}
                 inBasket={basket.includes(config.key)}
-                onToggle={toggleItem} />
+                onToggle={toggleItem}
+                onShowDetails={() => setDetailsFor(config.key)} />
             ))}
           </div>
           {activeFilter !== 'all' && (

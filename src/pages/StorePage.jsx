@@ -2,31 +2,30 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { supabase } from '@/lib/customSupabaseClient';
-import { Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Loader2, LogIn, Eye, EyeOff, Sparkles } from 'lucide-react';
+import { Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Loader2, LogIn, Eye, EyeOff, Star, Infinity as InfinityIcon, Zap, RotateCcw, MapPin } from 'lucide-react';
 
 const SUPABASE_URL    = 'https://kmnbtnfgeadvvkwsdyml.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImttbmJ0bmZnZWFkdnZrd3NkeW1sIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEyMTAxNDEsImV4cCI6MjA4Njc4NjE0MX0.T7yHQmQ3qdobyZEAXoAmDptfrj2yH-ZIJ8RfjNOpEFs';
 const BASKET_KEY = 'cysec_basket';
 
 // ── Cert catalogue ───────────────────────────────────────────────────────────
-// Each cert has three purchase options: Pack 1, Pack 2, Complete (both packs).
-// Users pick one option per cert card. Complete is pre-highlighted as the
-// recommended path — 10 labs at a £6.99 discount vs buying the packs separately.
+// Six SKUs per cert: Pack 1, Pack 2, Complete labs, Exam Engine, MCQ Bank,
+// and the Prep Bundle (all four combined at a £29.97 discount).
 const CERTS = [
   {
     key: 'netplus',
     title: 'CompTIA Network+',
     code: 'N10-009',
-    logo: '/logos/comptia-network-plus.svg',
+    badge: '/logos/comptia-network-plus.svg',
     landingPage: '/comptia-network-plus-labs',
-    heroImg: '/screenshots/fl-netcap.png',
-    heroAlt: 'NETCAP Analyzer v3.2 — asymmetric routing packet capture in a Network+ lab',
-    toolLabel: 'NETCAP Analyzer v3.2',
-    accent: '#10b981',
+    includes: [
+      '10 hands-on CLI simulation labs',
+      'Mock exam engine (PBQ + MCQ)',
+      '500+ MCQ study bank with reasoning',
+      'Lifetime access',
+    ],
     pack1: {
-      key: 'netplus_pack',
-      label: 'Pack 1',
-      price: 19.99,
+      key: 'netplus_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99,
       highlights: [
         'DNS server misconfiguration',
         'Default gateway fault diagnosis',
@@ -36,10 +35,7 @@ const CERTS = [
       ],
     },
     pack2: {
-      key: 'netplus_pack_2',
-      label: 'Pack 2',
-      price: 19.99,
-      isNew: true,
+      key: 'netplus_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, isNew: true,
       highlights: [
         'DHCP scope exhaustion',
         'Port security violation recovery',
@@ -48,28 +44,25 @@ const CERTS = [
         'SNMP multi-site fault triage via NETPULSE NMS',
       ],
     },
-    complete: {
-      key: 'netplus_complete',
-      label: 'Complete',
-      price: 32.99,
-      rrp: 39.98,
-      saving: 6.99,
-    },
+    complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99 },
+    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99 },
+    mcq:       { key: 'mcq_netplus',          label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99 },
+    prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97 },
   },
   {
     key: 'secplus',
     title: 'CompTIA Security+',
     code: 'SY0-701',
-    logo: '/logos/comptia-security-plus.svg',
+    badge: '/logos/comptia-security-plus.svg',
     landingPage: '/comptia-security-plus-labs',
-    heroImg: '/screenshots/fl-fortiguard.png',
-    heroAlt: 'FORTIGUARD Policy Auditor v3.1 — firewall rule audit in a Security+ lab',
-    toolLabel: 'FORTIGUARD Policy Auditor v3.1',
-    accent: '#0891B2',
+    includes: [
+      '10 hands-on security labs',
+      'Mock exam engine (PBQ + MCQ)',
+      '500+ MCQ study bank with reasoning',
+      'Lifetime access',
+    ],
     pack1: {
-      key: 'secplus_pack',
-      label: 'Pack 1',
-      price: 19.99,
+      key: 'secplus_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99,
       highlights: [
         'Firewall rule blocking HTTPS traffic',
         'Sensitive file permission hardening',
@@ -79,10 +72,7 @@ const CERTS = [
       ],
     },
     pack2: {
-      key: 'secplus_pack_2',
-      label: 'Pack 2',
-      price: 19.99,
-      isNew: true,
+      key: 'secplus_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, isNew: true,
       highlights: [
         'Stale user account lockdown',
         'Unauthorised service account audit',
@@ -91,28 +81,25 @@ const CERTS = [
         'PKI rotation after CA compromise',
       ],
     },
-    complete: {
-      key: 'secplus_complete',
-      label: 'Complete',
-      price: 32.99,
-      rrp: 39.98,
-      saving: 6.99,
-    },
+    complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99 },
+    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99 },
+    mcq:       { key: 'mcq_secplus',          label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99 },
+    prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97 },
   },
   {
     key: 'cysa',
     title: 'CompTIA CySA+',
     code: 'CS0-003',
-    logo: '/logos/comptia-cysa-plus.svg',
+    badge: '/logos/comptia-cysa-plus.svg',
     landingPage: '/comptia-cysa-plus-labs',
-    heroImg: '/screenshots/fl-siem.png',
-    heroAlt: 'Arclight SIEM v5.0.3 — alert triage dashboard in a CySA+ lab',
-    toolLabel: 'Arclight SIEM v5.0.3',
-    accent: '#0B1D3A',
+    includes: [
+      '10 SOC analyst labs',
+      'Mock exam engine (PBQ + MCQ)',
+      '500+ MCQ study bank with reasoning',
+      'Lifetime access',
+    ],
     pack1: {
-      key: 'cysa_pack',
-      label: 'Pack 1',
-      price: 19.99,
+      key: 'cysa_pack', label: 'Pack 1', sub: 'First 5 labs · foundations', price: 19.99,
       highlights: [
         'Suspicious process & C2 detection',
         'Web application brute force investigation',
@@ -122,10 +109,7 @@ const CERTS = [
       ],
     },
     pack2: {
-      key: 'cysa_pack_2',
-      label: 'Pack 2',
-      price: 19.99,
-      isNew: true,
+      key: 'cysa_pack_2', label: 'Pack 2', sub: 'Next 5 labs · advanced', price: 19.99, isNew: true,
       highlights: [
         'Internal port scan detection & containment',
         'Malicious cron job persistence removal',
@@ -134,23 +118,20 @@ const CERTS = [
         'Credential harvesting & ransomware eradication',
       ],
     },
-    complete: {
-      key: 'cysa_complete',
-      label: 'Complete',
-      price: 32.99,
-      rrp: 39.98,
-      saving: 6.99,
-    },
+    complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Pack 1 + 2',        price: 32.99, rrp: 39.98, saving: 6.99 },
+    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99 },
+    mcq:       { key: 'mcq_cysa',             label: 'MCQ Study Bank',   sub: '500+ questions · full reasoning',  price: 14.99 },
+    prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97 },
   },
 ];
 
-// Flatten all product keys so we can map from a basket key back to its cert + option
+// Map each product key back to its cert + short label for the basket bar
 const KEY_LOOKUP = (() => {
   const out = {};
   for (const cert of CERTS) {
-    out[cert.pack1.key]    = { cert, option: 'pack1',    config: cert.pack1 };
-    out[cert.pack2.key]    = { cert, option: 'pack2',    config: cert.pack2 };
-    out[cert.complete.key] = { cert, option: 'complete', config: cert.complete };
+    for (const opt of ['pack1','pack2','complete','exam','mcq','prepBundle']) {
+      out[cert[opt].key] = { cert, option: opt, config: cert[opt] };
+    }
   }
   return out;
 })();
@@ -158,11 +139,12 @@ const KEY_LOOKUP = (() => {
 function loadBasket()  { try { return JSON.parse(localStorage.getItem(BASKET_KEY) || '[]'); } catch { return []; } }
 function saveBasket(i) { try { localStorage.setItem(BASKET_KEY, JSON.stringify(i)); } catch {} }
 
-// Strip out any basket keys that no longer map to a valid product (handles stale
-// entries from pre-launch e.g. 'bundle' that were in localStorage before the
-// cert-bundle migration).
 function sanitiseBasket(basket) {
   return (basket || []).filter(k => KEY_LOOKUP[k]);
+}
+
+function basketTotal(basket) {
+  return basket.reduce((t, k) => t + (KEY_LOOKUP[k]?.config.price || 0), 0);
 }
 
 // ── Stripe trigger ────────────────────────────────────────────────────────────
@@ -183,11 +165,7 @@ async function triggerStripe(basketItems, currentSession) {
   return data;
 }
 
-function basketTotal(basket) {
-  return basket.reduce((t, k) => t + (KEY_LOOKUP[k]?.config.price || 0), 0);
-}
-
-// ── Checkout modal ────────────────────────────────────────────────────────────
+// ── Checkout modal (unchanged) ────────────────────────────────────────────────
 function CheckoutModal({ basket, onClose }) {
   const [tab,       setTab]      = useState('signin');
   const [email,     setEmail]    = useState('');
@@ -330,59 +308,107 @@ function ModalShell({ children, onClose }) {
   );
 }
 
-// ── Cert card with 3-option picker ────────────────────────────────────────────
-function CertCard({ cert, selectedOption, onSelect }) {
-  const [expanded, setExpanded] = useState(null); // which pack's highlights to show
-
-  const OptionTile = ({ optionKey, config, isComplete }) => {
-    const isSelected = selectedOption === optionKey;
-    const showHighlights = expanded === optionKey;
-
-    return (
-      <div className={`relative rounded-xl border-2 transition-all overflow-hidden ${
-        isSelected
-          ? 'border-cyan-500 bg-cyan-50/60 shadow-md shadow-cyan-100'
-          : isComplete
-            ? 'border-slate-300 bg-slate-50/60 hover:border-slate-400'
-            : 'border-slate-200 bg-white hover:border-slate-300'
+// ── Cert tab selector ────────────────────────────────────────────────────────
+function CertTab({ cert, active, onClick }) {
+  return (
+    <button onClick={() => onClick(cert.key)}
+      className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 text-left transition-all ${
+        active
+          ? 'border-cyan-500 bg-cyan-50/60 shadow-sm shadow-cyan-100'
+          : 'border-slate-200 bg-white hover:border-slate-300'
       }`}>
-        {isComplete && (
-          <div className="absolute top-0 left-0 right-0 text-center py-1"
-            style={{ background: 'linear-gradient(90deg,#0B1D3A,#0891B2)' }}>
-            <span className="text-[10px] font-black uppercase tracking-widest text-white flex items-center justify-center gap-1">
-              <Sparkles className="w-3 h-3" /> Best Value — Save £{config.saving.toFixed(2)}
-            </span>
-          </div>
-        )}
-        <div className={`p-4 ${isComplete ? 'pt-7' : ''}`}>
-          <div className="flex items-baseline justify-between gap-2 mb-1">
-            <div className="flex items-center gap-1.5 min-w-0">
-              <h4 className="font-bold text-slate-900 text-sm">{config.label}</h4>
-              {config.isNew && !isComplete && (
-                <span className="bg-cyan-500 text-white text-[9px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full flex-shrink-0">NEW</span>
-              )}
-            </div>
-            <span className="text-[11px] text-slate-400 font-semibold flex-shrink-0">
-              {isComplete ? '10 labs' : '5 labs'}
-            </span>
-          </div>
-          <div className="flex items-baseline gap-2 mb-3">
-            <span className="text-2xl font-black text-slate-800">£{config.price.toFixed(2)}</span>
-            {isComplete && (
-              <span className="text-xs text-slate-400 line-through">£{config.rrp.toFixed(2)}</span>
-            )}
-          </div>
+      <img src={cert.badge} alt="" className="w-11 h-11 object-contain flex-shrink-0"
+        onError={e => { e.target.style.display='none'; }} />
+      <div className="min-w-0">
+        <p className="text-sm font-bold text-slate-900 leading-tight">{cert.title}</p>
+        <p className="text-xs text-slate-500 mt-0.5">{cert.code}</p>
+      </div>
+    </button>
+  );
+}
 
-          {!isComplete && config.highlights && (
-            <button type="button"
-              onClick={() => setExpanded(showHighlights ? null : optionKey)}
-              className="text-[11px] font-semibold mb-3 flex items-center gap-1"
-              style={{ color: '#0891B2' }}>
-              {showHighlights ? 'Hide labs' : 'Show labs'}
-              <span className={`transition-transform inline-block ${showHighlights ? 'rotate-180' : ''}`}>▾</span>
-            </button>
-          )}
-          {!isComplete && showHighlights && config.highlights && (
+// ── Prep Bundle hero card (the recommended purchase) ─────────────────────────
+function PrepBundleHero({ cert, inBasket, onToggle }) {
+  const { prepBundle } = cert;
+  return (
+    <div className="rounded-2xl overflow-hidden text-white mb-8 relative"
+      style={{ background: 'linear-gradient(135deg,#0B1D3A 0%,#0E5F8A 100%)' }}>
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(to right,rgba(255,255,255,1) 1px,transparent 1px)', backgroundSize: '40px 40px' }} />
+      <div className="relative p-6 sm:p-8 flex flex-col sm:flex-row gap-6 items-start">
+        <div className="flex-shrink-0 bg-white/5 rounded-xl p-3 border border-white/10">
+          <img src={cert.badge} alt={cert.title} className="w-16 h-16 sm:w-20 sm:h-20 object-contain"
+            onError={e => { e.target.style.display='none'; }} />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full mb-3 text-xs font-bold uppercase tracking-wider"
+            style={{ background: '#0891B2', color: '#fff' }}>
+            <Star className="w-3.5 h-3.5" />
+            Recommended — save £{prepBundle.saving.toFixed(2)}
+          </div>
+          <h3 className="text-2xl sm:text-3xl font-black mb-1" style={{ letterSpacing: '-0.5px' }}>
+            {cert.title} Exam Prep Bundle
+          </h3>
+          <p className="text-white/60 text-sm mb-5 leading-relaxed max-w-2xl">
+            Everything you need to walk into the exam ready. Labs, mock exam engine, and study question bank — all in.
+          </p>
+          <div className="flex items-baseline gap-3 flex-wrap mb-5">
+            <span className="text-4xl font-black" style={{ letterSpacing: '-1px' }}>£{prepBundle.price.toFixed(2)}</span>
+            <span className="text-white/40 line-through text-sm">£{prepBundle.rrp.toFixed(2)}</span>
+            <span className="text-xs font-bold px-2.5 py-1 rounded" style={{ background: '#7DD3E8', color: '#0B1D3A' }}>
+              Save £{prepBundle.saving.toFixed(2)}
+            </span>
+          </div>
+          <div className="grid sm:grid-cols-2 gap-x-6 gap-y-2 mb-6 max-w-xl">
+            {cert.includes.map(item => (
+              <div key={item} className="flex items-center gap-2 text-sm text-white/85">
+                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: '#7DD3E8' }} />
+                {item}
+              </div>
+            ))}
+          </div>
+          <button onClick={() => onToggle(prepBundle.key)}
+            className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all ${
+              inBasket ? 'bg-white/15 border border-white/30 text-white hover:bg-white/20' : 'bg-white text-slate-900 hover:brightness-95'
+            }`}>
+            {inBasket
+              ? <><CheckCircle2 className="w-4 h-4" /> In basket — click to remove</>
+              : <>Add bundle to basket <ArrowRight className="w-4 h-4" /></>}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Pack card (Pack 1 / Pack 2 / Complete) ───────────────────────────────────
+function PackCard({ config, featured, inBasket, onToggle }) {
+  const [showHighlights, setShowHighlights] = useState(false);
+  return (
+    <div className={`relative rounded-xl border-2 bg-white transition-all p-4 flex flex-col ${
+      inBasket ? 'border-cyan-500 shadow-md shadow-cyan-100' : featured ? 'border-cyan-200' : 'border-slate-200 hover:border-slate-300'
+    }`}>
+      {config.isNew && !inBasket && (
+        <span className="absolute -top-2 -right-2 text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
+          style={{ background: '#0891B2' }}>NEW</span>
+      )}
+      <p className="text-sm font-bold text-slate-900 mb-0.5">{config.label}</p>
+      <p className="text-xs text-slate-500 mb-3 leading-snug">{config.sub}</p>
+      <div className="flex items-baseline gap-2 mb-3">
+        <span className="text-xl font-black text-slate-900" style={{ letterSpacing: '-0.3px' }}>£{config.price.toFixed(2)}</span>
+        {config.saving != null && (
+          <span className="text-xs font-bold" style={{ color: '#0891B2' }}>save £{config.saving.toFixed(2)}</span>
+        )}
+      </div>
+      {config.highlights && (
+        <>
+          <button type="button" onClick={() => setShowHighlights(h => !h)}
+            className="text-[11px] font-semibold mb-2 flex items-center gap-1 self-start"
+            style={{ color: '#0891B2' }}>
+            {showHighlights ? 'Hide labs' : 'Show labs'}
+            <span className={`transition-transform inline-block ${showHighlights ? 'rotate-180' : ''}`}>▾</span>
+          </button>
+          {showHighlights && (
             <ul className="mb-3 space-y-1">
               {config.highlights.map(h => (
                 <li key={h} className="flex items-start gap-1.5 text-[11px] text-slate-600 leading-snug">
@@ -392,74 +418,46 @@ function CertCard({ cert, selectedOption, onSelect }) {
               ))}
             </ul>
           )}
-          {isComplete && (
-            <p className="text-[11px] text-slate-600 leading-snug mb-3">
-              Everything in Pack 1 and Pack 2 — all 10 hands-on labs from Easy to Expert.
-            </p>
-          )}
-
-          <button
-            type="button"
-            onClick={() => onSelect(cert.key, optionKey, config.key)}
-            className={`w-full py-2.5 rounded-lg font-bold text-xs transition-all ${
-              isSelected
-                ? 'bg-cyan-600 text-white hover:bg-cyan-700'
-                : isComplete
-                  ? 'text-white hover:brightness-110'
-                  : 'bg-slate-900 text-white hover:bg-slate-800'
-            }`}
-            style={isSelected ? {} : isComplete ? { background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' } : {}}>
-            {isSelected ? '✓ In Basket' : (isComplete ? 'Choose Complete' : `Choose ${config.label}`)}
-          </button>
-        </div>
-      </div>
-    );
-  };
-
-  return (
-    <div className="relative bg-white rounded-2xl border-2 border-slate-200 hover:border-slate-300 hover:shadow-lg transition-all overflow-hidden flex flex-col">
-      {/* Tool screenshot header */}
-      {cert.heroImg && (
-        <div className="relative overflow-hidden" style={{ height: 120 }}>
-          <img src={cert.heroImg} alt={cert.heroAlt} className="w-full h-full object-cover" style={{ objectPosition: 'top' }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 0%, rgba(6,14,31,0.7) 100%)' }} />
-          <div className="absolute bottom-2 left-3 right-3 flex items-center justify-between">
-            <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-1 rounded"
-              style={{ background: 'rgba(6,14,31,0.75)', border: '1px solid rgba(8,145,178,0.4)', color: '#7DD3E8' }}>
-              {cert.toolLabel}
-            </span>
-            <a href={cert.landingPage}
-              className="text-[10px] font-bold px-2 py-1 rounded text-white hover:brightness-110 transition-all"
-              style={{ background: 'rgba(8,145,178,0.7)' }}
-              onClick={e => e.stopPropagation()}>
-              View labs →
-            </a>
-          </div>
-        </div>
+        </>
       )}
-      {/* Cert header */}
-      <div className="px-5 py-4 border-b border-slate-100">
-        <div className="flex items-center gap-3">
-          <img src={cert.logo} alt={cert.title} className="w-10 h-10 object-contain flex-shrink-0"
-            onError={e => { e.target.style.display='none'; }} />
-          <div className="flex-1 min-w-0">
-            <p className="text-[11px] font-black tracking-widest uppercase" style={{ color: cert.accent || '#0891B2' }}>{cert.code}</p>
-            <h3 className="font-black text-slate-900 text-base leading-tight">{cert.title}</h3>
-          </div>
-        </div>
-      </div>
-
-      {/* 3-option picker */}
-      <div className="p-4 space-y-3 flex-1">
-        <OptionTile optionKey="pack1"    config={cert.pack1}    isComplete={false} />
-        <OptionTile optionKey="pack2"    config={cert.pack2}    isComplete={false} />
-        <OptionTile optionKey="complete" config={cert.complete} isComplete={true}  />
-      </div>
+      <button onClick={() => onToggle(config.key)}
+        className={`mt-auto w-full py-2 rounded-lg text-xs font-bold transition-all ${
+          inBasket
+            ? 'bg-cyan-600 text-white hover:bg-cyan-700'
+            : 'border border-slate-200 text-slate-900 hover:border-cyan-500 hover:text-cyan-700 hover:bg-cyan-50'
+        }`}>
+        {inBasket ? '✓ In basket' : `Add ${config.label.toLowerCase()}`}
+      </button>
     </div>
   );
 }
 
-// ── Basket bar ────────────────────────────────────────────────────────────────
+// ── Test prep card (Exam Engine / MCQ Bank) ──────────────────────────────────
+function TestPrepCard({ config, inBasket, onToggle }) {
+  return (
+    <div className={`rounded-xl border-2 p-4 flex items-center gap-4 transition-all ${
+      inBasket ? 'border-cyan-500 bg-cyan-50/60' : 'border-slate-200 bg-slate-50 hover:border-slate-300 hover:bg-white'
+    }`}>
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-bold text-slate-900 mb-0.5">{config.label}</p>
+        <p className="text-xs text-slate-500 leading-snug">{config.sub}</p>
+      </div>
+      <span className="text-lg font-black text-slate-900 flex-shrink-0" style={{ letterSpacing: '-0.3px' }}>
+        £{config.price.toFixed(2)}
+      </span>
+      <button onClick={() => onToggle(config.key)}
+        className={`flex-shrink-0 px-4 py-2 rounded-lg text-xs font-bold transition-all ${
+          inBasket
+            ? 'bg-cyan-600 text-white hover:bg-cyan-700'
+            : 'border border-slate-200 bg-white text-slate-900 hover:border-cyan-500 hover:text-cyan-700'
+        }`}>
+        {inBasket ? '✓ Added' : 'Add'}
+      </button>
+    </div>
+  );
+}
+
+// ── Basket bar (persistent bottom CTA) ───────────────────────────────────────
 function BasketBar({ basket, user, authLoading, onRemove, onCheckout, checkoutLoading }) {
   if (basket.length === 0) return null;
 
@@ -525,33 +523,15 @@ export default function StorePage() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [showModal,       setShowModal]       = useState(false);
   const [error,           setError]           = useState(null);
+  const [activeCertKey,   setActiveCertKey]   = useState('netplus');
 
   useEffect(() => { saveBasket(basket); }, [basket]);
 
-  // Build a map of cert.key -> currently selected option ('pack1' | 'pack2' | 'complete' | null)
-  const selectedOptionByCert = (() => {
-    const out = {};
-    for (const cert of CERTS) out[cert.key] = null;
-    for (const k of basket) {
-      const lookup = KEY_LOOKUP[k];
-      if (lookup) out[lookup.cert.key] = lookup.option;
-    }
-    return out;
-  })();
+  const activeCert = CERTS.find(c => c.key === activeCertKey) || CERTS[0];
 
-  function handleSelect(certKey, optionKey, productKey) {
+  function toggleItem(productKey) {
     setError(null);
-    const currentlySelected = selectedOptionByCert[certKey];
-    setBasket(prev => {
-      // Remove any existing selection for this cert
-      const withoutCert = prev.filter(k => {
-        const lookup = KEY_LOOKUP[k];
-        return !lookup || lookup.cert.key !== certKey;
-      });
-      // If the clicked option was already selected, this acts as a toggle-off
-      if (currentlySelected === optionKey) return withoutCert;
-      return [...withoutCert, productKey];
-    });
+    setBasket(prev => prev.includes(productKey) ? prev.filter(k => k !== productKey) : [...prev, productKey]);
   }
 
   function removeItem(productKey) {
@@ -575,82 +555,40 @@ export default function StorePage() {
   return (
     <div className={`min-h-screen ${basket.length > 0 ? 'pb-32' : 'pb-2'}`} style={{ background: '#F8FAFC' }}>
       <Helmet>
-        <title>FortifyLearn Store — CompTIA PBQ Packs | Cy-Sec</title>
-        <meta name="description" content="The official FortifyLearn store. CompTIA PBQ simulation packs for Network+, Security+ and CySA+ — representative CLI environments, objective-mapped scoring, Lifetime access from £19.99." />
+        <title>FortifyLearn Store — CompTIA exam prep bundles | Cy-Sec</title>
+        <meta name="description" content="Real CompTIA PBQ simulation labs, mock exam engine and MCQ study banks. Network+, Security+ and CySA+ exam prep bundles from £49.99 — or buy individual packs from £19.99. Lifetime access." />
       </Helmet>
 
       {showModal && (
         <CheckoutModal basket={basket} onClose={() => setShowModal(false)} />
       )}
 
-      {/* Hero */}
-      <div className="relative overflow-hidden" style={{ minHeight: 420 }}>
-        <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80&fit=crop"
-            alt="" className="w-full h-full object-cover" style={{ objectPosition: 'center 40%' }} />
-          <div className="absolute inset-0"
-            style={{ background: 'linear-gradient(135deg,rgba(6,14,31,0.97) 0%,rgba(11,29,58,0.95) 45%,rgba(8,80,120,0.80) 100%)' }} />
-          <div className="absolute inset-0 opacity-[0.04]"
-            style={{ backgroundImage: 'linear-gradient(rgba(8,145,178,1) 1px,transparent 1px),linear-gradient(to right,rgba(8,145,178,1) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
-        </div>
-        <div className="relative max-w-7xl mx-auto px-6 lg:px-8 py-14 grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5 border text-xs font-bold tracking-wider uppercase"
+      {/* Compressed hero */}
+      <div className="relative overflow-hidden" style={{ background: '#0B1D3A' }}>
+        <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
+          style={{ backgroundImage: 'linear-gradient(rgba(8,145,178,1) 1px,transparent 1px),linear-gradient(to right,rgba(8,145,178,1) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
+        <div className="relative max-w-6xl mx-auto px-6 lg:px-8 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+          <div className="min-w-0">
+            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full mb-2 border text-[10px] font-bold tracking-widest uppercase"
               style={{ background: 'rgba(8,145,178,0.15)', borderColor: 'rgba(8,145,178,0.35)', color: '#7DD3E8' }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#0891B2', display: 'inline-block', flexShrink: 0 }} />
-              CompTIA Authorised Partner
+              <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#0891B2', display: 'inline-block' }} />
+              FortifyLearn · CompTIA prep
             </div>
-            <h1 className="text-4xl sm:text-5xl font-black text-white mb-4"
-              style={{ letterSpacing: '-0.03em', lineHeight: 1.1 }}>
-              FortifyLearn{' '}
-              <span className="text-transparent bg-clip-text" style={{ backgroundImage: 'linear-gradient(90deg,#7DD3E8,#0891B2)' }}>Store.</span>
+            <h1 className="text-2xl sm:text-3xl font-black text-white leading-tight mb-1" style={{ letterSpacing: '-0.5px' }}>
+              Real labs. Real mock exams.
             </h1>
-            <p className="text-white/60 mb-6 leading-relaxed max-w-lg">
-              Not flashcards. Not videos. <strong className="text-white/90">Real CLI environments</strong> and interactive simulation tools — Network+, Security+, and CySA+ packs from £19.99.
+            <p className="text-white/60 text-sm leading-relaxed max-w-xl">
+              Built around the questions that trip CompTIA candidates in the exam room. Free taster, no card needed.
             </p>
-            <div className="flex flex-wrap gap-4 mb-6">
-              {[
-                { label: 'Network+ N10-009', href: '/comptia-network-plus-labs', color: '#10b981' },
-                { label: 'Security+ SY0-701', href: '/comptia-security-plus-labs', color: '#0891B2' },
-                { label: 'CySA+ CS0-003', href: '/comptia-cysa-plus-labs', color: '#0B1D3A' },
-              ].map(c => (
-                <a key={c.href} href={c.href}
-                  className="text-xs font-bold px-3 py-1.5 rounded-full border text-white/70 hover:text-white transition-colors"
-                  style={{ borderColor: 'rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.05)' }}>
-                  {c.label} →
-                </a>
-              ))}
-            </div>
-            <div className="flex flex-wrap gap-4">
-              {['10 labs per certification','One-time purchase','Lifetime access','Free taster labs'].map(t => (
-                <span key={t} className="flex items-center gap-1.5 text-xs" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                  <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'rgba(8,145,178,0.6)', display: 'inline-block' }} />
-                  {t}
-                </span>
-              ))}
-            </div>
           </div>
-          {/* Tool screenshot preview strip */}
-          <div className="hidden lg:grid grid-cols-3 gap-3">
-            {[
-              { img: '/screenshots/fl-netcap.png', label: 'NETCAP Analyzer v3.2', cert: 'Network+' },
-              { img: '/screenshots/fl-fortiguard.png', label: 'FORTIGUARD Auditor v3.1', cert: 'Security+' },
-              { img: '/screenshots/fl-siem.png', label: 'Arclight SIEM v5.0.3', cert: 'CySA+' },
-            ].map((t, i) => (
-              <div key={t.label} className="rounded-xl overflow-hidden border border-white/10 shadow-xl"
-                style={{ transform: `translateY(${i === 1 ? -12 : i === 2 ? -6 : 0}px)` }}>
-                <img src={t.img} alt={t.label} className="w-full object-cover" style={{ height: 120, objectPosition: 'top' }} />
-                <div className="p-2" style={{ background: 'rgba(6,14,31,0.9)' }}>
-                  <p className="text-[9px] font-bold uppercase tracking-wider" style={{ color: '#7DD3E8' }}>{t.cert}</p>
-                  <p className="text-[10px] text-white/60 truncate">{t.label}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
+            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm transition-all hover:brightness-110 bg-white text-slate-900">
+            Try a free lab <ArrowRight className="w-4 h-4" />
+          </a>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-10 pb-6 space-y-10">
+      <div className="max-w-6xl mx-auto px-6 lg:px-8 pt-8 space-y-8">
 
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-5 py-3 rounded-xl flex items-start gap-2">
@@ -658,50 +596,64 @@ export default function StorePage() {
           </div>
         )}
 
+        {/* Step 1 — cert picker */}
         <div>
-          {/* Section header */}
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: '#0891B2' }}>FortifyLearn — CompTIA PBQ Simulation Packs</p>
-              <h2 className="text-2xl font-extrabold text-slate-900" style={{ letterSpacing: '-0.5px' }}>Choose your certification</h2>
-              <p className="text-sm text-slate-500 mt-1">One-time purchase · Lifetime access · No subscription</p>
-            </div>
-            <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-bold px-4 py-2.5 rounded-xl transition-all hover:brightness-110 flex-shrink-0 whitespace-nowrap"
-              style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
-              🆓 Try a free taster →
-            </a>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6">
+          <p className="text-[11px] font-bold tracking-widest uppercase text-slate-500 mb-3">1 · Choose your certification</p>
+          <div className="grid sm:grid-cols-3 gap-3">
             {CERTS.map(cert => (
-              <CertCard
-                key={cert.key}
-                cert={cert}
-                selectedOption={selectedOptionByCert[cert.key]}
-                onSelect={handleSelect}
-              />
-            ))}
-          </div>
-
-          <div className="mt-8 flex flex-wrap gap-4 items-center justify-center text-slate-400 text-xs">
-            {['Secure checkout via Stripe','Lifetime access from purchase','No subscription — one-time payment','CompTIA exam-aligned'].map(t => (
-              <span key={t} className="flex items-center gap-1.5"><CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" />{t}</span>
+              <CertTab key={cert.key} cert={cert} active={cert.key === activeCertKey} onClick={setActiveCertKey} />
             ))}
           </div>
         </div>
 
-        {/* Free taster strip */}
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-center gap-4">
-          <div className="flex-1">
-            <p className="font-semibold text-slate-800 mb-1">Try before you buy — taster labs are always free</p>
-            <p className="text-sm text-slate-500">Two Network+ tasters (CLI + visual) and two Security+ tasters (CLI + visual) — free. Just sign up, no card needed.</p>
+        {/* Step 2 — options for the active cert */}
+        <div>
+          <p className="text-[11px] font-bold tracking-widest uppercase text-slate-500 mb-3">2 · Pick what you need</p>
+
+          <PrepBundleHero
+            cert={activeCert}
+            inBasket={basket.includes(activeCert.prepBundle.key)}
+            onToggle={toggleItem}
+          />
+
+          {/* Labs only */}
+          <p className="text-[11px] font-bold tracking-widest uppercase text-slate-500 mb-3">Labs only</p>
+          <div className="grid sm:grid-cols-3 gap-3 mb-7">
+            <PackCard config={activeCert.pack1}    inBasket={basket.includes(activeCert.pack1.key)}    onToggle={toggleItem} />
+            <PackCard config={activeCert.pack2}    inBasket={basket.includes(activeCert.pack2.key)}    onToggle={toggleItem} />
+            <PackCard config={activeCert.complete} featured inBasket={basket.includes(activeCert.complete.key)} onToggle={toggleItem} />
           </div>
-          <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
-            className="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all hover:brightness-110"
-            style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
-            Launch FortifyLearn <ArrowRight className="w-4 h-4" />
-          </a>
+
+          {/* Test prep only */}
+          <p className="text-[11px] font-bold tracking-widest uppercase text-slate-500 mb-3">Test prep only</p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <TestPrepCard config={activeCert.exam} inBasket={basket.includes(activeCert.exam.key)} onToggle={toggleItem} />
+            <TestPrepCard config={activeCert.mcq}  inBasket={basket.includes(activeCert.mcq.key)}  onToggle={toggleItem} />
+          </div>
+
+          {/* Cert landing link */}
+          <div className="mt-5 text-center">
+            <a href={activeCert.landingPage}
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-700 transition-colors">
+              See all {activeCert.title} labs in detail
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
+          </div>
+        </div>
+
+        {/* Trust strip */}
+        <div className="bg-white border border-slate-200 rounded-2xl px-4 sm:px-6 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+          {[
+            { icon: InfinityIcon, label: 'Lifetime access' },
+            { icon: Zap,      label: 'Instant unlock' },
+            { icon: RotateCcw,label: '14-day refund' },
+            { icon: MapPin,   label: 'UK support team' },
+          ].map(({ icon: Icon, label }) => (
+            <div key={label} className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-600">
+              <Icon className="w-4 h-4" style={{ color: '#0891B2' }} />
+              {label}
+            </div>
+          ))}
         </div>
 
       </div>

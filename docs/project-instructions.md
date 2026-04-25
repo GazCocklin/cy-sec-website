@@ -4,7 +4,7 @@
 > Kept in the repo as a backup and so it travels with the code.
 > When the Claude.ai project instructions are updated, update this file too (and vice versa).
 
-**Last updated:** 24 April 2026 (Pack → Foundation/Advanced Labs rename site-wide; store hero SIEM screenshot + product-kind filter chips; ExamPrepSection replaces CompleteYourPrep on cert pages; webhook v31 + welcome-email v11 with label sync; fl-cysa-cli.png added — all 18 SKUs now thumbnailed; legal page placeholders filled; pool-size targets clarified)
+**Last updated:** 25 April 2026 (MCQ retirement → Exam Engine becomes Study + Exam Mode; Prep Bundle £39.99; A+ Core 1 + Core 2 vertical added with dual-core mega bundle; A+ exam codes corrected to 220-1201/1202; dedicated A+ landing pages built; stripe-webhook v34)
 
 ---
 
@@ -52,8 +52,7 @@ In `/public/logos/`:
 - `comptia-network-plus.svg`
 - `comptia-security-plus.svg`
 - `comptia-cysa-plus.svg`
-
-(Also in `GazCocklin/fortify-learn /public/assets/` for cross-repo parity.)
+- `comptia-aplus.svg` (single A+ badge — used for both Core 1 and Core 2; CompTIA issues one A+ credential covering both Cores, exam code differentiates them)
 
 ### Tool screenshots (`public/screenshots/`)
 
@@ -61,17 +60,17 @@ In `/public/logos/`:
 |---|---|
 | `fl-exam-question.png` | **Exam Engine — question in progress** (NTP Drift PBQ, 1:29:35 timer, network diagram). Used on all 3 Exam Engine product cards, purchase-confirmation emails for Exam Engine buyers, and the ExamPrepSection Exam Engine card on every cert landing page. |
 | `fl-exam-results.png` | **Exam Engine — readiness outcome** (746/900 PASS, Focus three domains). Used in purchase-confirmation emails for Prep Bundle buyers and as the right-panel visual of the ExamPrepSection Prep Bundle callout on every cert landing page. |
-| `fl-mcq-reasoning.png` | **MCQ Study Bank — full reasoning** (DNS cache poisoning question with CORRECT ANSWER + "Why the other options are wrong"). Used on all 3 MCQ Bank cards, MCQ purchase-confirmation emails, and the ExamPrepSection MCQ card on every cert landing page. |
-| `fl-exam-banner.png` | **Cert-agnostic crop of the readiness banner** (1800×360, "READINESS 746/900 PASS" teal bar). **Currently unused** — was an experiment as a Prep Bundle card backdrop, reverted because the crop cut off the 746/PASS score. Kept on disk for a future retry with a better crop. |
+| `fl-mcq-reasoning.png` | **MCQ Study Mode — full reasoning** (DNS cache poisoning question with CORRECT ANSWER + "Why the other options are wrong"). Used on the Exam Engine cards as the Study Mode visual reference, and the ExamPrepSection MCQ Study Mode card on every cert landing page. |
 | `fl-siem.png` | **Arclight SIEM v5.0.3** — CySA+ Advanced Labs signature tool. Also used as the right-panel visual on the store's promo hero. |
 | `fl-netscan.png` | NETSCAN PRO v4.2.1 (CySA+ Advanced Labs / Complete Labs) |
-| `fl-cysa-cli.png` | **CySA+ Foundation Labs firewall-hunt shot** — FW1 (Perimeter) admin terminal, `grep`/`tail` on `/var/log/firewall.log` showing 352 ACCEPT entries from 91.108.4.34 → 10.40.0.20:443 (suspected exfil). 925×604 native (no upscale), JPEG q82. |
+| `fl-cysa-cli.png` | **CySA+ Foundation Labs firewall-hunt shot** — FW1 (Perimeter) admin terminal, `grep`/`tail` on `/var/log/firewall.log` showing 352 ACCEPT entries from 91.108.4.34 → 10.40.0.20:443 (suspected exfil). Also currently used as A+ Core 1 hero placeholder. |
 | `fl-netsim.png` | FL-NETSIM v2.0 / Cisco IOS terminal (Network+ Foundation Labs thumbnail) |
 | `fl-netcap.png` | NETCAP Analyzer v3.2 (N+ Advanced Labs / Complete Labs) |
 | `fl-netpulse.png` | NETPULSE NMS v6.1 (N+ Advanced Labs) |
-| `fl-fortiguard.png` | FORTIGUARD Policy Auditor v3.1 (Sec+ Advanced Labs / Complete Labs) |
+| `fl-fortiguard.png` | FORTIGUARD Policy Auditor v3.1 (Sec+ Advanced Labs / Complete Labs). Also currently used as A+ Core 2 hero placeholder. |
 | `fl-linux-cli.png` | Linux CLI / SSH hardening (Sec+ Foundation Labs thumbnail) |
 | `fl-dashboard.png` / `fl-terminal.png` / `fl-lab-briefing.png` / `fl-lab-picker.png` / `fl-results.png` | Platform UI shots (fallbacks, abandoned-cart email, etc.) |
+| `fl-exam-banner.png` | Currently unused. Was an experimental Prep Bundle backdrop (cropped readiness banner). Crop cut off the 746/PASS score; reverted. Kept for a future retry with a better crop. |
 
 **Format convention:** All files stored with `.png` extension but are actually JPEG content (smaller files, browsers handle it). Standard pipeline for new Tier 1 screenshots is ~1800px wide. `fl-cysa-cli.png` is an exception — native 925px kept because upscaling terminal text blurs readability and the card renders at ~240px anyway. Command: `convert input.png -strip -interlace Plane -quality 82 "jpeg:output.png"` (add `-resize '1800x>'` when source is larger than target).
 
@@ -105,8 +104,9 @@ In `/public/logos/`:
 
 - Red SAVE pill: bg `#FDE8E8` text `#A91818`
 - Orange "OFF" pill: bg `#fed7aa` text `#7c2d12`
+- Amber "Launching soon" badge (A+ landing pages): text `#fcd34d` on `rgba(245,158,11,0.12)` with `rgba(245,158,11,0.35)` border
 
-These appear only on discount badges — do not use elsewhere.
+These appear only on discount/coming-soon badges — do not use elsewhere.
 
 **Forbidden:** Reds and purples in product UI (except marketplace discount pills above). `#1A56DB`. Bootstrap blue. Any blue-500 Tailwind class on brand elements.
 
@@ -133,6 +133,8 @@ All button CTAs, highlights, borders, icon accents: `#0891B2` or navy→teal gra
 | `cy-sec.co.uk/comptia-network-plus-labs` | N+ cert landing page |
 | `cy-sec.co.uk/comptia-security-plus-labs` | Sec+ cert landing page |
 | `cy-sec.co.uk/comptia-cysa-plus-labs` | CySA+ cert landing page |
+| `cy-sec.co.uk/comptia-aplus-core1-labs` | **NEW (25-Apr-2026)** A+ Core 1 (220-1201) cert landing page |
+| `cy-sec.co.uk/comptia-aplus-core2-labs` | **NEW (25-Apr-2026)** A+ Core 2 (220-1202) cert landing page |
 | `cy-sec.co.uk/fortifyone` | FortifyOne GRC platform page |
 | `cy-sec.co.uk/admin` | Admin dashboard (navy brand, dual-C logo) |
 | `cy-sec.co.uk/admin/login` | Admin login |
@@ -141,12 +143,16 @@ All button CTAs, highlights, borders, icon accents: `#0891B2` or navy→teal gra
 - `/comptia-network-plus-labs` → `src/pages/NetworkPlusLabsPage.jsx`
 - `/comptia-security-plus-labs` → `src/pages/SecurityPlusLabsPage.jsx`
 - `/comptia-cysa-plus-labs` → `src/pages/CySAPlusLabsPage.jsx`
+- `/comptia-aplus-core1-labs` → `src/pages/APlusCore1LabsPage.jsx`
+- `/comptia-aplus-core2-labs` → `src/pages/APlusCore2LabsPage.jsx`
 
-All three cert pages share `src/components/ExamPrepSection.jsx` (added 24-Apr-2026, replaced the earlier thin `CompleteYourPrep` strip). This sits between the Labs tabs and Tools sections and surfaces the non-labs SKUs (Exam Engine, MCQ Study Bank, Prep Bundle) as a full deep-dive product section — two-up cards with screenshots + feature lists + prices + CTAs, then a full-width Prep Bundle savings callout with gradient background and `fl-exam-results.png` floating visual. Props: `cert` / `certLabel` / `code`. Uses `<a href="/store">` until the Rule 5 `<Link>` migration lands.
+The N+/Sec+/CySA+ pages share `src/components/ExamPrepSection.jsx` (added 24-Apr-2026, replaced the earlier thin `CompleteYourPrep` strip). This sits between the Labs tabs and Tools sections and surfaces the non-labs SKUs (Exam Engine, Prep Bundle) as a full deep-dive product section. Updated 25-Apr to reflect MCQ retirement: now describes Exam Engine in two modes (Study Mode for self-paced practice, Exam Mode for timed mocks) rather than separating MCQ Bank as its own SKU.
+
+The two new A+ landing pages also use `ExamPrepSection`, passing `cert="aplus_core1"` / `cert="aplus_core2"`. The component reads `cert` / `certLabel` / `code` as display tokens only (no hardcoded mapping), so this works without component changes. Both A+ pages have a 2-tab structure (Foundation + Advanced) — no Complete tab, because A+ Cores have no per-Core Complete SKU.
 
 **Navbar — Training Services dropdown has two sections:**
 - **Training Services:** Professional Certifications / PBQ Engine / Store
-- **FortifyLearn Labs:** Network+ Labs / Security+ Labs / CySA+ Labs
+- **FortifyLearn Labs:** Network+ Labs / Security+ Labs / CySA+ Labs / A+ Core 1 Labs / A+ Core 2 Labs
 
 ---
 
@@ -156,20 +162,45 @@ All three cert pages share `src/components/ExamPrepSection.jsx` (added 24-Apr-20
 
 CompTIA exam prep platform. **Key differentiators:** real CLI simulation labs, visual interactive tools, and **integrated mock exam engine** (PBQ+MCQ under one timer, approximating real CompTIA exam structure).
 
-#### Pricing ladder (all 3 certs — netplus, secplus, cysa)
+#### Pricing ladder (post-MCQ retirement, 25-Apr-2026)
+
+**For N+/Sec+/CySA+ — 5 SKUs per cert:**
 
 | Product (public label) | Price | Contents | Key |
 |---|---|---|---|
 | **Foundation Labs** | £19.99 | 5 PBQ scenarios | `{cert}_pack` |
 | **Advanced Labs** | £19.99 | 5 PBQ scenarios (uses visual tools) | `{cert}_pack_2` |
 | **Complete Labs** | £32.99 | All 10 labs (save £6.99 vs £39.98 à la carte) | `{cert}_complete` |
-| **Exam Engine** | £24.99 | Mock exam session: 3–6 PBQs + 85–90 MCQs under one combined timer, scaled 100–900 score. Draws from a pool of 50 PBQs + 500 MCQs per cert. | `{cert}_exam` |
-| **MCQ Study Bank** | £14.99 | 1,000 MCQs per cert with full reasoning (separate pool from Exam Engine) | `mcq_{cert}` |
-| **Exam Prep Bundle** | £49.99 | Everything (save £29.97 vs £79.96 à la carte) = Foundation Labs + Advanced Labs + Exam Engine + MCQ Study Bank (4 entitlements) | `{cert}_prep_bundle` |
+| **Exam Engine** | £24.99 | **Study Mode** (1,000 MCQs with full reasoning, self-paced) **+ Exam Mode** (timed mock: 3–6 PBQs + 85–90 MCQs under one combined timer, scaled 100–900 score) | `{cert}_exam` |
+| **Exam Prep Bundle** | £39.99 | Foundation Labs + Advanced Labs + Exam Engine = 3 entitlements (saves £24.98 vs £64.97 à la carte, 38% off) | `{cert}_prep_bundle` |
 
-**Public labels vs internal keys:** Public labels were renamed from "Pack 1" / "Pack 2" to "Foundation Labs" / "Advanced Labs" site-wide on 24-Apr-2026 (commit `1b8e193`) after user feedback that "Pack 1/2" communicated nothing. Internal `product_key` values (`{cert}_pack`, `{cert}_pack_2`, `{cert}_complete`, etc.) stayed stable — these are Stripe/webhook/entitlement contracts. The webhook `PACK_LABELS` lookup (v31) and `send-welcome-email` body copy (v11) are synced to the new public labels.
+**For A+ Core 1 / A+ Core 2 — 4 SKUs per Core (no per-Core Complete):**
 
-**5-labs-per-tier rule:** Each labs tier (Foundation / Advanced) is capped at 5 PBQ scenarios. Additional labs would go into pack_3 once pack_2 is full — but internal keys stay `_pack` / `_pack_2` for schema stability regardless of display label.
+| Product | Price | Key |
+|---|---|---|
+| **Foundation Labs** | £19.99 | `aplus_coreN_pack` |
+| **Advanced Labs** | £19.99 | `aplus_coreN_pack_2` |
+| **Exam Engine** | £24.99 | `aplus_coreN_exam` |
+| **Exam Prep Bundle** | £39.99 | `aplus_coreN_prep_bundle` (Foundation + Advanced + Exam Engine) |
+
+**A+ Complete dual-core mega bundle:**
+
+| Product | Price | Contents | Key |
+|---|---|---|---|
+| **A+ Complete (Core 1 + Core 2)** | £64.99 | 4 packs + 2 Exam Engines = 6 entitlements (saves £64.95 vs £129.94, 50% off) | `aplus_complete` |
+
+**Total live SKUs:** 9 base (3 certs × Foundation/Advanced/Complete) + 6 base (3 certs × Exam Engine/Prep Bundle) + 8 A+ (Core 1/2 × 4 SKUs) + 1 A+ mega = **24 active Stripe prices**.
+
+#### MCQ retirement (25-Apr-2026)
+
+Standalone MCQ Study Banks were retired in commit 99f62061. Their content (1,000 MCQs per cert with full reasoning) was integrated into the Exam Engine as **Study Mode**. The Exam Engine now sells two modes for one £24.99 price:
+
+- **Study Mode** — self-paced MCQ practice with full reasoning panel (per-distractor "why this is wrong", objective tags, flag-to-revisit)
+- **Exam Mode** — timed PBQ + MCQ mock, scaled 100–900, per-domain diagnostic, focus-three recommendations
+
+The Prep Bundle was simplified from 4 items to 3 items (Foundation Labs + Advanced Labs + Exam Engine) and reduced from £49.99 to £39.99 to match. Webhook `PREP_BUNDLE_EXPANSION` updated accordingly. Legacy `mcq_*` keys still recognised in `PACK_LABELS` for historical refund/abandoned-cart webhooks.
+
+**FortifyLearn app entitlement gating** still uses `hasEntitlement('mcq_X')` in places — pending update to `hasEntitlement('X_exam')` so Exam Engine buyers correctly unlock Study Mode. Highest-impact pending item.
 
 #### Free tasters (5 total, April 2026)
 
@@ -179,7 +210,7 @@ CompTIA exam prep platform. **Key differentiators:** real CLI simulation labs, v
 - Security+: SSH Hardening — Root Login Vulnerability
 - Security+: Firewall Rule Review — Unauthorised Remote Access
 
-CySA+ does not have free tasters.
+CySA+ does not have free tasters. A+ does not have free tasters.
 
 #### Visual tools (all real, screenshots in `public/screenshots/`)
 
@@ -192,15 +223,21 @@ CySA+ does not have free tasters.
 | NETCAP Analyzer v3.2 | N+ Advanced Labs |
 | NETPULSE NMS v6.1 | N+ Advanced Labs |
 
+A+ Core 1/Core 2 tools are still being defined as content is authored. Lab listings on the new landing pages reference placeholder tool names (`FL-Mobile`, `FL-VMSIM`, `FL-WiFi`, `Win Admin`, `Defender`, `WinRE CLI`, `FL-MDM`, `FL-Backup`, `CLI Diag`) that will be replaced with real tool names as labs ship.
+
 ### FortifyOne (fortifyone.co.uk)
 
 GRC platform. From £149/mo standalone, included with vCISO. **Internal route:** `/fortifyone` (NOT external link from main nav).
 
 ---
 
-## Stripe prices (live mode)
+## Stripe prices (live mode, 24 active prices)
 
-### Exam Engines (created 24-Apr-2026)
+### Network+, Security+, CySA+ Foundation/Advanced/Complete (pre-existing)
+
+Look up in Stripe Dashboard if needed — all referenced via `PRICE_MAP` in `create-checkout-session` Edge Function.
+
+### Exam Engines (24-Apr-2026)
 
 | Product key | Stripe price ID |
 |---|---|
@@ -208,95 +245,75 @@ GRC platform. From £149/mo standalone, included with vCISO. **Internal route:**
 | `secplus_exam` | `price_1TPg3wPp3j8eGdItQWHGJEoq` |
 | `cysa_exam` | `price_1TPg46Pp3j8eGdItEgYjGLQu` |
 
-### Prep Bundles (created 24-Apr-2026)
+### Prep Bundles £39.99 (25-Apr-2026, replaces £49.99 originals)
+
+The original £49.99 Prep Bundle prices (`price_1TPg4J/U/f`) remain in Stripe for historical refund flows. **Pending:** archive in Stripe Dashboard alongside the 3 retired MCQ products (`prod_UMIL6AAhMjNfC4`, `prod_UMILDNb6xVrthi`, `prod_UMILIGD0Em9zeH`).
 
 | Product key | Stripe price ID |
 |---|---|
-| `netplus_prep_bundle` | `price_1TPg4JPp3j8eGdIt3ugOsHqv` |
-| `secplus_prep_bundle` | `price_1TPg4UPp3j8eGdItkzIPMyHe` |
-| `cysa_prep_bundle` | `price_1TPg4fPp3j8eGdItJAogqpOE` |
+| `netplus_prep_bundle` | `price_1TPzkY...` (£39.99) |
+| `secplus_prep_bundle` | `price_1TPzke...` (£39.99) |
+| `cysa_prep_bundle`    | `price_1TPzkj...` (£39.99) |
 
-### MCQ Banks (pre-existing)
+### A+ Core 1 (220-1201) — 4 SKUs (25-Apr-2026)
 
 | Product key | Stripe price ID |
 |---|---|
-| `mcq_netplus` | `price_1TNZkaPp3j8eGdItTwXCWwcG` |
-| `mcq_secplus` | `price_1TNZkiPp3j8eGdItfKRgO1TW` |
-| `mcq_cysa` | `price_1TNZkoPp3j8eGdItNS8KRPDx` |
+| `aplus_core1_pack`         | `price_1TPzqTPp3j8eGdItxuunRn8x` (£19.99) |
+| `aplus_core1_pack_2`       | `price_1TPzqYPp3j8eGdItgobe9VB5` (£19.99) |
+| `aplus_core1_exam`         | `price_1TPzqdPp3j8eGdItugc2Irsg` (£24.99) |
+| `aplus_core1_prep_bundle`  | `price_1TPzqiPp3j8eGdItkGapIMv7` (£39.99) |
 
-Labs packs: pre-existing. Look up in Stripe Dashboard if needed — all referenced via `PRICE_MAP` in `create-checkout-session` Edge Function.
+### A+ Core 2 (220-1202) — 4 SKUs (25-Apr-2026)
+
+| Product key | Stripe price ID |
+|---|---|
+| `aplus_core2_pack`         | `price_1TPzqnPp3j8eGdIt6qj0H3SX` (£19.99) |
+| `aplus_core2_pack_2`       | `price_1TPzqtPp3j8eGdItApOY7diD` (£19.99) |
+| `aplus_core2_exam`         | `price_1TPzqzPp3j8eGdIttEWW1jOp` (£24.99) |
+| `aplus_core2_prep_bundle`  | `price_1TPzr4Pp3j8eGdItZLNComfB` (£39.99) |
+
+### A+ Complete (dual-Core mega bundle) — 25-Apr-2026
+
+| Product key | Stripe price ID |
+|---|---|
+| `aplus_complete` | `price_1TPzrAPp3j8eGdItYBKJ6ijQ` (£64.99) |
 
 ---
 
-## Store page — architecture (v4, 24-Apr-2026)
+## Store page — architecture (v4, post-A+ rollout)
 
-**File:** `src/pages/StorePage.jsx` (~1085 lines as of 24-Apr evening; grew with product-kind filter + inline hero screenshot + ProductDetailsModal)
+**File:** `src/pages/StorePage.jsx` (~1085 lines)
 **Style:** Marketplace (Emmable-inspired, Cy-Sec branded). Replaced previous cert-tab-focused layout.
 
 ### Section order (top to bottom)
 
 1. **Utility announcement strip** (navy, trust signals — UK support / 14-day refund / CompTIA Authorised Partner)
-2. **Promo hero** (navy→teal gradient). Right panel displays **`fl-siem.png` Arclight SIEM dashboard** centred with drop shadow as the headline visual — communicates "real professional tool" at a glance. Four corner overlays: SAVE £29.97 (top-left red pill), 37% OFF (top-right teal pill), "CySA+ · Arclight SIEM" caption (bottom-left), `*bundle pricing` disclaimer (bottom-right). Mobile hides the right panel via `hidden sm:block`.
-3. **Featured row** — 3 Prep Bundle cards (★ RECOMMENDED badge, SAVE £29.97 pill, gradient CTA)
-4. **Browse by certification** — 3 cert tiles (click = filter grid)
-5. **Products grid** — 15 SKUs in responsive 2/3/4/5-col grid (Prep Bundles excluded from grid — they have their own row above), preceded by a **product-kind filter chip row** (All / PBQ labs / Mock exams / MCQ banks). Cert filter and kind filter compose independently — e.g. `Network+ + MCQ banks` yields one card. Empty-state card with "Clear filters →" reset when both filters combine to zero matches.
+2. **Promo hero** (navy→teal gradient). Right panel displays **`fl-siem.png` Arclight SIEM dashboard** as the headline visual. Hero copy is generic — "every CompTIA cert in our catalogue" — to scale to N+ certs without rewrite.
+3. **Featured row** — 6 Prep Bundle / mega cards: 3 base certs (N+, Sec+, CySA+) at £39.99 each, then A+ Core 1 + A+ Core 2 prep bundles at £39.99 each, then `APLUS_MEGA` (£64.99 dual-core) as a sixth featured card. The row is mapped from `[...CERTS, APLUS_MEGA]` (length 6).
+4. **Browse by certification** — 5 cert tiles (N+, Sec+, CySA+, A+ Core 1, A+ Core 2) — click filters product grid
+5. **Products grid** — responsive 2/3/4/5-col grid, preceded by a **product-kind filter chip row** (All / PBQ labs / Exam Engines). Cert filter and kind filter compose independently. A+ products show a "LAUNCHING SOON" amber ribbon (cards still buyable — early-bird pricing). Empty-state card with "Clear filters →" reset.
 6. **Recently viewed** — horizontal scrolling strip (conditional on localStorage having 2+ tracked items)
 7. **Features trust strip** (Lifetime / Instant / 14-day refund / UK support)
-8. **Built with trusted partners** — refactored 24-Apr to brand-consistent teal lucide icons (Award / Lock / Zap / Database / Shield) instead of vendor brand colours (the earlier red CompTIA / purple Stripe / green Supabase version broke the "no reds/purples in product UI" rule).
+8. **Built with trusted partners** — brand-consistent teal lucide icons (Award / Lock / Zap / Database / Shield)
 9. **Sticky basket bar** (fixed bottom, navy gradient) — appears when basket > 0, mobile-optimised stacking
 
 ### Key utilities preserved in StorePage.jsx
 
-- `CERTS` array (single source of truth — add cert = one edit here)
-- `KEY_LOOKUP`, `GRID_PRODUCTS` (derived from CERTS)
-- `loadBasket`/`saveBasket`/`sanitiseBasket` — localStorage `cysec_basket`
-- `loadRecent`/`saveRecent`/`addRecent` — localStorage `cysec_recent` (max 8)
-- `triggerStripe` — `product_key` singular, `product_keys` array for multi
+- `CERTS` array (single source of truth — adding a cert = one edit here). Each cert has: `key`, `title`, `short`, `code`, `badge`, `landingPage`, `pack1` / `pack2` / `complete?` / `exam` / `prep_bundle` SKU configs (Complete is optional — A+ Cores omit it). The `comingSoon` flag triggers the LAUNCHING SOON ribbon — currently true on all A+ SKUs.
+- `APLUS_MEGA` constant — separate from the `CERTS` array because it spans two Cores. Mapped through `FeaturedBundleCard` with data-driven cardTitle/sub/countChip props that fall back when missing.
+- `KEY_LOOKUP`, `GRID_PRODUCTS` (derived from CERTS) — robust to missing complete/optional SKUs
+- `loadBasket` / `saveBasket` / `sanitiseBasket` — localStorage `cysec_basket`
+- `loadRecent` / `saveRecent` / `addRecent` — localStorage `cysec_recent` (max 8)
+- `triggerStripe` — `product_key` singular for single items, `product_keys` array for multi
 - `CheckoutModal` / `ModalShell` / `BasketBar`
+- `ProductDetailsModal` — "What's inside →" link on every card. Content derived per SKU type (`isAplusMega` branch handles the dual-Core case).
 
-### Product card thumbnails (24-Apr-2026)
+### Product card thumbnails
 
-Every SKU config in the CERTS array has a `thumbnail` field. `ProductCard` and `FeaturedBundleCard` render this image and overlay a small cert-badge chip so viewers still identify the cert at a glance. **All 18 SKU configs now have a distinctive thumbnail.** The only remaining `thumbnail: null` entries are the 3 Prep Bundles, which is intentional — `FeaturedBundleCard` uses a clean light-gradient + centred CompTIA badge design instead of a screenshot.
+Every SKU config has a `thumbnail` field. `ProductCard` and `FeaturedBundleCard` render it with a small cert-badge chip overlay. Where a thumbnail is `null` (Prep Bundles, mega bundles), the card uses a clean light-gradient + centred CompTIA badge design instead.
 
-| SKU key | thumbnail |
-|---|---|
-| `netplus_pack` | `/screenshots/fl-netsim.png` |
-| `netplus_pack_2` | `/screenshots/fl-netpulse.png` |
-| `netplus_complete` | `/screenshots/fl-netcap.png` |
-| `netplus_exam` | `/screenshots/fl-exam-question.png` |
-| `mcq_netplus` | `/screenshots/fl-mcq-reasoning.png` |
-| `netplus_prep_bundle` | **`null`** (intentional — gradient + cert badge) |
-| `secplus_pack` | `/screenshots/fl-linux-cli.png` |
-| `secplus_pack_2` | `/screenshots/fl-fortiguard.png` |
-| `secplus_complete` | `/screenshots/fl-linux-cli.png` |
-| `secplus_exam` | `/screenshots/fl-exam-question.png` |
-| `mcq_secplus` | `/screenshots/fl-mcq-reasoning.png` |
-| `secplus_prep_bundle` | **`null`** (intentional — gradient + cert badge) |
-| `cysa_pack` | `/screenshots/fl-cysa-cli.png` (firewall log hunt, added 24-Apr) |
-| `cysa_pack_2` | `/screenshots/fl-siem.png` |
-| `cysa_complete` | `/screenshots/fl-netscan.png` |
-| `cysa_exam` | `/screenshots/fl-exam-question.png` |
-| `mcq_cysa` | `/screenshots/fl-mcq-reasoning.png` |
-| `cysa_prep_bundle` | **`null`** (intentional — gradient + cert badge) |
-
-**Prep Bundle banner — reverted 24-Apr-2026.** An earlier experiment had Prep Bundle featured cards using `fl-exam-banner.png` (a cropped cert-agnostic version of the readiness screen) as a backdrop. The crop cut off the 746/PASS score, leaving a meaningless teal strip. Reverted to the clean light-gradient + centred cert badge design. `fl-exam-banner.png` remains in `public/screenshots/` unused — keep for future retry with a better crop, or delete if next screenshot pass replaces it.
-
-### Product details modal — "What's inside →" (24-Apr-2026)
-
-Every product card and Prep Bundle card has a "What's inside →" link beneath its CTA. Clicking it opens `ProductDetailsModal` (defined near the bottom of StorePage.jsx, ~line 570), which explains what's actually in the SKU. Content is derived per SKU type from the config/cert data — we never hard-code per-SKU marketing copy here, so adding a new cert/SKU doesn't require touching the modal code.
-
-| SKU type | Modal content source |
-|---|---|
-| Foundation Labs (`*_pack`) | `cert.pack1.highlights` array (real lab names) |
-| Advanced Labs (`*_pack_2`) | `cert.pack2.highlights` array |
-| Complete Labs (`*_complete`) | Both `pack1.highlights` and `pack2.highlights`, grouped with headings |
-| Exam Engine (`*_exam`) | Static spec — exam format (3–6 PBQs + 85–90 MCQs per session, one combined timer), question pool section (50 PBQs + 500 MCQs per cert), scoring (100–900 scaled, per-domain diagnostic, focus-three), and the honesty block (±50pt approximation disclaimer) |
-| MCQ Study Bank (`mcq_*`) | Static spec — 1,000 questions per cert with full reasoning panel, per-distractor "why this is wrong", objective tags, flag-to-revisit. "Standalone — pair with Exam Engine for timed mocks." |
-| Prep Bundle (`*_prep_bundle`) | Itemised value breakdown (Foundation Labs £19.99 + Advanced Labs £19.99 + Exam Engine £24.99 + MCQ Study Bank £14.99) plus the why-the-bundle math |
-
-Modal UX: backdrop click closes, `Escape` closes, body-scroll locked while open. Hero banner uses the config thumbnail when present. Layout: thumbnail band top, cert+code header, price row with SAVE pill if applicable, content sections with teal check-icon bullets, lifetime/refund/instant trust strip, branded navy→teal gradient CTA (reuses `onToggle` from parent so basket state stays consistent).
-
-**Why this matters for conversion:** cards stay scannable but curious visitors can deep-dive without leaving the store. "What's inside" is also how we give lab packs a second layer of value — the cards just say "5 foundation labs" but the modal names every lab, letting a buyer confirm relevance before committing.
+A+ Core 1 / Core 2 SKUs currently use placeholder thumbnails (`fl-cysa-cli.png` and `fl-fortiguard.png`) — to be swapped for A+ specific imagery as content is authored.
 
 ### Cert filter tiles behaviour
 
@@ -313,31 +330,24 @@ Modal UX: backdrop click closes, `Escape` closes, body-scroll locked while open.
 
 ### Product card metadata philosophy (IMPORTANT — honest, not fabricated)
 
-Cards show "Foundation labs" / "Advanced labs" / "Best value labs" / "Mock exam · timed" / "Study bank" / "Most popular" instead of star ratings or sold counts. **We do NOT fabricate social proof.** When real Trustpilot/G2 reviews or sales data arrive, swap `config.meta` for a `★ rating + sold count` block — one change in `ProductCard` component.
+Cards show "Foundation labs" / "Advanced labs" / "Best value labs" / "Mock exam · timed" / "Most popular" instead of star ratings or sold counts. **We do NOT fabricate social proof.** When real Trustpilot/G2 reviews or sales data arrive, swap `config.meta` for a `★ rating + sold count` block — one change in `ProductCard` component.
 
 ---
 
-## Store scale thresholds — important for adding certs
+## Store scale thresholds — live state with 5 certs
 
-Current store scales cleanly to ~5 certs. Three hardcoded pinch points break beyond that:
+The store now lists 5 certs (N+, Sec+, CySA+, A+ Core 1, A+ Core 2). The previously-hardcoded pinch points have been mitigated:
 
-1. **Featured bundles row:** `lg:grid-cols-3` (hardcoded). Breaks at 4+ bundles.
-   Fix when adding 4th bundle: convert to horizontal scroll OR cap featured at 3 editor's-pick bundles.
-
-2. **Browse-by-certification tiles:** `grid-cols-3` (hardcoded). Breaks at 4+.
-   Fix: responsive wrapping OR horizontal scroll.
-
-3. **Hero promo copy** mentions certs by name ("Network+, Security+ and CySA+"). At 5+ certs this reads badly. Rewrite generic: "for every CompTIA cert in our catalogue" OR rotate hero based on newest content.
+- **Featured bundles row:** 6 cards shown via `[...CERTS, APLUS_MEGA].length === 6`. Already at scale boundary — the next cert (whether 6th CompTIA cert or first non-CompTIA vendor) should switch this to horizontal scroll OR cap featured at 3 editor's-pick bundles.
+- **Browse-by-certification tiles:** now 5 tiles. Still uses `grid-cols-3` layout — wraps 3+2 on desktop. Tolerable but a cleaner responsive treatment is overdue. Switch when adding cert 6.
+- **Hero promo copy:** genericised in this update to "for every CompTIA cert in our catalogue" — already scales to any cert count without rewrite.
 
 ### For multi-vendor expansion (CertNexus, (ISC)², AWS, etc.)
 
-4. Add `vendor` field to each cert entry (`'comptia' | 'certnexus' | etc.`). Add vendor filter bar above cert tiles.
-
-5. Allow optional SKUs per cert: guard rendering with `cert.mcq && <TestPrepCard .../>`. Current catalogue assumes all 6 SKUs present; vendor-specific certs may have different shape (e.g. voucher, eBook).
-
-6. Trusted partners strip needs data-driven vendor badges if vendor-specific partner status is relevant.
-
-**Recommendation:** don't refactor preemptively. At 5th cert (likely A+ Core 1 + Core 2 in pipeline), do horizontal-scroll + vendor field. At first non-CompTIA cert, add vendor filter bar + optional SKU guards.
+When a non-CompTIA cert lands:
+1. Add `vendor` field to each cert entry (`'comptia' | 'certnexus' | etc.`). Add vendor filter bar above cert tiles.
+2. Allow optional SKUs per cert: guard rendering with `cert.mcq && <TestPrepCard .../>`. Current catalogue assumes a fixed shape; vendor-specific certs may have different shape (e.g. voucher, eBook).
+3. Trusted partners strip needs data-driven vendor badges if vendor-specific partner status is relevant.
 
 ---
 
@@ -349,18 +359,19 @@ Three entitlement tables on Supabase project `kmnbtnfgeadvvkwsdyml`:
 - `user_entitlements` — `pack_id` UUID required
 - `user_purchases` — `pack_id` UUID required
 
-Exam, MCQ, and Prep Bundle purchases only write to `fl_entitlements` because they lack pack UUIDs (no `fl_packs` rows exist for them). `user_entitlements` and `user_purchases` therefore have NO rows for non-pack SKUs.
+Exam, MCQ-legacy, and Prep Bundle purchases only write to `fl_entitlements` because they lack pack UUIDs (no `fl_packs` rows exist for them). A+ Cores fall in the same bucket.
 
-**Consequence:** admin revenue reporting via `user_purchases` MISSES exam, mcq, and prep_bundle revenue. Flagged and accepted as non-blocking.
+**Consequence:** admin revenue reporting via `user_purchases` MISSES exam, prep_bundle, and A+ revenue. Flagged and accepted as non-blocking.
 
-**Future fix:** add UUIDs + `fl_packs` rows for exam/mcq/prep_bundle. Normalise so all entitlements write to all three tables and admin reports capture full revenue.
+**Future fix:** add UUIDs + `fl_packs` rows for exam/prep_bundle/A+. Normalise so all entitlements write to all three tables and admin reports capture full revenue.
 
 ---
 
 ## GitHub & infrastructure
 
 - **cy-sec.co.uk:** React/Vite SPA, `GazCocklin/cy-sec-website`, `main` branch → Vercel auto-deploy (~90s). Bundle-patching workflow — never `npm run build`.
-- **PAT:** Supabase `_platform_secrets` key=`github_pat` (fetch via Supabase MCP, never ask Gaz). GitHub MCP connector is **read-only** (403 on writes). Reliable write path: clone with PAT, commit, push. Note: `api.github.com` is NOT on bash egress allowlist, so REST API calls fail — use git CLI only.
+- **PAT:** Supabase `_platform_secrets` key=`github_pat` (fetch via Supabase MCP, never ask Gaz). GitHub MCP connector is **read-only** (403 on writes). Reliable write path: clone with PAT, commit, push. `api.github.com` is NOT on bash egress allowlist; use git CLI only.
+- **Pushback workflow** (preferred for in-repo edits): Postgres-driven via `cysec-pushback` edge function v2 (verify_jwt:false, X-FL-Admin auth). Stage ops in `_push_ops` table (path, op_type 'replace' or 'full', old_text, new_text using Postgres dollar-quote tags such as the four-character delimiter Z). Dry-run with `?dry_run=1`, then push. v2 supports new files when all ops on a path are 'full'.
 - **Supabase:** `kmnbtnfgeadvvkwsdyml` (shared across all products)
 - **Git config:** `user.email=gazc@cy-sec.co.uk` / `user.name=GazCocklin`
 - **Vercel team:** `team_VchoAehUBBaWu4dPpsrvw3lh`
@@ -382,48 +393,58 @@ Exam, MCQ, and Prep Bundle purchases only write to `fl_entitlements` because the
 
 ### send-welcome-email (v11, verify_jwt:true)
 
-FortifyLearn welcome email. Lists 5 free tasters. Upsell block uses the current public labels: **Complete Labs (10 labs) £32.99** per cert · saves £6.99 and **Foundation or Advanced Labs (5 labs) £19.99**. MCQ variant subtext says "MCQ Study Bank is unlocked"; "both" variant heading is "MCQ Study Bank". Terminology fully synced with the site rename (v11, 24-Apr-2026). Canonical asset paths: `cy-sec.co.uk/logos/` and `cy-sec.co.uk/screenshots/`. Single-file ~25.8KB.
+FortifyLearn welcome email. Lists 5 free tasters. Upsell block uses Foundation/Advanced Labs and Complete Labs labels (legacy MCQ language synced out in v11).
 
 ### send-fl-feedback-email (v9, verify_jwt:false)
 
 FL bug report + feature request emails. Bug = red (`#ef4444`), Feature = teal (`#0891B2`). Custom CORS allowlist.
 
-### stripe-webhook (v31, verify_jwt:false — Stripe calls without JWT)
+### stripe-webhook (v34, verify_jwt:false — Stripe calls without JWT)
 
-**Split into two files** as of v28. Single-file deploys over ~38KB fail.
+**Split into two files** (single-file deploys over ~38KB fail).
 
 - `index.ts` (~13KB): handlers + `PACK_LABELS` + `PACK_UUID_MAP` + `COMPLETE_EXPANSION` + `PREP_BUNDLE_EXPANSION` + `BUNDLE_PACKS`
-- `emails.ts` (~25.5KB): all email template functions, exports 6 sendX functions (admin/customer × confirmation/refund/abandoned-cart)
+- `emails.ts` (~26KB): all email template functions, exports 6 sendX functions (admin/customer × confirmation/refund/abandoned-cart)
 
-**v31 (24-Apr-2026):** `PACK_LABELS` fully synced to the site rename. Customer-facing strings in purchase confirmations, refunds, and abandoned-cart emails now say "Network+ Foundation Labs", "Security+ Advanced Labs", "CySA+ Complete Labs", "MCQ Study Bank" (was "MCQ Question Bank"), etc. Product keys unchanged — this was a label-only sync.
+**v33 (25-Apr-2026)** — A+ vertical added:
+- `PACK_LABELS` covers all 9 A+ keys (Core 1 / Core 2 × pack/pack_2/exam/prep_bundle plus aplus_complete)
+- `PREP_BUNDLE_EXPANSION` updated for the post-MCQ-retirement 3-item bundle (Foundation + Advanced + Exam Engine, no MCQ). For A+ Cores: `aplus_coreN_prep_bundle` → 3 entitlements. For aplus_complete: 6 entitlements (4 packs + 2 Exam Engines).
+- `EXAM_KEYS` array in emails.ts includes `aplus_core1_exam` and `aplus_core2_exam`
+- `APLUS_MEGA_KEYS = ["aplus_complete"]` for the dual-Core case
 
-`PREP_BUNDLE_EXPANSION` includes `mcq_{cert}` — prep_bundle purchases grant 4 entitlements per cert (Foundation Labs, Advanced Labs, Exam Engine, MCQ Study Bank).
+**v34 (25-Apr-2026)** — `emails.ts` `certLandingForKey()` updated:
+- A+ Core 1 keys (`aplus_core1_*`) → `https://cy-sec.co.uk/comptia-aplus-core1-labs`
+- A+ Core 2 keys (`aplus_core2_*`) → `https://cy-sec.co.uk/comptia-aplus-core2-labs`
+- `aplus_complete` (mega bundle) still falls back to `/store` (no single landing page for the dual-Core mega)
+- Order matters: Core checks come BEFORE the generic `aplus` catch
+- `index.ts` unchanged from v33
 
 **Handles:** `checkout.session.completed`, `charge.refunded`, `checkout.session.expired`.
 
-`certLandingForKey`: MCQ/exam emails route to `fortifylearn.co.uk/?page=examengine` (was `cy-sec.co.uk` — bug fixed in v28).
+`heroScreenshotForKey` routes purchase-confirmation email hero images:
 
-`heroScreenshotForKey` (v30, 24-Apr-2026) routes purchase-confirmation email hero images:
+| Key match | Screenshot |
+|---|---|
+| `isPrepBundleKey` | `fl-exam-results.png` |
+| `isExamKey` | `fl-exam-question.png` |
+| Legacy `isMcqKey` | `fl-mcq-reasoning.png` (or `fl-mcq-netplus.png` for `mcq_netplus`) |
+| `netplus*` | `fl-netpulse.png` |
+| `secplus*` | `fl-fortiguard.png` |
+| `cysa*` | `fl-siem.png` |
+| A+ (no specific shot yet) / fallback | `fl-dashboard.png` |
 
-| Key match | Screenshot | Alt text |
-|---|---|---|
-| `isPrepBundleKey` | `fl-exam-results.png` | FortifyLearn exam readiness projection |
-| `isExamKey` | `fl-exam-question.png` | FortifyLearn Exam Engine — question in progress |
-| `isMcqKey` | `fl-mcq-reasoning.png` | FortifyLearn MCQ Study Bank — question with reasoning |
-| `netplus*` | `fl-netpulse.png` | NETPULSE NMS v6.1 |
-| `secplus*` | `fl-fortiguard.png` | FORTIGUARD Policy Auditor v3.1 |
-| `cysa*` | `fl-siem.png` | Arclight SIEM v5.0.3 |
-| fallback | `fl-dashboard.png` | FortifyLearn |
+**Critical ordering:** `isPrepBundleKey` and `isExamKey` checks must come before `key.startsWith("netplus")` etc., otherwise `netplus_prep_bundle` matches the Network+ labs route first.
 
-**Critical ordering:** `isPrepBundleKey` check must come before `key.startsWith("netplus")` etc., otherwise `netplus_prep_bundle` matches the Network+ labs route first.
+### create-checkout-session (v25, verify_jwt:true)
 
-### create-checkout-session (v23, verify_jwt:true)
+`PRICE_MAP` includes all 24 SKUs (15 base + 9 A+).
 
-`PRICE_MAP` includes all 6 SKUs per cert (18 total).
+Three collapse passes optimise carts before sending to Stripe:
+- `COMPLETE_COLLAPSE` (N+/Sec+/CySA+ only): `[pack, pack_2] → complete` — customer charged £32.99 instead of £39.98
+- `PREP_BUNDLE_COLLAPSE` per cert: `[pack, pack_2, exam] → prep_bundle` — customer charged £39.99 instead of £64.97. Triggers per cert independently.
+- `APLUS_MEGA_COLLAPSE`: six A+ SKUs (any combination) OR both Core prep bundles → `aplus_complete` — customer charged £64.99 instead of £79.98+ — drives mega bundle attach rate
 
-`PREP_BUNDLE_COLLAPSE` auto-optimises carts: `[complete, exam] → prep_bundle`. Customer charged £49.99 instead of £57.98 AND gets MCQ as surprise bonus via webhook expansion. Collapse triggers on complete + exam even without MCQ in cart — intentional UX (customer wins £8, we gain bundle uplift signal).
-
-**Known stale comment (v23, line ~28):** `// Exam Prep Bundle — £49.99 per cert (Pack 1 + Pack 2 + Exam Engine)` is both outdated terminology AND factually incomplete (bundle expands to 4 items including MCQ via webhook). Non-customer-facing; fix on next real deploy rather than a standalone v24.
+Legacy `mcq_*` keys auto-redirect to `*_exam` so old links / abandoned baskets resolve correctly.
 
 ### Stripe Dashboard (already configured)
 
@@ -434,16 +455,16 @@ FL bug report + feature request emails. Bug = red (`#ef4444`), Feature = teal (`
 
 ## SEO — core keywords
 
-**Primary:** CompTIA PBQ practice, CompTIA performance-based questions, CompTIA Network+ PBQ labs, CompTIA Security+ PBQ simulation, CompTIA CySA+ practice labs, CompTIA exam prep UK, CompTIA mock exam UK
+**Primary:** CompTIA PBQ practice, CompTIA performance-based questions, CompTIA Network+ PBQ labs, CompTIA Security+ PBQ simulation, CompTIA CySA+ practice labs, **CompTIA A+ Core 1 practice (220-1201)**, **CompTIA A+ Core 2 practice (220-1202)**, CompTIA exam prep UK, CompTIA mock exam UK
 
-**Long-tail:** "how to pass CompTIA PBQ questions", "SIEM lab CompTIA CySA+", "packet capture lab CompTIA Network+", "firewall configuration CompTIA practice", "CompTIA labs UK", "CompTIA practice exam with PBQ"
+**Long-tail:** "how to pass CompTIA PBQ questions", "SIEM lab CompTIA CySA+", "packet capture lab CompTIA Network+", "firewall configuration CompTIA practice", "A+ Core 1 hardware troubleshooting labs", "A+ Core 2 OS labs", "CompTIA labs UK", "CompTIA practice exam with PBQ"
 
 **On-page rules:** H1 must contain primary keyword. Unique meta description per page with keyword + CTA. Internal linking: every cert page links to store.
 
 ### Store meta (v4)
 
 - **Title:** "FortifyLearn Store — CompTIA exam prep bundles | Cy-Sec"
-- **Description:** "Real CompTIA PBQ simulation labs, mock exam engine and MCQ study banks. Network+, Security+ and CySA+ exam prep bundles from £49.99 — save £29.97 vs à la carte. Lifetime access, 14-day refund."
+- **Description:** "Real CompTIA PBQ simulation labs, mock exam engine and Study Mode practice. Network+, Security+, CySA+, A+ Core 1 and A+ Core 2 exam prep bundles from £39.99 — save up to £24.98 vs à la carte. Lifetime access, 14-day refund."
 
 ---
 
@@ -451,18 +472,20 @@ FL bug report + feature request emails. Bug = red (`#ef4444`), Feature = teal (`
 
 **The funnel:** Organic search → cert landing page → store → bundle/pack
 
-### CTA hierarchy (v3 store)
+### CTA hierarchy (v4 store)
 
-- **Primary:** "Add bundle →" on Prep Bundle featured cards (£49.99); "Add to basket" on individual SKU cards
-- **Secondary:** Complete labs cards with -18% SAVE £6.99 pill
+- **Primary:** "Add bundle →" on Prep Bundle featured cards (£39.99 base certs / £39.99 A+ Core / £64.99 A+ Complete); "Add to basket" on individual SKU cards
+- **Secondary:** Complete labs cards with -18% SAVE £6.99 pill (N+/Sec+/CySA+ only)
 - **Tertiary:** "Try a free lab" in hero (external → fortifylearn.co.uk)
 - **Retention:** Recently viewed strip keeps abandoned items visible cross-session
 
 ### Bundle economics
 
-- Prep Bundle £49.99 saves customer £29.97 (37% off à la carte £79.96)
-- Complete Labs £32.99 saves £6.99 (18% off £39.98)
-- `PREP_BUNDLE_COLLAPSE` in `create-checkout-session` converts `[complete+exam]` to `prep_bundle` automatically — customer saves £8, we bundle MCQ as bonus (drives bundle attach rate)
+- Base cert Prep Bundle £39.99 saves customer £24.98 (38% off à la carte £64.97 = pack £19.99 + pack_2 £19.99 + exam £24.99)
+- Complete Labs £32.99 saves £6.99 (18% off £39.98) — N+/Sec+/CySA+ only
+- A+ Core Prep Bundle £39.99 saves £24.98 (same maths as base certs)
+- A+ Complete £64.99 saves £64.95 (50% off £129.94) — biggest single-purchase saving in the catalogue
+- `PREP_BUNDLE_COLLAPSE` and `APLUS_MEGA_COLLAPSE` in `create-checkout-session` automatically rewrite carts to the cheaper bundle SKU when matching SKUs are detected — customer wins the saving, we win the bundle attach signal
 
 ### Routing rules
 
@@ -517,23 +540,31 @@ Single-file Edge Function deploys over ~38KB fail. `stripe-webhook` is split int
 
 ## Pending / next session
 
-### Immediate
+### Immediate (high-impact)
 
-- **Rule 5 migration** — cert landing pages (`NetworkPlusLabsPage.jsx` etc.) and `ExamPrepSection.jsx` use `<a href="/store">` instead of React Router `<Link to="/store">`. Causes full page reloads on nav. Cross-page pass to convert all of them.
+- **FortifyLearn app entitlement gating** (`GazCocklin/fortify-learn` repo, untouched): replace `hasEntitlement('mcq_X')` with `hasEntitlement('X_exam')` so Exam Engine buyers actually unlock Study Mode. Highest-impact gap from MCQ retirement.
+- **Stripe Dashboard archive** (~2 min, manual): archive 3 retired MCQ products (`prod_UMIL6AAhMjNfC4`, `prod_UMILDNb6xVrthi`, `prod_UMILIGD0Em9zeH`) and 3 old £49.99 Prep Bundle prices. Archive only — preserves refund history.
+- **Rule 5 migration** — cert landing pages including the 2 new A+ pages, plus `ExamPrepSection.jsx`, use `<a href="/store">` instead of React Router `<Link to="/store">`. Causes full page reloads on nav. Cross-page pass to convert all of them.
+
+### A+ specific (timed to content readiness)
+
+- **A+ specific hero/tool screenshots** to replace the placeholder `fl-cysa-cli.png` (Core 1 hero) and `fl-fortiguard.png` (Core 2 hero), plus the placeholder thumbnails on all 8 A+ store SKU cards
+- **A+ content authoring** to threshold (current: 1 PBQ + 20 MCQs Core 1 / 0 MCQs Core 2). Target minimum 10 PBQs per pack tier and 200 MCQs per Core for an honest launch
+- **`is_for_sale=true`** on A+ DB rows when content reaches threshold
 
 ### Screenshot pickups
 
 Tier 1 (exam + MCQ + CySA CLI) complete. Remaining gaps:
 
-- **Tier 2 — "Labs + Exam + MCQ" composite/montage.** Three-device stack showing a terminal, an exam question, and an MCQ side-by-side. Cert-agnostic. Could replace the current SIEM-only hero visual if it reads better — but the current hero is good enough that this is a "nice-to-have", not urgent.
-- **Tier 3 — Lab briefing screen** for card hover states (optional).
+- **Tier 2 — "Labs + Exam + Study Mode" composite/montage.** Three-device stack showing a terminal, an exam question, and a Study Mode reasoning panel side-by-side. Cert-agnostic. Could replace the current SIEM-only hero visual if it reads better — but the current hero is good enough that this is a "nice-to-have", not urgent.
+- **Tier 3 — Lab briefing screen** for card hover states (optional)
 - **Tier 3 — Real customer logos** for the trusted-partners strip once we have named references. When this lands, swap `TrustedPartners` component config from the current lucide-icon treatment to vendor logos.
 
-### When scale warrants (likely with A+ Core 1 + Core 2 launch)
+### When 6th cert lands
 
-- Featured bundles row: convert from `lg:grid-cols-3` to horizontal scroll, or cap at 3 editor's picks
-- Cert tile grid: same — convert from `grid-cols-3` to responsive wrap/scroll
-- Hero promo copy: genericise ("every CompTIA cert in our catalogue" instead of naming three certs)
+- Featured bundles row: convert from `lg:grid-cols-3` (currently shown 6 cards / 2 rows) to horizontal scroll, or cap at 3 editor's picks
+- Cert tile grid: convert from `grid-cols-3` to responsive wrap/scroll
+- Hero promo copy already scales — no change
 
 ### When first non-CompTIA cert lands
 
@@ -547,83 +578,34 @@ Tier 1 (exam + MCQ + CySA CLI) complete. Remaining gaps:
 - Free-to-paid conversion tracking view in admin
 - Licence expiry tracker in admin
 - Revenue breakdown by pack in admin (blocked by entitlement gap — non-pack SKUs aren't in `user_purchases`)
-- Entitlement gap proper fix: add UUIDs + `fl_packs` rows for exam/mcq/prep_bundle so admin revenue reporting includes them
+- Entitlement gap proper fix: add UUIDs + `fl_packs` rows for exam/prep_bundle/A+
 - Reviews strategy (Google Business Profile, G2) — once we have actual reviews, swap `config.meta` from "Foundation labs" etc. to ★ rating + sold count
-- Bundle pricing review (deferred multiple times — current £49.99 is working, revisit with real conversion data)
+- Bundle pricing review — current £39.99 base / £39.99 A+ Core / £64.99 A+ Complete are working; revisit with real conversion data
 
-### Recently completed (24-Apr-2026 session)
+### Recently completed (25-Apr-2026 session)
 
 Done and removed from pending:
 
+- ✅ MCQ Study Banks retired — Exam Engine now sells Study Mode + Exam Mode (commit 99f62061)
+- ✅ Prep Bundle simplified to 3 items at £39.99 (was 4 items at £49.99)
+- ✅ A+ Core 1 + Core 2 added to storefront with 4 SKUs each + dual-Core mega `aplus_complete` £64.99 (commit 3bbada96)
+- ✅ A+ exam codes corrected from 220-1101/1102 to current 220-1201/1202 (commit f144a10e)
+- ✅ Dedicated A+ landing pages built: `/comptia-aplus-core1-labs` and `/comptia-aplus-core2-labs` (commit f144a10e)
+- ✅ stripe-webhook v33 wired for A+ vertical (PACK_LABELS, PREP_BUNDLE_EXPANSION, APLUS_MEGA, EXAM_KEYS arrays)
+- ✅ stripe-webhook v34 emails.ts certLandingForKey routes A+ Core keys to dedicated landing pages
+- ✅ create-checkout-session v25 with 24-entry PRICE_MAP and three-pass collapse logic
+- ✅ Hero promo copy genericised to scale with cert count
+- ✅ Featured row scaled to 6 cards via `[...CERTS, APLUS_MEGA]`
+
+### Recently completed (24-Apr-2026 session)
+
 - ✅ Legal page placeholders filled (Companies House #, registered address, ICO #) on `TermsOfService.jsx` and `PrivacyPolicy.jsx`
-- ✅ Cert landing pages now cover Exam Engine + MCQ Bank + Prep Bundle via `ExamPrepSection.jsx`
+- ✅ Cert landing pages now cover Exam Engine + (then-MCQ Bank) + Prep Bundle via `ExamPrepSection.jsx` (since updated for MCQ retirement)
 - ✅ CySA+ Foundation Labs screenshot (`fl-cysa-cli.png`) added — all 18 SKUs thumbnailed
 - ✅ Pack 1 / Pack 2 → Foundation Labs / Advanced Labs rename site-wide + webhook v31 + welcome-email v11 alignment
 - ✅ Store hero SIEM screenshot replaces "37%" typography
-- ✅ Product-kind filter chips added to store grid (All / PBQ labs / Mock exams / MCQ banks)
-- ✅ `TrustedPartners` refactored to brand-consistent teal icons (removed the red/purple/green vendor-colour version that broke the palette rule)
-
----
-
-## FortifyLearn product updates (22-Apr-2026)
-
-Two major changes on the FortifyLearn platform that should shape the next marketing-site refresh when content is ready:
-
-### 1. Cert lineup expanded from 3 to 5
-
-Now supported:
-
-- CompTIA Network+ (N10-009)
-- CompTIA Security+ (SY0-701)
-- CompTIA CySA+ (CS0-003)
-- **CompTIA A+ Core 1 (220-1101)** — NEW
-- **CompTIA A+ Core 2 (220-1102)** — NEW
-
-A+ content is being authored — banks exist and are live but empty until PBQ Creator and Exam Engine projects populate them. Wait for the per-cert content threshold before marketing A+ prominently.
-
-Use the single official CompTIA A+ badge for both Cores on cert lineup displays — exam code (220-1101 / 220-1102) differentiates them in product copy. CompTIA issues one A+ credential covering both Cores.
-
-**NOTE:** Adding A+ brings store to 5 certs — approaching scale threshold. See **Store scale thresholds** section above. Featured row and cert tile grid will need horizontal scroll treatment.
-
-### 2. Integrated Exam feature — major differentiator
-
-The platform now offers real-exam mock simulation: 3-6 PBQs + 85-90 MCQs under a single combined timer, mirroring the actual CompTIA exam structure. No major competitor delivers this well. Messer's site has no PBQ simulation. Dion has PBQs but not integrated with MCQs under one timer. Boson approximates but lacks the platform-level content ecosystem.
-
-**Key product messaging angles:**
-
-- "Practice the exam you'll actually take"
-- "Real PBQs + MCQs, one combined timer, scored like the real thing"
-- "CompTIA-approximate scaled score (100-900), per-domain diagnostic, targeted study recommendations"
-- "±50 point approximation disclaimer" — stated honestly in-app, protects against over-claim
-
-**Scoring model:** linear scaled 100-900 with configurable pass threshold per cert. PBQs weighted 4× MCQs by default (closest published approximation of CompTIA's real weighting).
-
-**Content-gated launch:**
-
-Feature is live in production (code-complete as of 22-Apr-2026) but returns `insufficient_content` per cert until authoring meets launch thresholds:
-
-- **Minimum:** 10 PBQs + 200 MCQs exam-tagged per cert
-- **Mature:** 40-60 PBQs + 600-900 MCQs exam-tagged per cert
-
-**DO NOT launch marketing announcement for the integrated exam** until at least one cert has hit the minimum threshold and has been end-to-end tested by a real user. Announcing before content is ready would over-promise.
-
-First cert likely ready: Network+ (largest existing bank, 200+ MCQs once tagged). Monitor PBQ Creator and Exam Engine project progress for the go-signal.
-
-**NOTE:** Exam Engine is ALREADY A SELLABLE SKU (£24.99 per cert) and is included in Prep Bundles. It's live in Stripe and the store. Content gate is at the platform (FortifyLearn app) level, not the storefront level — people can buy it now; they just won't get a usable experience until content ships.
-
----
-
-## Suggested marketing site changes when ready
-
-Timed to product readiness:
-
-1. **Homepage hero:** add "Mock exams that mirror the real thing" or similar above-the-fold messaging once first cert hits threshold.
-
-2. **Cert pages:** expand from 3 to 5 (add A+ Core 1, A+ Core 2 pages with authentic CompTIA A+ badge). Timing: wait for A+ content. Remember scale threshold — store navbar + cert tiles will need responsive treatment.
-
-3. **"How it works" section:** add new step explaining the integrated mock exam flow (PBQs first, MCQs second, one timer, per-domain diagnostic, study recommendations).
-
-4. **Differentiator comparison table:** if competitor comparison is part of marketing narrative, integrated exam is the strongest single differentiator now in hand.
+- ✅ Product-kind filter chips added to store grid
+- ✅ `TrustedPartners` refactored to brand-consistent teal icons
 
 ---
 
@@ -634,12 +616,13 @@ Timed to product readiness:
 - `/public/logos/comptia-network-plus.svg`
 - `/public/logos/comptia-security-plus.svg`
 - `/public/logos/comptia-cysa-plus.svg`
+- `/public/logos/comptia-aplus.svg` (single A+ badge — used for Core 1, Core 2, and aplus_complete display)
 
-Used directly by `StorePage.jsx` featured bundle cards and cert tiles.
+Used directly by `StorePage.jsx` featured bundle cards, cert tiles, and the two new A+ landing pages.
 
 ### Also in GazCocklin/fortify-learn /public/assets/
 
 - `comptia-netplus.svg`, `comptia-secplus.svg`, `comptia-cysa.svg`
-- `comptia-aplus-core1.svg`, `comptia-aplus-core2.svg` (A+ Cores share the same real badge file)
+- `comptia-aplus-core1.svg`, `comptia-aplus-core2.svg` (A+ Cores share the same real badge file — shipped to cy-sec-website as `comptia-aplus.svg`)
 
 Brand colours/tokens unchanged. Gradient: `linear-gradient(135deg, #0B1D3A, #0891B2)`.

@@ -218,7 +218,7 @@ export default function SecurityPlusLabsPage() {
         </div>
       </section>
 
-      {/* ── Exam prep (deep-dive: Exam Engine + MCQ Study Bank + Prep Bundle savings) ── */}
+      {/* ── Exam prep (deep-dive: Exam Engine — Study + Exam Mode + Prep Bundle savings) ── */}
       <ExamPrepSection cert="secplus" certLabel="Security+" code="SY0-701" />
 
       {/* ── Tools ── */}

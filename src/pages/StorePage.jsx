@@ -15,7 +15,7 @@ const RECENT_KEY = 'cysec_recent';
 const RECENT_MAX = 8;
 
 // ── Cert catalogue ───────────────────────────────────────────────────────────
-// Six SKUs per cert (Pack 1, Pack 2, Complete, Exam Engine, MCQ Bank, Prep Bundle).
+// Five SKUs per cert (Foundation Labs, Advanced Labs, Complete, Exam Engine, Prep Bundle).
 // kind field classifies the card for the products grid (bundle / labs / mock / study).
 // badgeText is what we show on metadata chips where marketplaces typically show
 // rating/sold counts — using honest product metadata instead of fabricated numbers.
@@ -29,8 +29,8 @@ const CERTS = [
     landingPage: '/comptia-network-plus-labs',
     includes: [
       '10 hands-on CLI simulation labs',
-      'Mock exam engine (PBQ + MCQ)',
-      '1,000 MCQ study bank with reasoning',
+      'Mock exam engine — Study Mode + Exam Mode',
+      '1,000 MCQs + 50 PBQs per cert',
       'Lifetime access',
     ],
     pack1: {
@@ -56,9 +56,8 @@ const CERTS = [
       ],
     },
     complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netcap.png' },
-    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: '/screenshots/fl-exam-netplus.png' },
-    mcq:       { key: 'mcq_netplus',          label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: '/screenshots/fl-mcq-netplus.png' },
-    prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
+    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: '/screenshots/fl-exam-netplus.png' },
+    prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   {
     key: 'secplus',
@@ -69,8 +68,8 @@ const CERTS = [
     landingPage: '/comptia-security-plus-labs',
     includes: [
       '10 hands-on security labs',
-      'Mock exam engine (PBQ + MCQ)',
-      '1,000 MCQ study bank with reasoning',
+      'Mock exam engine — Study Mode + Exam Mode',
+      '1,000 MCQs + 50 PBQs per cert',
       'Lifetime access',
     ],
     pack1: {
@@ -96,9 +95,8 @@ const CERTS = [
       ],
     },
     complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-linux-cli.png' },
-    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: null, comingSoon: true },
-    mcq:       { key: 'mcq_secplus',          label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: null, comingSoon: true },
-    prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
+    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
+    prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
   {
     key: 'cysa',
@@ -109,8 +107,8 @@ const CERTS = [
     landingPage: '/comptia-cysa-plus-labs',
     includes: [
       '10 SOC analyst labs',
-      'Mock exam engine (PBQ + MCQ)',
-      '1,000 MCQ study bank with reasoning',
+      'Mock exam engine — Study Mode + Exam Mode',
+      '1,000 MCQs + 50 PBQs per cert',
       'Lifetime access',
     ],
     pack1: {
@@ -136,9 +134,8 @@ const CERTS = [
       ],
     },
     complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netscan.png' },
-    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Mock exam · PBQ + MCQ · scored',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam · timed', thumbnail: null, comingSoon: true },
-    mcq:       { key: 'mcq_cysa',             label: 'MCQ Study Bank',   sub: '1,000 questions · full reasoning',  price: 14.99,                            kind: 'study',  meta: 'Study bank',        thumbnail: null, comingSoon: true },
-    prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine + MCQ Bank',    price: 49.99, rrp: 79.96, saving: 29.97, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
+    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
+    prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
 ];
 
@@ -146,7 +143,7 @@ const CERTS = [
 const KEY_LOOKUP = (() => {
   const out = {};
   for (const cert of CERTS) {
-    for (const opt of ['pack1','pack2','complete','exam','mcq','prepBundle']) {
+    for (const opt of ['pack1','pack2','complete','exam','prepBundle']) {
       out[cert[opt].key] = { cert, option: opt, config: cert[opt] };
     }
   }
@@ -154,11 +151,10 @@ const KEY_LOOKUP = (() => {
 })();
 
 // Flat product list for the main grid (excludes prep bundles — those get their
-// own featured section). Ordered: Complete, Exam, MCQ, Foundation Labs, Advanced Labs per cert.
+// own featured section). Ordered: Complete, Exam, Foundation Labs, Advanced Labs per cert.
 const GRID_PRODUCTS = CERTS.flatMap(cert => [
   { cert, config: cert.complete },
   { cert, config: cert.exam },
-  { cert, config: cert.mcq },
   { cert, config: cert.pack1 },
   { cert, config: cert.pack2 },
 ]);
@@ -376,10 +372,10 @@ function PromoHero({ onShopBundles }) {
           Exam Prep Bundle · Limited offer
         </div>
         <h1 className="font-black leading-none mb-3" style={{ fontSize: 'clamp(28px,4vw,40px)', letterSpacing: '-1px' }}>
-          Save £29.97 on<br />exam-ready prep.
+          Save £24.98 on<br />exam-ready prep.
         </h1>
         <p className="text-white/70 text-sm leading-relaxed mb-5 max-w-md">
-          Real CLI labs, mock exam engine, and a 1,000-question MCQ study bank — bundled for Network+, Security+ and CySA+.
+          Real CLI labs and a full mock exam engine with Study Mode + Exam Mode — bundled for Network+, Security+ and CySA+.
           One price. Lifetime access.
         </p>
         <div className="flex items-center gap-4 flex-wrap">
@@ -389,9 +385,9 @@ function PromoHero({ onShopBundles }) {
             Shop bundles →
           </button>
           <span className="text-xs text-white/65">
-            From <strong className="text-white text-sm">£49.99</strong>
+            From <strong className="text-white text-sm">£39.99</strong>
             <span className="text-white/35 mx-2">·</span>
-            <s className="text-white/35">£79.96</s>
+            <s className="text-white/35">£64.97</s>
           </span>
         </div>
       </div>
@@ -409,7 +405,7 @@ function PromoHero({ onShopBundles }) {
             boxShadow: '0 20px 45px rgba(0,0,0,0.45), 0 0 0 1px rgba(125,211,232,0.12)',
           }} />
 
-        {/* SAVE £29.97 — prominent value pill, top-left */}
+        {/* SAVE £24.98 — prominent value pill, top-left */}
         <div className="absolute z-10 font-extrabold rounded-md shadow-lg"
           style={{
             top: 20, left: 20,
@@ -417,7 +413,7 @@ function PromoHero({ onShopBundles }) {
             fontSize: 11, padding: '5px 11px',
             letterSpacing: '0.02em',
           }}>
-          SAVE £29.97
+          SAVE £24.98
         </div>
 
         {/* 37% off — secondary reinforcement, top-right */}
@@ -428,7 +424,7 @@ function PromoHero({ onShopBundles }) {
             fontSize: 10, padding: '4px 10px',
             letterSpacing: '0.02em',
           }}>
-          37% OFF
+          38% OFF
         </div>
 
         {/* Caption — so viewers know what they're looking at */}
@@ -462,7 +458,7 @@ function FeaturedBundleCard({ cert, inBasket, onToggle, onShowDetails }) {
       </div>
       <div className="p-4 flex flex-col flex-1">
         <p className="text-sm font-bold text-slate-900 mb-0.5">{cert.short} Prep Bundle</p>
-        <p className="text-xs text-slate-500 mb-3">Labs + Exam Engine + MCQ</p>
+        <p className="text-xs text-slate-500 mb-3">Labs + Exam Engine</p>
         <div className="flex items-baseline gap-2 mb-3">
           <span className="text-2xl font-black text-slate-900" style={{ letterSpacing: '-0.5px' }}>£{prepBundle.price.toFixed(2)}</span>
           <span className="text-sm text-slate-400 line-through">£{prepBundle.rrp.toFixed(2)}</span>
@@ -472,7 +468,7 @@ function FeaturedBundleCard({ cert, inBasket, onToggle, onShowDetails }) {
             style={{ background: '#FDE8E8', color: '#A91818' }}>
             SAVE £{prepBundle.saving.toFixed(2)}
           </span>
-          <span className="text-[11px] text-slate-500 font-semibold">10 labs · mock exam · 1,000 MCQs</span>
+          <span className="text-[11px] text-slate-500 font-semibold">10 labs · Study + Exam Mode</span>
         </div>
         <button onClick={() => onToggle(prepBundle.key)}
           className={`mt-auto w-full py-2.5 rounded-lg text-sm font-bold transition-all ${
@@ -600,7 +596,7 @@ function ProductCard({ cert, config, inBasket, onToggle, onView, onShowDetails }
 // ── Product details modal ────────────────────────────────────────────────────
 // Click "What's inside →" on any card to see what's actually in the SKU.
 // Content is derived from the config/cert — pack1/2 show highlights arrays,
-// complete shows both, exam/mcq show the feature spec, prepBundle itemises.
+// complete shows both, exam shows the Study + Exam mode breakdown, prepBundle itemises.
 function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
   useEffect(() => {
     const handleEsc = (e) => { if (e.key === 'Escape') onClose(); };
@@ -615,7 +611,6 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
   const isPackTwo  = config.key.endsWith('_pack_2');
   const isComplete = config.key.endsWith('_complete');
   const isExam     = config.key.endsWith('_exam');
-  const isMcq      = config.key.startsWith('mcq_');
   const isBundle   = config.key.endsWith('_prep_bundle');
 
   const sections = []; // { title: string, items: string[], desc?: string }
@@ -629,7 +624,17 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
     if (cert.pack2?.highlights) sections.push({ title: 'Advanced Labs', items: cert.pack2.highlights });
   } else if (isExam) {
     sections.push({
-      title: 'Exam format',
+      title: 'Study Mode',
+      items: [
+        '1,000 MCQs per cert, mapped to every exam objective',
+        'Instant feedback after every answer with full reasoning',
+        'Per-option "why this is wrong" explanations on every distractor',
+        'Objective tags so you can drill specific weak domains',
+        'Self-paced — no timer, no pressure',
+      ],
+    });
+    sections.push({
+      title: 'Exam Mode',
       items: [
         '3–6 real performance-based questions (PBQs) per session',
         '85–90 multiple-choice questions per session',
@@ -640,9 +645,9 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
     sections.push({
       title: 'Question pool',
       items: [
-        '50 exam-grade PBQs per cert — the pool each session draws from',
-        '500 exam-grade MCQs per cert — the pool each session draws from',
-        'Separate from the MCQ Study Bank (1,000 questions, standalone practice mode)',
+        '50 exam-grade PBQs per cert',
+        '1,000 MCQs per cert (Study Mode practises with these directly)',
+        'Exam Mode draws a separate randomised subset to keep your mocks fair',
         'Pool expands as we author new content — all included, no upsell',
       ],
     });
@@ -659,31 +664,18 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
       title: 'The honesty bit',
       desc: 'Our score is an approximation of CompTIA\'s scaled score with a ±50 point margin. It\'s designed to tell you if you\'re exam-ready, not to predict your exact score on the day. Use it as a readiness signal.',
     });
-  } else if (isMcq) {
-    sections.push({
-      title: 'What\'s in the bank',
-      items: [
-        '1,000 multiple-choice questions covering every exam objective',
-        'Full reasoning panel for the correct answer on every question',
-        'Per-option "why this is wrong" explanations for all distractors',
-        'Objective tags so you can drill specific weak domains',
-        'Flag questions to revisit later during study sessions',
-        'Standalone study mode — pair with the Exam Engine for timed mock practice',
-      ],
-    });
   } else if (isBundle) {
     sections.push({
       title: 'What\'s included',
       items: [
         `Foundation Labs — 5 PBQs (£19.99 value)`,
         `Advanced Labs — 5 PBQs (£19.99 value)`,
-        `Exam Engine — mock exam with full scoring (£24.99 value)`,
-        `MCQ Study Bank — 1,000 questions with reasoning (£14.99 value)`,
+        `Exam Engine — Study Mode + Exam Mode (£24.99 value)`,
       ],
     });
     sections.push({
       title: 'Why the bundle',
-      desc: `Buying the four items separately costs £${(19.99+19.99+24.99+14.99).toFixed(2)}. The bundle is £${config.price.toFixed(2)} — you save £${config.saving.toFixed(2)}. Same lifetime access, same content, just a better price.`,
+      desc: `Buying the three items separately costs £${(19.99+19.99+24.99).toFixed(2)}. The bundle is £${config.price.toFixed(2)} — you save £${config.saving.toFixed(2)}. Same lifetime access, same content, just a better price.`,
     });
   }
 
@@ -990,7 +982,7 @@ export default function StorePage() {
     <div className={`min-h-screen ${basket.length > 0 ? 'pb-36 sm:pb-32' : 'pb-2'}`} style={{ background: '#F4F7FA' }}>
       <Helmet>
         <title>FortifyLearn Store — CompTIA exam prep bundles | Cy-Sec</title>
-        <meta name="description" content="Real CompTIA PBQ simulation labs, mock exam engine and MCQ study banks. Network+, Security+ and CySA+ exam prep bundles from £49.99 — save £29.97 vs à la carte. Lifetime access, 14-day refund." />
+        <meta name="description" content="Real CompTIA PBQ simulation labs and a full Exam Engine with Study Mode + Exam Mode. Network+, Security+ and CySA+ exam prep bundles from £39.99 — save £24.98 vs à la carte. Lifetime access, 14-day refund." />
       </Helmet>
 
       {showModal && (
@@ -1081,7 +1073,6 @@ export default function StorePage() {
               { key: 'all',   label: 'All' },
               { key: 'labs',  label: 'PBQ labs' },
               { key: 'mock',  label: 'Mock exams' },
-              { key: 'study', label: 'MCQ banks' },
             ].map(chip => {
               const active = activeProductKind === chip.key;
               return (

@@ -224,7 +224,7 @@ export default function NetworkPlusLabsPage() {
         </div>
       </section>
 
-      {/* ── Exam prep (deep-dive: Exam Engine + MCQ Study Bank + Prep Bundle savings) ── */}
+      {/* ── Exam prep (deep-dive: Exam Engine — Study + Exam Mode + Prep Bundle savings) ── */}
       <ExamPrepSection cert="netplus" certLabel="Network+" code="N10-009" />
 
       {/* ── Tools ── */}

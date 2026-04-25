@@ -6,9 +6,8 @@ import { Button } from '@/components/ui/button';
 import { useNavigate, Link } from 'react-router-dom';
 
 const FL_FEATURES = [
-  'Mock exams — PBQs + MCQs under one combined timer',
+  'Exam Engine — Study Mode + Exam Mode under one timer',
   '10 hands-on labs per cert with live CLI & visual tools',
-  '1,000 MCQs per cert with full reasoning',
   'Lifetime access · no subscription · 14-day refund',
 ];
 
@@ -159,8 +158,8 @@ export default function LandingPageHero() {
               </div>
               <p className="text-slate-400 text-sm mb-4 leading-relaxed">
                 The complete CompTIA exam prep stack for Network+, Security+ and CySA+ — live CLI
-                labs, interactive tools, an MCQ study bank, and mock exams that mirror the real
-                test structure.
+                labs, interactive tools, and the Exam Engine (Study + Exam Mode) that mirrors
+                the real test structure.
               </p>
               <div className="space-y-2 mb-5">
                 {FL_FEATURES.map(f => (

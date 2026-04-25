@@ -231,7 +231,7 @@ export default function CySAPlusLabsPage() {
         </div>
       </section>
 
-      {/* ── Exam prep (deep-dive: Exam Engine + MCQ Study Bank + Prep Bundle savings) ── */}
+      {/* ── Exam prep (deep-dive: Exam Engine — Study + Exam Mode + Prep Bundle savings) ── */}
       <ExamPrepSection cert="cysa" certLabel="CySA+" code="CS0-003" />
 
       {/* ── Tools ── */}

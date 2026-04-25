@@ -137,20 +137,21 @@ const CERTS = [
     exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
     prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
-  // ── A+ Core 1 (220-1101) ───────────────────────────────────────────────────
-  // Wired 25-Apr-2026. Stripe prices live; webhook PACK_LABELS + PREP_BUNDLE_EXPANSION
-  // already cover both Cores. Content is sparse (1 PBQ + 20 MCQs at launch), so every
-  // SKU is marked comingSoon: true — ribbon shows "LAUNCHING SOON", buyable but
-  // honest about content state. No per-Core Complete Labs SKU (the £64.99 dual-core
-  // mega bundle below covers the all-in option). Thumbnails reuse existing
-  // screenshots as placeholders until A+-specific imagery is authored.
+  // ── A+ Core 1 (220-1201) ───────────────────────────────────────────────────
+  // Wired 25-Apr-2026. Updated 25-Apr-2026 to current CompTIA exam codes
+  // (220-1201/-1202 superseded the 1101/1102 cycle). Stripe prices live; webhook
+  // PACK_LABELS + PREP_BUNDLE_EXPANSION already cover both Cores. Content is
+  // sparse at launch, so every SKU is marked comingSoon: true — ribbon shows
+  // "LAUNCHING SOON", buyable but honest about content state. No per-Core
+  // Complete Labs SKU (the £64.99 dual-core mega bundle below covers all-in).
+  // Dedicated landing page: /comptia-aplus-core1-labs.
   {
     key: 'aplus_core1',
     title: 'CompTIA A+ Core 1',
     short: 'A+ Core 1',
-    code: '220-1101',
+    code: '220-1201',
     badge: '/logos/comptia-aplus.svg',
-    landingPage: '/store',
+    landingPage: '/comptia-aplus-core1-labs',
     includes: [
       'Hardware, networking, mobile devices',
       'Virtualisation & cloud, troubleshooting',
@@ -182,14 +183,15 @@ const CERTS = [
     exam:      { key: 'aplus_core1_exam',         label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
     prepBundle:{ key: 'aplus_core1_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
-  // ── A+ Core 2 (220-1102) ───────────────────────────────────────────────────
+  // ── A+ Core 2 (220-1202) ───────────────────────────────────────────────────
+  // Dedicated landing page: /comptia-aplus-core2-labs.
   {
     key: 'aplus_core2',
     title: 'CompTIA A+ Core 2',
     short: 'A+ Core 2',
-    code: '220-1102',
+    code: '220-1202',
     badge: '/logos/comptia-aplus.svg',
-    landingPage: '/store',
+    landingPage: '/comptia-aplus-core2-labs',
     includes: [
       'Operating systems, Windows admin',
       'Security, software troubleshooting',
@@ -232,7 +234,7 @@ const APLUS_MEGA = {
   key: 'aplus_complete_virtual_cert',
   title: 'CompTIA A+ Complete',
   short: 'A+ Complete',
-  code: '220-1101 + 220-1102',
+  code: '220-1201 + 220-1202',
   badge: '/logos/comptia-aplus.svg',
   landingPage: '/store',
   prepBundle: {
@@ -786,11 +788,11 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
     sections.push({
       title: 'What\'s included — both A+ Cores',
       items: [
-        'A+ Core 1 (220-1101) Foundation Labs — 5 PBQs',
-        'A+ Core 1 (220-1101) Advanced Labs — 5 PBQs',
+        'A+ Core 1 (220-1201) Foundation Labs — 5 PBQs',
+        'A+ Core 1 (220-1201) Advanced Labs — 5 PBQs',
         'A+ Core 1 Exam Engine — Study + Exam Mode',
-        'A+ Core 2 (220-1102) Foundation Labs — 5 PBQs',
-        'A+ Core 2 (220-1102) Advanced Labs — 5 PBQs',
+        'A+ Core 2 (220-1202) Foundation Labs — 5 PBQs',
+        'A+ Core 2 (220-1202) Advanced Labs — 5 PBQs',
         'A+ Core 2 Exam Engine — Study + Exam Mode',
       ],
     });

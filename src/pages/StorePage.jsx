@@ -137,27 +137,144 @@ const CERTS = [
     exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
     prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
+  // ── A+ Core 1 (220-1101) ───────────────────────────────────────────────────
+  // Wired 25-Apr-2026. Stripe prices live; webhook PACK_LABELS + PREP_BUNDLE_EXPANSION
+  // already cover both Cores. Content is sparse (1 PBQ + 20 MCQs at launch), so every
+  // SKU is marked comingSoon: true — ribbon shows "LAUNCHING SOON", buyable but
+  // honest about content state. No per-Core Complete Labs SKU (the £64.99 dual-core
+  // mega bundle below covers the all-in option). Thumbnails reuse existing
+  // screenshots as placeholders until A+-specific imagery is authored.
+  {
+    key: 'aplus_core1',
+    title: 'CompTIA A+ Core 1',
+    short: 'A+ Core 1',
+    code: '220-1101',
+    badge: '/logos/comptia-aplus.svg',
+    landingPage: '/store',
+    includes: [
+      'Hardware, networking, mobile devices',
+      'Virtualisation & cloud, troubleshooting',
+      'Mock exam engine — Study Mode + Exam Mode',
+      'Lifetime access',
+    ],
+    pack1: {
+      key: 'aplus_core1_pack', label: 'Foundation Labs', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: '/screenshots/fl-cysa-cli.png',
+      kind: 'labs', meta: '5 PBQ labs', comingSoon: true,
+      highlights: [
+        'Mobile device sync & connectivity',
+        'Network cable & port troubleshooting',
+        'Hardware diagnostic workflows',
+        'Virtualisation & cloud configuration',
+        'Multi-fault hardware/network triage',
+      ],
+    },
+    pack2: {
+      key: 'aplus_core1_pack_2', label: 'Advanced Labs', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-fortiguard.png',
+      kind: 'labs', meta: '5 PBQ labs', isNew: true, comingSoon: true,
+      highlights: [
+        'Wireless AP misconfiguration',
+        'Printer & peripheral fault diagnosis',
+        'SOHO router & network share triage',
+        'Display & video subsystem repair',
+        'End-to-end client diagnostic exercise',
+      ],
+    },
+    exam:      { key: 'aplus_core1_exam',         label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
+    prepBundle:{ key: 'aplus_core1_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
+  },
+  // ── A+ Core 2 (220-1102) ───────────────────────────────────────────────────
+  {
+    key: 'aplus_core2',
+    title: 'CompTIA A+ Core 2',
+    short: 'A+ Core 2',
+    code: '220-1102',
+    badge: '/logos/comptia-aplus.svg',
+    landingPage: '/store',
+    includes: [
+      'Operating systems, Windows admin',
+      'Security, software troubleshooting',
+      'Mock exam engine — Study Mode + Exam Mode',
+      'Lifetime access',
+    ],
+    pack1: {
+      key: 'aplus_core2_pack', label: 'Foundation Labs', sub: 'First 5 labs · foundations', price: 19.99, thumbnail: '/screenshots/fl-linux-cli.png',
+      kind: 'labs', meta: '5 PBQ labs', comingSoon: true,
+      highlights: [
+        'Windows account & permission audit',
+        'Defender quarantine & malware response',
+        'OS recovery & boot troubleshooting',
+        'User profile & group policy fixes',
+        'Software install/uninstall diagnostics',
+      ],
+    },
+    pack2: {
+      key: 'aplus_core2_pack_2', label: 'Advanced Labs', sub: 'Next 5 labs · advanced', price: 19.99, thumbnail: '/screenshots/fl-netscan.png',
+      kind: 'labs', meta: '5 PBQ labs', isNew: true, comingSoon: true,
+      highlights: [
+        'Phishing incident response procedure',
+        'Mobile MDM & wipe-on-loss policy',
+        'BSOD root-cause investigation',
+        'Backup & restore operational drill',
+        'End-to-end ransomware containment',
+      ],
+    },
+    exam:      { key: 'aplus_core2_exam',         label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
+    prepBundle:{ key: 'aplus_core2_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
+  },
 ];
+
+// ── A+ Complete (Core 1 + Core 2 mega-bundle) ──────────────────────────────
+// NOT a member of CERTS (different shape — spans two Cores, no per-Core SKUs).
+// Rendered in the featured bundles row alongside the 5 cert prep bundles.
+// Webhook PREP_BUNDLE_EXPANSION expands aplus_complete -> 6 entitlements
+// (4 packs + 2 exam engines across both Cores).
+const APLUS_MEGA = {
+  key: 'aplus_complete_virtual_cert',
+  title: 'CompTIA A+ Complete',
+  short: 'A+ Complete',
+  code: '220-1101 + 220-1102',
+  badge: '/logos/comptia-aplus.svg',
+  landingPage: '/store',
+  prepBundle: {
+    key: 'aplus_complete',
+    label: 'A+ Complete (Core 1 + Core 2)',
+    cardTitle: 'A+ Complete (both Cores)',
+    sub: 'Both Cores · 20 labs + 2 Exam Engines',
+    countChip: '20 labs · 2 Exam Engines',
+    price: 64.99,
+    rrp: 129.94,
+    saving: 64.95,
+    kind: 'bundle',
+    meta: 'Full A+ certification',
+    thumbnail: null,
+    comingSoon: true,
+  },
+};
 
 // Map each product key back to its cert + config (used by basket bar, recently viewed, etc.)
 const KEY_LOOKUP = (() => {
   const out = {};
   for (const cert of CERTS) {
     for (const opt of ['pack1','pack2','complete','exam','prepBundle']) {
+      // A+ Cores have no per-Core Complete Labs SKU; skip cleanly.
+      if (!cert[opt]) continue;
       out[cert[opt].key] = { cert, option: opt, config: cert[opt] };
     }
   }
+  // Cross-cert A+ mega bundle (not in CERTS — different shape, spans both Cores)
+  out[APLUS_MEGA.prepBundle.key] = { cert: APLUS_MEGA, option: 'prepBundle', config: APLUS_MEGA.prepBundle };
   return out;
 })();
 
 // Flat product list for the main grid (excludes prep bundles — those get their
 // own featured section). Ordered: Complete, Exam, Foundation Labs, Advanced Labs per cert.
+// .filter(Boolean) drops undefined entries (A+ Cores have no per-Core Complete SKU).
 const GRID_PRODUCTS = CERTS.flatMap(cert => [
-  { cert, config: cert.complete },
-  { cert, config: cert.exam },
-  { cert, config: cert.pack1 },
-  { cert, config: cert.pack2 },
-]);
+  cert.complete && { cert, config: cert.complete },
+  cert.exam     && { cert, config: cert.exam },
+  cert.pack1    && { cert, config: cert.pack1 },
+  cert.pack2    && { cert, config: cert.pack2 },
+].filter(Boolean));
 
 // ── localStorage helpers ─────────────────────────────────────────────────────
 function loadBasket()  { try { return JSON.parse(localStorage.getItem(BASKET_KEY) || '[]'); } catch { return []; } }
@@ -375,7 +492,7 @@ function PromoHero({ onShopBundles }) {
           Save £24.98 on<br />exam-ready prep.
         </h1>
         <p className="text-white/70 text-sm leading-relaxed mb-5 max-w-md">
-          Real CLI labs and a full mock exam engine with Study Mode + Exam Mode — bundled for Network+, Security+ and CySA+.
+          Real CLI labs and a full mock exam engine with Study Mode + Exam Mode — bundled for every CompTIA cert in our catalogue.
           One price. Lifetime access.
         </p>
         <div className="flex items-center gap-4 flex-wrap">
@@ -457,8 +574,8 @@ function FeaturedBundleCard({ cert, inBasket, onToggle, onShowDetails }) {
           style={{ width: 72, height: 72 }} onError={e => { e.target.style.display='none'; }} />
       </div>
       <div className="p-4 flex flex-col flex-1">
-        <p className="text-sm font-bold text-slate-900 mb-0.5">{cert.short} Prep Bundle</p>
-        <p className="text-xs text-slate-500 mb-3">Labs + Exam Engine</p>
+        <p className="text-sm font-bold text-slate-900 mb-0.5">{prepBundle.cardTitle || `${cert.short} Prep Bundle`}</p>
+        <p className="text-xs text-slate-500 mb-3">{prepBundle.sub || 'Labs + Exam Engine'}</p>
         <div className="flex items-baseline gap-2 mb-3">
           <span className="text-2xl font-black text-slate-900" style={{ letterSpacing: '-0.5px' }}>£{prepBundle.price.toFixed(2)}</span>
           <span className="text-sm text-slate-400 line-through">£{prepBundle.rrp.toFixed(2)}</span>
@@ -468,7 +585,7 @@ function FeaturedBundleCard({ cert, inBasket, onToggle, onShowDetails }) {
             style={{ background: '#FDE8E8', color: '#A91818' }}>
             SAVE £{prepBundle.saving.toFixed(2)}
           </span>
-          <span className="text-[11px] text-slate-500 font-semibold">10 labs · Study + Exam Mode</span>
+          <span className="text-[11px] text-slate-500 font-semibold">{prepBundle.countChip || '10 labs · Study + Exam Mode'}</span>
         </div>
         <button onClick={() => onToggle(prepBundle.key)}
           className={`mt-auto w-full py-2.5 rounded-lg text-sm font-bold transition-all ${
@@ -612,6 +729,7 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
   const isComplete = config.key.endsWith('_complete');
   const isExam     = config.key.endsWith('_exam');
   const isBundle   = config.key.endsWith('_prep_bundle');
+  const isAplusMega = config.key === 'aplus_complete';
 
   const sections = []; // { title: string, items: string[], desc?: string }
 
@@ -663,6 +781,22 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
     sections.push({
       title: 'The honesty bit',
       desc: 'Our score is an approximation of CompTIA\'s scaled score with a ±50 point margin. It\'s designed to tell you if you\'re exam-ready, not to predict your exact score on the day. Use it as a readiness signal.',
+    });
+  } else if (isAplusMega) {
+    sections.push({
+      title: 'What\'s included — both A+ Cores',
+      items: [
+        'A+ Core 1 (220-1101) Foundation Labs — 5 PBQs',
+        'A+ Core 1 (220-1101) Advanced Labs — 5 PBQs',
+        'A+ Core 1 Exam Engine — Study + Exam Mode',
+        'A+ Core 2 (220-1102) Foundation Labs — 5 PBQs',
+        'A+ Core 2 (220-1102) Advanced Labs — 5 PBQs',
+        'A+ Core 2 Exam Engine — Study + Exam Mode',
+      ],
+    });
+    sections.push({
+      title: 'Why the bundle',
+      desc: `Both Cores à la carte costs £${(19.99*4 + 24.99*2).toFixed(2)}. The Complete bundle is £${config.price.toFixed(2)} — you save £${config.saving.toFixed(2)} (50% off). Earn the full CompTIA A+ certification with one purchase. Lifetime access.`,
     });
   } else if (isBundle) {
     sections.push({
@@ -982,7 +1116,7 @@ export default function StorePage() {
     <div className={`min-h-screen ${basket.length > 0 ? 'pb-36 sm:pb-32' : 'pb-2'}`} style={{ background: '#F4F7FA' }}>
       <Helmet>
         <title>FortifyLearn Store — CompTIA exam prep bundles | Cy-Sec</title>
-        <meta name="description" content="Real CompTIA PBQ simulation labs and a full Exam Engine with Study Mode + Exam Mode. Network+, Security+ and CySA+ exam prep bundles from £39.99 — save £24.98 vs à la carte. Lifetime access, 14-day refund." />
+        <meta name="description" content="Real CompTIA PBQ simulation labs and a full Exam Engine with Study Mode + Exam Mode. Network+, Security+, CySA+ and A+ (Core 1 + Core 2) exam prep bundles from £39.99 — save up to £64.95 vs à la carte. Lifetime access, 14-day refund." />
       </Helmet>
 
       {showModal && (
@@ -1025,7 +1159,7 @@ export default function StorePage() {
             </span>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            {CERTS.map(cert => (
+            {[...CERTS, APLUS_MEGA].map(cert => (
               <FeaturedBundleCard key={cert.key} cert={cert}
                 inBasket={basket.includes(cert.prepBundle.key)}
                 onToggle={toggleItem}

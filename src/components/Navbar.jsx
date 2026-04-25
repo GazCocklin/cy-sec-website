@@ -73,6 +73,8 @@ const Navbar = () => {
                           { to: '/comptia-network-plus-labs',  label: 'CompTIA Network+ Labs',  code: 'N10-009' },
                           { to: '/comptia-security-plus-labs', label: 'CompTIA Security+ Labs', code: 'SY0-701' },
                           { to: '/comptia-cysa-plus-labs',     label: 'CompTIA CySA+ Labs',     code: 'CS0-003' },
+                          { to: '/store',                      label: 'CompTIA A+ Core 1 Labs', code: '220-1101' },
+                          { to: '/store',                      label: 'CompTIA A+ Core 2 Labs', code: '220-1102' },
                         ].map(l => (
                           <Link key={l.to} to={l.to}
                             className="flex items-center justify-between px-3 py-2 text-sm text-gray-300 hover:text-white hover:bg-white/5 rounded-lg transition-colors group">
@@ -185,6 +187,8 @@ const Navbar = () => {
                                 { to: '/comptia-network-plus-labs',  label: 'Network+ Labs' },
                                 { to: '/comptia-security-plus-labs', label: 'Security+ Labs' },
                                 { to: '/comptia-cysa-plus-labs',     label: 'CySA+ Labs' },
+                                { to: '/store',                      label: 'A+ Core 1 Labs' },
+                                { to: '/store',                      label: 'A+ Core 2 Labs' },
                               ].map(l => (
                                 <Link key={l.to} to={l.to} onClick={() => setIsOpen(false)}
                                   className="block px-3 py-2 text-sm text-gray-300 hover:text-white transition-colors rounded-lg hover:bg-white/5">

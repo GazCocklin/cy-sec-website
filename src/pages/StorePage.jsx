@@ -4,8 +4,7 @@ import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { supabase } from '@/lib/customSupabaseClient';
 import {
   Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Loader2, LogIn, Eye, EyeOff,
-  Star, Infinity as InfinityIcon, Zap, RotateCcw, MapPin, Clock, Sparkles,
-  Award, Lock, Database,
+  Star, Infinity as InfinityIcon, Clock, Sparkles,
 } from 'lucide-react';
 
 const SUPABASE_URL    = 'https://kmnbtnfgeadvvkwsdyml.supabase.co';
@@ -565,95 +564,82 @@ function PromoHero({ onShopBundles }) {
 function FeaturedBundleCard({ cert, inBasket, onToggle, onShowDetails }) {
   const { prepBundle } = cert;
   const isMega = cert.key === 'aplus_complete_virtual_cert';
-
-  // Feature pills — derived from cert structure rather than per-cert data
-  // (every cert has the same shape: 10 labs + 2,000 MCQs + Exam Engine; Mega doubles up)
-  const features = isMega
-    ? ['20 PBQ labs', '4,000 MCQs', '2 Exam Engines', 'Lifetime access']
-    : ['10 PBQ labs', '2,000 MCQs', 'Timed mock exam', 'Lifetime access'];
+  const certBadgeSize = isMega ? 60 : 64; // Mega's "A+" badge reads slightly smaller, balance them
 
   return (
-    <div className="rounded-2xl overflow-hidden relative flex flex-col text-white"
-      style={{ background: 'linear-gradient(135deg,#0B1D3A 0%,#0E5F8A 55%,#0891B2 100%)' }}>
-      {/* Decorative blurred circles */}
-      <div className="absolute -top-16 -right-12 w-40 h-40 rounded-full pointer-events-none"
-        style={{ background: 'rgba(125,211,232,0.10)' }} />
-      <div className="absolute -bottom-12 -left-8 w-32 h-32 rounded-full pointer-events-none"
-        style={{ background: 'rgba(125,211,232,0.06)' }} />
+    <div className="bg-white rounded-2xl overflow-hidden flex flex-col border border-slate-200 hover:border-cyan-400 hover:shadow-sm transition-all">
+      {/* Navy gradient thumb — same gradient family as ProductCard thumbs.
+          Cert badge centered (OLD behaviour), cert tag top-left, status pill top-right. */}
+      <div className="relative flex items-center justify-center overflow-hidden"
+        style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 65%,#0891B2)', height: 110 }}>
+        {/* Cert tag (top-left) — same vocabulary as ProductCard */}
+        <span className="absolute top-2.5 left-3 text-[9px] font-extrabold uppercase tracking-widest z-10"
+          style={{ color: 'rgba(125,211,232,0.92)' }}>
+          {cert.short} · {cert.code}
+        </span>
+        {/* Status pill (top-right) — Launching soon takes precedence over Recommended */}
+        {prepBundle.comingSoon ? (
+          <span className="absolute top-2 right-2.5 px-2 py-0.5 rounded text-[9px] font-extrabold uppercase tracking-wider z-10"
+            style={{ background: 'rgba(245,158,11,0.92)', color: '#1c1917' }}>
+            Launching soon
+          </span>
+        ) : (
+          <span className="absolute top-2 right-2.5 inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-extrabold uppercase tracking-wider z-10"
+            style={{ background: 'rgba(125,211,232,0.22)', color: '#7DD3E8', border: '0.5px solid rgba(125,211,232,0.30)' }}>
+            <Star className="w-2 h-2 fill-current" /> Recommended
+          </span>
+        )}
+        {/* Centered cert badge — keeps OLD's instant cert ID at the focal point */}
+        <img src={cert.badge} alt={cert.title}
+          style={{ width: certBadgeSize, height: certBadgeSize }}
+          className="object-contain"
+          onError={e => { e.target.style.display='none'; }} />
+      </div>
 
-      <div className="p-5 flex flex-col flex-1 relative">
-        {/* Top row: cert tag + Best value / Soon tags */}
-        <div className="flex items-start justify-between gap-2 mb-3">
-          <div className="inline-flex items-center gap-1.5">
-            <img src={cert.badge} alt="" className="w-5 h-5 object-contain"
-              onError={e => { e.target.style.display='none'; }} />
-            <span className="text-[9.5px] font-extrabold uppercase tracking-widest"
-              style={{ color: 'rgba(125,211,232,0.88)' }}>
-              {cert.short}
-            </span>
-          </div>
-          <div className="flex flex-col items-end gap-1">
-            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-extrabold uppercase tracking-wider"
-              style={{ background: 'rgba(125,211,232,0.20)', color: '#7DD3E8' }}>
-              <Star className="w-2.5 h-2.5 fill-current" /> Best value
-            </div>
-            {prepBundle.comingSoon && (
-              <div className="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase tracking-wider"
-                style={{ background: 'rgba(245,158,11,0.92)', color: '#1c1917' }}>
-                Launching soon
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Title + sub */}
-        <h3 className="text-lg font-black mb-1 leading-tight" style={{ letterSpacing: '-0.5px' }}>
+      {/* White body — reverts to the OLD body structure that you preferred */}
+      <div className="p-4 flex flex-col flex-1">
+        <p className="text-sm font-bold text-slate-900 mb-0.5 leading-tight">
           {prepBundle.cardTitle || `${cert.short} Prep Bundle`}
-        </h3>
-        <p className="text-[12px] mb-3 leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)' }}>
-          {prepBundle.sub || 'Foundation + Advanced Labs + Exam Engine'}
+        </p>
+        <p className="text-xs text-slate-500 mb-3">
+          {prepBundle.sub || 'Labs + Exam Engine'}
         </p>
 
-        {/* Feature pills */}
-        <div className="flex flex-wrap gap-1.5 mb-4">
-          {features.map(f => (
-            <span key={f} className="text-[10px] font-semibold px-2 py-1 rounded"
-              style={{ background: 'rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.85)' }}>
-              {f}
-            </span>
-          ))}
-        </div>
-
-        {/* Price block */}
-        <div className="flex items-end gap-2.5 mb-4">
-          <div>
-            <div className="text-[11px] line-through" style={{ color: 'rgba(255,255,255,0.40)' }}>
-              £{prepBundle.rrp.toFixed(2)}
-            </div>
-            <div className="text-3xl font-black" style={{ letterSpacing: '-1px', lineHeight: 1 }}>
-              £{prepBundle.price.toFixed(2)}
-            </div>
-          </div>
-          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded mb-0.5"
-            style={{ background: '#FDE8E8', color: '#A91818' }}>
-            SAVE £{prepBundle.saving.toFixed(2)}
+        {/* Price block — strikethrough RRP next to big bold price */}
+        <div className="flex items-baseline gap-2 mb-3">
+          <span className="text-2xl font-black text-slate-900" style={{ letterSpacing: '-0.5px' }}>
+            £{prepBundle.price.toFixed(2)}
+          </span>
+          <span className="text-sm text-slate-400 line-through">
+            £{prepBundle.rrp.toFixed(2)}
           </span>
         </div>
 
-        {/* CTAs */}
+        {/* Meta row — SAVE pill on the left, count chip on the right */}
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-[11px] font-extrabold px-2 py-1 rounded"
+            style={{ background: '#FDE8E8', color: '#A91818' }}>
+            SAVE £{prepBundle.saving.toFixed(2)}
+          </span>
+          <span className="text-[11px] text-slate-500 font-semibold">
+            {prepBundle.countChip || '10 labs · Study + Exam Mode'}
+          </span>
+        </div>
+
+        {/* Gradient CTA — same as before (per request) */}
         <button onClick={() => onToggle(prepBundle.key)}
-          className={`mt-auto w-full py-2.5 rounded-lg text-sm font-extrabold transition-all ${
+          className={`mt-auto w-full py-2.5 rounded-lg text-sm font-bold transition-all ${
             inBasket
-              ? 'bg-cyan-300 text-slate-900 hover:bg-cyan-200'
-              : 'bg-white text-slate-900 hover:bg-slate-100'
-          }`}>
+              ? 'bg-cyan-600 text-white hover:bg-cyan-700'
+              : 'text-white hover:brightness-110'
+          }`}
+          style={inBasket ? {} : { background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
           {inBasket ? '✓ In basket' : 'Add bundle →'}
         </button>
         {onShowDetails && (
           <button onClick={onShowDetails}
-            className="mt-1.5 text-[10.5px] font-semibold py-0.5 transition-colors hover:text-white"
-            style={{ color: 'rgba(255,255,255,0.55)' }}>
-            What's inside →
+            className="mt-2 w-full text-[11px] font-semibold text-slate-500 hover:text-cyan-700 transition-colors py-1">
+            What's inside the bundle →
           </button>
         )}
       </div>
@@ -1154,33 +1140,6 @@ function RecentlyViewed({ productKeys, basket, onToggle, onClear }) {
 // trust strip above it. We deliberately don't use vendor brand colours here —
 // the site's palette is navy + teal and introducing red/purple/green for each
 // partner makes the row look like third-party ads instead of our own signal.
-function TrustedPartners() {
-  const partners = [
-    { title: 'CompTIA',  sub: 'Authorised Partner',  icon: Award },
-    { title: 'Stripe',   sub: 'Secure payments',     icon: Lock },
-    { title: 'Vercel',   sub: 'Edge-hosted',         icon: Zap },
-    { title: 'Supabase', sub: 'EU data residency',   icon: Database },
-    { title: 'UK GDPR',  sub: 'ICO registered',      icon: Shield },
-  ];
-  return (
-    <div>
-      <div className="flex items-center gap-2 mb-3">
-        <Shield className="w-4 h-4" style={{ color: '#0891B2' }} />
-        <h2 className="text-[15px] font-extrabold text-slate-900" style={{ letterSpacing: '-0.3px' }}>Built with trusted partners</h2>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-        {partners.map(({ title, sub, icon: Icon }) => (
-          <div key={title} className="bg-white rounded-xl border border-slate-200 px-3 py-4 text-center">
-            <Icon className="w-5 h-5 mx-auto mb-2" style={{ color: '#0891B2' }} strokeWidth={2} />
-            <p className="text-xs font-extrabold mb-1 text-slate-900" style={{ letterSpacing: '-0.3px' }}>{title}</p>
-            <p className="text-[10px] text-slate-500 font-semibold">{sub}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // ── Basket bar (sticky, enhanced) ────────────────────────────────────────────
 function BasketBar({ basket, user, authLoading, onRemove, onCheckout, checkoutLoading }) {
   if (basket.length === 0) return null;
@@ -1431,23 +1390,6 @@ export default function StorePage() {
 
         {/* Recently viewed — only shows when user has 2+ items tracked */}
         <RecentlyViewed productKeys={recent} basket={basket} onToggle={toggleItem} onClear={clearRecent} />
-
-        {/* Trust strip: product features */}
-        <div className="bg-white border border-slate-200 rounded-2xl px-4 sm:px-6 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-          {[
-            { icon: InfinityIcon, label: 'Lifetime access' },
-            { icon: Zap,          label: 'Instant unlock' },
-            { icon: RotateCcw,    label: '14-day refund' },
-            { icon: MapPin,       label: 'UK support team' },
-          ].map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-600">
-              <Icon className="w-4 h-4" style={{ color: '#0891B2' }} />
-              {label}
-            </div>
-          ))}
-        </div>
-
-        <TrustedPartners />
 
       </div>
 

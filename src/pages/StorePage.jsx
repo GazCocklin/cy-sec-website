@@ -477,20 +477,53 @@ function UtilityStrip() {
 }
 
 // ── Hero promo banner ────────────────────────────────────────────────────────
+// Wrapper harmonised with LandingPageHero (26-Apr-2026): same 3-layer background
+// composition (dark navy gradient + Unsplash circuit photo at 0.18 luminosity +
+// 48px cyan grid at 0.04 + radial glow) so visiting /store no longer feels like
+// a different brand from the marketing pages. Conversion-focused content stays
+// intact — eyebrow tag, SAVE pill, 38% OFF pill, price strip, Shop bundles CTA.
 function PromoHero({ onShopBundles }) {
   return (
     <div className="relative overflow-hidden rounded-2xl flex flex-col sm:flex-row"
-      style={{ background: 'linear-gradient(135deg,#0B1D3A 0%,#0E5F8A 50%,#0891B2 100%)', minHeight: 230, color: '#fff' }}>
-      <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
-        style={{ backgroundImage: 'linear-gradient(rgba(255,255,255,1) 1px,transparent 1px),linear-gradient(to right,rgba(255,255,255,1) 1px,transparent 1px)', backgroundSize: '28px 28px' }} />
+      style={{ minHeight: 230, color: '#fff' }}>
+
+      {/* Layer 1: dark navy base gradient (matches LandingPageHero) */}
+      <div className="absolute inset-0"
+        style={{ background: 'linear-gradient(135deg, #060e1f 0%, #0B1D3A 55%, #0e3a5a 100%)' }} />
+
+      {/* Layer 2: photo texture — same circuit/cyber image as LandingPageHero */}
+      <div className="absolute inset-0 opacity-[0.18] pointer-events-none"
+        style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1698337313210-baf78bfa4f05)',
+          backgroundSize: 'cover', backgroundPosition: 'center', mixBlendMode: 'luminosity',
+        }} />
+
+      {/* Layer 3: 48px cyan grid overlay (was 28px white — now matches site grid) */}
+      <div className="absolute inset-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(8,145,178,1) 1px, transparent 1px), linear-gradient(to right, rgba(8,145,178,1) 1px, transparent 1px)',
+          backgroundSize: '48px 48px',
+        }} />
+
+      {/* Layer 4: radial glow top-right (matches LandingPageHero's atmospheric accent) */}
+      <div className="absolute top-0 right-1/4 w-[400px] h-[400px] rounded-full blur-3xl pointer-events-none"
+        style={{ background: 'radial-gradient(circle, rgba(8,145,178,0.18) 0%, transparent 70%)' }} />
+
       <div className="relative flex-[1.5] p-8 sm:p-10 flex flex-col justify-center">
+        {/* Eyebrow pill — colour values harmonised with LandingPageHero brand pill */}
         <div className="inline-flex items-center gap-2 self-start px-3 py-1 rounded-full mb-4 border text-[10px] font-bold tracking-widest uppercase"
-          style={{ background: 'rgba(125,211,232,0.18)', borderColor: 'rgba(125,211,232,0.35)', color: '#7DD3E8' }}>
-          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#7DD3E8', display: 'inline-block' }} />
+          style={{ background: 'rgba(8,145,178,0.15)', borderColor: 'rgba(8,145,178,0.35)', color: '#7DD3E8' }}>
+          <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#0891B2', display: 'inline-block' }} />
           Exam Prep Bundle · Limited offer
         </div>
-        <h1 className="font-black leading-none mb-3" style={{ fontSize: 'clamp(28px,4vw,40px)', letterSpacing: '-1px' }}>
-          Save £24.98 on<br />exam-ready prep.
+        {/* Headline — gradient-text accent on 'exam-ready prep.' matches LandingPageHero's
+            white-then-gradient rhythm. Letter-spacing -1.5px (was -1px) for visual harmony. */}
+        <h1 className="font-black leading-[1.05] mb-3" style={{ fontSize: 'clamp(28px,4vw,40px)', letterSpacing: '-1.5px' }}>
+          Save £24.98 on<br />
+          <span className="text-transparent bg-clip-text"
+            style={{ backgroundImage: 'linear-gradient(90deg, #7DD3E8, #0891B2)' }}>
+            exam-ready prep.
+          </span>
         </h1>
         <p className="text-white/70 text-sm leading-relaxed mb-5 max-w-md">
           Real CLI labs and a full mock exam engine with Study Mode + Exam Mode — bundled for every CompTIA cert in our catalogue.

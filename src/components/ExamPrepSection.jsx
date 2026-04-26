@@ -6,9 +6,10 @@
 // real screenshots, features, and prices — not just lab packs.
 //
 // 25-Apr-2026: standalone MCQ Study Bank SKU retired. Buying the Exam Engine
-// unlocks BOTH Study Mode (1,000 MCQs with reasoning) AND Exam Mode (timed PBQ + MCQ
-// mock exam). The two cards below describe the two modes — they're not two products.
-// One purchase, two ways of using it.
+// unlocks BOTH Study Mode (1,000 study MCQs with reasoning) AND Exam Mode
+// (1,000 exam MCQs + 50 PBQs in timed mock exams). The two cards below
+// describe the two modes — they're not two products. One purchase, two ways
+// of using it.
 //
 // Props:
 //   cert       — cert key (netplus | secplus | cysa)

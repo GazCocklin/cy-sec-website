@@ -1188,9 +1188,10 @@ const ConfigView = () => {
     {
       title: 'Exam Engine Content State', icon: BookOpen, color: 'text-indigo-600', bg: 'bg-indigo-50',
       items: [
-        { label: 'Network+', value: 'netplus_exam \u2014 800/1,000 MCQs + 50/50 PBQs authored. Stripe \u00a324.99 (price_1TPg3lPp3j8eGdItU9xzSbv9).' },
-        { label: 'Security+', value: 'secplus_exam \u2014 100/1,000 MCQs + 0/50 PBQs. Coming-soon flag on store. Stripe \u00a324.99 (price_1TPg3wPp3j8eGdItQWHGJEoq).' },
-        { label: 'CySA+', value: 'cysa_exam \u2014 0/1,000 MCQs + 0/50 PBQs. Coming-soon flag on store. Stripe \u00a324.99 (price_1TPg46Pp3j8eGdItEgYjGLQu).' },
+        { label: 'Network+', value: 'netplus_exam \u2014 800/1,000 study + 0/1,000 exam MCQs + 50/50 PBQs authored. Stripe \u00a324.99 (price_1TPg3lPp3j8eGdItU9xzSbv9).' },
+        { label: 'Security+', value: 'secplus_exam \u2014 100/1,000 study + 0/1,000 exam MCQs + 0/50 PBQs. Coming-soon flag on store. Stripe \u00a324.99 (price_1TPg3wPp3j8eGdItQWHGJEoq).' },
+        { label: 'CySA+', value: 'cysa_exam \u2014 0/1,000 study + 0/1,000 exam MCQs + 0/50 PBQs. Coming-soon flag on store. Stripe \u00a324.99 (price_1TPg46Pp3j8eGdItEgYjGLQu).' },
+        { label: 'Pool structure', value: '2,000 MCQs total per cert: 1,000 study (with reasoning panels for Study Mode) + 1,000 exam (clean MCQs for Exam Mode). Authoring tracked separately so progress is honest about each pool.' },
         { label: 'MCQ banks (legacy)', value: 'mcq_netplus / mcq_secplus / mcq_cysa retired as standalone SKUs 25-Apr-2026. is_for_sale=false. MCQ pool serves Exam Engine Study Mode + Exam Mode internally.' },
         { label: 'Prep Bundle', value: '\u00a339.99 per cert (3 items: Foundation Labs + Advanced Labs + Exam Engine). Saves \u00a324.98 vs \u00a364.97 \u00e0 la carte. New Stripe prices live.' },
       ],

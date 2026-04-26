@@ -4,8 +4,7 @@ import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { supabase } from '@/lib/customSupabaseClient';
 import {
   Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Loader2, LogIn, Eye, EyeOff,
-  Star, Infinity as InfinityIcon, Zap, RotateCcw, MapPin, Clock, Sparkles,
-  Award, Lock, Database,
+  Star, Infinity as InfinityIcon, Clock, Sparkles,
 } from 'lucide-react';
 
 const SUPABASE_URL    = 'https://kmnbtnfgeadvvkwsdyml.supabase.co';
@@ -1141,33 +1140,6 @@ function RecentlyViewed({ productKeys, basket, onToggle, onClear }) {
 // trust strip above it. We deliberately don't use vendor brand colours here —
 // the site's palette is navy + teal and introducing red/purple/green for each
 // partner makes the row look like third-party ads instead of our own signal.
-function TrustedPartners() {
-  const partners = [
-    { title: 'CompTIA',  sub: 'Authorised Partner',  icon: Award },
-    { title: 'Stripe',   sub: 'Secure payments',     icon: Lock },
-    { title: 'Vercel',   sub: 'Edge-hosted',         icon: Zap },
-    { title: 'Supabase', sub: 'EU data residency',   icon: Database },
-    { title: 'UK GDPR',  sub: 'ICO registered',      icon: Shield },
-  ];
-  return (
-    <div>
-      <div className="flex items-center gap-2 mb-3">
-        <Shield className="w-4 h-4" style={{ color: '#0891B2' }} />
-        <h2 className="text-[15px] font-extrabold text-slate-900" style={{ letterSpacing: '-0.3px' }}>Built with trusted partners</h2>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-        {partners.map(({ title, sub, icon: Icon }) => (
-          <div key={title} className="bg-white rounded-xl border border-slate-200 px-3 py-4 text-center">
-            <Icon className="w-5 h-5 mx-auto mb-2" style={{ color: '#0891B2' }} strokeWidth={2} />
-            <p className="text-xs font-extrabold mb-1 text-slate-900" style={{ letterSpacing: '-0.3px' }}>{title}</p>
-            <p className="text-[10px] text-slate-500 font-semibold">{sub}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // ── Basket bar (sticky, enhanced) ────────────────────────────────────────────
 function BasketBar({ basket, user, authLoading, onRemove, onCheckout, checkoutLoading }) {
   if (basket.length === 0) return null;
@@ -1418,23 +1390,6 @@ export default function StorePage() {
 
         {/* Recently viewed — only shows when user has 2+ items tracked */}
         <RecentlyViewed productKeys={recent} basket={basket} onToggle={toggleItem} onClear={clearRecent} />
-
-        {/* Trust strip: product features */}
-        <div className="bg-white border border-slate-200 rounded-2xl px-4 sm:px-6 py-4 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-          {[
-            { icon: InfinityIcon, label: 'Lifetime access' },
-            { icon: Zap,          label: 'Instant unlock' },
-            { icon: RotateCcw,    label: '14-day refund' },
-            { icon: MapPin,       label: 'UK support team' },
-          ].map(({ icon: Icon, label }) => (
-            <div key={label} className="flex items-center justify-center gap-2 text-xs font-semibold text-slate-600">
-              <Icon className="w-4 h-4" style={{ color: '#0891B2' }} />
-              {label}
-            </div>
-          ))}
-        </div>
-
-        <TrustedPartners />
 
       </div>
 

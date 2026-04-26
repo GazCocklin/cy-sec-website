@@ -30,7 +30,7 @@ const CERTS = [
     includes: [
       '10 hands-on CLI simulation labs',
       'Mock exam engine — Study Mode + Exam Mode',
-      '1,000 MCQs + 50 PBQs per cert',
+      '2,000 MCQs (1,000 study + 1,000 exam) + 50 PBQs per cert',
       'Lifetime access',
     ],
     pack1: {
@@ -56,7 +56,7 @@ const CERTS = [
       ],
     },
     complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netcap.png' },
-    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: '/screenshots/fl-exam-netplus.png' },
+    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: '/screenshots/fl-exam-netplus.png' },
     prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   {
@@ -69,7 +69,7 @@ const CERTS = [
     includes: [
       '10 hands-on security labs',
       'Mock exam engine — Study Mode + Exam Mode',
-      '1,000 MCQs + 50 PBQs per cert',
+      '2,000 MCQs (1,000 study + 1,000 exam) + 50 PBQs per cert',
       'Lifetime access',
     ],
     pack1: {
@@ -95,7 +95,7 @@ const CERTS = [
       ],
     },
     complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-linux-cli.png' },
-    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
+    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
     prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
   {
@@ -108,7 +108,7 @@ const CERTS = [
     includes: [
       '10 SOC analyst labs',
       'Mock exam engine — Study Mode + Exam Mode',
-      '1,000 MCQs + 50 PBQs per cert',
+      '2,000 MCQs (1,000 study + 1,000 exam) + 50 PBQs per cert',
       'Lifetime access',
     ],
     pack1: {
@@ -134,7 +134,7 @@ const CERTS = [
       ],
     },
     complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netscan.png' },
-    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
+    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
     prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
   // ── A+ Core 1 (220-1201) ───────────────────────────────────────────────────
@@ -180,7 +180,7 @@ const CERTS = [
         'End-to-end client diagnostic exercise',
       ],
     },
-    exam:      { key: 'aplus_core1_exam',         label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
+    exam:      { key: 'aplus_core1_exam',         label: 'Exam Engine',      sub: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
     prepBundle:{ key: 'aplus_core1_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
   // ── A+ Core 2 (220-1202) ───────────────────────────────────────────────────
@@ -220,7 +220,7 @@ const CERTS = [
         'End-to-end ransomware containment',
       ],
     },
-    exam:      { key: 'aplus_core2_exam',         label: 'Exam Engine',      sub: 'Study Mode + Exam Mode · 1,000 MCQs + 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
+    exam:      { key: 'aplus_core2_exam',         label: 'Exam Engine',      sub: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
     prepBundle:{ key: 'aplus_core2_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
 ];
@@ -564,44 +564,96 @@ function PromoHero({ onShopBundles }) {
 // ── Featured prep bundle card ────────────────────────────────────────────────
 function FeaturedBundleCard({ cert, inBasket, onToggle, onShowDetails }) {
   const { prepBundle } = cert;
+  const isMega = cert.key === 'aplus_complete_virtual_cert';
+
+  // Feature pills — derived from cert structure rather than per-cert data
+  // (every cert has the same shape: 10 labs + 2,000 MCQs + Exam Engine; Mega doubles up)
+  const features = isMega
+    ? ['20 PBQ labs', '4,000 MCQs', '2 Exam Engines', 'Lifetime access']
+    : ['10 PBQ labs', '2,000 MCQs', 'Timed mock exam', 'Lifetime access'];
+
   return (
-    <div className="bg-white rounded-2xl overflow-hidden relative flex flex-col"
-      style={{ border: '2px solid #0891B2' }}>
-      <div className="absolute top-3 left-3 text-[10px] font-extrabold uppercase tracking-wider flex items-center gap-1 z-10 px-2.5 py-1 rounded"
-        style={{ background: '#0891B2', color: '#fff' }}>
-        <Star className="w-3 h-3" /> Recommended
-      </div>
-      <div className="relative flex items-center justify-center" style={{ background: 'linear-gradient(135deg,#E6F7FB,#F4F7FA)', height: 110 }}>
-        <img src={cert.badge} alt={cert.title} className="object-contain"
-          style={{ width: 72, height: 72 }} onError={e => { e.target.style.display='none'; }} />
-      </div>
-      <div className="p-4 flex flex-col flex-1">
-        <p className="text-sm font-bold text-slate-900 mb-0.5">{prepBundle.cardTitle || `${cert.short} Prep Bundle`}</p>
-        <p className="text-xs text-slate-500 mb-3">{prepBundle.sub || 'Labs + Exam Engine'}</p>
-        <div className="flex items-baseline gap-2 mb-3">
-          <span className="text-2xl font-black text-slate-900" style={{ letterSpacing: '-0.5px' }}>£{prepBundle.price.toFixed(2)}</span>
-          <span className="text-sm text-slate-400 line-through">£{prepBundle.rrp.toFixed(2)}</span>
+    <div className="rounded-2xl overflow-hidden relative flex flex-col text-white"
+      style={{ background: 'linear-gradient(135deg,#0B1D3A 0%,#0E5F8A 55%,#0891B2 100%)' }}>
+      {/* Decorative blurred circles */}
+      <div className="absolute -top-16 -right-12 w-40 h-40 rounded-full pointer-events-none"
+        style={{ background: 'rgba(125,211,232,0.10)' }} />
+      <div className="absolute -bottom-12 -left-8 w-32 h-32 rounded-full pointer-events-none"
+        style={{ background: 'rgba(125,211,232,0.06)' }} />
+
+      <div className="p-5 flex flex-col flex-1 relative">
+        {/* Top row: cert tag + Best value / Soon tags */}
+        <div className="flex items-start justify-between gap-2 mb-3">
+          <div className="inline-flex items-center gap-1.5">
+            <img src={cert.badge} alt="" className="w-5 h-5 object-contain"
+              onError={e => { e.target.style.display='none'; }} />
+            <span className="text-[9.5px] font-extrabold uppercase tracking-widest"
+              style={{ color: 'rgba(125,211,232,0.88)' }}>
+              {cert.short}
+            </span>
+          </div>
+          <div className="flex flex-col items-end gap-1">
+            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9.5px] font-extrabold uppercase tracking-wider"
+              style={{ background: 'rgba(125,211,232,0.20)', color: '#7DD3E8' }}>
+              <Star className="w-2.5 h-2.5 fill-current" /> Best value
+            </div>
+            {prepBundle.comingSoon && (
+              <div className="px-2 py-0.5 rounded text-[9px] font-extrabold uppercase tracking-wider"
+                style={{ background: 'rgba(245,158,11,0.92)', color: '#1c1917' }}>
+                Launching soon
+              </div>
+            )}
+          </div>
         </div>
-        <div className="flex items-center justify-between mb-4">
-          <span className="text-[11px] font-extrabold px-2 py-1 rounded"
+
+        {/* Title + sub */}
+        <h3 className="text-lg font-black mb-1 leading-tight" style={{ letterSpacing: '-0.5px' }}>
+          {prepBundle.cardTitle || `${cert.short} Prep Bundle`}
+        </h3>
+        <p className="text-[12px] mb-3 leading-relaxed" style={{ color: 'rgba(255,255,255,0.72)' }}>
+          {prepBundle.sub || 'Foundation + Advanced Labs + Exam Engine'}
+        </p>
+
+        {/* Feature pills */}
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {features.map(f => (
+            <span key={f} className="text-[10px] font-semibold px-2 py-1 rounded"
+              style={{ background: 'rgba(255,255,255,0.10)', color: 'rgba(255,255,255,0.85)' }}>
+              {f}
+            </span>
+          ))}
+        </div>
+
+        {/* Price block */}
+        <div className="flex items-end gap-2.5 mb-4">
+          <div>
+            <div className="text-[11px] line-through" style={{ color: 'rgba(255,255,255,0.40)' }}>
+              £{prepBundle.rrp.toFixed(2)}
+            </div>
+            <div className="text-3xl font-black" style={{ letterSpacing: '-1px', lineHeight: 1 }}>
+              £{prepBundle.price.toFixed(2)}
+            </div>
+          </div>
+          <span className="text-[10px] font-extrabold px-2 py-0.5 rounded mb-0.5"
             style={{ background: '#FDE8E8', color: '#A91818' }}>
             SAVE £{prepBundle.saving.toFixed(2)}
           </span>
-          <span className="text-[11px] text-slate-500 font-semibold">{prepBundle.countChip || '10 labs · Study + Exam Mode'}</span>
         </div>
+
+        {/* CTAs */}
         <button onClick={() => onToggle(prepBundle.key)}
-          className={`mt-auto w-full py-2.5 rounded-lg text-sm font-bold transition-all ${
+          className={`mt-auto w-full py-2.5 rounded-lg text-sm font-extrabold transition-all ${
             inBasket
-              ? 'bg-cyan-600 text-white hover:bg-cyan-700'
-              : 'text-white hover:brightness-110'
-          }`}
-          style={inBasket ? {} : { background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
+              ? 'bg-cyan-300 text-slate-900 hover:bg-cyan-200'
+              : 'bg-white text-slate-900 hover:bg-slate-100'
+          }`}>
           {inBasket ? '✓ In basket' : 'Add bundle →'}
         </button>
         {onShowDetails && (
           <button onClick={onShowDetails}
-            className="mt-2 w-full text-[11px] font-semibold text-slate-500 hover:text-cyan-700 transition-colors py-1">
-            What's inside the bundle →
+            className="mt-1.5 text-[10.5px] font-semibold py-0.5 transition-colors hover:text-white"
+            style={{ color: 'rgba(255,255,255,0.55)' }}>
+            What's inside →
           </button>
         )}
       </div>
@@ -609,104 +661,181 @@ function FeaturedBundleCard({ cert, inBasket, onToggle, onShowDetails }) {
   );
 }
 
-// ── Certification tile (filter click) ────────────────────────────────────────
-function CertTile({ cert, active, onClick }) {
+// ── Certification filter pill (rail above products grid) ────────────────────
+function CertPill({ cert, active, onClick }) {
   return (
     <button onClick={() => onClick(cert.key)}
-      className={`bg-white rounded-xl p-5 text-center transition-all ${
-        active ? 'shadow-md shadow-cyan-100' : 'hover:shadow-sm'
-      }`}
-      style={{ border: active ? '2px solid #0891B2' : '1px solid #e5e7eb' }}>
-      <div className="flex items-center justify-center mb-2.5" style={{ height: 60 }}>
-        <img src={cert.badge} alt={cert.title} className="object-contain"
-          style={{ width: 56, height: 56 }} onError={e => { e.target.style.display='none'; }} />
-      </div>
-      <p className="text-sm font-extrabold text-slate-900 mb-1">{cert.short}</p>
-      <p className="text-[11px] text-slate-500 mb-2">{cert.code} · 10 labs · 1,000 MCQs</p>
-      <p className="text-[11px] font-bold" style={{ color: '#0891B2' }}>
-        {active ? 'Showing ✓' : 'View products →'}
-      </p>
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap transition-all"
+      style={active
+        ? { background: '#0B1D3A', color: '#fff', boxShadow: '0 1px 3px rgba(11,29,58,0.18)' }
+        : { background: '#fff', color: '#0B1D3A', border: '1px solid rgba(11,29,58,0.14)' }}>
+      <img src={cert.badge} alt="" className="w-4 h-4 object-contain"
+        onError={e => { e.target.style.display='none'; }} />
+      {cert.short}
     </button>
   );
 }
 
+// ── Snippet primitives — mini CLI / MCQ visualisation used in card thumbs and modal tile banners
+// Per-cert CLI snippets give the snippet content a cert-relevant flavour. Two variants per cert
+// (foundation / advanced) so adjacent Foundation+Advanced cards in the grid don't show identical
+// snippets. Generic enough that the real CLI commands inside the actual labs may differ — these
+// are marketing imagery, not literal.
+const CLI_SNIPPETS = {
+  netplus: {
+    foundation: { command: '$ ip route show',         lines: ['default via 10.0.0.1',     '10.0.0.0/24 dev eth0'] },
+    advanced:   { command: 'SW1# show vlan brief',    lines: ['10  SALES  active',         '20  ENG    active'] },
+  },
+  secplus: {
+    foundation: { command: '$ openssl x509 -text',    lines: ['Issuer: CN=Acme CA',         'Not Before: Apr 26'] },
+    advanced:   { command: '$ nmap -sV target',       lines: ['80/tcp  open  http',         '443/tcp open  ssl'] },
+  },
+  cysa: {
+    foundation: { command: '$ tail -f /var/log/auth', lines: ['Failed password root',       'invalid user admin'] },
+    advanced:   { command: '$ tcpdump -nn host x',    lines: ['10.0.5.2 > 8.8.8.8',         'flags [SYN]'] },
+  },
+  aplus_core1: {
+    foundation: { command: '$ ipconfig /all',         lines: ['IPv4 Address: 10.0.0.5',     'Default Gateway: 10.0.0.1'] },
+    advanced:   { command: '$ wmic bios get name',    lines: ['Insyde H2O 4.0',             'Boot mode: UEFI'] },
+  },
+  aplus_core2: {
+    foundation: { command: '$ sfc /scannow',          lines: ['Verification 100% complete', 'No violations found'] },
+    advanced:   { command: '$ Get-EventLog Security', lines: ['EventID 4625 Logon failure', 'Reason: Bad password'] },
+  },
+};
+
+function cliSnippetFor(certKey, variant = 'foundation') {
+  const certCli = CLI_SNIPPETS[certKey] || CLI_SNIPPETS.netplus;
+  return { type: 'cli', ...(certCli[variant] || certCli.foundation) };
+}
+
+function Snippet({ data }) {
+  const traffic = (
+    <div style={{ display: 'flex', gap: 3, marginBottom: 4 }}>
+      <span style={{ width: 5, height: 5, background: '#FB7185', borderRadius: '50%' }} />
+      <span style={{ width: 5, height: 5, background: '#FACC15', borderRadius: '50%' }} />
+      <span style={{ width: 5, height: 5, background: '#4ADE80', borderRadius: '50%' }} />
+    </div>
+  );
+  if (data?.type === 'cli') {
+    return (
+      <div style={{ background: 'rgba(0,0,0,0.30)', border: '0.5px solid rgba(255,255,255,0.22)', borderRadius: 4, width: 130, padding: '5px 7px', fontFamily: "'SF Mono', ui-monospace, monospace", flexShrink: 0 }}>
+        {traffic}
+        <div style={{ fontSize: 7.5, color: '#7DD3E8', lineHeight: 1.2 }}>{data.command}</div>
+        {(data.lines || []).map((line, i) => (
+          <div key={i} style={{ fontSize: 7.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.2, marginTop: i === 0 ? 1 : 0 }}>{line}</div>
+        ))}
+      </div>
+    );
+  }
+  if (data?.type === 'mcq') {
+    const optCount = data.optionCount ?? 3;
+    const hi = data.highlightedIndex ?? 1;
+    return (
+      <div style={{ background: 'rgba(255,255,255,0.10)', border: '0.5px solid rgba(255,255,255,0.22)', borderRadius: 4, width: 130, padding: '5px 7px', flexShrink: 0 }}>
+        {traffic}
+        {Array.from({ length: optCount }, (_, i) => {
+          const isHi = i === hi;
+          return (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: i < optCount - 1 ? 3 : 0 }}>
+              <span style={{ width: 6, height: 6, ...(isHi ? { background: '#7DD3E8' } : { border: '0.5px solid rgba(255,255,255,0.5)' }), borderRadius: '50%' }} />
+              <span style={{ background: isHi ? 'rgba(125,211,232,0.50)' : 'rgba(255,255,255,0.30)', height: 5, flex: 1, borderRadius: 1 }} />
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+  return null;
+}
+
 // ── Product card (main grid) ─────────────────────────────────────────────────
-function ProductCard({ cert, config, inBasket, onToggle, onView, onShowDetails }) {
+function ProductCard({ cert, config, inBasket, onToggle, onShowDetails }) {
   const isComplete = config.key.endsWith('_complete');
-  const thumbBg = isComplete ? 'linear-gradient(135deg,#E6F7FB,#F4F7FA)' : '#F4F7FA';
-  const thumbBorder = isComplete ? '1px solid #0891B2' : '1px solid #e5e7eb';
+  const isExam     = config.key.endsWith('_exam');
+  const isPack2    = config.key.endsWith('_pack_2');
+
+  // Snippet content — MCQ for Exam Engine, cert-flavoured CLI for everything else.
+  // Pack 2 (Advanced) gets the 'advanced' variant so Foundation+Advanced rows differ visually.
+  const snippetData = isExam
+    ? { type: 'mcq', highlightedIndex: 1 }
+    : cliSnippetFor(cert.key, isPack2 ? 'advanced' : 'foundation');
+
+  // Top-right pill: discount on Complete, NEW on isNew SKUs (mutually exclusive)
+  let topRightPill = null;
+  if (isComplete && config.saving) {
+    const pct = Math.round((config.saving / config.rrp) * 100);
+    topRightPill = { text: `-${pct}%`, bg: '#FDE8E8', color: '#A91818' };
+  } else if (config.isNew && !config.comingSoon) {
+    topRightPill = { text: 'NEW', bg: 'rgba(125,211,232,0.20)', color: '#7DD3E8' };
+  }
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden flex flex-col hover:shadow-sm transition-all"
-      style={{ border: thumbBorder }}>
-      <div className="relative overflow-hidden" style={{ background: thumbBg, height: 92 }}>
-        {config.thumbnail ? (
-          <>
-            <img src={config.thumbnail} alt={`${cert.short} ${config.label}`}
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: 'center top' }}
-              loading="lazy"
-              onError={e => { e.target.style.display='none'; }} />
-            {/* Cert badge chip overlay (identifies which cert at a glance) */}
-            <div className="absolute top-1.5 left-1.5 bg-white/95 rounded-md flex items-center gap-1 px-1 py-0.5 shadow-sm backdrop-blur-sm"
-              style={{ border: '1px solid rgba(11,29,58,0.08)' }}>
-              <img src={cert.badge} alt="" className="w-4 h-4 object-contain"
-                onError={e => { e.target.style.display='none'; }} />
-              <span className="text-[9px] font-extrabold text-slate-900 pr-0.5 tracking-wide">{cert.short}</span>
-            </div>
-          </>
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full">
-            <img src={cert.badge} alt="" className="object-contain mb-1"
-              style={{ width: 34, height: 34, opacity: 0.9 }} onError={e => { e.target.style.display='none'; }} />
-            <p className="text-[10px] font-extrabold text-slate-700 tracking-wider uppercase">
-              {cert.short} · {config.label}
-            </p>
-          </div>
+    <div className="bg-white rounded-xl overflow-hidden flex flex-col border border-slate-200 hover:border-cyan-400 hover:shadow-sm transition-all">
+      {/* Branded thumbnail block — clickable, opens details */}
+      <button onClick={onShowDetails}
+        className="relative h-[110px] flex items-center justify-center w-full overflow-hidden"
+        style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 65%,#0891B2)' }}>
+        {/* Cert tag (top-left) */}
+        <span className="absolute top-2 left-2 text-[8.5px] font-extrabold uppercase tracking-wider z-10"
+          style={{ color: 'rgba(125,211,232,0.92)' }}>
+          {cert.short} · {cert.code}
+        </span>
+
+        {/* Centered snippet (CLI for labs/complete, MCQ for exam) */}
+        <Snippet data={snippetData} />
+
+        {/* Top-right pill */}
+        {topRightPill && (
+          <span className="absolute top-2 right-2 text-[8.5px] font-extrabold px-1.5 py-0.5 rounded z-10"
+            style={{ background: topRightPill.bg, color: topRightPill.color }}>
+            {topRightPill.text}
+          </span>
         )}
-        {config.isNew && !inBasket && (
-          <span className="absolute top-1.5 right-1.5 text-[9px] font-extrabold text-white px-1.5 py-0.5 rounded"
-            style={{ background: '#0891B2' }}>NEW</span>
+
+        {/* Bottom-right cert badge — hidden when comingSoon (the ribbon takes precedence) */}
+        {!config.comingSoon && cert.badge && (
+          <img src={cert.badge} alt=""
+            className="absolute bottom-1.5 right-1.5 w-7 h-7 z-10"
+            onError={e => { e.target.style.display='none'; }} />
         )}
-        {isComplete && (
-          <span className="absolute top-1.5 right-1.5 text-[9px] font-extrabold px-1.5 py-0.5 rounded"
-            style={{ background: '#FDE8E8', color: '#A91818' }}>-18%</span>
-        )}
+
+        {/* Coming soon ribbon */}
         {config.comingSoon && (
-          <div className="absolute bottom-0 left-0 right-0 text-center text-[9px] font-extrabold text-white py-0.5"
-            style={{ background: 'linear-gradient(90deg, rgba(11,29,58,0.92), rgba(8,145,178,0.92))', letterSpacing: '1px' }}>
+          <div className="absolute bottom-0 left-0 right-0 text-center text-[8.5px] font-extrabold py-0.5 z-10"
+            style={{ background: 'rgba(245,158,11,0.92)', color: '#1c1917', letterSpacing: '1px' }}>
             LAUNCHING SOON
           </div>
         )}
-      </div>
+      </button>
+
+      {/* Body */}
       <div className="p-3 flex flex-col flex-1">
-        <p className="text-xs font-semibold text-slate-900 leading-snug mb-2" style={{ minHeight: 32 }}>
-          {cert.short} {config.label}
+        <p className="text-[12.5px] font-bold text-slate-900 leading-snug mb-0.5">
+          {config.label}
         </p>
-        <div className="flex items-baseline gap-1.5 mb-2">
-          <span className="text-base font-black text-slate-900" style={{ letterSpacing: '-0.3px' }}>£{config.price.toFixed(2)}</span>
-          {config.rrp != null && (
-            <span className="text-[11px] text-slate-400 line-through">£{config.rrp.toFixed(2)}</span>
-          )}
-        </div>
-        <div className="flex items-center gap-1.5 mb-3 text-[10.5px] text-slate-500">
-          <MapPin className="w-3 h-3 flex-shrink-0" style={{ color: '#0891B2' }} />
-          <span className="truncate">{config.meta}</span>
-        </div>
-        <button onClick={() => { onToggle(config.key); onView?.(config.key); }}
-          className={`mt-auto w-full py-1.5 rounded-md text-[11px] font-bold transition-all ${
-            inBasket
-              ? 'bg-cyan-600 text-white hover:bg-cyan-700'
-              : 'border border-slate-200 text-slate-900 hover:border-cyan-500 hover:text-cyan-700 hover:bg-cyan-50'
-          }`}>
-          {inBasket ? '✓ In basket' : 'Add to basket'}
-        </button>
-        {onShowDetails && (
-          <button onClick={onShowDetails}
-            className="mt-1.5 w-full text-[10px] font-semibold text-slate-500 hover:text-cyan-700 transition-colors py-1">
-            What's inside →
+        <p className="text-[10.5px] text-slate-500 mb-3 line-clamp-2" style={{ minHeight: 26 }}>
+          {config.sub || config.meta}
+        </p>
+        <div className="flex items-end justify-between gap-2 mt-auto">
+          <div className="flex items-baseline gap-1.5 flex-wrap">
+            <span className="text-base font-black text-slate-900" style={{ letterSpacing: '-0.3px', lineHeight: 1 }}>
+              £{config.price.toFixed(2)}
+            </span>
+            {config.rrp != null && (
+              <span className="text-[10px] text-slate-400 line-through">£{config.rrp.toFixed(2)}</span>
+            )}
+          </div>
+          <button onClick={(e) => { e.stopPropagation(); onToggle(config.key); }}
+            className={`flex-shrink-0 px-2.5 py-1.5 rounded-md text-[11px] font-bold transition-all ${
+              inBasket
+                ? 'bg-cyan-600 text-white hover:bg-cyan-700'
+                : 'text-white hover:brightness-110'
+            }`}
+            style={inBasket ? {} : { background: '#0B1D3A' }}>
+            {inBasket ? '✓' : 'Add'}
           </button>
-        )}
+        </div>
       </div>
     </div>
   );
@@ -725,190 +854,247 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
     return () => { document.body.style.overflow = prevOverflow; document.removeEventListener('keydown', handleEsc); };
   }, [onClose]);
 
-  // Build the "what's inside" content per SKU type
-  const isPackOne  = config.key.endsWith('_pack');
-  const isPackTwo  = config.key.endsWith('_pack_2');
-  const isComplete = config.key.endsWith('_complete');
-  const isExam     = config.key.endsWith('_exam');
-  const isBundle   = config.key.endsWith('_prep_bundle');
+  const isPackOne   = config.key.endsWith('_pack');
+  const isPackTwo   = config.key.endsWith('_pack_2');
   const isAplusMega = config.key === 'aplus_complete';
+  const isComplete  = config.key.endsWith('_complete') && !isAplusMega;
+  const isExam      = config.key.endsWith('_exam');
+  const isBundle    = config.key.endsWith('_prep_bundle');
 
-  const sections = []; // { title: string, items: string[], desc?: string }
+  // Preview tiles — variable count (1, 2, or 3) depending on SKU shape
+  const previews = []; // { title, sub, snippet, items[], bannerTag? }
+  // Supplementary text-heavy sections rendered below the tiles
+  const extraSections = []; // { title, desc?, items?[] }
 
   if (isPackOne && cert.pack1?.highlights) {
-    sections.push({ title: 'What you\'ll practise', items: cert.pack1.highlights });
+    previews.push({ title: 'What you\'ll practise', sub: '5 PBQs · foundation tier', snippet: cliSnippetFor(cert.key, 'foundation'), items: cert.pack1.highlights });
   } else if (isPackTwo && cert.pack2?.highlights) {
-    sections.push({ title: 'What you\'ll practise', items: cert.pack2.highlights });
+    previews.push({ title: 'What you\'ll practise', sub: '5 PBQs · advanced tier', snippet: cliSnippetFor(cert.key, 'advanced'), items: cert.pack2.highlights });
   } else if (isComplete) {
-    if (cert.pack1?.highlights) sections.push({ title: 'Foundation Labs', items: cert.pack1.highlights });
-    if (cert.pack2?.highlights) sections.push({ title: 'Advanced Labs', items: cert.pack2.highlights });
+    if (cert.pack1?.highlights) previews.push({ title: 'Foundation Labs', sub: '5 PBQs · foundations', snippet: cliSnippetFor(cert.key, 'foundation'), items: cert.pack1.highlights });
+    if (cert.pack2?.highlights) previews.push({ title: 'Advanced Labs',   sub: '5 PBQs · advanced',    snippet: cliSnippetFor(cert.key, 'advanced'),   items: cert.pack2.highlights });
   } else if (isExam) {
-    sections.push({
-      title: 'Study Mode',
+    previews.push({
+      title: 'Study Mode', sub: 'Self-paced · MCQ-only',
+      snippet: { type: 'mcq', highlightedIndex: 1 },
       items: [
-        '1,000 MCQs per cert, mapped to every exam objective',
-        'Instant feedback after every answer with full reasoning',
-        'Per-option "why this is wrong" explanations on every distractor',
-        'Objective tags so you can drill specific weak domains',
-        'Self-paced — no timer, no pressure',
+        '1,000 study MCQs mapped to every exam objective',
+        'Instant per-option reasoning on every distractor',
+        'Objective tags so you can drill weak domains',
+        'No timer, no pressure',
       ],
     });
-    sections.push({
-      title: 'Exam Mode',
+    previews.push({
+      title: 'Exam Mode', sub: 'Timed · PBQ + MCQ mix',
+      snippet: { type: 'mcq', highlightedIndex: 0 },
       items: [
-        '3–6 real performance-based questions (PBQs) per session',
-        '85–90 multiple-choice questions per session',
-        'One combined timer — mirrors the real CompTIA exam',
-        'Unlimited replays — every attempt shuffles a fresh mix',
+        '3–6 real PBQs per session',
+        '85–90 MCQs per session',
+        'One combined timer mirroring the real exam',
+        'Unlimited replays — every attempt shuffles fresh',
       ],
     });
-    sections.push({
-      title: 'Question pool',
+    extraSections.push({
+      title: 'Question pool & scoring',
       items: [
-        '50 exam-grade PBQs per cert',
-        '1,000 MCQs per cert (Study Mode practises with these directly)',
-        'Exam Mode draws a separate randomised subset to keep your mocks fair',
-        'Pool expands as we author new content — all included, no upsell',
+        '50 PBQs and 2,000 MCQs per cert (1,000 study + 1,000 exam)',
+        'Scaled score 100–900 with configurable pass threshold',
+        'Per-domain breakdown with focus-three weakest domains surfaced after each attempt',
       ],
     });
-    sections.push({
-      title: 'Scoring & diagnostics',
-      items: [
-        'Scaled score 100–900 with a configurable pass threshold',
-        'Per-domain breakdown so you know where you\'re strong or weak',
-        'Focus-three weakest domains surfaced at the end of each attempt',
-        'Targeted study recommendations based on your performance',
-      ],
-    });
-    sections.push({
+    extraSections.push({
       title: 'The honesty bit',
-      desc: 'Our score is an approximation of CompTIA\'s scaled score with a ±50 point margin. It\'s designed to tell you if you\'re exam-ready, not to predict your exact score on the day. Use it as a readiness signal.',
+      desc: 'Our score is an approximation of CompTIA\'s scaled score with a ±50 point margin. It\'s designed to tell you if you\'re exam-ready, not to predict your exact score on the day.',
+    });
+  } else if (isBundle && !isAplusMega) {
+    if (cert.pack1?.highlights) previews.push({ title: 'Foundation Labs', sub: '£19.99 value', snippet: cliSnippetFor(cert.key, 'foundation'), items: cert.pack1.highlights });
+    if (cert.pack2?.highlights) previews.push({ title: 'Advanced Labs',   sub: '£19.99 value', snippet: cliSnippetFor(cert.key, 'advanced'),   items: cert.pack2.highlights });
+    previews.push({
+      title: 'Exam Engine', sub: '£24.99 value',
+      snippet: { type: 'mcq', highlightedIndex: 1 },
+      items: [
+        '2,000 MCQs · 50 PBQs',
+        'Study Mode + Exam Mode',
+        'Scaled 100–900 scoring',
+        'Per-domain breakdown',
+      ],
+    });
+    extraSections.push({
+      title: 'Why the bundle',
+      desc: `Buying separately costs £${(19.99+19.99+24.99).toFixed(2)}. The bundle is £${config.price.toFixed(2)} — you save £${config.saving.toFixed(2)}. Same lifetime access, same content, just a better price.`,
     });
   } else if (isAplusMega) {
-    sections.push({
-      title: 'What\'s included — both A+ Cores',
+    previews.push({
+      title: 'A+ Core 1 (220-1201)', sub: 'Hardware · networking · virtualisation',
+      snippet: cliSnippetFor('aplus_core1', 'foundation'),
+      bannerTag: 'A+ Core 1 · 220-1201',
       items: [
-        'A+ Core 1 (220-1201) Foundation Labs — 5 PBQs',
-        'A+ Core 1 (220-1201) Advanced Labs — 5 PBQs',
-        'A+ Core 1 Exam Engine — Study + Exam Mode',
-        'A+ Core 2 (220-1202) Foundation Labs — 5 PBQs',
-        'A+ Core 2 (220-1202) Advanced Labs — 5 PBQs',
-        'A+ Core 2 Exam Engine — Study + Exam Mode',
+        'Foundation Labs — 5 PBQs',
+        'Advanced Labs — 5 PBQs',
+        'Exam Engine — Study + Exam Mode',
       ],
     });
-    sections.push({
-      title: 'Why the bundle',
-      desc: `Both Cores à la carte costs £${(19.99*4 + 24.99*2).toFixed(2)}. The Complete bundle is £${config.price.toFixed(2)} — you save £${config.saving.toFixed(2)} (50% off). Earn the full CompTIA A+ certification with one purchase. Lifetime access.`,
-    });
-  } else if (isBundle) {
-    sections.push({
-      title: 'What\'s included',
+    previews.push({
+      title: 'A+ Core 2 (220-1202)', sub: 'OS · security · software · ops',
+      snippet: cliSnippetFor('aplus_core2', 'foundation'),
+      bannerTag: 'A+ Core 2 · 220-1202',
       items: [
-        `Foundation Labs — 5 PBQs (£19.99 value)`,
-        `Advanced Labs — 5 PBQs (£19.99 value)`,
-        `Exam Engine — Study Mode + Exam Mode (£24.99 value)`,
+        'Foundation Labs — 5 PBQs',
+        'Advanced Labs — 5 PBQs',
+        'Exam Engine — Study + Exam Mode',
       ],
     });
-    sections.push({
-      title: 'Why the bundle',
-      desc: `Buying the three items separately costs £${(19.99+19.99+24.99).toFixed(2)}. The bundle is £${config.price.toFixed(2)} — you save £${config.saving.toFixed(2)}. Same lifetime access, same content, just a better price.`,
+    extraSections.push({
+      title: 'Why the dual-Core bundle',
+      desc: `Both Cores à la carte costs £${(19.99*4 + 24.99*2).toFixed(2)}. The Complete bundle is £${config.price.toFixed(2)} — you save £${config.saving.toFixed(2)} (50% off). One purchase, both Cores, full A+ certification path. Lifetime access.`,
     });
   }
+
+  const previewCols = previews.length === 1 ? 'grid-cols-1'
+                    : previews.length === 3 ? 'sm:grid-cols-3'
+                    : 'sm:grid-cols-2';
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
       style={{ background: 'rgba(11, 29, 58, 0.55)', backdropFilter: 'blur(4px)' }}
       onClick={onClose}>
-      <div className="bg-white rounded-2xl max-w-xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+      <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[92vh] overflow-hidden shadow-2xl flex flex-col"
         onClick={e => e.stopPropagation()}>
-        {/* Thumbnail banner (or fallback gradient with cert badge) */}
-        <div className="relative" style={{ height: 180, overflow: 'hidden' }}>
-          {config.thumbnail ? (
-            <img src={config.thumbnail} alt="" className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: 'center top' }} />
-          ) : (
-            <div className="flex items-center justify-center h-full"
-              style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A,#0891B2)' }}>
-              <img src={cert.badge} alt={cert.title} className="object-contain"
-                style={{ width: 96, height: 96 }} onError={e => { e.target.style.display='none'; }} />
+
+        {/* Compressed gradient header strip */}
+        <div className="relative px-5 py-3 flex items-center justify-between text-white flex-shrink-0"
+          style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 60%,#0891B2)' }}>
+          <div className="flex items-center gap-2.5 min-w-0">
+            <img src={cert.badge} alt="" className="w-8 h-8 object-contain flex-shrink-0"
+              onError={e => { e.target.style.display='none'; }} />
+            <div className="min-w-0">
+              <div className="text-[9.5px] font-extrabold uppercase tracking-widest truncate"
+                style={{ color: 'rgba(125,211,232,0.92)' }}>
+                {cert.short} · {cert.code}
+              </div>
+              <div className="text-[12px] font-semibold leading-tight truncate"
+                style={{ color: 'rgba(255,255,255,0.92)' }}>
+                {cert.title}
+              </div>
             </div>
-          )}
-          <button onClick={onClose}
-            className="absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 flex items-center justify-center shadow-md hover:bg-white transition-colors"
-            aria-label="Close details">
-            <X className="w-4 h-4 text-slate-900" />
-          </button>
-          {config.thumbnail && (
-            <div className="absolute top-3 left-3 bg-white/95 rounded-md flex items-center gap-1.5 px-2 py-1 shadow-sm"
-              style={{ border: '1px solid rgba(11,29,58,0.08)' }}>
-              <img src={cert.badge} alt="" className="w-5 h-5 object-contain"
-                onError={e => { e.target.style.display='none'; }} />
-              <span className="text-[10px] font-extrabold text-slate-900 tracking-wide">{cert.short}</span>
-            </div>
-          )}
-        </div>
-        {/* Body */}
-        <div className="p-6">
-          <p className="text-xs font-semibold text-slate-500 mb-1 uppercase tracking-wider">{cert.short} &middot; {cert.code}</p>
-          <h2 className="text-xl font-black text-slate-900 mb-1" style={{ letterSpacing: '-0.3px' }}>{config.label}</h2>
-          <p className="text-sm text-slate-600 mb-4">{config.sub}</p>
-          {/* Price */}
-          <div className="flex items-baseline gap-2 mb-5 pb-5 border-b border-slate-100">
-            <span className="text-3xl font-black text-slate-900" style={{ letterSpacing: '-0.5px' }}>£{config.price.toFixed(2)}</span>
-            {config.rrp != null && (
-              <span className="text-base text-slate-400 line-through">£{config.rrp.toFixed(2)}</span>
-            )}
-            {config.saving != null && (
-              <span className="text-[11px] font-extrabold px-2 py-0.5 rounded ml-1"
-                style={{ background: '#FDE8E8', color: '#A91818' }}>SAVE £{config.saving.toFixed(2)}</span>
-            )}
           </div>
-          {/* Launching soon notice — content-gated SKUs */}
+          <button onClick={onClose}
+            className="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 flex items-center justify-center transition-colors flex-shrink-0 ml-2"
+            aria-label="Close details">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        {/* Scrollable body */}
+        <div className="flex-1 overflow-y-auto p-5 sm:p-6">
+          {/* Title */}
+          <h2 className="text-2xl font-black text-slate-900 mb-1 leading-tight" style={{ letterSpacing: '-0.5px' }}>
+            {config.label}
+          </h2>
+          <p className="text-[13px] text-slate-600 mb-4">{config.sub}</p>
+
+          {/* Coming soon notice */}
           {config.comingSoon && (
             <div className="mb-5 p-3 rounded-lg flex items-start gap-2.5"
               style={{ background: '#FEF3C7', border: '1px solid #F59E0B' }}>
               <Clock className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#92400E' }} />
               <div className="text-xs text-amber-900 leading-snug">
                 <p className="font-bold mb-1">Content launching soon</p>
-                <p>We're authoring the {cert.short} question pool now — Network+ is live today, {cert.short} follows. You can purchase now for lifetime access; we'll email you the moment the full content unlocks.</p>
+                <p>We're authoring the {cert.short} question pool now. Purchase today for lifetime access — we'll email you the moment full content unlocks.</p>
               </div>
             </div>
           )}
-          {/* Sections */}
-          {sections.map((section, idx) => (
-            <div key={idx} className={idx < sections.length - 1 ? 'mb-5' : ''}>
-              <p className="text-[11px] font-extrabold text-slate-500 uppercase tracking-wider mb-2">{section.title}</p>
+
+          {/* Preview tiles — 1, 2, or 3-up */}
+          {previews.length > 0 && (
+            <div className={`grid grid-cols-1 ${previewCols} gap-3 mb-5`}>
+              {previews.map((p, idx) => (
+                <div key={idx} className="rounded-xl overflow-hidden flex flex-col"
+                  style={{ background: '#F4F7FA', border: '1px solid #e2e8f0' }}>
+                  {/* Snippet banner — same vocabulary as ProductCard thumb */}
+                  <div className="relative h-[78px] flex items-center justify-center overflow-hidden flex-shrink-0"
+                    style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 65%,#0891B2)' }}>
+                    <span className="absolute top-2 left-2.5 text-[8px] font-extrabold uppercase tracking-wider z-10"
+                      style={{ color: 'rgba(125,211,232,0.92)' }}>
+                      {p.bannerTag || `${cert.short} · ${cert.code}`}
+                    </span>
+                    <Snippet data={p.snippet} />
+                    {cert.badge && (
+                      <img src={cert.badge} alt=""
+                        className="absolute bottom-1.5 right-1.5 w-7 h-7 z-10"
+                        onError={e => { e.target.style.display='none'; }} />
+                    )}
+                  </div>
+                  {/* Body */}
+                  <div className="p-3.5 flex flex-col flex-1">
+                    <div className="text-[13px] font-bold text-slate-900 leading-tight">{p.title}</div>
+                    {p.sub && <div className="text-[10.5px] text-slate-500 leading-tight mt-0.5 mb-2.5">{p.sub}</div>}
+                    <ul className="space-y-1.5">
+                      {p.items.map((item, i) => (
+                        <li key={i} className="flex items-start gap-1.5 text-[11.5px] text-slate-700 leading-snug">
+                          <CheckCircle2 className="w-3 h-3 flex-shrink-0 mt-0.5" style={{ color: '#0891B2' }} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Extra sections (text-heavy supplements) */}
+          {extraSections.map((section, idx) => (
+            <div key={idx} className="mb-4">
+              <p className="text-[10.5px] font-extrabold text-slate-500 uppercase tracking-wider mb-1.5">{section.title}</p>
               {section.desc && (
-                <p className="text-sm text-slate-700 leading-relaxed">{section.desc}</p>
+                <p className="text-[12.5px] text-slate-700 leading-relaxed">{section.desc}</p>
               )}
               {section.items && (
-                <ul className="space-y-1.5">
+                <ul className="space-y-1">
                   {section.items.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-slate-800">
-                      <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5" style={{ color: '#0891B2' }} />
-                      <span className="leading-snug">{item}</span>
+                    <li key={i} className="flex items-start gap-1.5 text-[12.5px] text-slate-700 leading-snug">
+                      <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" style={{ color: '#0891B2' }} />
+                      <span>{item}</span>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
           ))}
+
           {/* Lifetime access reassurance */}
-          <div className="mt-5 pt-5 border-t border-slate-100 flex items-center gap-2 text-xs text-slate-500">
-            <InfinityIcon className="w-4 h-4" style={{ color: '#0891B2' }} />
-            <span>Lifetime access &middot; 14-day refund &middot; Instant unlock</span>
+          <div className="mt-4 pt-4 border-t border-slate-100 flex items-center gap-2 text-[11px] text-slate-500">
+            <InfinityIcon className="w-3.5 h-3.5" style={{ color: '#0891B2' }} />
+            <span>Lifetime access · 14-day refund · Instant unlock</span>
           </div>
-          {/* CTA */}
+        </div>
+
+        {/* Sticky footer pricing strip */}
+        <div className="border-t border-slate-200 bg-white px-5 py-4 flex items-center gap-3 flex-shrink-0">
+          <div className="flex flex-col flex-shrink-0">
+            {config.rrp != null && (
+              <div className="text-[11px] text-slate-400 line-through" style={{ lineHeight: 1 }}>£{config.rrp.toFixed(2)}</div>
+            )}
+            <div className="flex items-baseline gap-1.5">
+              <span className="text-2xl font-black text-slate-900" style={{ letterSpacing: '-0.5px', lineHeight: 1 }}>£{config.price.toFixed(2)}</span>
+              {config.saving != null && (
+                <span className="text-[10px] font-extrabold px-1.5 py-0.5 rounded"
+                  style={{ background: '#FDE8E8', color: '#A91818' }}>SAVE £{config.saving.toFixed(2)}</span>
+              )}
+            </div>
+          </div>
           <button onClick={() => { onToggle(config.key); onClose(); }}
-            className={`mt-5 w-full py-3 rounded-lg text-sm font-bold transition-all ${
+            className={`flex-1 py-2.5 rounded-lg text-sm font-extrabold transition-all ${
               inBasket
                 ? 'bg-cyan-600 text-white hover:bg-cyan-700'
                 : 'text-white hover:brightness-110'
             }`}
             style={inBasket ? {} : { background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-            {inBasket ? '✓ Added to basket — close' : (isBundle ? 'Add bundle →' : 'Add to basket')}
+            {inBasket ? '✓ Added — close' : (isBundle || isAplusMega ? 'Add bundle →' : 'Add to basket →')}
           </button>
         </div>
+
       </div>
     </div>
   );
@@ -1066,7 +1252,6 @@ export default function StorePage() {
   const [activeProductKind, setActiveProductKind] = useState('all'); // 'all' | 'labs' | 'mock' | 'study'
   const [detailsFor,      setDetailsFor]      = useState(null); // product key whose details modal is open
   const bundleRef = useRef(null);
-  const gridRef   = useRef(null);
 
   useEffect(() => { saveBasket(basket); }, [basket]);
   useEffect(() => { saveRecent(recent); }, [recent]);
@@ -1084,13 +1269,6 @@ export default function StorePage() {
   function removeItem(productKey) {
     setError(null);
     setBasket(prev => prev.filter(k => k !== productKey));
-  }
-
-  function handleCertFilter(certKey) {
-    // Clicking the active filter tile resets to 'all'
-    setActiveFilter(prev => prev === certKey ? 'all' : certKey);
-    // Scroll product grid into view so the filter effect is visible
-    setTimeout(() => gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   }
 
   function clearRecent() {
@@ -1170,30 +1348,8 @@ export default function StorePage() {
           </div>
         </div>
 
-        {/* Browse by certification */}
-        <div>
-          <div className="flex items-center gap-2 mb-3">
-            <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: '#0891B2' }} />
-            <h2 className="text-[15px] sm:text-base font-extrabold text-slate-900" style={{ letterSpacing: '-0.3px' }}>Browse by certification</h2>
-            {activeFilter !== 'all' && (
-              <button onClick={() => setActiveFilter('all')}
-                className="ml-auto text-[11px] font-semibold transition-colors"
-                style={{ color: '#0891B2' }}>
-                Show all →
-              </button>
-            )}
-          </div>
-          <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            {CERTS.map(cert => (
-              <CertTile key={cert.key} cert={cert}
-                active={activeFilter === cert.key}
-                onClick={handleCertFilter} />
-            ))}
-          </div>
-        </div>
-
         {/* Products grid */}
-        <div ref={gridRef}>
+        <div>
           <div className="flex items-center gap-2 sm:gap-3 mb-3 flex-wrap">
             <h2 className="text-[15px] sm:text-base font-extrabold text-slate-900" style={{ letterSpacing: '-0.3px' }}>
               {activeFilter === 'all' ? 'All products' : `${CERTS.find(c => c.key === activeFilter)?.short} products`}
@@ -1203,12 +1359,28 @@ export default function StorePage() {
             </span>
           </div>
 
+          {/* Cert filter pill rail */}
+          <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+            <button onClick={() => setActiveFilter('all')}
+              className="inline-flex items-center px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap transition-all"
+              style={activeFilter === 'all'
+                ? { background: '#0B1D3A', color: '#fff', boxShadow: '0 1px 3px rgba(11,29,58,0.18)' }
+                : { background: '#fff', color: '#0B1D3A', border: '1px solid rgba(11,29,58,0.14)' }}>
+              All certs
+            </button>
+            {CERTS.map(cert => (
+              <CertPill key={cert.key} cert={cert}
+                active={activeFilter === cert.key}
+                onClick={(certKey) => setActiveFilter(prev => prev === certKey ? 'all' : certKey)} />
+            ))}
+          </div>
+
           {/* Product-kind filter chips — combines with the cert filter above */}
           <div className="flex items-center gap-1.5 mb-4 flex-wrap">
             {[
               { key: 'all',   label: 'All' },
               { key: 'labs',  label: 'PBQ labs' },
-              { key: 'mock',  label: 'Mock exams' },
+              { key: 'mock',  label: 'Exam Engine' },
             ].map(chip => {
               const active = activeProductKind === chip.key;
               return (

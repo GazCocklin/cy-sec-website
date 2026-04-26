@@ -34,7 +34,7 @@ const PBQ_FEATURES = [
 ];
 
 const EXAM_FEATURES = [
-  '1,000 MCQs per cert with full reasoning panels',
+  '2,000 MCQs per cert · Study Mode reasoning on every distractor',
   'Study Mode for self-paced practice and review',
   'Timed Exam Mode mixing PBQs and MCQs under one clock',
   'Scaled 100–900 score that mirrors the live exam',
@@ -66,7 +66,7 @@ export default function FortifyLearnPage() {
     <div className="min-h-screen" style={{ background: '#F4F7FA' }}>
       <Helmet>
         <title>FortifyLearn — CompTIA prep platform with live PBQ labs and a full Exam Engine | Cy-Sec</title>
-        <meta name="description" content="FortifyLearn is the Cy-Sec CompTIA prep platform. Two engines, one platform: PBQ Engine for live CLI, SIEM and visual-tool simulations, and Exam Engine for 1,000 MCQs per cert with timed mock exams. Network+, Security+, CySA+ and A+. Try a free lab — no card required." />
+        <meta name="description" content="FortifyLearn is the Cy-Sec CompTIA prep platform. Two engines, one platform: PBQ Engine for live CLI, SIEM and visual-tool simulations, and Exam Engine for 2,000 MCQs per cert with timed mock exams. Network+, Security+, CySA+ and A+. Try a free lab — no card required." />
         <link rel="canonical" href="https://cy-sec.co.uk/fortifylearn" />
       </Helmet>
 
@@ -89,7 +89,7 @@ export default function FortifyLearnPage() {
               </span>
             </h1>
             <p className="text-white/65 leading-relaxed mb-7 max-w-lg text-[15px]">
-              Two engines, one platform. <strong className="text-white/90">PBQ Engine</strong> gives you live CLI, SIEM and visual-tool simulations. <strong className="text-white/90">Exam Engine</strong> gives you 1,000 MCQs per cert plus timed mock exams. Every CompTIA cert in our catalogue.
+              Two engines, one platform. <strong className="text-white/90">PBQ Engine</strong> gives you live CLI, SIEM and visual-tool simulations. <strong className="text-white/90">Exam Engine</strong> gives you 2,000 MCQs per cert plus timed mock exams. Every CompTIA cert in our catalogue.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
@@ -232,7 +232,7 @@ export default function FortifyLearnPage() {
             </div>
             <div className="flex-1 min-w-[240px]">
               <p className="text-[14px] font-bold text-[#0B1D3A] mb-0.5" style={{ letterSpacing: '-0.2px' }}>Both engines, one purchase — Exam Prep Bundle</p>
-              <p className="text-[12px] text-slate-500 leading-relaxed">10 PBQ labs, 1,000 MCQs and timed mock exams per cert. £39.99 — saves £24.98 vs buying separately.</p>
+              <p className="text-[12px] text-slate-500 leading-relaxed">10 PBQ labs, 2,000 MCQs and timed mock exams per cert. £39.99 — saves £24.98 vs buying separately.</p>
             </div>
             <Link to="/store" className="px-4 py-2 rounded-lg text-xs font-bold text-white whitespace-nowrap hover:brightness-110 transition-all" style={{ background: '#0891B2' }}>
               View bundles →
@@ -293,7 +293,7 @@ export default function FortifyLearnPage() {
           <h2 className="text-2xl font-extrabold text-[#0B1D3A] mb-8" style={{ letterSpacing: '-0.5px' }}>Practice and assess in one place.</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { img: '/screenshots/fl-mcq-reasoning.png', lbl: 'Study Mode with full reasoning', desc: '1,000 MCQs per cert, each with a structured reasoning panel — why right answers are right and why every other option is wrong.' },
+              { img: '/screenshots/fl-mcq-reasoning.png', lbl: 'Study Mode with full reasoning', desc: '1,000 study MCQs per cert, each with a structured reasoning panel — why right answers are right and why every other option is wrong.' },
               { img: '/screenshots/fl-exam-question.png', lbl: 'Timed Exam Mode',                desc: 'PBQs and MCQs combined under one timer. Same question chrome, same time pressure, scaled 100–900 score.' },
               { img: '/screenshots/fl-readiness.png',     lbl: 'Readiness projection',           desc: 'Know when you\'re actually ready. PASS/FAIL projection against the 700 mark, focus-three weakest domains, and a 14-day trajectory.' },
             ].map(s => (

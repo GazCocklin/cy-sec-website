@@ -143,7 +143,16 @@ export default function FortifyLearnPage() {
                 </p>
               </div>
               <div className="bg-[#F4F7FA]">
-                <img src="/screenshots/fl-netcap.png" alt="NETCAP Analyzer showing packet capture flow topology and TCP retransmits" className="w-full" />
+                <div className="grid grid-cols-2">
+                  <div className="relative">
+                    <div className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-[#0B1D3A] text-[#7DD3E8]">CLI · Cisco IOS</div>
+                    <img src="/screenshots/fl-netsim.png" alt="FL-NETSIM live Cisco IOS terminal with available commands panel" className="w-full h-44 object-cover object-top" />
+                  </div>
+                  <div className="relative border-l border-slate-200">
+                    <div className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-[#0B1D3A] text-[#7DD3E8]">Visual · NETCAP</div>
+                    <img src="/screenshots/fl-netcap.png" alt="NETCAP Analyzer showing packet capture flow topology and TCP retransmits" className="w-full h-44 object-cover object-top" />
+                  </div>
+                </div>
               </div>
               <div className="p-6 flex-1 flex flex-col">
                 <ul className="space-y-2.5 mb-6">

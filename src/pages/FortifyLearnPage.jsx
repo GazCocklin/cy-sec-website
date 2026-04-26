@@ -82,11 +82,6 @@ export default function FortifyLearnPage() {
         </div>
         <div className="relative max-w-6xl mx-auto px-8 py-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5 border text-xs font-bold tracking-wider uppercase"
-              style={{ background: 'rgba(8,145,178,0.15)', borderColor: 'rgba(8,145,178,0.35)', color: '#7DD3E8' }}>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]" />
-              CompTIA Authorised Partner — FortifyLearn
-            </div>
             <h1 className="text-4xl lg:text-5xl font-black text-white mb-5" style={{ letterSpacing: '-1.5px', lineHeight: 1.1 }}>
               CompTIA prep that puts you in
               <span style={{ background: 'linear-gradient(90deg,#7DD3E8,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
@@ -139,13 +134,10 @@ export default function FortifyLearnPage() {
             {/* PBQ ENGINE MODULE */}
             <div className="rounded-2xl overflow-hidden border border-[rgba(11,29,58,0.1)] bg-white flex flex-col">
               <div className="p-6 text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 60%,#0891B2)' }}>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/15 backdrop-blur-sm">
-                    <Terminal size={20} strokeWidth={2} color="#7DD3E8" />
-                  </div>
-                  <div className="text-[10px] font-black tracking-widest uppercase text-[#7DD3E8]">Module 1</div>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/15 backdrop-blur-sm mb-4">
+                  <Terminal size={20} strokeWidth={2} color="#7DD3E8" />
                 </div>
-                <h3 className="text-2xl font-black mb-1" style={{ letterSpacing: '-0.6px' }}>PBQ Engine</h3>
+                <h3 className="text-2xl font-black mb-2" style={{ letterSpacing: '-0.6px' }}>FortifyLearn PBQ Engine</h3>
                 <p className="text-white/70 text-[13px] leading-relaxed">
                   Performance-based questions on live CLI, SIEM and visual tooling. The way the exam actually tests you.
                 </p>
@@ -179,19 +171,16 @@ export default function FortifyLearnPage() {
             {/* EXAM ENGINE MODULE */}
             <div className="rounded-2xl overflow-hidden border border-[rgba(11,29,58,0.1)] bg-white flex flex-col">
               <div className="p-6 text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 60%,#0891B2)' }}>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/15 backdrop-blur-sm">
-                    <BarChart3 size={20} strokeWidth={2} color="#7DD3E8" />
-                  </div>
-                  <div className="text-[10px] font-black tracking-widest uppercase text-[#7DD3E8]">Module 2</div>
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/15 backdrop-blur-sm mb-4">
+                  <BarChart3 size={20} strokeWidth={2} color="#7DD3E8" />
                 </div>
-                <h3 className="text-2xl font-black mb-1" style={{ letterSpacing: '-0.6px' }}>Exam Engine</h3>
+                <h3 className="text-2xl font-black mb-2" style={{ letterSpacing: '-0.6px' }}>FortifyLearn Exam Engine</h3>
                 <p className="text-white/70 text-[13px] leading-relaxed">
                   Study Mode for self-paced practice. Exam Mode for timed mocks. Scaled 100–900 scoring like the real thing.
                 </p>
               </div>
               <div className="bg-[#F4F7FA]">
-                <img src="/screenshots/fl-mcq-reasoning.png" alt="Exam Engine Study Mode showing an MCQ with the full reasoning panel expanded" className="w-full" />
+                <img src="/screenshots/fl-exam-netplus.png" alt="Exam Engine in Exam Mode showing OSPF Adjacency Failure PBQ with timer and PBQ/MCQ progress counter" className="w-full" />
               </div>
               <div className="p-6 flex-1 flex flex-col">
                 <ul className="space-y-2.5 mb-6">
@@ -284,10 +273,11 @@ export default function FortifyLearnPage() {
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">Inside the Exam Engine</p>
           <h2 className="text-2xl font-extrabold text-[#0B1D3A] mb-8" style={{ letterSpacing: '-0.5px' }}>Practice and assess in one place.</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { img: '/screenshots/fl-mcq-reasoning.png', lbl: 'Study Mode with full reasoning', desc: '1,000 MCQs per cert. Every answer comes with a structured reasoning panel — why right answers are right and why every other option is wrong.' },
-              { img: '/screenshots/fl-exam-question.png', lbl: 'Timed Exam Mode', desc: 'PBQs and MCQs combined under one timer. Scaled 100–900 score that mirrors the real CompTIA pass mark, with objective-by-objective breakdown.' },
+              { img: '/screenshots/fl-mcq-reasoning.png', lbl: 'Study Mode with full reasoning', desc: '1,000 MCQs per cert, each with a structured reasoning panel — why right answers are right and why every other option is wrong.' },
+              { img: '/screenshots/fl-exam-question.png', lbl: 'Timed Exam Mode',                desc: 'PBQs and MCQs combined under one timer. Same question chrome, same time pressure, scaled 100–900 score.' },
+              { img: '/screenshots/fl-readiness.png',     lbl: 'Readiness projection',           desc: 'Know when you\'re actually ready. PASS/FAIL projection against the 700 mark, focus-three weakest domains, and a 14-day trajectory.' },
             ].map(s => (
               <div key={s.lbl} className="bg-white rounded-2xl overflow-hidden border border-[rgba(8,145,178,0.12)]">
                 <img src={s.img} alt={s.lbl} className="w-full" />

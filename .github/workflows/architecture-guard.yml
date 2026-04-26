@@ -1,0 +1,113 @@
+name: Architecture Guard
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main]
+
+jobs:
+  architecture-check:
+    name: Enforce source-only architecture
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # ── Rule A1: No compiled/minified bundle artifacts modified ──
+      - name: Check for compiled bundle modifications
+        run: |
+          VIOLATIONS=""
+          for f in assets/index-*.js assets/*.min.js dist/**/*.js; do
+            if [ -f "$f" ]; then
+              VIOLATIONS="${VIOLATIONS}\n  ❌ Compiled artifact found: $f"
+            fi
+          done
+          if [ -n "$VIOLATIONS" ]; then
+            echo "::error::ARCHITECTURE VIOLATION — compiled artifacts in repo"
+            echo -e "Rule A1: Never commit compiled/built/minified artifacts.\nThese files should be built by Vercel, not checked into git:\n$VIOLATIONS"
+            exit 1
+          fi
+          echo "✅ No compiled bundle artifacts found"
+
+      # ── Rule A2: No inline scripts in index.html targeting React DOM ──
+      - name: Check index.html for inline script blocks
+        run: |
+          if [ ! -f "index.html" ]; then
+            echo "✅ No index.html in root"
+            exit 0
+          fi
+          INLINE_SCRIPTS=$(grep -c '<script>' index.html 2>/dev/null || echo "0")
+          if [ "$INLINE_SCRIPTS" -gt 1 ]; then
+            echo "::error::ARCHITECTURE VIOLATION — inline scripts in index.html"
+            echo "Rule A2: index.html has $INLINE_SCRIPTS inline <script> blocks."
+            echo "All UI logic must live in React source files (src/), not inline scripts."
+            exit 1
+          fi
+          if grep -qE 'querySelector|getElementById|MutationObserver|innerText.*=|innerHTML.*=' index.html 2>/dev/null; then
+            MATCHES=$(grep -n 'querySelector\|getElementById\|MutationObserver\|innerText.*=\|innerHTML.*=' index.html | head -5)
+            echo "::error::ARCHITECTURE VIOLATION — DOM manipulation in index.html"
+            echo "Rule A2: index.html contains DOM manipulation code:"
+            echo "$MATCHES"
+            echo "This creates coupling between index.html and React's DOM output."
+            exit 1
+          fi
+          echo "✅ index.html clean — no inline script coupling"
+
+      # ── Rule A3: vercel.json must use Vite build ──
+      - name: Check vercel.json build config
+        run: |
+          if [ ! -f "vercel.json" ]; then
+            echo "::error::vercel.json missing"
+            exit 1
+          fi
+          if grep -q '"framework".*null' vercel.json; then
+            echo "::error::ARCHITECTURE VIOLATION — vercel.json has framework: null"
+            echo "Rule A3: cy-sec-website must build from Vite source."
+            exit 1
+          fi
+          if grep -q '"buildCommand".*""' vercel.json; then
+            echo "::error::ARCHITECTURE VIOLATION — vercel.json has empty buildCommand"
+            echo "Rule A3: buildCommand must be 'npm run build', not empty."
+            exit 1
+          fi
+          if grep -q '"outputDirectory".*"\."' vercel.json; then
+            echo "::error::ARCHITECTURE VIOLATION — vercel.json outputDirectory is root"
+            echo "Rule A3: outputDirectory must be 'dist' (Vite output), not '.' (static)."
+            exit 1
+          fi
+          echo "✅ vercel.json correctly configured for Vite source builds"
+
+      # ── Rule A4: No .vercelignore excluding source ──
+      - name: Check for .vercelignore blocking source
+        run: |
+          if [ -f ".vercelignore" ]; then
+            if grep -qE '^src/|^package\.json' .vercelignore; then
+              echo "::error::ARCHITECTURE VIOLATION — .vercelignore excludes source files"
+              echo "Rule A4: .vercelignore must not exclude src/ or package.json."
+              exit 1
+            fi
+          fi
+          echo "✅ No .vercelignore blocking source files"
+
+      # ── Rule A5: vercel.json must declare required security headers ──
+      - name: Check vercel.json has required security headers
+        run: |
+          MISSING=""
+          for h in "X-Frame-Options" "X-Content-Type-Options" "Referrer-Policy" "X-XSS-Protection" "Permissions-Policy"; do
+            if ! grep -q "\"key\".*\"$h\"" vercel.json; then
+              MISSING="$MISSING $h"
+            fi
+          done
+          if [ -n "$MISSING" ]; then
+            echo "::error::SECURITY VIOLATION — vercel.json missing required headers:$MISSING"
+            echo "Rule A5: vercel.json must declare X-Frame-Options, X-Content-Type-Options, Referrer-Policy, X-XSS-Protection, Permissions-Policy."
+            exit 1
+          fi
+          echo "✅ All five security headers present in vercel.json"
+
+      # ── Build verification ──
+      - name: Verify Vite build succeeds
+        run: |
+          npm install --legacy-peer-deps --ignore-scripts
+          npx vite build
+          echo "✅ Vite build succeeded"

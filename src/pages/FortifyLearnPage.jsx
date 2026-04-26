@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { Terminal, BookOpen, Target, BarChart3, Award, ChevronRight } from 'lucide-react';
+import { Terminal, BookOpen, Target, Award, ChevronRight } from 'lucide-react';
 
 // ── Data ──────────────────────────────────────────────────────────────────────
 
@@ -134,10 +134,10 @@ export default function FortifyLearnPage() {
             {/* PBQ ENGINE MODULE */}
             <div className="rounded-2xl overflow-hidden border border-[rgba(11,29,58,0.1)] bg-white flex flex-col">
               <div className="p-6 text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 60%,#0891B2)' }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/15 backdrop-blur-sm mb-4">
-                  <Terminal size={20} strokeWidth={2} color="#7DD3E8" />
+                <div className="flex items-center gap-3 mb-3">
+                  <img src="/logos/fortifylearn-favicon.svg" alt="FortifyLearn" className="h-10 w-10 flex-shrink-0" />
+                  <h3 className="text-2xl font-black" style={{ letterSpacing: '-0.6px' }}>FortifyLearn PBQ Engine</h3>
                 </div>
-                <h3 className="text-2xl font-black mb-2" style={{ letterSpacing: '-0.6px' }}>FortifyLearn PBQ Engine</h3>
                 <p className="text-white/70 text-[13px] leading-relaxed">
                   Performance-based questions on live CLI, SIEM and visual tooling. The way the exam actually tests you.
                 </p>
@@ -171,16 +171,25 @@ export default function FortifyLearnPage() {
             {/* EXAM ENGINE MODULE */}
             <div className="rounded-2xl overflow-hidden border border-[rgba(11,29,58,0.1)] bg-white flex flex-col">
               <div className="p-6 text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 60%,#0891B2)' }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/15 backdrop-blur-sm mb-4">
-                  <BarChart3 size={20} strokeWidth={2} color="#7DD3E8" />
+                <div className="flex items-center gap-3 mb-3">
+                  <img src="/logos/fortifylearn-favicon.svg" alt="FortifyLearn" className="h-10 w-10 flex-shrink-0" />
+                  <h3 className="text-2xl font-black" style={{ letterSpacing: '-0.6px' }}>FortifyLearn Exam Engine</h3>
                 </div>
-                <h3 className="text-2xl font-black mb-2" style={{ letterSpacing: '-0.6px' }}>FortifyLearn Exam Engine</h3>
                 <p className="text-white/70 text-[13px] leading-relaxed">
                   Study Mode for self-paced practice. Exam Mode for timed mocks. Scaled 100–900 scoring like the real thing.
                 </p>
               </div>
               <div className="bg-[#F4F7FA]">
-                <img src="/screenshots/fl-exam-netplus.png" alt="Exam Engine in Exam Mode showing OSPF Adjacency Failure PBQ with timer and PBQ/MCQ progress counter" className="w-full" />
+                <div className="grid grid-cols-2">
+                  <div className="relative">
+                    <div className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-[#0B1D3A] text-[#7DD3E8]">PBQ · Exam Mode</div>
+                    <img src="/screenshots/fl-exam-netplus.png" alt="OSPF Adjacency Failure PBQ in Exam Mode" className="w-full h-44 object-cover object-top" />
+                  </div>
+                  <div className="relative border-l border-slate-200">
+                    <div className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-[#0B1D3A] text-[#7DD3E8]">MCQ · Study Mode</div>
+                    <img src="/screenshots/fl-mcq-netplus.png" alt="STP port cost MCQ in Study Mode with reasoning panel" className="w-full h-44 object-cover object-top" />
+                  </div>
+                </div>
               </div>
               <div className="p-6 flex-1 flex flex-col">
                 <ul className="space-y-2.5 mb-6">

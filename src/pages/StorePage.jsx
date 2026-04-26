@@ -5,7 +5,7 @@ import { supabase } from '@/lib/customSupabaseClient';
 import {
   Shield, CheckCircle2, ArrowRight, ShoppingCart, X, Loader2, LogIn, Eye, EyeOff,
   Star, Infinity as InfinityIcon, Zap, RotateCcw, MapPin, Clock, Sparkles,
-  Award, Lock, Database,
+  Award, Lock, Database, Terminal, BarChart3, Layers,
 } from 'lucide-react';
 
 const SUPABASE_URL    = 'https://kmnbtnfgeadvvkwsdyml.supabase.co';
@@ -609,104 +609,97 @@ function FeaturedBundleCard({ cert, inBasket, onToggle, onShowDetails }) {
   );
 }
 
-// ── Certification tile (filter click) ────────────────────────────────────────
-function CertTile({ cert, active, onClick }) {
+// ── Certification filter pill (rail above products grid) ────────────────────
+function CertPill({ cert, active, onClick }) {
   return (
     <button onClick={() => onClick(cert.key)}
-      className={`bg-white rounded-xl p-5 text-center transition-all ${
-        active ? 'shadow-md shadow-cyan-100' : 'hover:shadow-sm'
-      }`}
-      style={{ border: active ? '2px solid #0891B2' : '1px solid #e5e7eb' }}>
-      <div className="flex items-center justify-center mb-2.5" style={{ height: 60 }}>
-        <img src={cert.badge} alt={cert.title} className="object-contain"
-          style={{ width: 56, height: 56 }} onError={e => { e.target.style.display='none'; }} />
-      </div>
-      <p className="text-sm font-extrabold text-slate-900 mb-1">{cert.short}</p>
-      <p className="text-[11px] text-slate-500 mb-2">{cert.code} · 10 labs · 1,000 MCQs</p>
-      <p className="text-[11px] font-bold" style={{ color: '#0891B2' }}>
-        {active ? 'Showing ✓' : 'View products →'}
-      </p>
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap transition-all"
+      style={active
+        ? { background: '#0B1D3A', color: '#fff', boxShadow: '0 1px 3px rgba(11,29,58,0.18)' }
+        : { background: '#fff', color: '#0B1D3A', border: '1px solid rgba(11,29,58,0.14)' }}>
+      <img src={cert.badge} alt="" className="w-4 h-4 object-contain"
+        onError={e => { e.target.style.display='none'; }} />
+      {cert.short}
     </button>
   );
 }
 
 // ── Product card (main grid) ─────────────────────────────────────────────────
-function ProductCard({ cert, config, inBasket, onToggle, onView, onShowDetails }) {
+function ProductCard({ cert, config, inBasket, onToggle, onShowDetails }) {
   const isComplete = config.key.endsWith('_complete');
-  const thumbBg = isComplete ? 'linear-gradient(135deg,#E6F7FB,#F4F7FA)' : '#F4F7FA';
-  const thumbBorder = isComplete ? '1px solid #0891B2' : '1px solid #e5e7eb';
+  const isExam     = config.key.endsWith('_exam');
+  // Default = labs (pack1 / pack2 / aplus_core1_pack / etc)
+  const TypeIcon = isExam ? BarChart3 : (isComplete ? Layers : Terminal);
+
+  // Top-right pill: discount on Complete, NEW on isNew SKUs (mutually exclusive)
+  let topRightPill = null;
+  if (isComplete && config.saving) {
+    const pct = Math.round((config.saving / config.rrp) * 100);
+    topRightPill = { text: `-${pct}%`, bg: '#FDE8E8', color: '#A91818' };
+  } else if (config.isNew && !config.comingSoon) {
+    topRightPill = { text: 'NEW', bg: 'rgba(125,211,232,0.20)', color: '#7DD3E8' };
+  }
 
   return (
-    <div className="bg-white rounded-xl overflow-hidden flex flex-col hover:shadow-sm transition-all"
-      style={{ border: thumbBorder }}>
-      <div className="relative overflow-hidden" style={{ background: thumbBg, height: 92 }}>
-        {config.thumbnail ? (
-          <>
-            <img src={config.thumbnail} alt={`${cert.short} ${config.label}`}
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: 'center top' }}
-              loading="lazy"
-              onError={e => { e.target.style.display='none'; }} />
-            {/* Cert badge chip overlay (identifies which cert at a glance) */}
-            <div className="absolute top-1.5 left-1.5 bg-white/95 rounded-md flex items-center gap-1 px-1 py-0.5 shadow-sm backdrop-blur-sm"
-              style={{ border: '1px solid rgba(11,29,58,0.08)' }}>
-              <img src={cert.badge} alt="" className="w-4 h-4 object-contain"
-                onError={e => { e.target.style.display='none'; }} />
-              <span className="text-[9px] font-extrabold text-slate-900 pr-0.5 tracking-wide">{cert.short}</span>
-            </div>
-          </>
-        ) : (
-          <div className="flex flex-col items-center justify-center h-full">
-            <img src={cert.badge} alt="" className="object-contain mb-1"
-              style={{ width: 34, height: 34, opacity: 0.9 }} onError={e => { e.target.style.display='none'; }} />
-            <p className="text-[10px] font-extrabold text-slate-700 tracking-wider uppercase">
-              {cert.short} · {config.label}
-            </p>
-          </div>
+    <div className="bg-white rounded-xl overflow-hidden flex flex-col border border-slate-200 hover:border-cyan-400 hover:shadow-sm transition-all">
+      {/* Branded thumbnail block — clickable, opens details */}
+      <button onClick={onShowDetails}
+        className="relative h-[100px] flex items-center justify-center w-full group overflow-hidden"
+        style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 65%,#0891B2)' }}>
+        {/* Cert tag (top-left) */}
+        <span className="absolute top-2 left-2 text-[8.5px] font-extrabold uppercase tracking-wider"
+          style={{ color: 'rgba(125,211,232,0.92)' }}>
+          {cert.short} · {cert.code}
+        </span>
+
+        {/* Centered type icon */}
+        <TypeIcon size={36} strokeWidth={1.5} color="rgba(255,255,255,0.82)"
+          className="transition-transform duration-200 group-hover:scale-110" />
+
+        {/* Top-right pill */}
+        {topRightPill && (
+          <span className="absolute top-2 right-2 text-[8.5px] font-extrabold px-1.5 py-0.5 rounded"
+            style={{ background: topRightPill.bg, color: topRightPill.color }}>
+            {topRightPill.text}
+          </span>
         )}
-        {config.isNew && !inBasket && (
-          <span className="absolute top-1.5 right-1.5 text-[9px] font-extrabold text-white px-1.5 py-0.5 rounded"
-            style={{ background: '#0891B2' }}>NEW</span>
-        )}
-        {isComplete && (
-          <span className="absolute top-1.5 right-1.5 text-[9px] font-extrabold px-1.5 py-0.5 rounded"
-            style={{ background: '#FDE8E8', color: '#A91818' }}>-18%</span>
-        )}
+
+        {/* Coming soon ribbon */}
         {config.comingSoon && (
-          <div className="absolute bottom-0 left-0 right-0 text-center text-[9px] font-extrabold text-white py-0.5"
-            style={{ background: 'linear-gradient(90deg, rgba(11,29,58,0.92), rgba(8,145,178,0.92))', letterSpacing: '1px' }}>
+          <div className="absolute bottom-0 left-0 right-0 text-center text-[8.5px] font-extrabold py-0.5"
+            style={{ background: 'rgba(245,158,11,0.92)', color: '#1c1917', letterSpacing: '1px' }}>
             LAUNCHING SOON
           </div>
         )}
-      </div>
+      </button>
+
+      {/* Body */}
       <div className="p-3 flex flex-col flex-1">
-        <p className="text-xs font-semibold text-slate-900 leading-snug mb-2" style={{ minHeight: 32 }}>
-          {cert.short} {config.label}
+        <p className="text-[12.5px] font-bold text-slate-900 leading-snug mb-0.5">
+          {config.label}
         </p>
-        <div className="flex items-baseline gap-1.5 mb-2">
-          <span className="text-base font-black text-slate-900" style={{ letterSpacing: '-0.3px' }}>£{config.price.toFixed(2)}</span>
-          {config.rrp != null && (
-            <span className="text-[11px] text-slate-400 line-through">£{config.rrp.toFixed(2)}</span>
-          )}
-        </div>
-        <div className="flex items-center gap-1.5 mb-3 text-[10.5px] text-slate-500">
-          <MapPin className="w-3 h-3 flex-shrink-0" style={{ color: '#0891B2' }} />
-          <span className="truncate">{config.meta}</span>
-        </div>
-        <button onClick={() => { onToggle(config.key); onView?.(config.key); }}
-          className={`mt-auto w-full py-1.5 rounded-md text-[11px] font-bold transition-all ${
-            inBasket
-              ? 'bg-cyan-600 text-white hover:bg-cyan-700'
-              : 'border border-slate-200 text-slate-900 hover:border-cyan-500 hover:text-cyan-700 hover:bg-cyan-50'
-          }`}>
-          {inBasket ? '✓ In basket' : 'Add to basket'}
-        </button>
-        {onShowDetails && (
-          <button onClick={onShowDetails}
-            className="mt-1.5 w-full text-[10px] font-semibold text-slate-500 hover:text-cyan-700 transition-colors py-1">
-            What's inside →
+        <p className="text-[10.5px] text-slate-500 mb-3 line-clamp-2" style={{ minHeight: 26 }}>
+          {config.sub || config.meta}
+        </p>
+        <div className="flex items-end justify-between gap-2 mt-auto">
+          <div className="flex items-baseline gap-1.5 flex-wrap">
+            <span className="text-base font-black text-slate-900" style={{ letterSpacing: '-0.3px', lineHeight: 1 }}>
+              £{config.price.toFixed(2)}
+            </span>
+            {config.rrp != null && (
+              <span className="text-[10px] text-slate-400 line-through">£{config.rrp.toFixed(2)}</span>
+            )}
+          </div>
+          <button onClick={(e) => { e.stopPropagation(); onToggle(config.key); }}
+            className={`flex-shrink-0 px-2.5 py-1.5 rounded-md text-[11px] font-bold transition-all ${
+              inBasket
+                ? 'bg-cyan-600 text-white hover:bg-cyan-700'
+                : 'text-white hover:brightness-110'
+            }`}
+            style={inBasket ? {} : { background: '#0B1D3A' }}>
+            {inBasket ? '✓' : 'Add'}
           </button>
-        )}
+        </div>
       </div>
     </div>
   );
@@ -1066,7 +1059,6 @@ export default function StorePage() {
   const [activeProductKind, setActiveProductKind] = useState('all'); // 'all' | 'labs' | 'mock' | 'study'
   const [detailsFor,      setDetailsFor]      = useState(null); // product key whose details modal is open
   const bundleRef = useRef(null);
-  const gridRef   = useRef(null);
 
   useEffect(() => { saveBasket(basket); }, [basket]);
   useEffect(() => { saveRecent(recent); }, [recent]);
@@ -1084,13 +1076,6 @@ export default function StorePage() {
   function removeItem(productKey) {
     setError(null);
     setBasket(prev => prev.filter(k => k !== productKey));
-  }
-
-  function handleCertFilter(certKey) {
-    // Clicking the active filter tile resets to 'all'
-    setActiveFilter(prev => prev === certKey ? 'all' : certKey);
-    // Scroll product grid into view so the filter effect is visible
-    setTimeout(() => gridRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   }
 
   function clearRecent() {
@@ -1170,30 +1155,8 @@ export default function StorePage() {
           </div>
         </div>
 
-        {/* Browse by certification */}
-        <div>
-          <div className="flex items-center gap-2 mb-3">
-            <CheckCircle2 className="w-4 h-4 flex-shrink-0" style={{ color: '#0891B2' }} />
-            <h2 className="text-[15px] sm:text-base font-extrabold text-slate-900" style={{ letterSpacing: '-0.3px' }}>Browse by certification</h2>
-            {activeFilter !== 'all' && (
-              <button onClick={() => setActiveFilter('all')}
-                className="ml-auto text-[11px] font-semibold transition-colors"
-                style={{ color: '#0891B2' }}>
-                Show all →
-              </button>
-            )}
-          </div>
-          <div className="grid grid-cols-3 gap-2 sm:gap-3">
-            {CERTS.map(cert => (
-              <CertTile key={cert.key} cert={cert}
-                active={activeFilter === cert.key}
-                onClick={handleCertFilter} />
-            ))}
-          </div>
-        </div>
-
         {/* Products grid */}
-        <div ref={gridRef}>
+        <div>
           <div className="flex items-center gap-2 sm:gap-3 mb-3 flex-wrap">
             <h2 className="text-[15px] sm:text-base font-extrabold text-slate-900" style={{ letterSpacing: '-0.3px' }}>
               {activeFilter === 'all' ? 'All products' : `${CERTS.find(c => c.key === activeFilter)?.short} products`}
@@ -1203,12 +1166,28 @@ export default function StorePage() {
             </span>
           </div>
 
+          {/* Cert filter pill rail */}
+          <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+            <button onClick={() => setActiveFilter('all')}
+              className="inline-flex items-center px-3 py-1.5 rounded-full text-[12px] font-bold whitespace-nowrap transition-all"
+              style={activeFilter === 'all'
+                ? { background: '#0B1D3A', color: '#fff', boxShadow: '0 1px 3px rgba(11,29,58,0.18)' }
+                : { background: '#fff', color: '#0B1D3A', border: '1px solid rgba(11,29,58,0.14)' }}>
+              All certs
+            </button>
+            {CERTS.map(cert => (
+              <CertPill key={cert.key} cert={cert}
+                active={activeFilter === cert.key}
+                onClick={(certKey) => setActiveFilter(prev => prev === certKey ? 'all' : certKey)} />
+            ))}
+          </div>
+
           {/* Product-kind filter chips — combines with the cert filter above */}
           <div className="flex items-center gap-1.5 mb-4 flex-wrap">
             {[
               { key: 'all',   label: 'All' },
               { key: 'labs',  label: 'PBQ labs' },
-              { key: 'mock',  label: 'Mock exams' },
+              { key: 'mock',  label: 'Exam Engine' },
             ].map(chip => {
               const active = activeProductKind === chip.key;
               return (

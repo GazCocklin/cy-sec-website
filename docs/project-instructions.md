@@ -4,7 +4,9 @@
 > Kept in the repo as a backup and so it travels with the code.
 > When the Claude.ai project instructions are updated, update this file too (and vice versa).
 
-**Last updated:** 25 April 2026 (MCQ retirement → Exam Engine becomes Study + Exam Mode; Prep Bundle £39.99; A+ Core 1 + Core 2 vertical added with dual-core mega bundle; A+ exam codes corrected to 220-1201/1202; dedicated A+ landing pages built; stripe-webhook v34)
+**Last updated:** 26 April 2026 (storefront Phase 2 restructure: cert pill rail filter, branded ProductCards with snippet+cert-badge thumbs, FeaturedBundleCard reverted to white body with navy-gradient thumb (Variant B), modal redesigned with snippet preview tile banners + sticky pricing footer, templated trust strip + TrustedPartners grid removed, 2,000 MCQ pool correction across customer copy + admin counters, A+ Core 1/2 landing pages added to sitemap)
+
+**Previous:** 25 April 2026 (MCQ retirement → Exam Engine becomes Study + Exam Mode; Prep Bundle £39.99; A+ Core 1 + Core 2 vertical added with dual-core mega bundle; A+ exam codes corrected to 220-1201/1202; dedicated A+ landing pages built; stripe-webhook v34)
 
 ---
 
@@ -281,22 +283,21 @@ The original £49.99 Prep Bundle prices (`price_1TPg4J/U/f`) remain in Stripe fo
 
 ---
 
-## Store page — architecture (v4, post-A+ rollout)
+## Store page — architecture (v5, post-Phase 2 restructure)
 
-**File:** `src/pages/StorePage.jsx` (~1085 lines)
-**Style:** Marketplace (Emmable-inspired, Cy-Sec branded). Replaced previous cert-tab-focused layout.
+**File:** `src/pages/StorePage.jsx` (~1380 lines after Phase 2)
+**Style:** Marketplace, Cy-Sec branded with the snippet+cert-badge visual vocabulary applied across product cards, featured bundles, and modal preview tiles. Replaced the v4 inconsistent screenshot-thumbnail mix.
 
 ### Section order (top to bottom)
 
 1. **Utility announcement strip** (navy, trust signals — UK support / 14-day refund / CompTIA Authorised Partner)
 2. **Promo hero** (navy→teal gradient). Right panel displays **`fl-siem.png` Arclight SIEM dashboard** as the headline visual. Hero copy is generic — "every CompTIA cert in our catalogue" — to scale to N+ certs without rewrite.
-3. **Featured row** — 6 Prep Bundle / mega cards: 3 base certs (N+, Sec+, CySA+) at £39.99 each, then A+ Core 1 + A+ Core 2 prep bundles at £39.99 each, then `APLUS_MEGA` (£64.99 dual-core) as a sixth featured card. The row is mapped from `[...CERTS, APLUS_MEGA]` (length 6).
-4. **Browse by certification** — 5 cert tiles (N+, Sec+, CySA+, A+ Core 1, A+ Core 2) — click filters product grid
-5. **Products grid** — responsive 2/3/4/5-col grid, preceded by a **product-kind filter chip row** (All / PBQ labs / Exam Engines). Cert filter and kind filter compose independently. A+ products show a "LAUNCHING SOON" amber ribbon (cards still buyable — early-bird pricing). Empty-state card with "Clear filters →" reset.
-6. **Recently viewed** — horizontal scrolling strip (conditional on localStorage having 2+ tracked items)
-7. **Features trust strip** (Lifetime / Instant / 14-day refund / UK support)
-8. **Built with trusted partners** — brand-consistent teal lucide icons (Award / Lock / Zap / Database / Shield)
-9. **Sticky basket bar** (fixed bottom, navy gradient) — appears when basket > 0, mobile-optimised stacking
+3. **Featured row — 6 Prep Bundle / mega cards** at £39.99 each (3 base certs + A+ Core 1/2) plus `APLUS_MEGA` (£64.99 dual-core). Mapped from `[...CERTS, APLUS_MEGA]`. Cards use `FeaturedBundleCard` — white body, navy-gradient thumb (110px) with cert badge centered + cert tag top-left + Recommended/Launching-soon pill top-right, slate-200 border, gradient CTA, 'What's inside' subtle link below. (Variant B from the 26-Apr Phase 2.1 review — pulls back from the earlier full-card gradient that read "too blue".)
+4. **Products grid** — preceded by **filter bar**: cert pill rail (horizontal pills, one per cert + leading 'All certs') + product-kind chip row (All / PBQ labs / Exam Engines). Compose independently. Replaces the v4 "Browse by certification" 5-tile section. Cards use `ProductCard` — white body, 110px navy-gradient thumb, snippet (CLI for labs/Complete or MCQ option list for Exam Engine) centered, cert tag top-left, cert badge bottom-right, comingSoon ribbon at thumb bottom (badge auto-hides to avoid collision). Foundation/Advanced cards use distinct CLI variants per cert so adjacent cards don't clone.
+5. **Recently viewed** — horizontal scrolling strip (conditional on localStorage having 2+ tracked items)
+6. **Sticky basket bar** (fixed bottom, navy gradient) — appears when basket > 0, mobile-optimised stacking
+
+**Removed in Phase 2.2 (26-Apr-2026):** the "Lifetime access · Instant unlock · 14-day refund · UK support team" 4-pill trust strip and the "Built with trusted partners" 5-card grid (CompTIA / Stripe / Vercel / Supabase / UK GDPR). Both read as templated AI-generated filler — every claim already lives where it's load-bearing (modal reassurance line, modal refund mention, footer CompTIA partner badge, bundle card sub copy).
 
 ### Key utilities preserved in StorePage.jsx
 
@@ -309,16 +310,23 @@ The original £49.99 Prep Bundle prices (`price_1TPg4J/U/f`) remain in Stripe fo
 - `CheckoutModal` / `ModalShell` / `BasketBar`
 - `ProductDetailsModal` — "What's inside →" link on every card. Content derived per SKU type (`isAplusMega` branch handles the dual-Core case).
 
-### Product card thumbnails
+### Product card thumbnails — snippet+badge composition (Phase 2, 26-Apr-2026)
 
-Every SKU config has a `thumbnail` field. `ProductCard` and `FeaturedBundleCard` render it with a small cert-badge chip overlay. Where a thumbnail is `null` (Prep Bundles, mega bundles), the card uses a clean light-gradient + centred CompTIA badge design instead.
+The previous screenshot-thumbnail-or-fallback approach was retired. All product cards in the grid now use the same visual vocabulary:
 
-A+ Core 1 / Core 2 SKUs currently use placeholder thumbnails (`fl-cysa-cli.png` and `fl-fortiguard.png`) — to be swapped for A+ specific imagery as content is authored.
+- **Thumb area:** 110px navy-gradient strip (`linear-gradient(135deg,#0B1D3A,#0E5F8A 65%,#0891B2)`)
+- **Cert tag** top-left in light teal — `Network+ · N10-009` style — instant cert + exam code identification
+- **Centered snippet** — a mini app-window mock:
+  - For `_pack` / `_pack_2` / `_complete` SKUs: CLI snippet with traffic-light dots + a cert-flavoured command (e.g. `$ ip route show` for Network+ Foundation, `SW1# show vlan brief` for Network+ Advanced) + 2 lines of representative output
+  - For `_exam` SKUs: 3-option MCQ list with one option highlighted teal (the "selected answer" hint)
+- **Cert badge** bottom-right at 28px — the real `/logos/comptia-*.svg` file. Auto-hidden when `comingSoon=true` so it doesn't collide with the LAUNCHING SOON amber ribbon at the thumb's bottom edge.
+- **Top-right pill** (Complete-cards only): discount % calculated from `(saving / rrp) * 100`, or NEW pill on `isNew` SKUs.
 
-### Cert filter tiles behaviour
+CLI snippet content is per-cert with foundation/advanced variants in `CLI_SNIPPETS` lookup (5 certs × 2 variants), accessed via `cliSnippetFor(certKey, variant)`. Adjacent Foundation+Advanced cards in the grid show different commands so they don't read as duplicates.
 
-- Click tile → filters product grid to that cert, smooth-scrolls to grid
-- Click active tile again (or "Show all →") → resets to 'all'
+**FeaturedBundleCard** uses the same gradient thumb but with the cert badge **centered** (60-64px) instead of cornered, and Recommended/Launching-soon pill at top-right (no snippet — bundles cover multiple SKU types so a single snippet is misleading; the centered badge serves as the focal point).
+
+**ProductDetailsModal preview tiles** carry the same snippet+badge composition — each preview in the previews data has its own `snippet` config and an optional `bannerTag` override (used by A+ Mega's two tiles to show their respective Core codes 220-1201 / 220-1202).
 
 ### Recently viewed behaviour
 
@@ -347,7 +355,7 @@ The store now lists 5 certs (N+, Sec+, CySA+, A+ Core 1, A+ Core 2). The previou
 When a non-CompTIA cert lands:
 1. Add `vendor` field to each cert entry (`'comptia' | 'certnexus' | etc.`). Add vendor filter bar above cert tiles.
 2. Allow optional SKUs per cert: guard rendering with `cert.mcq && <TestPrepCard .../>`. Current catalogue assumes a fixed shape; vendor-specific certs may have different shape (e.g. voucher, eBook).
-3. Trusted partners strip needs data-driven vendor badges if vendor-specific partner status is relevant.
+3. ~~Trusted partners strip needs data-driven vendor badges if vendor-specific partner status is relevant.~~ (Removed 26-Apr-2026.) If vendor-specific partner credibility becomes relevant, add a NEW section with real customer logos / partner badges — don't resurrect the templated 5-icon strip.
 
 ---
 
@@ -558,20 +566,20 @@ Tier 1 (exam + MCQ + CySA CLI) complete. Remaining gaps:
 
 - **Tier 2 — "Labs + Exam + Study Mode" composite/montage.** Three-device stack showing a terminal, an exam question, and a Study Mode reasoning panel side-by-side. Cert-agnostic. Could replace the current SIEM-only hero visual if it reads better — but the current hero is good enough that this is a "nice-to-have", not urgent.
 - **Tier 3 — Lab briefing screen** for card hover states (optional)
-- **Tier 3 — Real customer logos** for the trusted-partners strip once we have named references. When this lands, swap `TrustedPartners` component config from the current lucide-icon treatment to vendor logos.
+- **(Removed 26-Apr-2026)** ~~Real customer logos for trusted-partners strip~~ — `TrustedPartners` component deleted in Phase 2.2 (it read as templated AI filler). If a partner-credibility section is ever added back, do it with real customer logos and contextual placement, not a 5-icon badge wall.
 
 ### When 6th cert lands
 
 - Featured bundles row: convert from `lg:grid-cols-3` (currently shown 6 cards / 2 rows) to horizontal scroll, or cap at 3 editor's picks
-- Cert tile grid: convert from `grid-cols-3` to responsive wrap/scroll
+- Cert pill rail: pills auto-wrap so 6+ pills are fine, but if the row becomes 2-deep on desktop consider a horizontal scroll container with overflow-x-auto
 - Hero promo copy already scales — no change
 
 ### When first non-CompTIA cert lands
 
 - Add `vendor` field to CERTS array entries in `StorePage.jsx`
-- Add vendor filter bar above cert tiles
+- Add vendor filter bar above the cert pill rail (or convert pills to a 2-row vendor + cert structure)
 - Guard optional SKUs: `cert.mcq && <TestPrepCard .../>`
-- Trusted partners strip: make data-driven for multiple vendor badges
+- ~~Trusted partners strip: make data-driven for multiple vendor badges~~ (component removed 26-Apr-2026 — see above)
 
 ### Deferred
 
@@ -581,6 +589,22 @@ Tier 1 (exam + MCQ + CySA CLI) complete. Remaining gaps:
 - Entitlement gap proper fix: add UUIDs + `fl_packs` rows for exam/prep_bundle/A+
 - Reviews strategy (Google Business Profile, G2) — once we have actual reviews, swap `config.meta` from "Foundation labs" etc. to ★ rating + sold count
 - Bundle pricing review — current £39.99 base / £39.99 A+ Core / £64.99 A+ Complete are working; revisit with real conversion data
+
+### Recently completed (26-Apr-2026 session)
+
+Phase 2 storefront restructure — three production deploys:
+
+- ✅ **Cert pill rail filter** replaces v4 'Browse by certification' 5-tile section (commit 2db9c65). Horizontal pill row with cert badge mini + short name, lives inside products grid filter bar above the kind chips, leading 'All certs' pill clears the filter.
+- ✅ **Branded ProductCards with snippet+badge thumbs** — 110px navy-gradient thumb, cert tag top-left, mini app-window snippet centered (CLI for labs/Complete, MCQ option list for Exam Engine), real CompTIA cert badge bottom-right at 28px. Foundation/Advanced cards use distinct CLI variants per cert. Cert badge auto-hides on comingSoon (avoids ribbon collision). (commits 2db9c65, 9c85bef)
+- ✅ **FeaturedBundleCard reverted to Variant B** (commit 2390340) after first attempt read 'too blue' across the 6-card row. White body, navy-gradient thumb (same as ProductCard family), cert badge centered (60-64px) as the OLD-design's focal point, cert tag top-left, Recommended/Launching-soon pill top-right (Launching-soon takes precedence — honest signalling for not-yet-live A+ bundles vs the contradictory 'Recommended on a coming-soon item'). Slate-200 border replacing the previous saturated 2px teal. Single meta row (SAVE pill + count chip) replaces the 4-pill feature strip.
+- ✅ **ProductDetailsModal redesigned** (commit c4c98b6 + tile rework in 9c85bef) — compressed gradient header strip, 1/2/3-up preview tiles with snippet-banner header (icon-chip removed), sticky pricing footer (strikethrough RRP + price + SAVE pill + Add CTA), max-w-2xl. A+ Mega tiles use `bannerTag` override to show Core 1 / Core 2 codes per tile.
+- ✅ **2,000 MCQ pool correction** across 22 places (commit 9c85bef + AdminHomePage update today). Customer-facing copy: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs' on cards, '1,000 study + 1,000 exam' clarification in modal extras, FortifyLearnPage hero/meta/bundle-callout/Study-Mode-card. AdminHome MCQ counter split into study + exam pools so authoring progress is honest about each pool.
+- ✅ **Templated trust strip + TrustedPartners grid removed** (commit f40f454). Both read as AI-generated filler — every claim already lives where it's load-bearing. Net -45 lines on StorePage.jsx.
+- ✅ **Sitemap updated** with `/comptia-aplus-core1-labs` and `/comptia-aplus-core2-labs` at priority 0.9 (matching other cert routes).
+- ✅ **Doc sync** — this file updated. (Rule 1.)
+
+Production deploys today: `dpl_3SeGuj2v9xduNPHQVVLSm9AL8GWk` (Phase 2 main), `dpl_9ywJoffAb94ECdeZAKy9P86KrS7w` (Variant B revert + trust strip removal), plus the one for this commit.
+
 
 ### Recently completed (25-Apr-2026 session)
 

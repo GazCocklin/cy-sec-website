@@ -37,10 +37,10 @@ export default function PlatformsShowcase() {
               <h2 className="text-2xl font-extrabold text-[#0B1D3A]" style={{ letterSpacing: '-0.6px' }}>CompTIA PBQ simulation labs</h2>
               <p className="text-slate-500 text-sm mt-1 max-w-lg">Live CLI environments, interactive SIEM dashboards and firewall auditors — not flashcards, not videos. The closest thing to the real exam.</p>
             </div>
-            <Link to="/pbq-engine"
+            <Link to="/fortifylearn"
               className="text-sm font-bold hover:underline flex-shrink-0"
               style={{ color: '#0891B2' }}>
-              View the PBQ Engine →
+              See the FortifyLearn platform →
             </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">

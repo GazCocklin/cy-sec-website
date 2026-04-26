@@ -30,7 +30,7 @@ import VCISOPage from '@/pages/VCISOPage';
 import DORAComplianceSprintPage from '@/pages/DORAComplianceSprintPage';
 import NIS2CompliancePage from '@/pages/NIS2CompliancePage';
 import ComingSoonPage from '@/pages/ComingSoonPage';
-import PBQEnginePage from '@/pages/PBQEnginePage';
+import FortifyLearnPage from '@/pages/FortifyLearnPage';
 import FortifyOnePage from '@/pages/FortifyOnePage';
 import StorePage from '@/pages/StorePage';
 import CySAPlusLabsPage from '@/pages/CySAPlusLabsPage';
@@ -117,7 +117,8 @@ function AppContent() {
             <Route path="/vciso" element={<VCISOPage />} />
             <Route path="/dora-compliance" element={<DORAComplianceSprintPage />} />
             <Route path="/nis2-compliance" element={<NIS2CompliancePage />} />
-            <Route path="/pbq-engine" element={<PBQEnginePage />} />
+            <Route path="/fortifylearn" element={<FortifyLearnPage />} />
+            <Route path="/pbq-engine" element={<Navigate to="/fortifylearn" replace />} />
             <Route path="/fortifyone" element={<FortifyOnePage />} />
             <Route path="/store" element={<StorePage />} />
             <Route path="/comptia-cysa-plus-labs" element={<CySAPlusLabsPage />} />

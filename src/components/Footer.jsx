@@ -38,7 +38,7 @@ const Footer = () => (
             <li><Link to="/dora-compliance" className="text-slate-600 hover:text-blue-600 transition-colors">DORA Compliance</Link></li>
             <li><Link to="/nis2-compliance" className="text-slate-600 hover:text-blue-600 transition-colors">NIS2 Compliance</Link></li>
             <li><Link to="/training/comptia-certifications" className="text-slate-600 hover:text-blue-600 transition-colors">Certifications</Link></li>
-            <li><Link to="/pbq-engine" className="text-slate-600 hover:text-blue-600 transition-colors">PBQ Simulator</Link></li>
+            <li><Link to="/fortifylearn" className="text-slate-600 hover:text-blue-600 transition-colors">FortifyLearn Platform</Link></li>
           </ul>
         </div>
 

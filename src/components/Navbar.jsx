@@ -18,7 +18,7 @@ const Navbar = () => {
 
   const trainingLinks = [
     { to: '/training/comptia-certifications', label: 'Professional Certifications' },
-    { to: '/pbq-engine', label: 'FortifyLearn PBQ Engine' },
+    { to: '/fortifylearn', label: 'FortifyLearn Platform' },
     { to: '/store', label: 'FortifyLearn Store' },
   ];
 

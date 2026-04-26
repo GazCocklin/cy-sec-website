@@ -175,7 +175,7 @@ export default function LandingPageHero() {
                   style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)', color: '#fff' }}>
                   Shop prep bundles →
                 </Link>
-                <Link to="/pbq-engine"
+                <Link to="/fortifylearn"
                   className="text-sm font-semibold transition-colors hover:text-white"
                   style={{ color: '#0891B2' }}>
                   View all labs →

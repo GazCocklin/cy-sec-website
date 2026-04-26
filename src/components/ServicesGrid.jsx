@@ -11,7 +11,7 @@ const consultancy = [
 const training = [
   { icon: GraduationCap, title: 'Professional Certifications', desc: 'CompTIA & CertNexus authorised training. Security+, CySA+, Network+ and more.', href: '/training/comptia-certifications' },
   { icon: BookOpen,      title: 'Security Awareness',         desc: 'Role-specific, bespoke cybersecurity training for your entire organisation.',    href: '/training-delivery' },
-  { icon: Monitor,       title: 'FortifyLearn PBQ Engine',    desc: 'CompTIA performance-based question simulations in representative CLI environments.',href: '/pbq-engine' },
+  { icon: Monitor,       title: 'FortifyLearn Platform',    desc: 'PBQ simulations on live CLI and SIEM, plus a full Exam Engine with timed mock exams. Every CompTIA cert in our catalogue.',href: '/fortifylearn' },
 ];
 
 const ServiceCard = ({ service, navigate }) => {

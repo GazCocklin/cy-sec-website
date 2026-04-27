@@ -748,9 +748,26 @@ const NETPLUS_WIRESHARK = [
   { time: '0.082', proto: 'HTTP', color: '#3B6D11', info: 'GET /index' },
 ];
 
+// ADVANCED_VISUALS — per-cert advanced labs hero visual. Each cert gets a fundamentally
+// different visual *type* (not just different content in the same template), so adjacent
+// Advanced cards across certs read as visually distinct at a glance:
+//   netplus     → wireshark (packet capture rows + protocol pills)
+//   secplus     → cert-chain (vertical PKI trust hierarchy with arrows)
+//   cysa        → process-tree (indented spawn lineage with suspicious row flagged)
+//   aplus_core1 → disk-partitions (horizontal segmented storage bar + legend)
+//   aplus_core2 → settings-panel (Windows Settings UI mockup with toggles + action row)
+const ADVANCED_VISUALS = {
+  netplus:     { type: 'wireshark', packets: NETPLUS_WIRESHARK },
+  secplus:     { type: 'cert-chain' },
+  cysa:        { type: 'process-tree' },
+  aplus_core1: { type: 'disk-partitions' },
+  aplus_core2: { type: 'settings-panel' },
+};
+
 // snippetFor — top-level resolver used by both ProductCard and the modal preview tiles.
 // variant: 'foundation' | 'advanced' | 'complete' | 'exam'
-//   - 'foundation' / 'advanced' return a CLI terminal (or wireshark for netplus advanced)
+//   - 'foundation' returns a CLI terminal (cert-flavoured command)
+//   - 'advanced' returns the cert's bespoke ADVANCED_VISUALS entry, falling back to CLI
 //   - 'complete' returns a layered cli-stack visual (Foundation + Advanced peeking)
 //   - 'exam' returns the MCQ question card; options.selected picks the highlighted answer
 function snippetFor(certKey, variant = 'foundation', options = {}) {
@@ -762,8 +779,8 @@ function snippetFor(certKey, variant = 'foundation', options = {}) {
     const certCli = CLI_SNIPPETS[certKey] || CLI_SNIPPETS.netplus;
     return { type: 'cli-stack', front: certCli.foundation, back: certCli.advanced };
   }
-  if (variant === 'advanced' && certKey === 'netplus') {
-    return { type: 'wireshark', packets: NETPLUS_WIRESHARK };
+  if (variant === 'advanced' && ADVANCED_VISUALS[certKey]) {
+    return ADVANCED_VISUALS[certKey];
   }
   return cliSnippetFor(certKey, variant);
 }
@@ -854,6 +871,158 @@ function Snippet({ data }) {
             <span style={{ fontSize: 6.5, color: p.highlight ? '#7DD3E8' : 'rgba(255,255,255,0.55)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: "'SF Mono', ui-monospace, monospace" }}>{p.info}</span>
           </div>
         ))}
+      </div>
+    );
+  }
+
+  // Cert-chain — vertical PKI trust hierarchy (Root CA → Intermediate → Leaf) with green checks.
+  // Used for secplus advanced. Three rounded boxes stacked, thin connector lines between, leaf
+  // box highlighted to indicate the live cert under inspection.
+  if (data?.type === 'cert-chain') {
+    const labelStyle = {
+      fontSize: 7, color: '#5A88B0', fontFamily: "'SF Mono', ui-monospace, monospace",
+      marginBottom: 3,
+    };
+    const boxStyle = {
+      display: 'flex', alignItems: 'center', gap: 4,
+      border: '0.5px solid rgba(125,211,232,0.45)',
+      background: 'rgba(11,37,64,0.7)',
+      borderRadius: 3,
+      padding: '2px 5px',
+      fontSize: 7, fontFamily: "'SF Mono', ui-monospace, monospace",
+      lineHeight: 1.2,
+    };
+    const check = (
+      <span style={{ width: 6, height: 6, position: 'relative', flexShrink: 0 }}>
+        <span style={{
+          position: 'absolute', inset: 0,
+          border: '1px solid #4ADE80', borderRadius: '50%',
+        }} />
+        <svg width="6" height="6" style={{ position: 'absolute', inset: 0 }} viewBox="0 0 6 6">
+          <path d="M1.5 3 L 2.5 4 L 4.5 1.8" stroke="#4ADE80" strokeWidth="0.9" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    );
+    const arrow = (
+      <div style={{ width: 1, height: 5, background: '#5A88B0', margin: '1.5px auto' }} />
+    );
+    return (
+      <div style={{ ...terminalStyle, width: 130 }}>
+        <div style={labelStyle}>tls cert chain</div>
+        <div style={boxStyle}>{check}<span style={{ color: '#A8C5DD' }}>DigiCert Root</span></div>
+        {arrow}
+        <div style={boxStyle}>{check}<span style={{ color: '#A8C5DD' }}>Let's Encrypt R3</span></div>
+        {arrow}
+        <div style={{ ...boxStyle, background: '#0F4A5C', borderColor: '#7DD3E8' }}>
+          {check}<span style={{ color: '#7DD3E8' }}>acme.com · TLS 1.3</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Process-tree — indented spawn lineage. Used for cysa advanced. Five processes from
+  // explorer → outlook → winword → powershell-encoded → rundll32 with the powershell row
+  // highlighted as the suspicious step. Classic Mimikatz / macro-malware shape.
+  if (data?.type === 'process-tree') {
+    const monoRow = {
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      fontSize: 6.5, fontFamily: "'SF Mono', ui-monospace, monospace",
+      lineHeight: 1.4, color: '#A8C5DD',
+    };
+    const dim = { color: '#5A88B0' };
+    return (
+      <div style={{ ...terminalStyle, width: 130 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 6.5, color: '#5A88B0', fontFamily: "'SF Mono', ui-monospace, monospace", marginBottom: 3 }}>
+          <span>process tree</span>
+          <span>5 procs</span>
+        </div>
+        <div style={monoRow}><span>explorer.exe</span><span style={dim}>1024</span></div>
+        <div style={{ ...monoRow, paddingLeft: 4 }}><span><span style={dim}>└ </span>outlook.exe</span><span style={dim}>4218</span></div>
+        <div style={{ ...monoRow, paddingLeft: 8 }}><span><span style={dim}>└ </span>winword.exe</span><span style={dim}>7891</span></div>
+        <div style={{ ...monoRow, paddingLeft: 12, background: 'rgba(169,24,24,0.22)', borderRadius: 1, color: '#FB7185', fontWeight: 500, margin: '1px -2px', paddingRight: 2 }}>
+          <span><span style={dim}>└ </span>powershell -e</span>
+          <span style={{ color: '#FB7185' }}>8902</span>
+        </div>
+        <div style={{ ...monoRow, paddingLeft: 16 }}><span><span style={dim}>└ </span>rundll32.exe</span><span style={dim}>9015</span></div>
+      </div>
+    );
+  }
+
+  // Disk-partitions — horizontal segmented storage bar with proportional widths and legend.
+  // Used for aplus_core1 advanced. OS / Programs / Data / Recovery in scale-accurate
+  // proportions, four-colour legend below.
+  if (data?.type === 'disk-partitions') {
+    const legendRow = (color, text) => (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 6.5, color: '#A8C5DD', fontFamily: "'SF Mono', ui-monospace, monospace", lineHeight: 1.4 }}>
+        <span style={{ width: 5, height: 5, background: color, flexShrink: 0 }} />
+        <span>{text}</span>
+      </div>
+    );
+    return (
+      <div style={{ ...terminalStyle, width: 130 }}>
+        <div style={{ fontSize: 7, color: '#A8C5DD', fontFamily: "'SF Mono', ui-monospace, monospace", marginBottom: 4 }}>
+          DISK 0 — 2TB NVMe
+        </div>
+        <div style={{ display: 'flex', height: 10, borderRadius: 2, overflow: 'hidden', marginBottom: 5 }}>
+          <div style={{ width: '12.5%', background: '#185FA5' }} />
+          <div style={{ width: '40%',   background: '#0F6E56' }} />
+          <div style={{ width: '42.5%', background: '#BA7517' }} />
+          <div style={{ width: '5%',    background: '#444441' }} />
+        </div>
+        {legendRow('#185FA5', 'OS · 250 GB')}
+        {legendRow('#0F6E56', 'Apps · 800 GB')}
+        {legendRow('#BA7517', 'Data · 850 GB')}
+      </div>
+    );
+  }
+
+  // Settings-panel — Windows Settings UI mockup with section headers, toggle switches and an
+  // action button on the highlighted row. Used for aplus_core2 advanced. System-font sans
+  // (not mono) is intentional — it visually says "OS UI" rather than "another dashboard".
+  if (data?.type === 'settings-panel') {
+    const Toggle = ({ on }) => (
+      <span style={{
+        position: 'relative', display: 'inline-block',
+        width: 14, height: 7, borderRadius: 3.5,
+        background: on ? '#0F6E56' : '#3A4150',
+        flexShrink: 0,
+      }}>
+        <span style={{
+          position: 'absolute', top: 1, left: on ? 7 : 1,
+          width: 5, height: 5, borderRadius: '50%',
+          background: '#fff',
+        }} />
+      </span>
+    );
+    const sectionHeader = {
+      fontSize: 6.5, color: '#7DD3E8', fontWeight: 600, letterSpacing: 0.4,
+      fontFamily: "'SF Mono', ui-monospace, monospace",
+    };
+    const row = {
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      fontSize: 7, color: '#A8C5DD',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      lineHeight: 1.3, padding: '1.5px 0',
+    };
+    return (
+      <div style={{ ...terminalStyle, width: 130 }}>
+        <div style={{ ...sectionHeader, marginBottom: 2 }}>WINDOWS UPDATE</div>
+        <div style={row}><span>Auto updates</span><Toggle on={true} /></div>
+        <div style={{
+          ...row, color: '#7DD3E8',
+          background: 'rgba(27,58,95,0.7)', borderRadius: 2,
+          padding: '2px 4px', margin: '2px -3px',
+        }}>
+          <span><span style={{ color: '#FBBF24' }}>! </span>3 updates ready</span>
+          <span style={{
+            background: '#0891B2', color: '#fff',
+            fontSize: 6, fontWeight: 500,
+            padding: '1px 4px', borderRadius: 2,
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+          }}>Install</span>
+        </div>
+        <div style={{ ...sectionHeader, marginTop: 3, marginBottom: 2 }}>DEFENDER</div>
+        <div style={row}><span>Real-time</span><Toggle on={true} /></div>
       </div>
     );
   }
@@ -1161,7 +1330,7 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
               onError={e => { e.target.style.display='none'; }} />
             <div className="min-w-0">
               <div className="text-[9.5px] font-extrabold uppercase tracking-widest truncate"
-                style={{ color: 'rgba(125,211,232,0.92)' }}>
+                style={{ color: 'rgba(255,255,255,0.70)' }}>
                 {cert.short} · {cert.code}
               </div>
               <div className="text-[12px] font-semibold leading-tight truncate"

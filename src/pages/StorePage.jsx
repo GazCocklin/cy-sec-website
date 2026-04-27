@@ -1330,7 +1330,7 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
               onError={e => { e.target.style.display='none'; }} />
             <div className="min-w-0">
               <div className="text-[9.5px] font-extrabold uppercase tracking-widest truncate"
-                style={{ color: 'rgba(255,255,255,0.70)' }}>
+                style={{ color: 'rgba(255,255,255,0.92)' }}>
                 {cert.short} · {cert.code}
               </div>
               <div className="text-[12px] font-semibold leading-tight truncate"
@@ -1376,7 +1376,7 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
                   <div className="relative h-[78px] flex items-center justify-center overflow-hidden flex-shrink-0"
                     style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 65%,#0891B2)' }}>
                     <span className="absolute top-2 left-2.5 text-[8px] font-extrabold uppercase tracking-wider z-10"
-                      style={{ color: 'rgba(255,255,255,0.70)' }}>
+                      style={{ color: 'rgba(255,255,255,0.92)' }}>
                       {p.bannerTag || `${cert.short} · ${cert.code}`}
                     </span>
                     <Snippet data={p.snippet} />

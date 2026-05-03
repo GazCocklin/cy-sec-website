@@ -215,10 +215,6 @@ export default function WhatIsAComptiaPbqPage() {
           </div>
         </div>
 
-        <div className="mt-12 pt-8 border-t border-slate-200">
-          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">About the author</p>
-          <p className="text-[14px] text-slate-600 leading-relaxed">Gaz Cocklin is a Crown Security Architect (CISSP-ISSAP, CISM, CRISC, CGEIT, CCSP) and founder of Cy-Sec. He previously taught CompTIA Network+ and Security+ at Firebrand Training, and built FortifyLearn after watching too many candidates fail PBQs they should have passed.</p>
-        </div>
 
       </article>
     </div>

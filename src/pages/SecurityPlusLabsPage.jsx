@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Shield, Clock, CheckCircle2, Lock } from 'lucide-react';
+import {  } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
 
 const PACK1_LABS = [
@@ -87,12 +87,6 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
   );
 }
 
-const TRUST = [
-  { icon: Lock, label: 'Secure checkout via Stripe', sub: 'Account created at checkout — no separate sign-up' },
-  { icon: CheckCircle2, label: 'Exam objective mapped', sub: 'Every graded check maps to a SY0-701 domain' },
-  { icon: Clock, label: 'Unlimited retries, Lifetime access', sub: 'Run each lab as many times as you need' },
-  { icon: Shield, label: 'CompTIA Authorised Partner', sub: 'Developed and delivered by Cy-Sec' },
-];
 
 export default function SecurityPlusLabsPage() {
   const [tab, setTab] = useState('p1');
@@ -245,23 +239,6 @@ export default function SecurityPlusLabsPage() {
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ── Trust ── */}
-      <section className="bg-[#F4F7FA] pb-14 px-8">
-        <div className="max-w-6xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4">
-          {TRUST.map(({ icon: Icon, label, sub }) => (
-            <div key={label} className="bg-white rounded-xl p-4 border border-[rgba(8,145,178,0.1)] flex gap-3 items-start">
-              <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(8,145,178,0.08)', border: '1px solid rgba(8,145,178,0.2)' }}>
-                <Icon className="w-4 h-4 text-[#0891B2]" strokeWidth={2} />
-              </div>
-              <div>
-                <p className="text-[13px] font-bold text-[#0B1D3A]">{label}</p>
-                <p className="text-[11px] text-slate-400 mt-0.5 leading-relaxed">{sub}</p>
-              </div>
-            </div>
-          ))}
         </div>
       </section>
     </>

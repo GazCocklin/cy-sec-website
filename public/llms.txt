@@ -5,12 +5,16 @@
 ## CompTIA prep platform — FortifyLearn
 
 - [FortifyLearn — CompTIA prep platform](/fortifylearn): Two engines, one platform. PBQ Engine for live CLI, SIEM and visual-tool simulations; Exam Engine for MCQ practice and timed mock exams. Free taster labs, one-time purchase, lifetime access. Network+, Security+, CySA+, A+ Core 1 and A+ Core 2.
-- [CompTIA Network+ N10-009 Practice Labs](/comptia-network-plus-labs): 10 hands-on Network+ N10-009 simulation labs across 2 tiers (Foundation Labs £19.99, Advanced Labs £19.99, or Complete Labs £32.99). Live Cisco IOS terminal environments, FL-NETSIM network topology simulator, NETCAP packet analyser, and NETPULSE multi-site NMS. Two free taster labs available without payment.
-- [CompTIA Security+ SY0-701 Practice Labs](/comptia-security-plus-labs): 10 hands-on Security+ SY0-701 simulation labs across 2 tiers. Real Linux CLI, FortiGuard firewall policy auditor, SENTINELDLP data loss prevention console, CERTFORGE PKI certificate rotation, MFA enforcement and bastion-host hardening scenarios. Two free taster labs available.
+- [CompTIA Network+ N10-009 Practice Labs](/comptia-network-plus-labs): 10 hands-on Network+ N10-009 simulation labs across 2 tiers (Foundation Labs £19.99, Advanced Labs £19.99, or Complete Labs £32.99). Cisco IOS-style CLI environments, FL-NETSIM network topology simulator, NETCAP packet analyser, and NETPULSE multi-site NMS. Two free taster labs available without payment.
+- [CompTIA Security+ SY0-701 Practice Labs](/comptia-security-plus-labs): 10 hands-on Security+ SY0-701 simulation labs across 2 tiers. Linux-style CLI, FORTIGUARD firewall policy auditor, MFA enforcement and bastion-host hardening, full PKI rotation after CA compromise. Two free taster labs available.
 - [CompTIA CySA+ CS0-003 Practice Labs](/comptia-cysa-plus-labs): 10 hands-on CySA+ CS0-003 simulation labs across 2 tiers. Arclight SIEM alert triage, NETSCAN PRO vulnerability scanner, web shell investigation, credential harvesting and ransomware staging response, malicious cron persistence removal — built around real SOC analyst workflows.
 - [CompTIA A+ Core 1 220-1201 Practice Labs](/comptia-aplus-core1-labs): CompTIA A+ Core 1 (exam code 220-1201) practice labs covering mobile devices, networking, hardware, virtualisation and cloud, and hardware/network troubleshooting. One free taster lab live now (laptop hardware health triage); full paid packs in development.
 - [CompTIA A+ Core 2 220-1202 Practice Labs](/comptia-aplus-core2-labs): CompTIA A+ Core 2 (exam code 220-1202) practice labs covering operating systems, security, software troubleshooting and operational procedures. One free taster lab live now (suspicious process triage and Defender quarantine); full paid packs in development.
 - [FortifyLearn Store](/store): Browse and buy FortifyLearn products — Foundation Labs (£19.99), Advanced Labs (£19.99), Complete Labs (£32.99 — saves £6.99), Exam Engine (£24.99), and Exam Prep Bundle (£39.99 — saves £24.98). Secure Stripe checkout, lifetime access, no subscription.
+
+## Cornerstone explainers
+
+- [What is a CompTIA PBQ? — Performance-Based Questions explained](/what-is-a-comptia-pbq): A practitioner's guide to CompTIA Performance-Based Questions (PBQs) — what they are, how they're scored, why they're harder than multiple choice, and how to prepare. Covers Network+, Security+, CySA+ and A+. Written by Gaz Cocklin (Crown Security Architect, ex-Firebrand instructor).
 
 ## Cy-Sec consultancy and platforms
 

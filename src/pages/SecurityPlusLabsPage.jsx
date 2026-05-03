@@ -113,7 +113,7 @@ const FAQ = [
   },
   {
     q: 'Will FortifyLearn guarantee I pass Security+?',
-    a: 'No. Any prep platform claiming to guarantee a pass is overstating what it can do. Passing depends on you, the time you put into your study, and how the exam goes on the day. What FortifyLearn gives you is the practical CLI and firewall-audit practice the exam tests for — not a guarantee.',
+    a: 'No. Any prep platform claiming to guarantee a pass is overstating what it can do. Passing depends on you, the time you put into your study, and how the exam goes on the day. What FortifyLearn gives you is the practical CLI and firewall-audit practice the exam tests for — not a guarantee. (For more on what PBQs are and how to prepare for them, see our explainer: What is a CompTIA PBQ? at /what-is-a-comptia-pbq.)',
   },
   {
     q: 'What if a lab breaks or I have a question?',
@@ -291,6 +291,39 @@ export default function SecurityPlusLabsPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ── How FortifyLearn fits in your prep stack (comparison strip) ── */}
+      <section className="bg-white py-14 px-8 border-t border-[rgba(8,145,178,0.1)]">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">How FortifyLearn fits in your prep stack</p>
+          <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-3" style={{ letterSpacing: '-0.8px' }}>Different tools cover different parts of the exam.</h2>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-2xl leading-relaxed">
+            CompTIA Security+ tests theory in MCQs and practical skill in PBQs. Different prep formats are good at different bits of that. Most learners use two or three of these together — they're complements, not substitutes.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { lbl: 'Video courses', good: 'Build conceptual understanding. Best for first-time learners getting their head around the CIA triad, cryptography fundamentals, threat actors.', less: "Don't build the typing muscle memory PBQs test." },
+              { lbl: 'Question banks', good: 'Drill MCQ recall and exam timing. Best for the multiple-choice section and last-week revision.', less: "Don't replicate the PBQ interaction model." },
+              { lbl: 'Click-through simulators', good: "Familiarise you with the exam's visual format. Useful for first-look orientation.", less: 'Predetermined paths rather than free CLI input — less skill transfer to the live exam.' },
+              { lbl: 'Hands-on practical', good: 'Type real commands in a Linux-style CLI, audit firewall policies in a visual tool, work through hardening and remediation scenarios. Builds the muscle memory PBQs test.', less: "Single-format — pair with theory and MCQ resources for the full exam.", us: true },
+            ].map(c => (
+              <div key={c.lbl} className={`rounded-2xl p-5 ${c.us ? 'bg-[#0B1D3A] text-white border-2 border-[#0891B2] shadow-lg' : 'bg-[#F4F7FA] border border-[rgba(8,145,178,0.12)]'}`}>
+                <p className={`text-[11px] font-bold tracking-widest uppercase mb-2 ${c.us ? 'text-[#7DD3E8]' : 'text-[#0891B2]'}`}>{c.lbl}</p>
+                <p className={`text-[13px] leading-relaxed mb-3 ${c.us ? 'text-white/85' : 'text-slate-700'}`}>{c.good}</p>
+                <p className={`text-[12px] leading-relaxed ${c.us ? 'text-white/45' : 'text-slate-400'}`}>{c.less}</p>
+                {c.us && (
+                  <div className="mt-4 pt-4 border-t border-white/15">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#7DD3E8]">FortifyLearn fits here</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="text-[13px] text-slate-400 mt-6 max-w-2xl leading-relaxed">
+            Many learners use a video course for theory, a question bank for MCQ drilling, and FortifyLearn for PBQ practice. They cover different parts of the prep stack. <a href="/what-is-a-comptia-pbq" className="text-[#0891B2] font-semibold hover:underline">More on what PBQs actually test →</a>
+          </p>
         </div>
       </section>
 

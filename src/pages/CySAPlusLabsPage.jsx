@@ -117,7 +117,7 @@ export default function CySAPlusLabsPage() {
       {/* ── Hero ── */}
       <section className="relative overflow-hidden min-h-[500px] flex items-center">
         <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80&fit=crop" alt="" className="w-full h-full object-cover object-center" />
+          <img src="/screenshots/fl-netscan.png" alt="" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg,rgba(6,14,31,0.97) 0%,rgba(11,29,58,0.95) 45%,rgba(8,80,120,0.80) 100%)' }} />
           <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(8,145,178,1) 1px,transparent 1px),linear-gradient(to right,rgba(8,145,178,1) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
         </div>
@@ -170,6 +170,9 @@ export default function CySAPlusLabsPage() {
             </p>
             <p className="text-[15px] text-slate-500 leading-relaxed">
               Foundation Labs covers core CLI skills — log analysis, process investigation, brute force detection, lateral movement tracing, and a full APT campaign threat hunt. Advanced Labs introduces FortifyLearn's visual simulation tools: the <strong className="text-[#0B1D3A]">Arclight SIEM</strong> dashboard and <strong className="text-[#0B1D3A]">NETSCAN PRO</strong> vulnerability scanner, mirroring the tooling CS0-003 tests you on.
+            </p>
+            <p className="text-[15px] text-slate-500 leading-relaxed">
+              New to FortifyLearn? CySA+ doesn't have its own free taster lab — but the engine is identical across every cert. Try the <strong className="text-[#0B1D3A]">Network+</strong>, <strong className="text-[#0B1D3A]">Security+</strong> or <strong className="text-[#0B1D3A]">A+</strong> taster labs first to see the experience before you buy.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-3 lg:grid-cols-1 lg:gap-3">

@@ -106,7 +106,7 @@ export default function APlusCore2LabsPage() {
       {/* ── Hero ── */}
       <section className="relative overflow-hidden min-h-[500px] flex items-center">
         <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80&fit=crop" alt="" className="w-full h-full object-cover object-center" />
+          <img src="/screenshots/fl-sentryshield.png" alt="" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg,rgba(6,14,31,0.97) 0%,rgba(11,29,58,0.95) 45%,rgba(8,80,120,0.80) 100%)' }} />
           <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(8,145,178,1) 1px,transparent 1px),linear-gradient(to right,rgba(8,145,178,1) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
         </div>

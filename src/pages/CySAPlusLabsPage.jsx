@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Clock, CheckCircle2, ChevronRight, Lock } from 'lucide-react';
+import { Shield, Clock, CheckCircle2, ChevronRight, ChevronDown, Lock } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
 
 const PACK1_LABS = [
@@ -101,6 +101,41 @@ const TRUST = [
   { icon: Shield, label: 'CompTIA Authorised Partner', sub: 'Developed and delivered by Cy-Sec' },
 ];
 
+const FAQ = [
+  {
+    q: 'How realistic is the CLI environment in the CySA+ labs?',
+    a: "A representative Linux environment — not a click-through simulator, but also not a containerised Linux VM. The Foundation Labs put you in a Linux-style CLI where you type ps, netstat, grep, less and other diagnostic commands across log files and system state, get realistic output, and make containment decisions that affect the lab state. The available commands panel guides what's possible in each scenario, but you type every command yourself.",
+  },
+  {
+    q: 'Is FortifyLearn endorsed by CompTIA?',
+    a: 'Cy-Sec is a CompTIA Authorised Partner, which is a formal commercial relationship. The labs themselves are not officially endorsed by CompTIA — no third-party prep platform is. Every lab is mapped to specific CS0-003 exam objectives, but CompTIA does not certify or review external lab content.',
+  },
+  {
+    q: "What's the difference between Foundation Labs and Advanced Labs?",
+    a: 'Foundation Labs is the £19.99 entry pack — five Linux CLI investigation scenarios covering suspicious process and outbound connection investigation, web application brute force, SSH brute force and containment, web shell compromise and lateral movement, and a multi-stage APT campaign threat hunt. Advanced Labs is the £19.99 second pack and adds the Arclight SIEM and NETSCAN PRO interactive tools, plus cron persistence, port scan detection, SIEM log correlation, vulnerability assessment triage, and a credential harvesting and ransomware staging incident. Complete (£32.99) is both packs together at a £6.99 discount. All packs are one-time purchases with lifetime access from your purchase date and unlimited retries on every lab.',
+  },
+  {
+    q: "Why isn't there a free taster lab for CySA+?",
+    a: "FortifyLearn keeps a global cap on free taster labs across all certs, and we've prioritised tasters on the Network+, Security+ and A+ pages where they help convert career-changers and IT pros considering their first prep platform. CySA+ buyers tend to already know what they're doing — often pros upgrading after Sec+. If you want to try the FortifyLearn engine before buying, the Network+, Security+ or A+ taster labs use the same engine, just different scenarios.",
+  },
+  {
+    q: 'Are these labs enough on their own to pass CySA+?',
+    a: "For most people, no. The labs build the practical analyst PBQ skill the exam tests, but you also need to study the theory that drives the multiple-choice section. We'd typically recommend pairing FortifyLearn CySA+ Labs with a strong MCQ resource — either an upcoming FortifyLearn Exam Engine or a third-party question bank — to cover both the PBQ and MCQ halves of the exam.",
+  },
+  {
+    q: 'Will FortifyLearn guarantee I pass CySA+?',
+    a: 'No. Any prep platform claiming to guarantee a pass is overstating what it can do. Passing depends on you, the time you put into your study, and how the exam goes on the day. What FortifyLearn gives you is the hands-on analyst-workflow practice the exam tests for — not a guarantee.',
+  },
+  {
+    q: 'What if a lab breaks or I have a question?',
+    a: 'Email the FortifyLearn Support Team at fortifylearn@cy-sec.co.uk. Lab issues are usually fixed within a working day. We can also help with general platform and study questions.',
+  },
+  {
+    q: 'Can I get a refund?',
+    a: "If you've bought a pack but haven't accessed any lab yet, email info@cy-sec.co.uk within 14 days and we'll issue a full refund. Once you've started any lab, the pack counts as performance-begun digital content under UK consumer law and the 14-day right of withdrawal lapses — but your statutory rights under the Consumer Rights Act 2015 still apply if a lab is faulty or not as described. Full terms in our Terms of Service.",
+  },
+];
+
 export default function CySAPlusLabsPage() {
   const [tab, setTab] = useState('p1');
   const navigate = useNavigate();
@@ -112,6 +147,17 @@ export default function CySAPlusLabsPage() {
         <meta name="description" content="10 hands-on CySA+ CS0-003 simulation labs across 2 tiers. Realistic CLI investigation, Arclight SIEM triage, and NETSCAN PRO vulnerability assessment. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA CySA+ labs, CS0-003 practice, CySA+ PBQ simulation, SIEM triage, vulnerability assessment, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-cysa-plus-labs" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: FAQ.map(item => ({
+              '@type': 'Question',
+              name: item.q,
+              acceptedAnswer: { '@type': 'Answer', text: item.a },
+            })),
+          })}
+        </script>
       </Helmet>
 
       {/* ── Hero ── */}
@@ -259,6 +305,25 @@ export default function CySAPlusLabsPage() {
                   <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#e0f2f9] text-[#0891B2] border border-[rgba(8,145,178,0.2)]">{tool.pack}</span>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="bg-white py-14 px-8 border-t border-[rgba(8,145,178,0.1)]">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">Common questions</p>
+          <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-8" style={{ letterSpacing: '-0.8px' }}>FAQ</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {FAQ.map((item, i) => (
+              <details key={i} className="group bg-[#F4F7FA] rounded-xl border border-[rgba(8,145,178,0.12)] overflow-hidden">
+                <summary className="flex items-center justify-between gap-4 p-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <p className="text-[15px] font-semibold text-[#0B1D3A]">{item.q}</p>
+                  <ChevronDown className="w-4 h-4 text-[#0891B2] flex-shrink-0 transition-transform group-open:rotate-180" strokeWidth={2.5} />
+                </summary>
+                <div className="px-5 pb-5 -mt-1 text-[14px] text-slate-600 leading-relaxed">{item.a}</div>
+              </details>
             ))}
           </div>
         </div>

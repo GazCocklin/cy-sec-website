@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Shield, Clock, CheckCircle2, Lock, Sparkles } from 'lucide-react';
+import { Shield, Clock, CheckCircle2, Lock, Sparkles, ChevronDown } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
 
 // ── A+ Core 2 (220-1202) landing page ────────────────────────────────────────
@@ -91,6 +91,41 @@ const TRUST = [
   { icon: Shield, label: 'CompTIA Authorised Partner', sub: 'Developed and delivered by Cy-Sec' },
 ];
 
+const FAQ = [
+  {
+    q: 'What does an A+ Core 2 lab look like in FortifyLearn?',
+    a: 'Each lab puts you in a structured Windows admin or incident-response workflow — auditing user accounts, quarantining malware, recovering an OS, walking through a backup drill — and asks you to identify the cause and the fix. The environments are representative tooling: Windows admin console panels, a Defender-style quarantine UI, a WinRE-style recovery CLI, MDM and backup management dashboards. They mirror the kind of decision-making the 220-1202 PBQs test, not actual Windows machines.',
+  },
+  {
+    q: 'Is FortifyLearn endorsed by CompTIA?',
+    a: 'Cy-Sec is a CompTIA Authorised Partner, which is a formal commercial relationship. The labs themselves are not officially endorsed by CompTIA — no third-party prep platform is. Every lab is mapped to specific 220-1202 exam objectives, but CompTIA does not certify or review external lab content.',
+  },
+  {
+    q: "What's the difference between Foundation Labs and Advanced Labs?",
+    a: 'Foundation Labs is the £19.99 entry pack — five A+ Core 2 scenarios covering Windows account and permission audit, Defender quarantine and malware response, OS recovery and boot troubleshooting, user profile and group policy fixes, and software install/uninstall diagnostics. Advanced Labs is the £19.99 second pack and adds phishing incident response, mobile MDM and wipe-on-loss policy, BSOD root-cause investigation, a backup and restore operational drill, and an end-to-end ransomware containment. Or grab the Exam Prep Bundle at £39.99 for both packs plus the Exam Engine — saves £24.98.',
+  },
+  {
+    q: 'How much A+ Core 2 content is available right now?',
+    a: "The full 10-lab curriculum and the Exam Engine MCQ bank are in active authoring — early labs are live and the rest ship as they're authored. Buy Foundation Labs now and you lock in the launch price; you'll get every lab in the pack as it goes live, with lifetime access. If you'd rather wait until everything's complete, that's a fair call too — the page lists the planned curriculum so you can decide.",
+  },
+  {
+    q: 'Are these labs enough on their own to pass A+ Core 2?',
+    a: "For most people, no. The labs build the practical PBQ skill the exam tests, but A+ Core 2 has a heavy multiple-choice section covering operating systems, security concepts, software troubleshooting and operational procedures. Pair the labs with a strong MCQ resource — either the FortifyLearn Exam Engine or a third-party question bank — to cover both halves of the exam. The Exam Prep Bundle at £39.99 packages labs and Exam Engine together at a £24.98 saving.",
+  },
+  {
+    q: 'Will FortifyLearn guarantee I pass A+ Core 2?',
+    a: 'No. Any prep platform claiming to guarantee a pass is overstating what it can do. Passing depends on you, the time you put into your study, and how the exam goes on the day. What FortifyLearn gives you is the realistic Windows-admin and incident-response practice the exam tests for — not a guarantee.',
+  },
+  {
+    q: 'What if a lab breaks or I have a question?',
+    a: 'Email the FortifyLearn Support Team at fortifylearn@cy-sec.co.uk. Lab issues are usually fixed within a working day. We can also help with general platform and study questions.',
+  },
+  {
+    q: 'Can I get a refund?',
+    a: "If you've bought a pack but haven't accessed any lab yet, email info@cy-sec.co.uk within 14 days and we'll issue a full refund. Once you've started any lab, the pack counts as performance-begun digital content under UK consumer law and the 14-day right of withdrawal lapses — but your statutory rights under the Consumer Rights Act 2015 still apply if a lab is faulty or not as described. Full terms in our Terms of Service.",
+  },
+];
+
 export default function APlusCore2LabsPage() {
   const [tab, setTab] = useState('p1');
 
@@ -101,6 +136,17 @@ export default function APlusCore2LabsPage() {
         <meta name="description" content="Hands-on CompTIA A+ Core 2 (220-1202) PBQ practice labs covering operating systems, security, software troubleshooting, and operational procedures. Realistic Windows admin and incident-response workflows. One-time purchase, lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA A+ labs, A+ Core 2 practice, 220-1202 PBQ, Windows admin labs, incident response practice, CompTIA practice labs UK" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-aplus-core2-labs" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: FAQ.map(item => ({
+              '@type': 'Question',
+              name: item.q,
+              acceptedAnswer: { '@type': 'Answer', text: item.a },
+            })),
+          })}
+        </script>
       </Helmet>
 
       {/* ── Hero ── */}
@@ -208,6 +254,25 @@ export default function APlusCore2LabsPage() {
 
       {/* ── Exam prep deep-dive ── */}
       <ExamPrepSection cert="aplus_core2" certLabel="A+ Core 2" code="220-1202" />
+
+      {/* ── FAQ ── */}
+      <section className="bg-white py-14 px-8 border-t border-[rgba(8,145,178,0.1)]">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">Common questions</p>
+          <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-8" style={{ letterSpacing: '-0.8px' }}>FAQ</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {FAQ.map((item, i) => (
+              <details key={i} className="group bg-[#F4F7FA] rounded-xl border border-[rgba(8,145,178,0.12)] overflow-hidden">
+                <summary className="flex items-center justify-between gap-4 p-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <p className="text-[15px] font-semibold text-[#0B1D3A]">{item.q}</p>
+                  <ChevronDown className="w-4 h-4 text-[#0891B2] flex-shrink-0 transition-transform group-open:rotate-180" strokeWidth={2.5} />
+                </summary>
+                <div className="px-5 pb-5 -mt-1 text-[14px] text-slate-600 leading-relaxed">{item.a}</div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* ── Trust ── */}
       <section className="bg-[#F4F7FA] py-14 px-8">

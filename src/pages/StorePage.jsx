@@ -526,7 +526,7 @@ function PromoHero({ onShopBundles }) {
           </span>
         </h1>
         <p className="text-white/70 text-sm leading-relaxed mb-5 max-w-md">
-          Real CLI labs and a full mock exam engine with Study Mode + Exam Mode — bundled for every CompTIA cert in our catalogue.
+          Realistic CLI labs and a full mock exam engine with Study Mode + Exam Mode — bundled for every CompTIA cert in our catalogue.
           One price. Lifetime access.
         </p>
         <div className="flex items-center gap-4 flex-wrap">
@@ -545,7 +545,7 @@ function PromoHero({ onShopBundles }) {
       <div className="relative flex-1 hidden sm:block overflow-hidden" style={{ minHeight: 230 }}>
         {/* CySA+ Arclight SIEM dashboard — communicates 'real advanced tool' at a glance */}
         <img src="/screenshots/fl-siem.png"
-          alt="Arclight SIEM — a real tool inside FortifyLearn's CySA+ labs"
+          alt="Arclight SIEM — the visual SIEM tool inside FortifyLearn's CySA+ labs"
           className="absolute block"
           loading="lazy"
           style={{
@@ -1249,7 +1249,7 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
       title: 'Exam Mode', sub: 'Timed · PBQ + MCQ mix',
       snippet: snippetFor(cert.key, 'exam', { selected: 0 }),
       items: [
-        '3–6 real PBQs per session',
+        '3–6 PBQs per session',
         '85–90 MCQs per session',
         'One combined timer mirroring the real exam',
         'Unlimited replays — every attempt shuffles fresh',
@@ -1630,7 +1630,7 @@ export default function StorePage() {
     <div className={`min-h-screen ${basket.length > 0 ? 'pb-36 sm:pb-32' : 'pb-2'}`} style={{ background: '#F4F7FA' }}>
       <Helmet>
         <title>FortifyLearn Store — CompTIA exam prep bundles | Cy-Sec</title>
-        <meta name="description" content="Real CompTIA PBQ simulation labs and a full Exam Engine with Study Mode + Exam Mode. Network+, Security+, CySA+ and A+ (Core 1 + Core 2) exam prep bundles from £39.99 — save up to £64.95 vs à la carte. Lifetime access, 14-day refund." />
+        <meta name="description" content="Realistic CompTIA PBQ simulation labs and a full Exam Engine with Study Mode + Exam Mode. Network+, Security+, CySA+ and A+ (Core 1 + Core 2) exam prep bundles from £39.99 — save up to £64.95 vs à la carte. Lifetime access, 14-day refund." />
       </Helmet>
 
       {showModal && (

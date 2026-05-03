@@ -121,7 +121,7 @@ const FAQ = [
   },
   {
     q: 'Can I get a refund?',
-    a: "If you've bought a pack but haven't accessed any lab yet, email the FortifyLearn Support Team at fortifylearn@cy-sec.co.uk within 14 days and we'll issue a full refund. Once you've started any lab, the pack counts as performance-begun digital content under UK consumer law and the 14-day right of withdrawal lapses — but your statutory rights under the Consumer Rights Act 2015 still apply if a lab is faulty or not as described. Full terms in our Terms of Service.",
+    a: "If you've bought a pack but haven't accessed any lab yet, email info@cy-sec.co.uk within 14 days and we'll issue a full refund. Once you've started any lab, the pack counts as performance-begun digital content under UK consumer law and the 14-day right of withdrawal lapses — but your statutory rights under the Consumer Rights Act 2015 still apply if a lab is faulty or not as described. Full terms in our Terms of Service.",
   },
   {
     q: 'How does FortifyLearn fit alongside other Security+ prep tools?',

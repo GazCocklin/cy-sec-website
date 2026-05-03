@@ -101,7 +101,7 @@ export default function WhatIsAComptiaPbqPage() {
             A practitioner's guide to Performance-Based Questions — what they are, how they're scored, why they're harder than multiple choice, and how to prepare for them properly. Written for anyone studying for Network+, Security+, CySA+, or A+ who's seen "PBQs" in the syllabus and isn't quite sure what's coming.
           </p>
           <p className="text-white/40 text-[12px] mt-6">
-            By Gaz Cocklin · Crown Security Architect, ex-Firebrand instructor · 8 min read
+            By Cy-Sec Awareness and Consultancy
           </p>
         </div>
       </section>

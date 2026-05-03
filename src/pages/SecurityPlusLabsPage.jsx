@@ -97,7 +97,7 @@ const TRUST = [
 const FAQ = [
   {
     q: 'How realistic is the Linux environment in the labs?',
-    a: "A live Linux shell. The Foundation Labs put you in a Linux command-line environment where you type ss -tlnp, ls /etc/ssh/, grep PermitRootLogin and other diagnostic commands, get realistic output, and make configuration changes that affect the lab state. The available commands panel guides what's possible in each scenario, but you type every command yourself.",
+    a: "A representative Linux environment — not a click-through simulator, but also not a containerised Linux VM. The Foundation Labs put you in a Linux-style CLI where you type ss -tlnp, ls /etc/ssh/, grep PermitRootLogin and other diagnostic commands, get realistic output, and make configuration changes that affect the lab state. The available commands panel guides what's possible in each scenario, but you type every command yourself.",
   },
   {
     q: 'Is FortifyLearn endorsed by CompTIA?',
@@ -136,7 +136,7 @@ export default function SecurityPlusLabsPage() {
     <>
       <Helmet>
         <title>CompTIA Security+ SY0-701 Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="10 hands-on Security+ SY0-701 simulation labs across 2 tiers. Live Linux CLI hardening, FORTIGUARD firewall policy auditing, and identity management. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
+        <meta name="description" content="10 hands-on Security+ SY0-701 simulation labs across 2 tiers. Linux-style CLI hardening, FORTIGUARD firewall policy auditing, and identity management. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA Security+ labs, SY0-701 practice, Security+ PBQ simulation, Linux hardening, firewall audit, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-security-plus-labs" />
         <script type="application/ld+json">
@@ -166,11 +166,11 @@ export default function SecurityPlusLabsPage() {
             </div>
             <h1 className="text-4xl lg:text-5xl font-black text-white mb-5" style={{ letterSpacing: '-1.5px', lineHeight: 1.1 }}>
               Security+ practice labs.<br />
-              <span style={{ background: 'linear-gradient(90deg,#7DD3E8,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Real Linux.</span><br />
-              Real hardening.
+              <span style={{ background: 'linear-gradient(90deg,#7DD3E8,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Linux CLI practice.</span><br />
+              Realistic scenarios.
             </h1>
             <p className="text-[15px] text-white/60 leading-relaxed mb-7 max-w-lg">
-              <strong className="text-white/90">CompTIA Security+ SY0-701 performance-based questions</strong> test you on server hardening, firewall policy, privilege escalation, and identity management. FortifyLearn gives you live Linux environments and a visual firewall auditor across 10 labs.
+              <strong className="text-white/90">CompTIA Security+ SY0-701 performance-based questions</strong> test you on server hardening, firewall policy, privilege escalation, and identity management. FortifyLearn gives you realistic Linux-style CLI environments and a visual firewall auditor across 10 labs.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
@@ -276,7 +276,7 @@ export default function SecurityPlusLabsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Policy Auditor v3.1', title: 'FORTIGUARD Policy Auditor — firewall rule audit and remediation', desc: 'Review a full firewall rule set, identify anomaly indicators (zero-hit DENY rules, overly broad ALLOW-ANY), analyse hit distribution across rules, and remove redundant policies — mirroring the firewall audit workflow tested in SY0-701.', pack: 'Security+ Advanced Labs · lab 4' },
-              { img: '/screenshots/fl-linux-cli.png', lbl: 'Linux CLI — Security+ Foundation Labs', title: 'Live Linux CLI — all Foundation Labs labs', desc: 'Real commands, real output. Run ss -tlnp, ls /etc/ssh/, grep PermitRootLogin — the available commands panel guides the investigation, but you type every command yourself. The output reflects the actual vulnerability in the scenario.', pack: 'Security+ Foundation Labs · all labs' },
+              { img: '/screenshots/fl-linux-cli.png', lbl: 'Linux CLI — Security+ Foundation Labs', title: 'Linux-style CLI — all Foundation Labs labs', desc: 'Linux command syntax with realistic output. Run ss -tlnp, ls /etc/ssh/, grep PermitRootLogin — the available commands panel guides the investigation, but you type every command yourself. The output reflects the vulnerability in the scenario.', pack: 'Security+ Foundation Labs · all labs' },
             ].map(tool => (
               <div key={tool.lbl} className="bg-white rounded-2xl overflow-hidden border border-[rgba(8,145,178,0.12)]">
                 <div className="relative">

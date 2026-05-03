@@ -15,7 +15,7 @@ const STEPS = [
   {
     n: '02',
     title: 'Practise the way the exam tests you',
-    desc: 'Real CLI, SIEM and visual tools for PBQ scenarios. Full reasoning panels for MCQ practice. Timed mock exams that mirror the live cert.',
+    desc: 'Realistic CLI, SIEM and visual tools for PBQ scenarios. Full reasoning panels for MCQ practice. Timed mock exams that mirror the live cert.',
     icon: Terminal,
   },
   {
@@ -27,7 +27,7 @@ const STEPS = [
 ];
 
 const PBQ_FEATURES = [
-  'Cisco IOS-style, Linux and Windows terminals',
+  'Representative Cisco IOS, Linux, and Windows command-line environments',
   'Interactive SIEM, firewall and packet analyser tools',
   'Realistic incident briefings and network topologies',
   'Every check mapped to a specific CompTIA objective',
@@ -44,10 +44,10 @@ const TOOLS = [
   { img: '/screenshots/fl-netsim.png',     lbl: 'FL-NETSIM v2.0',           cert: 'Network+',  desc: 'Cisco IOS-style terminal with available commands panel. Switch and router environments.' },
   { img: '/screenshots/fl-netcap.png',     lbl: 'NETCAP Analyzer v3.2',     cert: 'Network+',  desc: 'Packet capture flow topology showing asymmetric routing paths and TCP retransmits.' },
   { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Auditor v3.1',  cert: 'Security+', desc: 'Visual firewall rule audit table with hit distribution charts and anomaly indicators.' },
-  { img: '/screenshots/fl-siem.png',       lbl: 'Arclight SIEM v5.0.3',     cert: 'CySA+',     desc: 'Live alert triage dashboard with event correlation, filtering, and containment workflows.' },
+  { img: '/screenshots/fl-siem.png',       lbl: 'Arclight SIEM v5.0.3',     cert: 'CySA+',     desc: 'Interactive alert triage dashboard with event correlation, filtering, and containment workflows.' },
   { img: '/screenshots/fl-techscope.png',  lbl: 'TechScope Hardware v2.0',  cert: 'A+ Core 1', desc: 'Hardware health dashboard: SMART diagnostics, RAM tests, battery health and thermal telemetry.' },
   { img: '/screenshots/fl-sentryshield.png', lbl: 'SentryShield Cloud EDR', cert: 'A+ Core 2', desc: 'Cloud EDR console with malicious-process detection, severity triage and tenant-wide endpoint health.' },
-  { img: '/screenshots/fl-linux-cli.png',  lbl: 'Linux CLI',                cert: 'Security+', desc: 'Real Linux terminal for SSH hardening, permission auditing, and service investigation.' },
+  { img: '/screenshots/fl-linux-cli.png',  lbl: 'Linux CLI',                cert: 'Security+', desc: 'Linux-style terminal for SSH hardening, permission auditing, and service investigation.' },
   { img: '/screenshots/fl-netscan.png',    lbl: 'NETSCAN PRO v4.2.1',       cert: 'CySA+',     desc: 'CVSS-scored vulnerability findings across multiple hosts with remediation triage.' },
 ];
 
@@ -65,8 +65,8 @@ export default function FortifyLearnPage() {
   return (
     <div className="min-h-screen" style={{ background: '#F4F7FA' }}>
       <Helmet>
-        <title>FortifyLearn — CompTIA prep platform with live PBQ labs and a full Exam Engine | Cy-Sec</title>
-        <meta name="description" content="FortifyLearn is the Cy-Sec CompTIA prep platform. Two engines, one platform: PBQ Engine for live CLI, SIEM and visual-tool simulations, and Exam Engine for 2,000 MCQs per cert with timed mock exams. Network+, Security+, CySA+ and A+. Try a free lab — no card required." />
+        <title>FortifyLearn — CompTIA prep platform with realistic PBQ labs and a full Exam Engine | Cy-Sec</title>
+        <meta name="description" content="FortifyLearn is the Cy-Sec CompTIA prep platform. Two engines, one platform: PBQ Engine for realistic CLI, SIEM and visual-tool simulations, and Exam Engine for 2,000 MCQs per cert with timed mock exams. Network+, Security+, CySA+ and A+. Try a free lab — no card required." />
         <link rel="canonical" href="https://cy-sec.co.uk/fortifylearn" />
       </Helmet>
 
@@ -85,11 +85,11 @@ export default function FortifyLearnPage() {
             <h1 className="text-4xl lg:text-5xl font-black text-white mb-5" style={{ letterSpacing: '-1.5px', lineHeight: 1.1 }}>
               CompTIA prep that puts you in
               <span style={{ background: 'linear-gradient(90deg,#7DD3E8,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                {' '}real environments.
+                {' '}realistic environments.
               </span>
             </h1>
             <p className="text-white/65 leading-relaxed mb-7 max-w-lg text-[15px]">
-              Two engines, one platform. <strong className="text-white/90">PBQ Engine</strong> gives you live CLI, SIEM and visual-tool simulations. <strong className="text-white/90">Exam Engine</strong> gives you 2,000 MCQs per cert plus timed mock exams. Every CompTIA cert in our catalogue.
+              Two engines, one platform. <strong className="text-white/90">PBQ Engine</strong> gives you realistic CLI, SIEM and visual-tool simulations. <strong className="text-white/90">Exam Engine</strong> gives you 2,000 MCQs per cert plus timed mock exams. Every CompTIA cert in our catalogue.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="https://fortifylearn.co.uk" target="_blank" rel="noopener noreferrer"
@@ -139,14 +139,14 @@ export default function FortifyLearnPage() {
                   <h3 className="text-2xl font-black" style={{ letterSpacing: '-0.6px' }}>FortifyLearn PBQ Engine</h3>
                 </div>
                 <p className="text-white/70 text-[13px] leading-relaxed">
-                  Performance-based questions on live CLI, SIEM and visual tooling. The way the exam actually tests you.
+                  Performance-based questions on realistic CLI, SIEM and visual tooling. The way the exam actually tests you.
                 </p>
               </div>
               <div className="bg-[#F4F7FA]">
                 <div className="grid grid-cols-2">
                   <div className="relative">
                     <div className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-[#0B1D3A] text-[#7DD3E8]">CLI · Cisco IOS</div>
-                    <img src="/screenshots/fl-netsim.png" alt="FL-NETSIM live Cisco IOS terminal with available commands panel" className="w-full h-44 object-cover object-top" />
+                    <img src="/screenshots/fl-netsim.png" alt="FL-NETSIM Cisco IOS-style terminal with available commands panel" className="w-full h-44 object-cover object-top" />
                   </div>
                   <div className="relative border-l border-slate-200">
                     <div className="absolute top-2 left-2 z-10 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest bg-[#0B1D3A] text-[#7DD3E8]">Visual · NETCAP</div>
@@ -271,7 +271,7 @@ export default function FortifyLearnPage() {
           <h2 className="text-2xl font-extrabold text-[#0B1D3A] mb-8" style={{ letterSpacing: '-0.5px' }}>From briefing to results in one session.</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
-              { img: '/screenshots/fl-lab-briefing.png', lbl: 'Real scenario briefings', desc: 'Each lab starts with a realistic incident briefing, network topology, and the exact CompTIA objectives being tested.' },
+              { img: '/screenshots/fl-lab-briefing.png', lbl: 'Realistic scenario briefings', desc: 'Each lab starts with a realistic incident briefing, network topology, and the exact CompTIA objectives being tested.' },
               { img: '/screenshots/fl-results.png',       lbl: 'Instant objective-mapped results', desc: 'Submit and immediately see every graded check, which objectives it covers, and a targeted improvement plan.' },
             ].map(s => (
               <div key={s.lbl} className="bg-[#F4F7FA] rounded-2xl overflow-hidden border border-[rgba(8,145,178,0.12)]">
@@ -315,7 +315,7 @@ export default function FortifyLearnPage() {
           <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">The visual moat</p>
           <h2 className="text-2xl font-extrabold text-[#0B1D3A] mb-3" style={{ letterSpacing: '-0.5px' }}>Tools you don't get from flashcards.</h2>
           <p className="text-slate-500 text-[14px] mb-8 max-w-2xl leading-relaxed">
-            Every PBQ scenario uses real or representative tooling — not click-through diagrams. CLI sessions you can type into. SIEM consoles with alert correlation. Hardware diagnostics, EDR triage, packet captures you actually read. This is what CompTIA tests, and what flashcards can't deliver.
+            Every PBQ scenario uses representative tooling — not click-through diagrams. CLI sessions you can type into. SIEM consoles with alert correlation. Hardware diagnostics, EDR triage, packet captures you actually read. This is what CompTIA tests, and what flashcards can't deliver.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {TOOLS.map(t => (

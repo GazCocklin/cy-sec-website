@@ -96,7 +96,7 @@ export default function APlusCore1LabsPage() {
     <>
       <Helmet>
         <title>CompTIA A+ Core 1 (220-1201) Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="Hands-on CompTIA A+ Core 1 (220-1201) PBQ practice labs covering mobile devices, networking, hardware, virtualisation, and troubleshooting. Real diagnostic workflows. One-time purchase, lifetime access. CompTIA Authorised Partner." />
+        <meta name="description" content="Hands-on CompTIA A+ Core 1 (220-1201) PBQ practice labs covering mobile devices, networking, hardware, virtualisation, and troubleshooting. Realistic diagnostic workflows. One-time purchase, lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA A+ labs, A+ Core 1 practice, 220-1201 PBQ, hardware troubleshooting labs, CompTIA practice labs UK" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-aplus-core1-labs" />
       </Helmet>

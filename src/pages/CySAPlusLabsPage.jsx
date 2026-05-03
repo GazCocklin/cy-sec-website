@@ -109,7 +109,7 @@ export default function CySAPlusLabsPage() {
     <>
       <Helmet>
         <title>CompTIA CySA+ CS0-003 Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="10 hands-on CySA+ CS0-003 simulation labs across 2 tiers. Live CLI investigation, Arclight SIEM triage, and NETSCAN PRO vulnerability assessment. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
+        <meta name="description" content="10 hands-on CySA+ CS0-003 simulation labs across 2 tiers. Realistic CLI investigation, Arclight SIEM triage, and NETSCAN PRO vulnerability assessment. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA CySA+ labs, CS0-003 practice, CySA+ PBQ simulation, SIEM triage, vulnerability assessment, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-cysa-plus-labs" />
       </Helmet>
@@ -129,10 +129,10 @@ export default function CySAPlusLabsPage() {
             <h1 className="text-4xl lg:text-5xl font-black text-white mb-5" style={{ letterSpacing: '-1.5px', lineHeight: 1.1 }}>
               CySA+ practice labs.<br />
               <span style={{ background: 'linear-gradient(90deg,#7DD3E8,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Not flashcards.</span><br />
-              Real analyst workflows.
+              Realistic analyst workflows.
             </h1>
             <p className="text-[15px] text-white/60 leading-relaxed mb-7 max-w-lg">
-              <strong className="text-white/90">CompTIA CySA+ CS0-003</strong> tests you on live threat investigation, SIEM triage, and incident containment. FortifyLearn gives you real CLI environments, an interactive SIEM dashboard, and a vulnerability scanner — 10 labs across 2 tiers.
+              <strong className="text-white/90">CompTIA CySA+ CS0-003</strong> tests you on threat investigation, SIEM triage, and incident containment. FortifyLearn gives you realistic CLI environments, an interactive SIEM dashboard, and a vulnerability scanner — 10 labs across 2 tiers.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>

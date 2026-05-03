@@ -27,7 +27,7 @@ const STEPS = [
 ];
 
 const PBQ_FEATURES = [
-  'Live Cisco IOS, Linux and Windows terminals',
+  'Cisco IOS-style, Linux and Windows terminals',
   'Interactive SIEM, firewall and packet analyser tools',
   'Realistic incident briefings and network topologies',
   'Every check mapped to a specific CompTIA objective',
@@ -41,7 +41,7 @@ const EXAM_FEATURES = [
 ];
 
 const TOOLS = [
-  { img: '/screenshots/fl-netsim.png',     lbl: 'FL-NETSIM v2.0',           cert: 'Network+',  desc: 'Live Cisco IOS terminal with available commands panel. Real switch and router environments.' },
+  { img: '/screenshots/fl-netsim.png',     lbl: 'FL-NETSIM v2.0',           cert: 'Network+',  desc: 'Cisco IOS-style terminal with available commands panel. Switch and router environments.' },
   { img: '/screenshots/fl-netcap.png',     lbl: 'NETCAP Analyzer v3.2',     cert: 'Network+',  desc: 'Packet capture flow topology showing asymmetric routing paths and TCP retransmits.' },
   { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Auditor v3.1',  cert: 'Security+', desc: 'Visual firewall rule audit table with hit distribution charts and anomaly indicators.' },
   { img: '/screenshots/fl-siem.png',       lbl: 'Arclight SIEM v5.0.3',     cert: 'CySA+',     desc: 'Live alert triage dashboard with event correlation, filtering, and containment workflows.' },

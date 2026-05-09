@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, ChevronDown } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
 
 // ── A+ Core 1 (220-1201) landing page ────────────────────────────────────────
@@ -83,6 +83,41 @@ function PackCard({ title, code, price, labs }) {
 }
 
 
+const FAQ = [
+  {
+    q: 'What does an A+ Core 1 lab look like in FortifyLearn?',
+    a: 'Each lab puts you in a structured diagnostic workflow — a hardware fault, a mobile sync issue, a virtualisation misconfiguration — and asks you to identify the cause and the fix. The environments are representative tooling: console dashboards for hardware health, CLI-style diagnostic prompts, mobile device configuration screens, and topology diagnostic interfaces. They mirror the kind of decision-making the 220-1201 PBQs test, not actual hardware or networking equipment.',
+  },
+  {
+    q: 'Is FortifyLearn endorsed by CompTIA?',
+    a: 'Cy-Sec is a CompTIA Authorised Partner, which is a formal commercial relationship. The labs themselves are not officially endorsed by CompTIA — no third-party prep platform is. Every lab is mapped to specific 220-1201 exam objectives, but CompTIA does not certify or review external lab content.',
+  },
+  {
+    q: "What's the difference between Foundation Labs and Advanced Labs?",
+    a: 'Foundation Labs is the £19.99 entry pack — five A+ Core 1 scenarios covering mobile device sync and connectivity, network cable and port troubleshooting, hardware POST and component diagnostics, virtualisation and cloud configuration, and a multi-fault hardware/network triage. Advanced Labs is the £19.99 second pack and adds wireless AP misconfiguration, printer and peripheral fault diagnosis, SOHO router and share triage, display and video subsystem repair, and an end-to-end client diagnostic exercise. Or grab the Exam Prep Bundle at £39.99 for both packs plus the Exam Engine — saves £24.98.',
+  },
+  {
+    q: 'How much A+ Core 1 content is available right now?',
+    a: "The full 10-lab curriculum and the Exam Engine MCQ bank are in active authoring — early labs are live and the rest ship as they're authored. Buy Foundation Labs now and you lock in the launch price; you'll get every lab in the pack as it goes live, with lifetime access. If you'd rather wait until everything's complete, that's a fair call too — the page lists the planned curriculum so you can decide.",
+  },
+  {
+    q: 'Are these labs enough on their own to pass A+ Core 1?',
+    a: "For most people, no. The labs build the practical PBQ skill the exam tests, but A+ Core 1 has a heavy multiple-choice section covering mobile devices, networking concepts, hardware identification, virtualisation, and troubleshooting theory. Pair the labs with a strong MCQ resource — either the FortifyLearn Exam Engine or a third-party question bank — to cover both halves of the exam. The Exam Prep Bundle at £39.99 packages labs and Exam Engine together at a £24.98 saving.",
+  },
+  {
+    q: 'Will FortifyLearn guarantee I pass A+ Core 1?',
+    a: 'No. Any prep platform claiming to guarantee a pass is overstating what it can do. Passing depends on you, the time you put into your study, and how the exam goes on the day. What FortifyLearn gives you is the realistic diagnostic-workflow practice the exam tests for — not a guarantee.',
+  },
+  {
+    q: 'What if a lab breaks or I have a question?',
+    a: 'Email the FortifyLearn Support Team at fortifylearn@cy-sec.co.uk. Lab issues are usually fixed within a working day. We can also help with general platform and study questions.',
+  },
+  {
+    q: 'Can I get a refund?',
+    a: "If you've bought a pack but haven't accessed any lab yet, email info@cy-sec.co.uk within 14 days and we'll issue a full refund. Once you've started any lab, the pack counts as performance-begun digital content under UK consumer law and the 14-day right of withdrawal lapses — but your statutory rights under the Consumer Rights Act 2015 still apply if a lab is faulty or not as described. Full terms in our Terms of Service.",
+  },
+];
+
 export default function APlusCore1LabsPage() {
   const [tab, setTab] = useState('p1');
 
@@ -90,15 +125,26 @@ export default function APlusCore1LabsPage() {
     <>
       <Helmet>
         <title>CompTIA A+ Core 1 (220-1201) Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="Hands-on CompTIA A+ Core 1 (220-1201) PBQ practice labs covering mobile devices, networking, hardware, virtualisation, and troubleshooting. Real diagnostic workflows. One-time purchase, lifetime access. CompTIA Authorised Partner." />
+        <meta name="description" content="Hands-on CompTIA A+ Core 1 (220-1201) PBQ practice labs covering mobile devices, networking, hardware, virtualisation, and troubleshooting. Realistic diagnostic workflows. One-time purchase, lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA A+ labs, A+ Core 1 practice, 220-1201 PBQ, hardware troubleshooting labs, CompTIA practice labs UK" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-aplus-core1-labs" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: FAQ.map(item => ({
+              '@type': 'Question',
+              name: item.q,
+              acceptedAnswer: { '@type': 'Answer', text: item.a },
+            })),
+          })}
+        </script>
       </Helmet>
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden min-h-[500px] flex items-center">
         <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80&fit=crop" alt="" className="w-full h-full object-cover object-center" />
+          <img src="/screenshots/fl-techscope.png" alt="" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg,rgba(6,14,31,0.97) 0%,rgba(11,29,58,0.95) 45%,rgba(8,80,120,0.80) 100%)' }} />
           <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(8,145,178,1) 1px,transparent 1px),linear-gradient(to right,rgba(8,145,178,1) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
         </div>
@@ -200,6 +246,25 @@ export default function APlusCore1LabsPage() {
 
       {/* ── Exam prep deep-dive ── */}
       <ExamPrepSection cert="aplus_core1" certLabel="A+ Core 1" code="220-1201" />
+
+      {/* ── FAQ ── */}
+      <section className="bg-white py-14 px-8 border-t border-[rgba(8,145,178,0.1)]">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">Common questions</p>
+          <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-8" style={{ letterSpacing: '-0.8px' }}>FAQ</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {FAQ.map((item, i) => (
+              <details key={i} className="group bg-[#F4F7FA] rounded-xl border border-[rgba(8,145,178,0.12)] overflow-hidden">
+                <summary className="flex items-center justify-between gap-4 p-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <p className="text-[15px] font-semibold text-[#0B1D3A]">{item.q}</p>
+                  <ChevronDown className="w-4 h-4 text-[#0891B2] flex-shrink-0 transition-transform group-open:rotate-180" strokeWidth={2.5} />
+                </summary>
+                <div className="px-5 pb-5 -mt-1 text-[14px] text-slate-600 leading-relaxed">{item.a}</div>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
     </>
   );
 }

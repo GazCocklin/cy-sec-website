@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import {  } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
 
 const PACK1_LABS = [
@@ -88,6 +88,41 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
 }
 
 
+const FAQ = [
+  {
+    q: 'How realistic is the Linux environment in the labs?',
+    a: "A representative Linux environment — not a click-through simulator, but also not a containerised Linux VM. The Foundation Labs put you in a Linux-style CLI where you type ss -tlnp, ls /etc/ssh/, grep PermitRootLogin and other diagnostic commands, get realistic output, and make configuration changes that affect the lab state. The available commands panel guides what's possible in each scenario, but you type every command yourself.",
+  },
+  {
+    q: 'Is FortifyLearn endorsed by CompTIA?',
+    a: 'Cy-Sec is a CompTIA Authorised Partner, which is a formal commercial relationship. The labs themselves are not officially endorsed by CompTIA — no third-party prep platform is. Every lab is mapped to specific SY0-701 exam objectives, but CompTIA does not certify or review external lab content.',
+  },
+  {
+    q: "What's the difference between Foundation Labs and Advanced Labs?",
+    a: 'Foundation Labs is the £19.99 entry pack — five Linux CLI scenarios covering firewall rule misconfiguration, file permission auditing, insecure legacy services (Telnet/FTP), privilege escalation triage, and post-pentest remediation. Advanced Labs is the £19.99 second pack and adds the FORTIGUARD Policy Auditor — a visual firewall rule audit tool — plus identity management labs covering service account auditing, MFA enforcement on bastion SSH, stale account lockdown, and a full PKI rotation. Complete (£32.99) is both packs together at a £6.99 discount. All packs are one-time purchases with lifetime access from your purchase date and unlimited retries on every lab.',
+  },
+  {
+    q: 'Are these labs enough on their own to pass Security+?',
+    a: "For most people, no. The labs build the practical PBQ skill the exam tests, but you also need to study the theory that drives the multiple-choice section. We'd typically recommend pairing FortifyLearn Security+ Labs with a strong MCQ resource — either the FortifyLearn Exam Engine (which bundles MCQ Study Mode and timed mock exams in one product) or a third-party question bank. The Exam Prep Bundle at £39.99 packages the labs and Exam Engine together at a £24.98 saving.",
+  },
+  {
+    q: 'Will FortifyLearn guarantee I pass Security+?',
+    a: 'No. Any prep platform claiming to guarantee a pass is overstating what it can do. Passing depends on you, the time you put into your study, and how the exam goes on the day. What FortifyLearn gives you is the practical CLI and firewall-audit practice the exam tests for — not a guarantee. (For more on what PBQs are and how to prepare for them, see our explainer: What is a CompTIA PBQ? at /what-is-a-comptia-pbq.)',
+  },
+  {
+    q: 'What if a lab breaks or I have a question?',
+    a: 'Email the FortifyLearn Support Team at fortifylearn@cy-sec.co.uk. Lab issues are usually fixed within a working day. We can also help with general platform and study questions.',
+  },
+  {
+    q: 'Can I get a refund?',
+    a: "If you've bought a pack but haven't accessed any lab yet, email info@cy-sec.co.uk within 14 days and we'll issue a full refund. Once you've started any lab, the pack counts as performance-begun digital content under UK consumer law and the 14-day right of withdrawal lapses — but your statutory rights under the Consumer Rights Act 2015 still apply if a lab is faulty or not as described. Full terms in our Terms of Service.",
+  },
+  {
+    q: 'How does FortifyLearn fit alongside other Security+ prep tools?',
+    a: 'Different categories of prep complement each other. Video-led courses build conceptual understanding. Multiple-choice question banks test written-question recall and timing. Click-through simulators give you exam-format familiarity. FortifyLearn fits in the practical-CLI / hands-on category — typing commands in a Linux shell, auditing firewall policies in a visual interface, working through hardening and remediation scenarios. Many learners use a video course for theory, a question bank for MCQ drilling, and FortifyLearn for the PBQ practice — they cover different parts of the prep stack.',
+  },
+];
+
 export default function SecurityPlusLabsPage() {
   const [tab, setTab] = useState('p1');
 
@@ -95,15 +130,26 @@ export default function SecurityPlusLabsPage() {
     <>
       <Helmet>
         <title>CompTIA Security+ SY0-701 Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="10 hands-on Security+ SY0-701 simulation labs across 2 tiers. Live Linux CLI hardening, FORTIGUARD firewall policy auditing, and identity management. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
+        <meta name="description" content="10 hands-on Security+ SY0-701 simulation labs across 2 tiers. Linux-style CLI hardening, FORTIGUARD firewall policy auditing, and identity management. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA Security+ labs, SY0-701 practice, Security+ PBQ simulation, Linux hardening, firewall audit, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-security-plus-labs" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: FAQ.map(item => ({
+              '@type': 'Question',
+              name: item.q,
+              acceptedAnswer: { '@type': 'Answer', text: item.a },
+            })),
+          })}
+        </script>
       </Helmet>
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden min-h-[500px] flex items-center">
         <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80&fit=crop" alt="" className="w-full h-full object-cover object-center" />
+          <img src="/screenshots/fl-linux-cli.png" alt="" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg,rgba(6,14,31,0.97) 0%,rgba(11,29,58,0.95) 45%,rgba(8,80,120,0.80) 100%)' }} />
           <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(8,145,178,1) 1px,transparent 1px),linear-gradient(to right,rgba(8,145,178,1) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
         </div>
@@ -114,11 +160,11 @@ export default function SecurityPlusLabsPage() {
             </div>
             <h1 className="text-4xl lg:text-5xl font-black text-white mb-5" style={{ letterSpacing: '-1.5px', lineHeight: 1.1 }}>
               Security+ practice labs.<br />
-              <span style={{ background: 'linear-gradient(90deg,#7DD3E8,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Real Linux.</span><br />
-              Real hardening.
+              <span style={{ background: 'linear-gradient(90deg,#7DD3E8,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Linux CLI practice.</span><br />
+              Realistic scenarios.
             </h1>
             <p className="text-[15px] text-white/60 leading-relaxed mb-7 max-w-lg">
-              <strong className="text-white/90">CompTIA Security+ SY0-701 performance-based questions</strong> test you on server hardening, firewall policy, privilege escalation, and identity management. FortifyLearn gives you live Linux environments and a visual firewall auditor across 10 labs.
+              <strong className="text-white/90">CompTIA Security+ SY0-701 performance-based questions</strong> test you on server hardening, firewall policy, privilege escalation, and identity management. FortifyLearn gives you realistic Linux-style CLI environments and a visual firewall auditor across 10 labs.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
@@ -224,7 +270,7 @@ export default function SecurityPlusLabsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { img: '/screenshots/fl-fortiguard.png', lbl: 'FORTIGUARD Policy Auditor v3.1', title: 'FORTIGUARD Policy Auditor — firewall rule audit and remediation', desc: 'Review a full firewall rule set, identify anomaly indicators (zero-hit DENY rules, overly broad ALLOW-ANY), analyse hit distribution across rules, and remove redundant policies — mirroring the firewall audit workflow tested in SY0-701.', pack: 'Security+ Advanced Labs · lab 4' },
-              { img: '/screenshots/fl-linux-cli.png', lbl: 'Linux CLI — Security+ Foundation Labs', title: 'Live Linux CLI — all Foundation Labs labs', desc: 'Real commands, real output. Run ss -tlnp, ls /etc/ssh/, grep PermitRootLogin — the available commands panel guides the investigation, but you type every command yourself. The output reflects the actual vulnerability in the scenario.', pack: 'Security+ Foundation Labs · all labs' },
+              { img: '/screenshots/fl-linux-cli.png', lbl: 'Linux CLI — Security+ Foundation Labs', title: 'Linux-style CLI — all Foundation Labs labs', desc: 'Linux command syntax with realistic output. Run ss -tlnp, ls /etc/ssh/, grep PermitRootLogin — the available commands panel guides the investigation, but you type every command yourself. The output reflects the vulnerability in the scenario.', pack: 'Security+ Foundation Labs · all labs' },
             ].map(tool => (
               <div key={tool.lbl} className="bg-white rounded-2xl overflow-hidden border border-[rgba(8,145,178,0.12)]">
                 <div className="relative">
@@ -237,6 +283,58 @@ export default function SecurityPlusLabsPage() {
                   <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#e0f2f9] text-[#0891B2] border border-[rgba(8,145,178,0.2)]">{tool.pack}</span>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How FortifyLearn fits in your prep stack (comparison strip) ── */}
+      <section className="bg-white py-14 px-8 border-t border-[rgba(8,145,178,0.1)]">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">How FortifyLearn fits in your prep stack</p>
+          <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-3" style={{ letterSpacing: '-0.8px' }}>Different tools cover different parts of the exam.</h2>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-2xl leading-relaxed">
+            CompTIA Security+ tests theory in MCQs and practical skill in PBQs. Different prep formats are good at different bits of that. Most learners use two or three of these together — they're complements, not substitutes.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { lbl: 'Video courses', good: 'Build conceptual understanding. Best for first-time learners getting their head around the CIA triad, cryptography fundamentals, threat actors.', less: "Don't build the typing muscle memory PBQs test." },
+              { lbl: 'Question banks', good: 'Drill MCQ recall and exam timing. Best for the multiple-choice section and last-week revision.', less: "Don't replicate the PBQ interaction model." },
+              { lbl: 'Click-through simulators', good: "Familiarise you with the exam's visual format. Useful for first-look orientation.", less: 'Predetermined paths rather than free CLI input — less skill transfer to the live exam.' },
+              { lbl: 'Hands-on practical', good: 'Type real commands in a Linux-style CLI, audit firewall policies in a visual tool, work through hardening and remediation scenarios. Builds the muscle memory PBQs test.', less: "Single-format — pair with theory and MCQ resources for the full exam.", us: true },
+            ].map(c => (
+              <div key={c.lbl} className={`rounded-2xl p-5 ${c.us ? 'bg-[#0B1D3A] text-white border-2 border-[#0891B2] shadow-lg' : 'bg-[#F4F7FA] border border-[rgba(8,145,178,0.12)]'}`}>
+                <p className={`text-[11px] font-bold tracking-widest uppercase mb-2 ${c.us ? 'text-[#7DD3E8]' : 'text-[#0891B2]'}`}>{c.lbl}</p>
+                <p className={`text-[13px] leading-relaxed mb-3 ${c.us ? 'text-white/85' : 'text-slate-700'}`}>{c.good}</p>
+                <p className={`text-[12px] leading-relaxed ${c.us ? 'text-white/45' : 'text-slate-400'}`}>{c.less}</p>
+                {c.us && (
+                  <div className="mt-4 pt-4 border-t border-white/15">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#7DD3E8]">FortifyLearn fits here</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="text-[13px] text-slate-400 mt-6 max-w-2xl leading-relaxed">
+            Many learners use a video course for theory, a question bank for MCQ drilling, and FortifyLearn for PBQ practice. They cover different parts of the prep stack. <a href="/what-is-a-comptia-pbq" className="text-[#0891B2] font-semibold hover:underline">More on what PBQs actually test →</a>
+          </p>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="bg-white py-14 px-8 border-t border-[rgba(8,145,178,0.1)]">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">Common questions</p>
+          <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-8" style={{ letterSpacing: '-0.8px' }}>FAQ</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {FAQ.map((item, i) => (
+              <details key={i} className="group bg-[#F4F7FA] rounded-xl border border-[rgba(8,145,178,0.12)] overflow-hidden">
+                <summary className="flex items-center justify-between gap-4 p-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <p className="text-[15px] font-semibold text-[#0B1D3A]">{item.q}</p>
+                  <ChevronDown className="w-4 h-4 text-[#0891B2] flex-shrink-0 transition-transform group-open:rotate-180" strokeWidth={2.5} />
+                </summary>
+                <div className="px-5 pb-5 -mt-1 text-[14px] text-slate-600 leading-relaxed">{item.a}</div>
+              </details>
             ))}
           </div>
         </div>

@@ -526,7 +526,7 @@ function PromoHero({ onShopBundles }) {
           </span>
         </h1>
         <p className="text-white/70 text-sm leading-relaxed mb-5 max-w-md">
-          Real CLI labs and a full mock exam engine with Study Mode + Exam Mode — bundled for every CompTIA cert in our catalogue.
+          Realistic CLI labs and a full mock exam engine with Study Mode + Exam Mode — bundled for every CompTIA cert in our catalogue.
           One price. Lifetime access.
         </p>
         <div className="flex items-center gap-4 flex-wrap">
@@ -545,7 +545,7 @@ function PromoHero({ onShopBundles }) {
       <div className="relative flex-1 hidden sm:block overflow-hidden" style={{ minHeight: 230 }}>
         {/* CySA+ Arclight SIEM dashboard — communicates 'real advanced tool' at a glance */}
         <img src="/screenshots/fl-siem.png"
-          alt="Arclight SIEM — a real tool inside FortifyLearn's CySA+ labs"
+          alt="Arclight SIEM — the visual SIEM tool inside FortifyLearn's CySA+ labs"
           className="absolute block"
           loading="lazy"
           style={{
@@ -728,18 +728,86 @@ function cliSnippetFor(certKey, variant = 'foundation') {
   return { type: 'cli', ...(certCli[variant] || certCli.foundation) };
 }
 
+// Per-cert MCQ stem for the Exam Engine snippet. Marketing imagery, not literal —
+// kept short so it renders legibly at the snippet's small font sizes.
+const QUESTION_FOR_CERT = {
+  netplus:     { stem: 'Which port is HTTPS?',     options: ['80', '443', '22'] },
+  secplus:     { stem: 'Which uses AES-256?',      options: ['MD5', 'WPA2', 'SHA-1'] },
+  cysa:        { stem: 'First IOC of LSASS dump?', options: ['svchost spawn', 'mem read', 'DNS spike'] },
+  aplus_core1: { stem: 'Which port is HTTP?',      options: ['80', '443', '21'] },
+  aplus_core2: { stem: 'Repair Windows files?',    options: ['sfc /scannow', 'chkdsk', 'dism'] },
+};
+
+// Wireshark-style packet capture for Network+ Advanced — communicates "packet analysis"
+// in a way a basic CLI terminal can't. Only used for netplus advanced; other certs keep
+// the CLI variant for their advanced labs (their advanced topics aren't packet-capture).
+const NETPLUS_WIRESHARK = [
+  { time: '0.012', proto: 'DNS',  color: '#185FA5', info: 'A example.com' },
+  { time: '0.024', proto: 'TCP',  color: '#444441', info: '443 [SYN]' },
+  { time: '0.045', proto: 'TLS',  color: '#0F6E56', info: 'Client Hello', highlight: true },
+  { time: '0.082', proto: 'HTTP', color: '#3B6D11', info: 'GET /index' },
+];
+
+// ADVANCED_VISUALS — per-cert advanced labs hero visual. Each cert gets a fundamentally
+// different visual *type* (not just different content in the same template), so adjacent
+// Advanced cards across certs read as visually distinct at a glance:
+//   netplus     → wireshark (packet capture rows + protocol pills)
+//   secplus     → cert-chain (vertical PKI trust hierarchy with arrows)
+//   cysa        → process-tree (indented spawn lineage with suspicious row flagged)
+//   aplus_core1 → disk-partitions (horizontal segmented storage bar + legend)
+//   aplus_core2 → settings-panel (Windows Settings UI mockup with toggles + action row)
+const ADVANCED_VISUALS = {
+  netplus:     { type: 'wireshark', packets: NETPLUS_WIRESHARK },
+  secplus:     { type: 'cert-chain' },
+  cysa:        { type: 'process-tree' },
+  aplus_core1: { type: 'disk-partitions' },
+  aplus_core2: { type: 'settings-panel' },
+};
+
+// snippetFor — top-level resolver used by both ProductCard and the modal preview tiles.
+// variant: 'foundation' | 'advanced' | 'complete' | 'exam'
+//   - 'foundation' returns a CLI terminal (cert-flavoured command)
+//   - 'advanced' returns the cert's bespoke ADVANCED_VISUALS entry, falling back to CLI
+//   - 'complete' returns a layered cli-stack visual (Foundation + Advanced peeking)
+//   - 'exam' returns the MCQ question card; options.selected picks the highlighted answer
+function snippetFor(certKey, variant = 'foundation', options = {}) {
+  if (variant === 'exam') {
+    const q = QUESTION_FOR_CERT[certKey] || QUESTION_FOR_CERT.netplus;
+    return { type: 'mcq-question', stem: q.stem, options: q.options, selected: options.selected ?? 1 };
+  }
+  if (variant === 'complete') {
+    const certCli = CLI_SNIPPETS[certKey] || CLI_SNIPPETS.netplus;
+    return { type: 'cli-stack', front: certCli.foundation, back: certCli.advanced };
+  }
+  if (variant === 'advanced' && ADVANCED_VISUALS[certKey]) {
+    return ADVANCED_VISUALS[certKey];
+  }
+  return cliSnippetFor(certKey, variant);
+}
+
 function Snippet({ data }) {
   const traffic = (
-    <div style={{ display: 'flex', gap: 3, marginBottom: 4 }}>
+    <div style={{ display: 'flex', gap: 3 }}>
       <span style={{ width: 5, height: 5, background: '#FB7185', borderRadius: '50%' }} />
       <span style={{ width: 5, height: 5, background: '#FACC15', borderRadius: '50%' }} />
       <span style={{ width: 5, height: 5, background: '#4ADE80', borderRadius: '50%' }} />
     </div>
   );
+
+  const terminalStyle = {
+    background: 'rgba(0,0,0,0.30)',
+    border: '0.5px solid rgba(255,255,255,0.22)',
+    borderRadius: 4,
+    padding: '5px 7px',
+    fontFamily: "'SF Mono', ui-monospace, monospace",
+    flexShrink: 0,
+  };
+
+  // CLI — single terminal. Used for Foundation Labs (every cert) and Advanced Labs (every cert except netplus).
   if (data?.type === 'cli') {
     return (
-      <div style={{ background: 'rgba(0,0,0,0.30)', border: '0.5px solid rgba(255,255,255,0.22)', borderRadius: 4, width: 130, padding: '5px 7px', fontFamily: "'SF Mono', ui-monospace, monospace", flexShrink: 0 }}>
-        {traffic}
+      <div style={{ ...terminalStyle, width: 130 }}>
+        <div style={{ marginBottom: 4 }}>{traffic}</div>
         <div style={{ fontSize: 7.5, color: '#7DD3E8', lineHeight: 1.2 }}>{data.command}</div>
         {(data.lines || []).map((line, i) => (
           <div key={i} style={{ fontSize: 7.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.2, marginTop: i === 0 ? 1 : 0 }}>{line}</div>
@@ -747,12 +815,279 @@ function Snippet({ data }) {
       </div>
     );
   }
+
+  // CLI-Stack — two layered terminals. Used for Complete labs across all certs to communicate
+  // "Foundation + Advanced bundled" without a label. Back terminal peeks out top-right at 55% opacity.
+  if (data?.type === 'cli-stack') {
+    const innerStyle = { ...terminalStyle, width: 110, position: 'absolute' };
+    return (
+      <div style={{ position: 'relative', width: 130, height: 56, flexShrink: 0 }}>
+        <div style={{ ...innerStyle, top: 0, right: 0, opacity: 0.55 }}>
+          <div style={{ marginBottom: 2 }}>{traffic}</div>
+          <div style={{ fontSize: 6.5, color: 'rgba(125,211,232,0.85)', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{data.back?.command}</div>
+        </div>
+        <div style={{ ...innerStyle, bottom: 0, left: 0 }}>
+          <div style={{ marginBottom: 3 }}>{traffic}</div>
+          <div style={{ fontSize: 7, color: '#7DD3E8', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{data.front?.command}</div>
+          <div style={{ fontSize: 7, color: 'rgba(255,255,255,0.55)', lineHeight: 1.2, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{data.front?.lines?.[0]}</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Wireshark — packet capture dashboard. Used only for netplus advanced. Communicates packet analysis,
+  // which a CLI terminal can't. Other certs keep CLI for their advanced labs (different domain).
+  if (data?.type === 'wireshark') {
+    return (
+      <div style={{ ...terminalStyle, width: 130 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
+          {traffic}
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 2, fontSize: 6, color: 'rgba(125,211,232,0.6)', fontWeight: 600 }}>
+            eth0
+            <span style={{ width: 3, height: 3, background: '#4ADE80', borderRadius: '50%' }} />
+          </span>
+        </div>
+        {(data.packets || []).map((p, i) => (
+          <div key={i} style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 3,
+            marginBottom: 1,
+            background: p.highlight ? 'rgba(125,211,232,0.12)' : 'transparent',
+            borderRadius: 1,
+          }}>
+            <span style={{ fontSize: 6.5, color: p.highlight ? '#7DD3E8' : 'rgba(255,255,255,0.55)', minWidth: 18, fontFamily: "'SF Mono', ui-monospace, monospace" }}>{p.time}</span>
+            <span style={{
+              background: p.color,
+              color: '#fff',
+              fontSize: 5.5,
+              fontWeight: 700,
+              padding: '0 3px',
+              borderRadius: 1,
+              minWidth: 22,
+              textAlign: 'center',
+              letterSpacing: 0.2,
+            }}>{p.proto}</span>
+            <span style={{ fontSize: 6.5, color: p.highlight ? '#7DD3E8' : 'rgba(255,255,255,0.55)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: "'SF Mono', ui-monospace, monospace" }}>{p.info}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // Cert-chain — vertical PKI trust hierarchy (Root CA → Intermediate → Leaf) with green checks.
+  // Used for secplus advanced. Three rounded boxes stacked, thin connector lines between, leaf
+  // box highlighted to indicate the live cert under inspection.
+  if (data?.type === 'cert-chain') {
+    const labelStyle = {
+      fontSize: 7, color: '#5A88B0', fontFamily: "'SF Mono', ui-monospace, monospace",
+      marginBottom: 3,
+    };
+    const boxStyle = {
+      display: 'flex', alignItems: 'center', gap: 4,
+      border: '0.5px solid rgba(125,211,232,0.45)',
+      background: 'rgba(11,37,64,0.7)',
+      borderRadius: 3,
+      padding: '2px 5px',
+      fontSize: 7, fontFamily: "'SF Mono', ui-monospace, monospace",
+      lineHeight: 1.2,
+    };
+    const check = (
+      <span style={{ width: 6, height: 6, position: 'relative', flexShrink: 0 }}>
+        <span style={{
+          position: 'absolute', inset: 0,
+          border: '1px solid #4ADE80', borderRadius: '50%',
+        }} />
+        <svg width="6" height="6" style={{ position: 'absolute', inset: 0 }} viewBox="0 0 6 6">
+          <path d="M1.5 3 L 2.5 4 L 4.5 1.8" stroke="#4ADE80" strokeWidth="0.9" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    );
+    const arrow = (
+      <div style={{ width: 1, height: 5, background: '#5A88B0', margin: '1.5px auto' }} />
+    );
+    return (
+      <div style={{ ...terminalStyle, width: 130 }}>
+        <div style={labelStyle}>tls cert chain</div>
+        <div style={boxStyle}>{check}<span style={{ color: '#A8C5DD' }}>DigiCert Root</span></div>
+        {arrow}
+        <div style={boxStyle}>{check}<span style={{ color: '#A8C5DD' }}>Let's Encrypt R3</span></div>
+        {arrow}
+        <div style={{ ...boxStyle, background: '#0F4A5C', borderColor: '#7DD3E8' }}>
+          {check}<span style={{ color: '#7DD3E8' }}>acme.com · TLS 1.3</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Process-tree — indented spawn lineage. Used for cysa advanced. Five processes from
+  // explorer → outlook → winword → powershell-encoded → rundll32 with the powershell row
+  // highlighted as the suspicious step. Classic Mimikatz / macro-malware shape.
+  if (data?.type === 'process-tree') {
+    const monoRow = {
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      fontSize: 6.5, fontFamily: "'SF Mono', ui-monospace, monospace",
+      lineHeight: 1.4, color: '#A8C5DD',
+    };
+    const dim = { color: '#5A88B0' };
+    return (
+      <div style={{ ...terminalStyle, width: 130 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 6.5, color: '#5A88B0', fontFamily: "'SF Mono', ui-monospace, monospace", marginBottom: 3 }}>
+          <span>process tree</span>
+          <span>5 procs</span>
+        </div>
+        <div style={monoRow}><span>explorer.exe</span><span style={dim}>1024</span></div>
+        <div style={{ ...monoRow, paddingLeft: 4 }}><span><span style={dim}>└ </span>outlook.exe</span><span style={dim}>4218</span></div>
+        <div style={{ ...monoRow, paddingLeft: 8 }}><span><span style={dim}>└ </span>winword.exe</span><span style={dim}>7891</span></div>
+        <div style={{ ...monoRow, paddingLeft: 12, background: 'rgba(169,24,24,0.22)', borderRadius: 1, color: '#FB7185', fontWeight: 500, margin: '1px -2px', paddingRight: 2 }}>
+          <span><span style={dim}>└ </span>powershell -e</span>
+          <span style={{ color: '#FB7185' }}>8902</span>
+        </div>
+        <div style={{ ...monoRow, paddingLeft: 16 }}><span><span style={dim}>└ </span>rundll32.exe</span><span style={dim}>9015</span></div>
+      </div>
+    );
+  }
+
+  // Disk-partitions — horizontal segmented storage bar with proportional widths and legend.
+  // Used for aplus_core1 advanced. OS / Programs / Data / Recovery in scale-accurate
+  // proportions, four-colour legend below.
+  if (data?.type === 'disk-partitions') {
+    const legendRow = (color, text) => (
+      <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 6.5, color: '#A8C5DD', fontFamily: "'SF Mono', ui-monospace, monospace", lineHeight: 1.4 }}>
+        <span style={{ width: 5, height: 5, background: color, flexShrink: 0 }} />
+        <span>{text}</span>
+      </div>
+    );
+    return (
+      <div style={{ ...terminalStyle, width: 130 }}>
+        <div style={{ fontSize: 7, color: '#A8C5DD', fontFamily: "'SF Mono', ui-monospace, monospace", marginBottom: 4 }}>
+          DISK 0 — 2TB NVMe
+        </div>
+        <div style={{ display: 'flex', height: 10, borderRadius: 2, overflow: 'hidden', marginBottom: 5 }}>
+          <div style={{ width: '12.5%', background: '#185FA5' }} />
+          <div style={{ width: '40%',   background: '#0F6E56' }} />
+          <div style={{ width: '42.5%', background: '#BA7517' }} />
+          <div style={{ width: '5%',    background: '#444441' }} />
+        </div>
+        {legendRow('#185FA5', 'OS · 250 GB')}
+        {legendRow('#0F6E56', 'Apps · 800 GB')}
+        {legendRow('#BA7517', 'Data · 850 GB')}
+      </div>
+    );
+  }
+
+  // Settings-panel — Windows Settings UI mockup with section headers, toggle switches and an
+  // action button on the highlighted row. Used for aplus_core2 advanced. System-font sans
+  // (not mono) is intentional — it visually says "OS UI" rather than "another dashboard".
+  if (data?.type === 'settings-panel') {
+    const Toggle = ({ on }) => (
+      <span style={{
+        position: 'relative', display: 'inline-block',
+        width: 14, height: 7, borderRadius: 3.5,
+        background: on ? '#0F6E56' : '#3A4150',
+        flexShrink: 0,
+      }}>
+        <span style={{
+          position: 'absolute', top: 1, left: on ? 7 : 1,
+          width: 5, height: 5, borderRadius: '50%',
+          background: '#fff',
+        }} />
+      </span>
+    );
+    const sectionHeader = {
+      fontSize: 6.5, color: '#7DD3E8', fontWeight: 600, letterSpacing: 0.4,
+      fontFamily: "'SF Mono', ui-monospace, monospace",
+    };
+    const row = {
+      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+      fontSize: 7, color: '#A8C5DD',
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      lineHeight: 1.3, padding: '1.5px 0',
+    };
+    return (
+      <div style={{ ...terminalStyle, width: 130 }}>
+        <div style={{ ...sectionHeader, marginBottom: 2 }}>WINDOWS UPDATE</div>
+        <div style={row}><span>Auto updates</span><Toggle on={true} /></div>
+        <div style={{
+          ...row, color: '#7DD3E8',
+          background: 'rgba(27,58,95,0.7)', borderRadius: 2,
+          padding: '2px 4px', margin: '2px -3px',
+        }}>
+          <span><span style={{ color: '#FBBF24' }}>! </span>3 updates ready</span>
+          <span style={{
+            background: '#0891B2', color: '#fff',
+            fontSize: 6, fontWeight: 500,
+            padding: '1px 4px', borderRadius: 2,
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+          }}>Install</span>
+        </div>
+        <div style={{ ...sectionHeader, marginTop: 3, marginBottom: 2 }}>DEFENDER</div>
+        <div style={row}><span>Real-time</span><Toggle on={true} /></div>
+      </div>
+    );
+  }
+
+  // MCQ Question — proper question card on a white surface. Used for Exam Engine across all certs.
+  // Replaces the legacy 'mcq' radio-bar wireframe. The selected option drives a teal highlight pill.
+  if (data?.type === 'mcq-question') {
+    const selected = data.selected ?? 1;
+    const options = data.options || ['Option A', 'Option B', 'Option C'];
+    const stem = data.stem || 'Sample question';
+    return (
+      <div style={{
+        background: 'rgba(255,255,255,0.96)',
+        border: '0.5px solid rgba(255,255,255,0.6)',
+        borderRadius: 4,
+        width: 130,
+        padding: '4px 6px',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        flexShrink: 0,
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 5.5, fontWeight: 700, marginBottom: 2, letterSpacing: 0.3 }}>
+          <span style={{ color: '#0891B2' }}>Q12 / 90</span>
+          <span style={{ color: '#5A6478' }}>02:14</span>
+        </div>
+        <div style={{ fontSize: 7, color: '#0B1D3A', fontWeight: 600, lineHeight: 1.2, marginBottom: 3 }}>{stem}</div>
+        {options.map((opt, i) => {
+          const isHi = i === selected;
+          const letter = String.fromCharCode(65 + i);
+          return (
+            <div key={i} style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 4,
+              padding: '1px 3px',
+              borderRadius: 2,
+              background: isHi ? '#E0F2F7' : 'transparent',
+              marginBottom: 0.5,
+            }}>
+              <span style={{
+                width: 5, height: 5,
+                borderRadius: '50%',
+                background: isHi ? '#0891B2' : 'transparent',
+                border: isHi ? 'none' : '0.5px solid #94A3B8',
+                flexShrink: 0,
+              }} />
+              <span style={{
+                fontSize: 6.5,
+                color: isHi ? '#06536B' : '#0B1D3A',
+                fontWeight: isHi ? 600 : 400,
+              }}>{letter}. {opt}</span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  // Legacy 'mcq' (radio-bar wireframe) — retained as a fallback for any external caller still using it.
+  // New code should use 'mcq-question' instead via snippetFor(cert, 'exam').
   if (data?.type === 'mcq') {
     const optCount = data.optionCount ?? 3;
     const hi = data.highlightedIndex ?? 1;
     return (
       <div style={{ background: 'rgba(255,255,255,0.10)', border: '0.5px solid rgba(255,255,255,0.22)', borderRadius: 4, width: 130, padding: '5px 7px', flexShrink: 0 }}>
-        {traffic}
+        <div style={{ marginBottom: 4 }}>{traffic}</div>
         {Array.from({ length: optCount }, (_, i) => {
           const isHi = i === hi;
           return (
@@ -765,6 +1100,7 @@ function Snippet({ data }) {
       </div>
     );
   }
+
   return null;
 }
 
@@ -774,11 +1110,17 @@ function ProductCard({ cert, config, inBasket, onToggle, onShowDetails }) {
   const isExam     = config.key.endsWith('_exam');
   const isPack2    = config.key.endsWith('_pack_2');
 
-  // Snippet content — MCQ for Exam Engine, cert-flavoured CLI for everything else.
+  // Snippet content — variant maps to a distinct visual via snippetFor:
+  //   exam      → MCQ question card
+  //   complete  → layered cli-stack (Foundation + Advanced peeking)
+  //   advanced  → wireshark for netplus, otherwise CLI
+  //   foundation→ CLI terminal
   // Pack 2 (Advanced) gets the 'advanced' variant so Foundation+Advanced rows differ visually.
-  const snippetData = isExam
-    ? { type: 'mcq', highlightedIndex: 1 }
-    : cliSnippetFor(cert.key, isPack2 ? 'advanced' : 'foundation');
+  let variant = 'foundation';
+  if (isExam)            variant = 'exam';
+  else if (isComplete)   variant = 'complete';
+  else if (isPack2)      variant = 'advanced';
+  const snippetData = snippetFor(cert.key, variant);
 
   // Top-right pill: discount on Complete, NEW on isNew SKUs (mutually exclusive)
   let topRightPill = null;
@@ -831,7 +1173,7 @@ function ProductCard({ cert, config, inBasket, onToggle, onShowDetails }) {
       {/* Body */}
       <div className="p-3 flex flex-col flex-1">
         <p className="text-[12.5px] font-bold text-slate-900 leading-snug mb-0.5">
-          {config.label}
+          {cert.short} {config.label}
         </p>
         <p className="text-[10.5px] text-slate-500 mb-3 line-clamp-2" style={{ minHeight: 26 }}>
           {config.sub || config.meta}
@@ -886,16 +1228,16 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
   const extraSections = []; // { title, desc?, items?[] }
 
   if (isPackOne && cert.pack1?.highlights) {
-    previews.push({ title: 'What you\'ll practise', sub: '5 PBQs · foundation tier', snippet: cliSnippetFor(cert.key, 'foundation'), items: cert.pack1.highlights });
+    previews.push({ title: 'What you\'ll practise', sub: '5 PBQs · foundation tier', snippet: snippetFor(cert.key, 'foundation'), items: cert.pack1.highlights });
   } else if (isPackTwo && cert.pack2?.highlights) {
-    previews.push({ title: 'What you\'ll practise', sub: '5 PBQs · advanced tier', snippet: cliSnippetFor(cert.key, 'advanced'), items: cert.pack2.highlights });
+    previews.push({ title: 'What you\'ll practise', sub: '5 PBQs · advanced tier', snippet: snippetFor(cert.key, 'advanced'), items: cert.pack2.highlights });
   } else if (isComplete) {
-    if (cert.pack1?.highlights) previews.push({ title: 'Foundation Labs', sub: '5 PBQs · foundations', snippet: cliSnippetFor(cert.key, 'foundation'), items: cert.pack1.highlights });
-    if (cert.pack2?.highlights) previews.push({ title: 'Advanced Labs',   sub: '5 PBQs · advanced',    snippet: cliSnippetFor(cert.key, 'advanced'),   items: cert.pack2.highlights });
+    if (cert.pack1?.highlights) previews.push({ title: 'Foundation Labs', sub: '5 PBQs · foundations', snippet: snippetFor(cert.key, 'foundation'), items: cert.pack1.highlights });
+    if (cert.pack2?.highlights) previews.push({ title: 'Advanced Labs',   sub: '5 PBQs · advanced',    snippet: snippetFor(cert.key, 'advanced'),   items: cert.pack2.highlights });
   } else if (isExam) {
     previews.push({
       title: 'Study Mode', sub: 'Self-paced · MCQ-only',
-      snippet: { type: 'mcq', highlightedIndex: 1 },
+      snippet: snippetFor(cert.key, 'exam', { selected: 1 }),
       items: [
         '1,000 study MCQs mapped to every exam objective',
         'Instant per-option reasoning on every distractor',
@@ -905,9 +1247,9 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
     });
     previews.push({
       title: 'Exam Mode', sub: 'Timed · PBQ + MCQ mix',
-      snippet: { type: 'mcq', highlightedIndex: 0 },
+      snippet: snippetFor(cert.key, 'exam', { selected: 0 }),
       items: [
-        '3–6 real PBQs per session',
+        '3–6 PBQs per session',
         '85–90 MCQs per session',
         'One combined timer mirroring the real exam',
         'Unlimited replays — every attempt shuffles fresh',
@@ -926,11 +1268,11 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
       desc: 'Our score is an approximation of CompTIA\'s scaled score with a ±50 point margin. It\'s designed to tell you if you\'re exam-ready, not to predict your exact score on the day.',
     });
   } else if (isBundle && !isAplusMega) {
-    if (cert.pack1?.highlights) previews.push({ title: 'Foundation Labs', sub: '£19.99 value', snippet: cliSnippetFor(cert.key, 'foundation'), items: cert.pack1.highlights });
-    if (cert.pack2?.highlights) previews.push({ title: 'Advanced Labs',   sub: '£19.99 value', snippet: cliSnippetFor(cert.key, 'advanced'),   items: cert.pack2.highlights });
+    if (cert.pack1?.highlights) previews.push({ title: 'Foundation Labs', sub: '£19.99 value', snippet: snippetFor(cert.key, 'foundation'), items: cert.pack1.highlights });
+    if (cert.pack2?.highlights) previews.push({ title: 'Advanced Labs',   sub: '£19.99 value', snippet: snippetFor(cert.key, 'advanced'),   items: cert.pack2.highlights });
     previews.push({
       title: 'Exam Engine', sub: '£24.99 value',
-      snippet: { type: 'mcq', highlightedIndex: 1 },
+      snippet: snippetFor(cert.key, 'exam', { selected: 1 }),
       items: [
         '2,000 MCQs · 50 PBQs',
         'Study Mode + Exam Mode',
@@ -945,7 +1287,7 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
   } else if (isAplusMega) {
     previews.push({
       title: 'A+ Core 1 (220-1201)', sub: 'Hardware · networking · virtualisation',
-      snippet: cliSnippetFor('aplus_core1', 'foundation'),
+      snippet: snippetFor('aplus_core1', 'foundation'),
       bannerTag: 'A+ Core 1 · 220-1201',
       items: [
         'Foundation Labs — 5 PBQs',
@@ -955,7 +1297,7 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
     });
     previews.push({
       title: 'A+ Core 2 (220-1202)', sub: 'OS · security · software · ops',
-      snippet: cliSnippetFor('aplus_core2', 'foundation'),
+      snippet: snippetFor('aplus_core2', 'foundation'),
       bannerTag: 'A+ Core 2 · 220-1202',
       items: [
         'Foundation Labs — 5 PBQs',
@@ -988,7 +1330,7 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
               onError={e => { e.target.style.display='none'; }} />
             <div className="min-w-0">
               <div className="text-[9.5px] font-extrabold uppercase tracking-widest truncate"
-                style={{ color: 'rgba(125,211,232,0.92)' }}>
+                style={{ color: 'rgba(255,255,255,0.92)' }}>
                 {cert.short} · {cert.code}
               </div>
               <div className="text-[12px] font-semibold leading-tight truncate"
@@ -1034,7 +1376,7 @@ function ProductDetailsModal({ cert, config, inBasket, onToggle, onClose }) {
                   <div className="relative h-[78px] flex items-center justify-center overflow-hidden flex-shrink-0"
                     style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A 65%,#0891B2)' }}>
                     <span className="absolute top-2 left-2.5 text-[8px] font-extrabold uppercase tracking-wider z-10"
-                      style={{ color: 'rgba(125,211,232,0.92)' }}>
+                      style={{ color: 'rgba(255,255,255,0.92)' }}>
                       {p.bannerTag || `${cert.short} · ${cert.code}`}
                     </span>
                     <Snippet data={p.snippet} />
@@ -1288,7 +1630,7 @@ export default function StorePage() {
     <div className={`min-h-screen ${basket.length > 0 ? 'pb-36 sm:pb-32' : 'pb-2'}`} style={{ background: '#F4F7FA' }}>
       <Helmet>
         <title>FortifyLearn Store — CompTIA exam prep bundles | Cy-Sec</title>
-        <meta name="description" content="Real CompTIA PBQ simulation labs and a full Exam Engine with Study Mode + Exam Mode. Network+, Security+, CySA+ and A+ (Core 1 + Core 2) exam prep bundles from £39.99 — save up to £64.95 vs à la carte. Lifetime access, 14-day refund." />
+        <meta name="description" content="Realistic CompTIA PBQ simulation labs and a full Exam Engine with Study Mode + Exam Mode. Network+, Security+, CySA+ and A+ (Core 1 + Core 2) exam prep bundles from £39.99 — save up to £64.95 vs à la carte. Lifetime access, 14-day refund." />
       </Helmet>
 
       {showModal && (

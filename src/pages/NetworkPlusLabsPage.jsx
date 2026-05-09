@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet';
-import {  } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
 
 const PACK1_LABS = [
@@ -89,9 +89,44 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
 
 
 const TOOLS = [
-  { img: '/screenshots/fl-netsim.png', lbl: 'FL-NETSIM v2.0', title: 'FL-NETSIM — live Cisco IOS environment', desc: 'Real Cisco IOS commands in a live switch or router terminal. Run show vlan brief, show interfaces trunk, or show running-config — the available commands panel guides your investigation while you interact with a realistic IOS environment.', pack: 'Foundation Labs labs 3–5 · Advanced Labs lab 3' },
+  { img: '/screenshots/fl-netsim.png', lbl: 'FL-NETSIM v2.0', title: 'FL-NETSIM — Cisco IOS-style CLI environment', desc: 'Cisco IOS-style commands in a switch or router terminal. Run show vlan brief, show interfaces trunk, or show running-config — the available commands panel guides your investigation while you interact with a realistic IOS-style environment.', pack: 'Foundation Labs labs 3–5 · Advanced Labs lab 3' },
   { img: '/screenshots/fl-netcap.png', lbl: 'NETCAP Analyzer v3.2', title: 'NETCAP Analyzer — packet capture and asymmetric routing', desc: 'Colour-coded flow topology showing exactly where forward and return paths diverge, TCP retransmit count, and a one-click static route remediation action — the exact scenario type that appears in N10-009 PBQs.', pack: 'Advanced Labs · lab 4' },
   { img: '/screenshots/fl-netpulse.png', lbl: 'NETPULSE NMS v6.1', title: 'NETPULSE NMS — multi-site SNMP monitoring', desc: 'Live site map with SNMP polling status, CRC error detection, unreachable host diagnosis, and interface fault triage across a multi-site topology — the kind of NMS work N10-009 tests in its harder PBQs.', pack: 'Advanced Labs · lab 5' },
+];
+
+const FAQ = [
+  {
+    q: 'How realistic is the Cisco IOS environment in the labs?',
+    a: "A representative Cisco IOS environment — not a click-through simulator, but also not Cisco's actual licensed IOS firmware. The Foundation Labs put you in an IOS-style CLI where you type show running-config, show vlan brief, show interfaces trunk and other diagnostic commands, get realistic output, and make configuration changes that affect the lab state. The available commands panel guides what's possible in each scenario, but you type every command yourself.",
+  },
+  {
+    q: 'Is FortifyLearn endorsed by CompTIA?',
+    a: 'Cy-Sec is a CompTIA Authorised Partner, which is a formal commercial relationship. The labs themselves are not officially endorsed by CompTIA — no third-party prep platform is. Every lab is mapped to specific N10-009 exam objectives, but CompTIA does not certify or review external lab content.',
+  },
+  {
+    q: "What's the difference between Foundation Labs and Advanced Labs?",
+    a: 'Foundation Labs is the £19.99 entry pack — five Cisco IOS scenarios covering DNS misconfiguration, default gateway faults, DMZ ACL troubleshooting, dual-VLAN routing, and an enterprise multi-fault recovery. Advanced Labs is the £19.99 second pack and adds three FortifyLearn-built tools beyond the CLI: FL-NETSIM (network topology simulator), NETCAP Analyzer (packet capture), and NETPULSE NMS (multi-site monitoring). Complete (£32.99) is both packs together at a £6.99 discount. All packs are one-time purchases with lifetime access from your purchase date and unlimited retries on every lab.',
+  },
+  {
+    q: 'Are these labs enough on their own to pass Network+?',
+    a: "For most people, no. The labs build the practical PBQ skill the exam tests, but you also need to study the theory that drives the multiple-choice section. We'd typically recommend pairing FortifyLearn Network+ Labs with a strong MCQ resource — either the FortifyLearn Exam Engine (which bundles MCQ Study Mode and timed mock exams in one product) or a third-party tool like Boson ExSim. The Exam Prep Bundle at £39.99 packages the labs and Exam Engine together at a £24.98 saving.",
+  },
+  {
+    q: 'Will FortifyLearn guarantee I pass Network+?',
+    a: 'No. Any prep platform claiming to guarantee a pass is overstating what it can do. Passing depends on you, the time you put into your study, and how the exam goes on the day. What FortifyLearn gives you is the realistic CLI practice the exam tests for — not a guarantee. (For more on what PBQs are and how to prepare for them, see our explainer: What is a CompTIA PBQ? at /what-is-a-comptia-pbq.)',
+  },
+  {
+    q: 'What if a lab breaks or I have a question?',
+    a: 'Email the FortifyLearn Support Team at fortifylearn@cy-sec.co.uk. Lab issues are usually fixed within a working day. We can also help with general platform and study questions.',
+  },
+  {
+    q: 'Can I get a refund?',
+    a: "If you've bought a pack but haven't accessed any lab yet, email info@cy-sec.co.uk within 14 days and we'll issue a full refund. Once you've started any lab, the pack counts as performance-begun digital content under UK consumer law and the 14-day right of withdrawal lapses — but your statutory rights under the Consumer Rights Act 2015 still apply if a lab is faulty or not as described. Full terms in our Terms of Service.",
+  },
+  {
+    q: 'How does FortifyLearn fit alongside other Network+ prep tools?',
+    a: 'Different categories of prep complement each other. Video-led courses build conceptual understanding. Multiple-choice question banks test written-question recall and timing. Click-through simulators give you exam-format familiarity. FortifyLearn fits in the practical-CLI / hands-on category — typing commands in a Cisco IOS-style switch or router terminal, working through realistic network topology faults, reading packet captures, triaging multi-site SNMP alerts. Many learners use a video course for theory, a question bank for MCQ drilling, and FortifyLearn for the PBQ practice — they cover different parts of the prep stack.',
+  },
 ];
 
 export default function NetworkPlusLabsPage() {
@@ -101,15 +136,26 @@ export default function NetworkPlusLabsPage() {
     <>
       <Helmet>
         <title>CompTIA Network+ N10-009 Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="10 hands-on Network+ N10-009 simulation labs across 2 tiers. Live Cisco IOS environments, FL-NETSIM network topology, NETCAP packet analyser, and NETPULSE NMS. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
+        <meta name="description" content="10 hands-on Network+ N10-009 simulation labs across 2 tiers. Cisco IOS-style CLI environments, FL-NETSIM network topology, NETCAP packet analyser, and NETPULSE NMS. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
         <meta name="keywords" content="CompTIA Network+ labs, N10-009 practice, Network+ PBQ simulation, Cisco IOS troubleshooting, VLAN ACL labs, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-network-plus-labs" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'FAQPage',
+            mainEntity: FAQ.map(item => ({
+              '@type': 'Question',
+              name: item.q,
+              acceptedAnswer: { '@type': 'Answer', text: item.a },
+            })),
+          })}
+        </script>
       </Helmet>
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden min-h-[500px] flex items-center">
         <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1920&q=80&fit=crop" alt="" className="w-full h-full object-cover object-center" />
+          <img src="/screenshots/fl-netcap.png" alt="" className="w-full h-full object-cover object-center" />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg,rgba(6,14,31,0.97) 0%,rgba(11,29,58,0.95) 45%,rgba(8,80,120,0.80) 100%)' }} />
           <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: 'linear-gradient(rgba(8,145,178,1) 1px,transparent 1px),linear-gradient(to right,rgba(8,145,178,1) 1px,transparent 1px)', backgroundSize: '48px 48px' }} />
         </div>
@@ -120,11 +166,11 @@ export default function NetworkPlusLabsPage() {
             </div>
             <h1 className="text-4xl lg:text-5xl font-black text-white mb-5" style={{ letterSpacing: '-1.5px', lineHeight: 1.1 }}>
               Network+ practice labs.<br />
-              <span style={{ background: 'linear-gradient(90deg,#7DD3E8,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Live Cisco IOS.</span><br />
-              Real topologies.
+              <span style={{ background: 'linear-gradient(90deg,#7DD3E8,#0891B2)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Cisco IOS practice.</span><br />
+              Realistic topologies.
             </h1>
             <p className="text-[15px] text-white/60 leading-relaxed mb-7 max-w-lg">
-              <strong className="text-white/90">CompTIA Network+ N10-009 performance-based questions</strong> test you on troubleshooting live Cisco IOS faults — VLANs, ACLs, routing, DHCP, port security. FortifyLearn gives you live network topologies, a packet analyser, and an NMS console across 10 labs.
+              <strong className="text-white/90">CompTIA Network+ N10-009 performance-based questions</strong> test you on troubleshooting Cisco IOS-style CLI faults — VLANs, ACLs, routing, DHCP, port security. FortifyLearn gives you live network topologies, a packet analyser, and an NMS console across 10 labs.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
@@ -135,17 +181,17 @@ export default function NetworkPlusLabsPage() {
               </a>
             </div>
             <div className="flex gap-4 flex-wrap">
-              {['10 labs across 2 tiers', 'Free taster labs', 'Live Cisco IOS + visual tools', 'Lifetime access'].map(t => (
+              {['10 labs across 2 tiers', 'Free taster labs', 'Cisco IOS-style + visual tools', 'Lifetime access'].map(t => (
                 <span key={t} className="flex items-center gap-1.5 text-xs text-white/40"><span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]/60" />{t}</span>
               ))}
             </div>
           </div>
           <div className="relative hidden lg:block">
             <div className="text-[10px] font-bold text-[#7DD3E8] tracking-wider uppercase absolute -top-4 left-4 bg-gradient-to-r from-[#0B1D3A] to-[#0891B2] px-3 py-1.5 rounded-md z-10">
-              FL-NETSIM v2.0 — live Cisco IOS environment
+              FL-NETSIM v2.0 — Cisco IOS-style environment
             </div>
             <div className="rounded-xl overflow-hidden shadow-2xl border border-white/10">
-              <img src="/screenshots/fl-netsim.png" alt="FL-NETSIM v2.0 — live Cisco IOS switch terminal inside a FortifyLearn Network+ lab" className="w-full" />
+              <img src="/screenshots/fl-netsim.png" alt="FL-NETSIM v2.0 — Cisco IOS-style switch terminal inside a FortifyLearn Network+ lab" className="w-full" />
             </div>
           </div>
         </div>
@@ -156,7 +202,7 @@ export default function NetworkPlusLabsPage() {
         <div className="max-w-6xl mx-auto px-8 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-2 space-y-4">
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              The <span className="font-semibold text-[#0891B2]">CompTIA Network+ N10-009 exam</span> includes performance-based questions requiring you to diagnose and fix live network faults — VLAN trunk misconfigurations, ACL errors, DHCP exhaustion, asymmetric routing. FortifyLearn's <span className="font-semibold text-[#0891B2]">Network+ practice labs</span> give you real Cisco IOS environments across 10 scenario labs.
+              The <span className="font-semibold text-[#0891B2]">CompTIA Network+ N10-009 exam</span> includes performance-based questions requiring you to diagnose and fix live network faults — VLAN trunk misconfigurations, ACL errors, DHCP exhaustion, asymmetric routing. FortifyLearn's <span className="font-semibold text-[#0891B2]">Network+ practice labs</span> give you Cisco IOS-style CLI environments across 10 scenario labs.
             </p>
             <p className="text-[15px] text-slate-500 leading-relaxed">
               Foundation Labs covers the core troubleshooting scenarios — DNS, default gateway, DMZ ACL, dual VLAN routing, and a complex enterprise multi-fault. Advanced Labs adds <strong className="text-[#0B1D3A]">NETCAP Analyzer</strong> for packet capture analysis and <strong className="text-[#0B1D3A]">NETPULSE NMS</strong> for multi-site SNMP monitoring — the scenarios most candidates are underprepared for.
@@ -240,6 +286,58 @@ export default function NetworkPlusLabsPage() {
                   <span className="text-[10px] font-semibold px-2.5 py-1 rounded-full bg-[#e0f2f9] text-[#0891B2] border border-[rgba(8,145,178,0.2)]">{tool.pack}</span>
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── How FortifyLearn fits in your prep stack (comparison strip) ── */}
+      <section className="bg-white py-14 px-8 border-t border-[rgba(8,145,178,0.1)]">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">How FortifyLearn fits in your prep stack</p>
+          <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-3" style={{ letterSpacing: '-0.8px' }}>Different tools cover different parts of the exam.</h2>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-2xl leading-relaxed">
+            CompTIA Network+ tests theory in MCQs and practical skill in PBQs. Different prep formats are good at different bits of that. Most learners use two or three of these together — they're complements, not substitutes.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { lbl: 'Video courses', good: 'Build conceptual understanding. Best for first-time learners getting their head around subnetting, OSI, routing fundamentals.', less: "Don't build the typing muscle memory PBQs test." },
+              { lbl: 'Question banks', good: 'Drill MCQ recall and exam timing. Best for the multiple-choice section and last-week revision.', less: "Don't replicate the PBQ interaction model." },
+              { lbl: 'Click-through simulators', good: "Familiarise you with the exam's visual format. Useful for first-look orientation.", less: 'Predetermined paths rather than free CLI input — less skill transfer to the live exam.' },
+              { lbl: 'Hands-on practical', good: 'Type real commands in a Cisco IOS-style CLI, work through realistic topology faults, read packet captures. Builds the muscle memory PBQs test.', less: "Single-format — pair with theory and MCQ resources for the full exam.", us: true },
+            ].map(c => (
+              <div key={c.lbl} className={`rounded-2xl p-5 ${c.us ? 'bg-[#0B1D3A] text-white border-2 border-[#0891B2] shadow-lg' : 'bg-[#F4F7FA] border border-[rgba(8,145,178,0.12)]'}`}>
+                <p className={`text-[11px] font-bold tracking-widest uppercase mb-2 ${c.us ? 'text-[#7DD3E8]' : 'text-[#0891B2]'}`}>{c.lbl}</p>
+                <p className={`text-[13px] leading-relaxed mb-3 ${c.us ? 'text-white/85' : 'text-slate-700'}`}>{c.good}</p>
+                <p className={`text-[12px] leading-relaxed ${c.us ? 'text-white/45' : 'text-slate-400'}`}>{c.less}</p>
+                {c.us && (
+                  <div className="mt-4 pt-4 border-t border-white/15">
+                    <p className="text-[11px] font-bold uppercase tracking-wider text-[#7DD3E8]">FortifyLearn fits here</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="text-[13px] text-slate-400 mt-6 max-w-2xl leading-relaxed">
+            Many learners use a video course for theory, a question bank for MCQ drilling, and FortifyLearn for PBQ practice. They cover different parts of the prep stack. <a href="/what-is-a-comptia-pbq" className="text-[#0891B2] font-semibold hover:underline">More on what PBQs actually test →</a>
+          </p>
+        </div>
+      </section>
+
+      {/* ── FAQ ── */}
+      <section className="bg-white py-14 px-8 border-t border-[rgba(8,145,178,0.1)]">
+        <div className="max-w-6xl mx-auto">
+          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">Common questions</p>
+          <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-8" style={{ letterSpacing: '-0.8px' }}>FAQ</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {FAQ.map((item, i) => (
+              <details key={i} className="group bg-[#F4F7FA] rounded-xl border border-[rgba(8,145,178,0.12)] overflow-hidden">
+                <summary className="flex items-center justify-between gap-4 p-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <p className="text-[15px] font-semibold text-[#0B1D3A]">{item.q}</p>
+                  <ChevronDown className="w-4 h-4 text-[#0891B2] flex-shrink-0 transition-transform group-open:rotate-180" strokeWidth={2.5} />
+                </summary>
+                <div className="px-5 pb-5 -mt-1 text-[14px] text-slate-600 leading-relaxed">{item.a}</div>
+              </details>
             ))}
           </div>
         </div>

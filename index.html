@@ -9,7 +9,7 @@
     <title>Cy-Sec Awareness and Consultancy</title>
     <meta name="description" content="Leading cybersecurity awareness training and consultancy services. Protect your organization with our comprehensive security solutions." />
     
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) — single library load serves both GA4 and Google Ads -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-LRMVJPVBMZ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -23,10 +23,14 @@
         'wait_for_update': 500
       });
 
+      // GA4 — analytics
       gtag('config', 'G-LRMVJPVBMZ', {
         'send_page_view': true,
         'cookie_flags': 'SameSite=None;Secure'
       });
+
+      // Google Ads — conversion tracking (gated by ad_storage consent above)
+      gtag('config', 'AW-16895669085');
 
       // Check if consent was previously granted
       (function() {

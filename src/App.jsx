@@ -39,6 +39,7 @@ import NetworkPlusLabsPage from '@/pages/NetworkPlusLabsPage';
 import APlusCore1LabsPage from '@/pages/APlusCore1LabsPage';
 import APlusCore2LabsPage from '@/pages/APlusCore2LabsPage';
 import WhatIsAComptiaPbqPage from '@/pages/WhatIsAComptiaPbqPage';
+import TasterPage from '@/pages/TasterPage';
 import CookieConsentBanner from '@/components/CookieConsentBanner';
 import usePageTracking from '@/hooks/usePageTracking';
 
@@ -91,14 +92,15 @@ function AppContent() {
                               location.pathname !== '/fortify-one/login' &&
                               location.pathname !== '/fortify-one/signup';
   const isAdminPage = location.pathname.startsWith('/admin');
+  const isTasterPage = location.pathname.startsWith('/taster/');
 
   // Adjust padding for new immersive home page design
   const isHomePage = location.pathname === '/';
-  const mainPaddingClass = isHomePage ? "pt-0" : (isFortifyOnePage || isAdminPage ? "pt-20" : "pt-24");
+  const mainPaddingClass = isHomePage || isTasterPage ? "pt-0" : (isFortifyOnePage || isAdminPage ? "pt-20" : "pt-24");
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      {!isAdminPage && <Navbar />}
+      {!isAdminPage && !isTasterPage && <Navbar />}
       
       <div className={`flex-grow ${mainPaddingClass}`}>
         <main>
@@ -128,6 +130,7 @@ function AppContent() {
             <Route path="/comptia-aplus-core1-labs" element={<APlusCore1LabsPage />} />
             <Route path="/comptia-aplus-core2-labs" element={<APlusCore2LabsPage />} />
             <Route path="/what-is-a-comptia-pbq" element={<WhatIsAComptiaPbqPage />} />
+            <Route path="/taster/:certSlug" element={<TasterPage />} />
             <Route path="/coming-soon" element={<ComingSoonPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
             <Route path="/terms-of-service" element={<TermsOfService />} />
@@ -169,7 +172,7 @@ function AppContent() {
         </main>
       </div>
 
-      {!isAdminPage && <Footer />}
+      {!isAdminPage && !isTasterPage && <Footer />}
       <CookieConsentBanner />
       <Toaster />
     </div>

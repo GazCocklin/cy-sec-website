@@ -308,13 +308,12 @@ export default function TasterPage() {
             Who built this
           </h2>
           <div className="flex items-start gap-4">
-            <div
-              className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
-              style={{ background: NAVY }}
-              aria-hidden="true"
-            >
-              <ShieldCheck size={22} style={{ color: TEAL }} />
-            </div>
+            <img
+              src="/logos/cysec-favicon.svg"
+              alt="Cy-Sec"
+              className="flex-shrink-0"
+              style={{ width: 48, height: 48 }}
+            />
             <div>
               <p className="text-base leading-relaxed mb-3" style={{ color: NAVY }}>
                 FortifyLearn is built by working cyber security practitioners. The labs exist because existing CompTIA prep tests recall — not the practical judgement you'll need on the job.

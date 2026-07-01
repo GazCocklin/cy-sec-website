@@ -93,31 +93,9 @@ export default function FortifyLearnPage() {
               style={{ background: 'rgba(255,255,255,.14)', border: '1px solid rgba(255,255,255,.28)' }}>
               30% of the exam is PBQs
             </div>
-            <div className="w-full max-w-[380px] rounded-[12px] overflow-hidden bg-white"
-              style={{ boxShadow: '0 30px 60px -18px rgba(0,0,0,.55)' }}>
-              <div className="flex items-center gap-2 px-3.5 py-[10px]"
-                style={{ background: '#f1f5f9', borderBottom: '0.5px solid #e2e8f0' }}>
-                <span className="w-[10px] h-[10px] rounded-full" style={{ background: '#ef4444' }} />
-                <span className="w-[10px] h-[10px] rounded-full" style={{ background: '#eab308' }} />
-                <span className="w-[10px] h-[10px] rounded-full" style={{ background: '#10b981' }} />
-                <span className="ml-2 text-[11px] font-mono" style={{ color: '#64748b' }}>fortifylearn.co.uk — Readiness</span>
-              </div>
-              <div className="p-5" style={{ color: '#0B1D3A' }}>
-                <div className="text-[11px] font-bold tracking-[0.1em] uppercase" style={{ color: '#64748b' }}>
-                  CompTIA Network+ · readiness projection
-                </div>
-                <div className="flex items-end gap-3 mt-2 mb-1">
-                  <span className="font-extrabold" style={{ fontSize: 54, lineHeight: 1, color: '#0891B2', letterSpacing: '-0.02em' }}>746</span>
-                  <span className="text-slate-500 text-[15px] mb-1.5">/ 900</span>
-                  <span className="mb-2.5 text-[11px] font-bold px-2 py-0.5 rounded-full"
-                    style={{ background: 'rgba(16,185,129,.12)', color: '#059669' }}>PASS</span>
-                </div>
-                <div className="text-[12px] text-slate-500 mb-3">Pass mark 720 · +126 pts this week</div>
-                <div className="h-[8px] rounded-full overflow-hidden mb-3" style={{ background: '#e2e8f0' }}>
-                  <div style={{ width: '83%', height: '100%', background: '#0891B2' }} />
-                </div>
-                <div className="text-[12px] text-slate-600">3 weakest domains flagged — jump straight into targeted labs.</div>
-              </div>
+            <div className="w-full max-w-[460px]">
+              <BrowserFrame label="fortifylearn.co.uk — Readiness" src="/screenshots/fl-readiness-score.png"
+                alt="FortifyLearn readiness projection: a 746 of 900 projected CompTIA Network+ score, marked pass" />
             </div>
           </div>
         </div>

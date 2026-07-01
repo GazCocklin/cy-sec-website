@@ -94,9 +94,9 @@ function AppContent() {
   const isAdminPage = location.pathname.startsWith('/admin');
   const isTasterPage = location.pathname.startsWith('/taster/');
 
-  // Adjust padding for new immersive home page design
-  const isHomePage = location.pathname === '/';
-  const mainPaddingClass = isHomePage || isTasterPage ? "pt-0" : (isFortifyOnePage || isAdminPage ? "pt-20" : "pt-24");
+  // Homepage now uses the standard fixed-navbar offset (was pt-0 for the old
+  // immersive dark hero, which self-handled the offset). Taster pages stay pt-0.
+  const mainPaddingClass = isTasterPage ? "pt-0" : (isFortifyOnePage || isAdminPage ? "pt-20" : "pt-24");
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">

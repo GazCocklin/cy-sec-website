@@ -92,9 +92,10 @@ function AppContent() {
                               location.pathname !== '/fortify-one/signup';
   const isAdminPage = location.pathname.startsWith('/admin');
 
-  // Adjust padding for new immersive home page design
-  const isHomePage = location.pathname === '/';
-  const mainPaddingClass = isHomePage ? "pt-0" : (isFortifyOnePage || isAdminPage ? "pt-20" : "pt-24");
+  // Homepage uses the standard fixed-navbar offset. (Was pt-0 for the old
+  // immersive dark hero, which self-handled the offset; the new white
+  // FortifyLearn hero needs the normal pt-24 like every other page.)
+  const mainPaddingClass = isFortifyOnePage || isAdminPage ? "pt-20" : "pt-24";
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">

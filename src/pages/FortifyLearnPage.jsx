@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { Terminal, ListChecks, TrendingUp, ArrowRight, Layers, GitBranch, Network } from 'lucide-react';
+import { Terminal, ListChecks, Lightbulb, ArrowRight, Layers, GitBranch, Network } from 'lucide-react';
 
 // Navbar + Footer are rendered globally in App.jsx — do NOT add them here.
 // Direction: bold, alternating full-bleed engine rows. Distinct from the
@@ -169,21 +169,21 @@ export default function FortifyLearnPage() {
         </div>
       </section>
 
-      {/* ── READINESS callout ── */}
+      {/* ── EVERY ANSWER EXPLAINED ── */}
       <section className="max-w-7xl mx-auto px-8 py-16">
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           <div>
             <div className="flex items-center gap-2 mb-3">
-              <TrendingUp size={18} style={{ color: TEAL }} strokeWidth={2.2} />
-              <span className="text-[11px] font-bold tracking-[0.14em] uppercase" style={{ color: TEAL }}>Readiness</span>
+              <Lightbulb size={18} style={{ color: TEAL }} strokeWidth={2.2} />
+              <span className="text-[11px] font-bold tracking-[0.14em] uppercase" style={{ color: TEAL }}>Study mode</span>
             </div>
-            <h2 className="text-3xl font-extrabold mb-3" style={{ color: NAVY, letterSpacing: '-0.02em' }}>Watch your score climb.</h2>
+            <h2 className="text-3xl font-extrabold mb-3" style={{ color: NAVY, letterSpacing: '-0.02em' }}>Every answer, explained.</h2>
             <p className="text-[17px] leading-relaxed text-slate-600 max-w-lg">
-              Every mock exam plots on your trajectory, so you can see the line moving toward the pass mark — and sit the real exam with evidence, not a gut feeling.
+              You don't just find out whether you were right — every question spells out why the correct answer works and why each other option doesn't. You learn the concept, not the answer key.
             </p>
           </div>
-          <BrowserFrame label="fortifylearn.co.uk — 14-day trajectory" src="/screenshots/fl-readiness-trajectory.png"
-            alt="FortifyLearn readiness trajectory: scaled mock-exam scores rising toward the pass mark over 14 days, up 166 points" />
+          <BrowserFrame label="fortifylearn.co.uk — Study Mode" src="/screenshots/fl-mcq-reasoning.png"
+            alt="FortifyLearn study mode: a multiple-choice question with the correct answer, a full explanation, and why each other option is wrong" />
         </div>
       </section>
 

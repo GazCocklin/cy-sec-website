@@ -62,6 +62,8 @@ In `/public/logos/`:
 |---|---|
 | `fl-exam-question.png` | **Exam Engine — question in progress** (NTP Drift PBQ, 1:29:35 timer, network diagram). Used on all 3 Exam Engine product cards, purchase-confirmation emails for Exam Engine buyers, and the ExamPrepSection Exam Engine card on every cert landing page. |
 | `fl-exam-results.png` | **Exam Engine — readiness outcome** (746/900 PASS, Focus three domains). Used in purchase-confirmation emails for Prep Bundle buyers and as the right-panel visual of the ExamPrepSection Prep Bundle callout on every cert landing page. |
+| `fl-readiness.png` | **Readiness dashboard — full** (746/900 PASS, Focus three weakest domains, 14-day trajectory). Used on the homepage `HeroFortifyLearn` visual. |
+| `fl-readiness-hero.png` | **Readiness — hero crop** (01-Jul-2026; native-res crop of `fl-readiness.png` to the score band + Focus three cards, mostly white so it pops on the gradient). Used on the `/fortifylearn` split hero. |
 | `fl-mcq-reasoning.png` | **MCQ Study Mode — full reasoning** (DNS cache poisoning question with CORRECT ANSWER + "Why the other options are wrong"). Used on the Exam Engine cards as the Study Mode visual reference, and the ExamPrepSection MCQ Study Mode card on every cert landing page. |
 | `fl-siem.png` | **Arclight SIEM v5.0.3** — CySA+ Advanced Labs signature tool. Also used as the right-panel visual on the store's promo hero. |
 | `fl-netscan.png` | NETSCAN PRO v4.2.1 (CySA+ Advanced Labs / Complete Labs) |
@@ -129,8 +131,9 @@ All button CTAs, highlights, borders, icon accents: `#0891B2` or navy→teal gra
 
 | Route | Purpose |
 |---|---|
-| `cy-sec.co.uk/` | Homepage (React, redesigned April 2026) |
+| `cy-sec.co.uk/` | Homepage — FortifyLearn-led refocus (01-Jul-2026): HeroFortifyLearn · ProofStripFL · ExamPrepSection (Sec+) · ConsultancyBand |
 | `cy-sec.co.uk/store` | FortifyLearn store (MARKETPLACE LAYOUT v4) |
+| `cy-sec.co.uk/fortifylearn` | FortifyLearn product deep-dive (rebuilt 01-Jul-2026, "Direction 3" — distinct product page, not a homepage clone) |
 | `cy-sec.co.uk/pbq-engine` | FortifyLearn PBQ Engine explainer |
 | `cy-sec.co.uk/comptia-network-plus-labs` | N+ cert landing page |
 | `cy-sec.co.uk/comptia-security-plus-labs` | Sec+ cert landing page |
@@ -589,6 +592,21 @@ Tier 1 (exam + MCQ + CySA CLI) complete. Remaining gaps:
 - Entitlement gap proper fix: add UUIDs + `fl_packs` rows for exam/prep_bundle/A+
 - Reviews strategy (Google Business Profile, G2) — once we have actual reviews, swap `config.meta` from "Foundation labs" etc. to ★ rating + sold count
 - Bundle pricing review — current £39.99 base / £39.99 A+ Core / £64.99 A+ Complete are working; revisit with real conversion data
+
+### Recently completed (01-Jul-2026 session)
+
+Homepage + `/fortifylearn` FortifyLearn-led refocus — two production deploys:
+
+- ✅ **Homepage recomposed** (commit `b15f226`) around FortifyLearn as the hero product. New components in `src/components/`: `HeroFortifyLearn.jsx` (white split hero, cert line "every CompTIA cert in our catalogue"), `ProofStripFL.jsx` (canon navy→teal proof strip), `ConsultancyBand.jsx` (Cy-Sec consultancy — vCISO / DORA / NIS2 / FortifyOne — real trust line: 1,000+ trained · 10+ countries · 6 frameworks). HomePage order: Hero · ProofStrip · `ExamPrepSection` (Sec+, SY0-701) · ConsultancyBand. Dropped LandingPageHero / PlatformsShowcase / WhyCySecSection / BottomCTASection.
+- ✅ **App.jsx navbar-offset fix** — removed the homepage `pt-0` special-case so the white hero clears the fixed navbar (pt-0 was for the retired dark immersive hero; taster pages keep pt-0).
+- ✅ **`/fortifylearn` rebuilt as a distinct product deep-dive** (commit `7b7f940`, "Direction 3" — bold alternating rows) so `/` and `/fortifylearn` are no longer near-twins. `src/pages/FortifyLearnPage.jsx` is self-contained (no shared homepage sections): split hero · "Two engines, one platform" · PBQ Engine row (dark) · Exam Engine row (light) · "Every answer, explained" Study Mode section · 3-step how-it-works · visual-tools grid · free-taster banner. Reusable `BrowserFrame({label, src, alt, dark})` helper.
+- ✅ **All four page screenshots real, used once each** — no synthetic UI (a hand-built score card was tried and rejected: nothing fake/synthetic). `fl-readiness-hero.png` (hero — native-res crop of `fl-readiness.png` to the 746/900 PASS band + Focus three) · `fl-lab-briefing.png` (PBQ Engine) · `fl-exam-question.png` (Exam Engine) · `fl-mcq-reasoning.png` (Study Mode). New asset committed: `fl-readiness-hero.png`. Transient crops (`fl-readiness-score.png`, `fl-readiness-trajectory.png`) were created then retired on staging — never reached main.
+
+**Open discrepancy flagged:** MCQ count now differs across surfaces — `/fortifylearn` and homepage `ProofStripFL` say **1,000 MCQs**, while store cards / product modal still say **2,000** (1,000 study + 1,000 exam). Reconcile to one honest figure.
+
+**Deliberately not promoted:** taster pages (`/taster/*`, still Phase-2-blocked, staging only). **Deliberately not mounted:** `PBQPacksSection.jsx` (holds the retired All-Access Bundle + a stale 2-cert lineup) — separate rebuild task.
+
+Production deploys: `dpl_8NRgZkAJ...` (homepage refocus, `b15f226`), `dpl_C6qho8r4...` (`/fortifylearn` Direction 3, `7b7f940`).
 
 ### Recently completed (26-Apr-2026 session)
 

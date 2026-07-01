@@ -87,13 +87,15 @@ export default function FortifyLearnPage() {
               </div>
             </div>
           </div>
-          <div className="relative flex items-center justify-center px-8 py-16 lg:py-20"
+          <div className="relative flex items-center justify-center px-8 lg:px-10 py-16 lg:py-20"
             style={{ background: 'linear-gradient(135deg,#0B1D3A 0%,#0E5F8A 55%,#0891B2 100%)' }}>
-            <div className="text-center text-white">
-              <div className="font-extrabold" style={{ fontSize: 92, lineHeight: 1, letterSpacing: '-0.03em' }}>30%</div>
-              <div className="uppercase tracking-[0.14em] mt-3 font-semibold" style={{ color: '#7DD3E8', fontSize: 13 }}>
-                of every exam is PBQs
-              </div>
+            <div className="absolute top-6 left-6 rounded-full text-white text-[12px] font-semibold px-3.5 py-1.5"
+              style={{ background: 'rgba(255,255,255,.14)', border: '1px solid rgba(255,255,255,.28)' }}>
+              30% of the exam is PBQs
+            </div>
+            <div className="w-full max-w-[440px]">
+              <BrowserFrame label="fortifylearn.co.uk — Readiness Report" src="/screenshots/fl-readiness.png"
+                alt="FortifyLearn readiness report: a projected pass score, weakest domains, and a score trajectory over time" />
             </div>
           </div>
         </div>

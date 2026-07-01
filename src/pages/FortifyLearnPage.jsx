@@ -93,9 +93,9 @@ export default function FortifyLearnPage() {
               style={{ background: 'rgba(255,255,255,.14)', border: '1px solid rgba(255,255,255,.28)' }}>
               30% of the exam is PBQs
             </div>
-            <div className="w-full max-w-[460px]">
-              <BrowserFrame label="fortifylearn.co.uk — Readiness" src="/screenshots/fl-readiness-score.png"
-                alt="FortifyLearn readiness projection: a 746 of 900 projected CompTIA Network+ score, marked pass" />
+            <div className="w-full max-w-[540px]">
+              <BrowserFrame label="fortifylearn.co.uk — Readiness" src="/screenshots/fl-readiness-hero.png"
+                alt="FortifyLearn readiness report: a 746 of 900 projected CompTIA Network+ score marked pass, with the three weakest domains to focus on" />
             </div>
           </div>
         </div>
@@ -177,13 +177,13 @@ export default function FortifyLearnPage() {
               <TrendingUp size={18} style={{ color: TEAL }} strokeWidth={2.2} />
               <span className="text-[11px] font-bold tracking-[0.14em] uppercase" style={{ color: TEAL }}>Readiness</span>
             </div>
-            <h2 className="text-3xl font-extrabold mb-3" style={{ color: NAVY, letterSpacing: '-0.02em' }}>Know when you're ready.</h2>
+            <h2 className="text-3xl font-extrabold mb-3" style={{ color: NAVY, letterSpacing: '-0.02em' }}>Watch your score climb.</h2>
             <p className="text-[17px] leading-relaxed text-slate-600 max-w-lg">
-              A projected pass score, your weakest domains, and a trajectory over time — so you sit the exam with evidence, not a gut feeling.
+              Every mock exam plots on your trajectory, so you can see the line moving toward the pass mark — and sit the real exam with evidence, not a gut feeling.
             </p>
           </div>
-          <BrowserFrame label="fortifylearn.co.uk — Readiness Report" src="/screenshots/fl-readiness.png"
-            alt="FortifyLearn readiness report: a projected pass score, weakest domains, and a score trajectory over time" />
+          <BrowserFrame label="fortifylearn.co.uk — 14-day trajectory" src="/screenshots/fl-readiness-trajectory.png"
+            alt="FortifyLearn readiness trajectory: scaled mock-exam scores rising toward the pass mark over 14 days, up 166 points" />
         </div>
       </section>
 

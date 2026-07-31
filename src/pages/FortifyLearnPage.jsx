@@ -135,8 +135,8 @@ export default function FortifyLearnPage() {
       <section className="border-t" style={{ borderColor: '#e2e8f0' }}>
         <div className="grid lg:grid-cols-2 items-stretch">
           <div className="flex items-center px-8 lg:px-12 py-12 order-last lg:order-first" style={{ background: '#F4F7FA' }}>
-            <BrowserFrame label="Exam Engine — question" src="/screenshots/fl-exam-question.png"
-              alt="FortifyLearn Exam Engine: a multiple-choice question with answer options" />
+            <BrowserFrame label="Exam Engine — Network+ MCQ" src="/screenshots/fl-mcq-netplus.png"
+              alt="FortifyLearn Exam Engine: a Network+ multiple-choice question with a spanning-tree exhibit and four answer options" />
           </div>
           <div className="px-8 lg:px-14 py-14 flex items-center">
             <div className="max-w-lg">

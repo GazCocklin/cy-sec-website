@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import HeroFortifyLearn from '@/components/HeroFortifyLearn';
+import PartnerProofStrip from '@/components/PartnerProofStrip';
 import ProofStripFL from '@/components/ProofStripFL';
 import ExamPrepSection from '@/components/ExamPrepSection';
 import ConsultancyBand from '@/components/ConsultancyBand';
@@ -14,6 +15,7 @@ const HomePage = () => (
     <link rel="canonical" href="https://cy-sec.co.uk/" />
     </Helmet>
     <HeroFortifyLearn />
+    <PartnerProofStrip />
     <ProofStripFL />
     <ExamPrepSection cert="secplus" certLabel="Security+" code="SY0-701" />
     <ConsultancyBand />

@@ -62,6 +62,7 @@ const CertNexusCertificationsPage = () => {
       <Helmet>
         <title>CertNexus Professional Certifications | CFR, CyberSAFE & More | Cy-Sec</title>
         <meta name="description" content="Explore official CertNexus certifications like CyberSec First Responder (CFR) and CyberSAFE. Choose from self-study, instructor-led, or hybrid learning options." />
+      <link rel="canonical" href="https://cy-sec.co.uk/training/certnexus-certifications" />
       </Helmet>
       <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">

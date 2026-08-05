@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Award, Users, GraduationCap, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -21,6 +22,11 @@ const InstructorLedPage = () => {
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <Helmet>
+        <title>Instructor-Led CompTIA Bootcamps | Live Online Training | Cy-Sec</title>
+        <meta name="description" content="Live instructor-led CompTIA bootcamps for Network+, Security+ and CySA+. Official CompTIA materials, hands-on labs, exam voucher and post-course instructor support included." />
+        <link rel="canonical" href="https://cy-sec.co.uk/training/instructor-led" />
+      </Helmet>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}

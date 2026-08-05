@@ -31,6 +31,7 @@ const SecuritySuitePage = () => {
       <Helmet>
         <title>ISO 27001 & DORA Compliance Platform UK | FortifyOne by Cy-Sec</title>
         <meta name="description" content="FortifyOne is Cy-Sec's GRC platform for UK businesses. Automate ISO 27001, NIST CSF 2.0, DORA, NIS2 and PCI-DSS compliance. Includes vendor risk management, AI risk assessments, and security maturity scoring." />
+      <link rel="canonical" href="https://cy-sec.co.uk/fortify-one" />
       </Helmet>
 
       <SecuritySuiteHero handleGetStarted={handleGetStarted} handleExplorePlans={handleExplorePlans} />

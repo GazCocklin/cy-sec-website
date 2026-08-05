@@ -135,9 +135,9 @@ const PricingPlans = () => {
             alt="FortifyOne Pricing" 
             className="h-16 w-auto mb-8"
           />
-          <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6 mt-2">
+          <h1 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6 mt-2">
             Flexible Plans for <span className="gradient-text">Every Business</span>
-          </h2>
+          </h1>
           <p className="text-xl text-slate-600 mb-8 max-w-3xl mx-auto">
             Choose a subscription or a one-time assessment. All our solutions are designed to be flexible, powerful, and affordable for SMBs.
           </p>

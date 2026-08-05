@@ -110,6 +110,7 @@ export default function ContactPage() {
       <Helmet>
         <title>Contact Us | Cy-Sec</title>
         <meta name="description" content="Get in touch with the Cy-Sec team about vCISO, compliance, training, or our GRC platforms." />
+      <link rel="canonical" href="https://cy-sec.co.uk/contact" />
       </Helmet>
 
       <div className="max-w-6xl mx-auto">

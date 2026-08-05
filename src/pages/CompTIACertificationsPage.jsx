@@ -70,6 +70,7 @@ export default function CompTIACertificationsPage() {
       <Helmet>
         <title>CompTIA Professional Certifications | Self-Study & Instructor-Led | Cy-Sec</title>
         <meta name="description" content="Official CompTIA certification training from an Authorised Partner. Network+, Security+, CySA+, Cloud+ and AI Essentials — self-study, instructor-led and hybrid options." />
+      <link rel="canonical" href="https://cy-sec.co.uk/training/comptia-certifications" />
       </Helmet>
 
       {/* ── HERO ── */}

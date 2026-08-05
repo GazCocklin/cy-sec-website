@@ -9,6 +9,7 @@ const PrivacyPolicy = () => {
       <Helmet>
         <title>Privacy policy - Cy-Sec</title>
         <meta name="description" content="Privacy policy for Cy-Sec Awareness and Consultancy Ltd. How we collect, use, store and protect personal data across cy-sec.co.uk, FortifyLearn and FortifyOne." />
+      <link rel="canonical" href="https://cy-sec.co.uk/privacy-policy" />
       </Helmet>
 
       <div className="max-w-4xl mx-auto">

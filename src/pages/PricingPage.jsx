@@ -8,6 +8,7 @@ const PricingPage = () => {
       <Helmet>
         <title>Pricing Plans - Cy-Sec Cybersecurity Solutions</title>
         <meta name="description" content="Flexible pricing plans for SMBs. Choose from monthly subscriptions or one-time assessments to fit your cybersecurity needs." />
+      <link rel="canonical" href="https://cy-sec.co.uk/pricing" />
       </Helmet>
       
       <PricingPlans />

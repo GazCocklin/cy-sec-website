@@ -14,9 +14,9 @@ const SecuritySuiteHero = ({ handleGetStarted, handleExplorePlans }) => {
             alt="FortifyOne" 
             className="w-[280px] md:w-[350px] lg:w-[400px] h-auto mb-6"
           />
-          <p className="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto mb-8 mt-2">
+          <h1 className="text-xl font-normal text-slate-600 leading-relaxed max-w-3xl mx-auto mb-8 mt-2">
             All your cyber risk and compliance. One platform. Total control.
-          </p>
+          </h1>
 
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5, delay: 0.3 }} className="max-w-3xl mx-auto mb-10 p-6 bg-blue-500/10 rounded-xl border border-blue-500/20 shadow-lg">
             <div className="flex flex-col sm:flex-row items-center justify-center text-center sm:text-left">

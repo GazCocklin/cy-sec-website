@@ -9,6 +9,7 @@ const TermsOfService = () => {
       <Helmet>
         <title>Terms of service - Cy-Sec</title>
         <meta name="description" content="Terms of service for Cy-Sec Awareness and Consultancy Ltd, covering FortifyLearn lab purchases, FortifyOne subscriptions, and use of the cy-sec.co.uk website." />
+      <link rel="canonical" href="https://cy-sec.co.uk/terms-of-service" />
       </Helmet>
 
       <div className="max-w-4xl mx-auto">

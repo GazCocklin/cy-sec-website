@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import { motion } from 'framer-motion';
 import { ArrowRight, CheckCircle, Award, Brain, GraduationCap, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -21,6 +22,11 @@ const HybridCoursesPage = () => {
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <Helmet>
+        <title>Hybrid CompTIA Courses | Live Instructor Sessions + Self-Study | Cy-Sec</title>
+        <meta name="description" content="Hybrid CompTIA training combining CertMaster self-study with weekly live instructor sessions and dedicated tutor support. Network+, Security+ and CySA+ modules with exam voucher included." />
+        <link rel="canonical" href="https://cy-sec.co.uk/training/hybrid" />
+      </Helmet>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}

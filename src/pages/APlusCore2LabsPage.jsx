@@ -182,10 +182,10 @@ export default function APlusCore2LabsPage() {
           </div>
           <div className="relative hidden lg:block">
             <div className="text-[10px] font-bold text-[#7DD3E8] tracking-wider uppercase absolute -top-4 left-4 bg-gradient-to-r from-[#0B1D3A] to-[#0891B2] px-3 py-1.5 rounded-md z-10">
-              FortifyLearn admin console — placeholder
+              FortifyLearn admin console — in development
             </div>
             <div className="rounded-xl overflow-hidden shadow-2xl border border-white/10">
-              <img src="/screenshots/fl-fortiguard.png" alt="FortifyLearn admin console placeholder for A+ Core 2 OS and security labs" className="w-full" />
+              <img src="/screenshots/fl-fortiguard.png" alt="FortifyLearn admin console preview for A+ Core 2 OS and security labs" className="w-full" />
             </div>
           </div>
         </div>
@@ -220,13 +220,13 @@ export default function APlusCore2LabsPage() {
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Two packs. Ten labs. Mapped to every domain.</h2>
           <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Foundation Labs covers the core 220-1202 scenarios. Advanced Labs adds the harder incident response and ransomware workflows. Each lab is being authored to map to one or more A+ Core 2 objectives.</p>
 
-          <div className="flex border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
+          <div className="flex overflow-x-auto border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
               { id: 'p1', label: 'Foundation', meta: '5 labs · £19.99' },
               { id: 'p2', label: 'Advanced',   meta: '5 labs · £19.99' },
             ].map(t => (
               <button key={t.id} onClick={() => setTab(t.id)}
-                className={`px-6 py-3 text-sm font-semibold border-b-2 -mb-0.5 transition-all ${tab === t.id ? 'text-[#0B1D3A] border-[#0891B2]' : 'text-slate-400 border-transparent hover:text-slate-600'}`}>
+                className={`px-4 sm:px-6 py-3 text-sm font-semibold border-b-2 -mb-0.5 transition-all whitespace-nowrap shrink-0 ${tab === t.id ? 'text-[#0B1D3A] border-[#0891B2]' : 'text-slate-400 border-transparent hover:text-slate-600'}`}>
                 {t.label}
                 <span className={`ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full ${tab === t.id ? 'bg-[#e0f2f9] text-[#0891B2]' : 'bg-slate-100 text-slate-400'}`}>{t.meta}</span>
               </button>

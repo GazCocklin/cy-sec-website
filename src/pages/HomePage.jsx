@@ -11,6 +11,7 @@ const HomePage = () => (
     <Helmet>
       <title>Cybersecurity Leadership, Compliance & Training | Cy-Sec</title>
       <meta name="description" content="vCISO leadership, DORA & NIS2 compliance sprints, CompTIA certified training, and the FortifyOne compliance platform. One trusted partner." />
+    <link rel="canonical" href="https://cy-sec.co.uk/" />
     </Helmet>
     <HeroFortifyLearn />
     <ProofStripFL />

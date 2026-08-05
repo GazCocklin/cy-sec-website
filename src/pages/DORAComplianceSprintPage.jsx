@@ -115,6 +115,7 @@ const DORAComplianceSprintPage = () => {
       <Helmet>
         <title>DORA Compliance Sprint | Cy-Sec</title>
         <meta name="description" content="Accelerate your path to Digital Operational Resilience Act (DORA) compliance with Cy-Sec's specialized sprint service. Expert gap analysis, remediation, and reporting for financial entities." />
+      <link rel="canonical" href="https://cy-sec.co.uk/dora-compliance" />
       </Helmet>
 
       {/* Hero Section */}

@@ -82,6 +82,7 @@ export default function FortifyOnePage() {
       <Helmet>
         <title>FortifyOne GRC Platform — Compliance Management | Cy-Sec</title>
         <meta name="description" content="FortifyOne is a GRC compliance platform covering ISO 27001, DORA, NIS2, NIST CSF 2.0 and GDPR. Gap analysis, vendor risk, DPIA tools and audit-ready reports." />
+      <link rel="canonical" href="https://cy-sec.co.uk/fortifyone" />
       </Helmet>
 
       {/* ── HERO ── */}

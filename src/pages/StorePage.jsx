@@ -1631,6 +1631,7 @@ export default function StorePage() {
       <Helmet>
         <title>FortifyLearn Store — CompTIA exam prep bundles | Cy-Sec</title>
         <meta name="description" content="Realistic CompTIA PBQ simulation labs and a full Exam Engine with Study Mode + Exam Mode. Network+, Security+, CySA+ and A+ (Core 1 + Core 2) exam prep bundles from £39.99 — save up to £64.95 vs à la carte. Lifetime access, 14-day refund." />
+      <link rel="canonical" href="https://cy-sec.co.uk/store" />
       </Helmet>
 
       {showModal && (

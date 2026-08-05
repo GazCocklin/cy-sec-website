@@ -21,6 +21,7 @@ const VCISOPage = () => {
       <Helmet>
         <title>Virtual CISO Service UK | vCISO for SMBs from £995/month | Cy-Sec</title>
         <meta name="description" content="Dedicated Virtual CISO service for UK small and mid-sized businesses. ISO 27001, DORA, NIS2 compliance support, FortifyOne platform included. Bronze from £995/month, Silver £2,250/month, Gold £4,500/month." />
+      <link rel="canonical" href="https://cy-sec.co.uk/vciso" />
       </Helmet>
 
       <section className="relative h-screen flex items-center justify-center overflow-hidden">

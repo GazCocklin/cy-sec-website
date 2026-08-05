@@ -48,6 +48,7 @@ const SelfStudyModulesPage = () => {
       <Helmet>
         <title>Self-Study CompTIA Modules | Cy-Sec</title>
         <meta name="description" content="Master CompTIA certifications at your own pace. Explore self-study modules for Network+, Security+, CySA+, Cloud+, and AI Essentials." />
+      <link rel="canonical" href="https://cy-sec.co.uk/training/self-study" />
       </Helmet>
       <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">

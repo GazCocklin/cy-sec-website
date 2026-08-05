@@ -82,6 +82,7 @@ const NIS2CompliancePage = () => {
       <Helmet>
         <title>NIS2 Compliance for UK & EU Businesses | Cy-Sec</title>
         <meta name="description" content="Cy-Sec helps businesses achieve NIS2 compliance quickly. Book a readiness review, avoid massive fines, and secure your supply chain against cyber threats." />
+      <link rel="canonical" href="https://cy-sec.co.uk/nis2-compliance" />
       </Helmet>
 
       {/* HERO SECTION */}

@@ -226,14 +226,14 @@ export default function NetworkPlusLabsPage() {
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Two packs. Ten labs. One progression.</h2>
           <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Foundation Labs builds CLI troubleshooting skills. Advanced Labs adds FL-NETSIM, NETCAP Analyzer, and NETPULSE NMS.</p>
 
-          <div className="flex border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
+          <div className="flex overflow-x-auto border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
               { id: 'p1', label: 'Foundation', meta: '5 labs · £19.99' },
               { id: 'p2', label: 'Advanced', meta: '5 labs · £19.99' },
               { id: 'complete', label: 'Complete', meta: '10 labs · £32.99' },
             ].map(t => (
               <button key={t.id} onClick={() => setTab(t.id)}
-                className={`px-6 py-3 text-sm font-semibold border-b-2 -mb-0.5 transition-all ${tab === t.id ? 'text-[#0B1D3A] border-[#0891B2]' : 'text-slate-400 border-transparent hover:text-slate-600'}`}>
+                className={`px-4 sm:px-6 py-3 text-sm font-semibold border-b-2 -mb-0.5 transition-all whitespace-nowrap shrink-0 ${tab === t.id ? 'text-[#0B1D3A] border-[#0891B2]' : 'text-slate-400 border-transparent hover:text-slate-600'}`}>
                 {t.label}
                 <span className={`ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full ${tab === t.id ? 'bg-[#e0f2f9] text-[#0891B2]' : 'bg-slate-100 text-slate-400'}`}>{t.meta}</span>
               </button>

@@ -39,7 +39,7 @@ export default function HeroFortifyLearn() {
 
       <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
         {/* Copy */}
-        <div>
+        <div className="min-w-0">
           <div className="flex items-center gap-3.5 mb-[22px]">
             <img src="/logos/fortifylearn-logo.svg" alt="FortifyLearn" className="h-8 w-auto" />
             <span className="w-px h-[22px]" style={{ background: '#cbd5e1' }} />
@@ -48,7 +48,7 @@ export default function HeroFortifyLearn() {
             </span>
           </div>
 
-          <h1 className="font-extrabold text-[#0B1D3A]" style={{ fontSize: 62, lineHeight: 1.04, letterSpacing: '-0.025em' }}>
+          <h1 className="font-extrabold text-[#0B1D3A]" style={{ fontSize: 'clamp(2.375rem, 9.5vw, 3.875rem)', lineHeight: 1.04, letterSpacing: '-0.025em' }}>
             Not Just Training.<br />
             <span style={{ background: GRAD_ACCENT, WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>
               Transformation.
@@ -67,7 +67,7 @@ export default function HeroFortifyLearn() {
               href="https://fortifylearn.co.uk"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 rounded-xl px-[30px] py-[15px] text-white font-semibold text-base transition-all hover:brightness-110"
+              className="inline-flex items-center justify-center gap-2.5 rounded-xl px-[30px] py-[15px] text-white font-semibold text-base transition-all hover:brightness-110 w-full sm:w-auto"
               style={{ background: GRAD_ACCENT, boxShadow: '0 8px 24px -6px rgba(8,145,178,.5)' }}
             >
               Start Free Taster Labs <ArrowRight size={18} strokeWidth={2.5} />
@@ -75,7 +75,7 @@ export default function HeroFortifyLearn() {
             {/* Internal */}
             <Link
               to="/fortifylearn"
-              className="inline-flex items-center rounded-xl px-7 py-[15px] font-semibold text-base transition-colors"
+              className="inline-flex items-center justify-center rounded-xl px-7 py-[15px] font-semibold text-base transition-colors w-full sm:w-auto"
               style={{ border: '1.5px solid #0891B2', color: '#0891B2' }}
             >
               Explore Exam Prep

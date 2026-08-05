@@ -60,7 +60,12 @@ export default function PartnerProofStrip() {
             Companies already choosing{' '}
             <span
               className="bg-clip-text text-transparent"
-              style={{ background: 'linear-gradient(135deg,#0891B2,#06B6D4)' }}
+              style={{
+                background: 'linear-gradient(135deg,#0891B2,#06B6D4)',
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
             >
               Cy-Sec
             </span>

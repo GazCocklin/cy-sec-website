@@ -101,7 +101,7 @@ const TermsOfService = () => {
             <section>
               <h2 className="text-2xl font-bold text-slate-900 mb-3">7. Intellectual property</h2>
               <p>All content on cy-sec.co.uk, within FortifyLearn, FortifyOne and our training materials — including labs, PBQ banks, simulations, tools such as Arclight SIEM, NETSCAN PRO, FORTIGUARD Policy Auditor, FL-NETSIM, NETCAP Analyzer, and NETPULSE NMS, written explanations, screenshots, logos and branding — is owned by Cy-Sec or our licensors and protected by UK and international copyright and trademark law. Your purchase grants a licence to use the content for your own learning; it does not transfer any ownership.</p>
-              <p className="mt-3">CompTIA, Network+, Security+, CySA+ and related marks are trademarks of CompTIA, Inc. Cy-Sec and FortifyLearn are independent and not affiliated with, endorsed by, or sponsored by CompTIA.</p>
+              <p className="mt-3">CompTIA, Network+, Security+, CySA+ and related marks are trademarks of CompTIA, Inc. Cy-Sec is an authorised CompTIA training partner. FortifyLearn's practice labs, questions and simulations are independently developed by Cy-Sec; they are not official CompTIA exam content and are not endorsed or sponsored by CompTIA.</p>
             </section>
 
             <section>

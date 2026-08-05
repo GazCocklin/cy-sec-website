@@ -8,7 +8,6 @@ import { CartProvider } from '@/hooks/useCart';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import HomePage from '@/pages/HomePage';
-import SecuritySuitePage from '@/pages/SecuritySuitePage';
 import SecuritySuiteLogin from '@/pages/SecuritySuiteLogin';
 import SignUpPage from '@/pages/SignUpPage';
 import ContactPage from '@/pages/ContactPage'; 
@@ -110,7 +109,7 @@ function AppContent() {
             <Route path="/training/instructor-led" element={<InstructorLedPage />} />
             <Route path="/training/comptia-certifications" element={<CompTIACertificationsPage />} />
             <Route path="/training/certnexus-certifications" element={<CertNexusCertificationsPage />} />
-            <Route path="/fortify-one" element={<SecuritySuitePage />} />
+            <Route path="/fortify-one" element={<Navigate to="/fortifyone" replace />} />
             <Route path="/fortify-one/login" element={<SecuritySuiteLogin />} />
             <Route path="/login" element={<SecuritySuiteLogin />} />
             <Route path="/fortify-one/signup" element={<SignUpPage />} />
@@ -145,7 +144,7 @@ function AppContent() {
             <Route path="/fortify-one/calendar" element={<ProtectedRoute><SecurityCalendar /></ProtectedRoute>} />
 
             {/* Legacy /security-suite/* redirects → /fortify-one/* */}
-            <Route path="/security-suite" element={<Navigate to="/fortify-one" replace />} />
+            <Route path="/security-suite" element={<Navigate to="/fortifyone" replace />} />
             <Route path="/security-suite/login" element={<Navigate to="/fortify-one/login" replace />} />
             <Route path="/security-suite/signup" element={<Navigate to="/fortify-one/signup" replace />} />
             <Route path="/security-suite/dashboard" element={<Navigate to="/fortify-one/dashboard" replace />} />

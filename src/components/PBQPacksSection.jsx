@@ -25,7 +25,7 @@ const packs = [
   },
   {
     name: 'All Access Bundle',
-    code: 'N10-009 + SY0-701 + CS0-003',
+    code: 'N10-009 + SY0-701 + CS0-004',
     cert: 'Network+ · Security+ · CySA+',
     labs: 15,
     price: '£39.99',
@@ -210,7 +210,7 @@ const PBQPacksSection = () => {
           <div className="flex items-center gap-3">
             <img src="/logos/comptia-cysa-plus.svg" alt="CySA+" className="w-8 h-8 object-contain" />
             <div>
-              <p className="font-semibold text-slate-700 text-sm">CySA+ CS0-003 pack also available</p>
+              <p className="font-semibold text-slate-700 text-sm">CySA+ CS0-004 pack also available</p>
               <p className="text-xs text-slate-500">5 threat-hunt labs — web shells, APTs, C2 detection &amp; more.</p>
             </div>
           </div>

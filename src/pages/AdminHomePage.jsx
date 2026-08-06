@@ -708,7 +708,7 @@ const PricingView = () => {
   const CERT_THEME = {
     'CompTIA Network+':  { accent: '#10b981', bg: 'bg-emerald-50',  badge: 'bg-emerald-100 text-emerald-700', border: 'border-emerald-200', code: 'N10-009' },
     'CompTIA Security+': { accent: '#0891B2', bg: 'bg-[#e0f2f9]',   badge: 'bg-[#b3e0f0] text-[#0E5F8A]',   border: 'border-[#b3e0f0]',  code: 'SY0-701' },
-    'CompTIA CySA+':     { accent: '#0B1D3A', bg: 'bg-[#e8f4fb]',   badge: 'bg-[#b3cfe0] text-[#0B1D3A]',   border: 'border-[#b3cfe0]',  code: 'CS0-003' },
+    'CompTIA CySA+':     { accent: '#0B1D3A', bg: 'bg-[#e8f4fb]',   badge: 'bg-[#b3cfe0] text-[#0B1D3A]',   border: 'border-[#b3cfe0]',  code: 'CS0-004' },
   };
   const DIFF_LABEL  = { taster:'Taster', beginner:'Easy', intermediate:'Inter.', advanced:'Hard', expert:'Expert' };
   const DIFF_COLOUR = {

@@ -21,7 +21,7 @@ const F1_STATS = [
 const CERT_LABS = [
   { code: 'N10-009', name: 'Network+', img: '/screenshots/fl-netcap.png', tool: 'NETCAP Analyzer', href: '/comptia-network-plus-labs', accent: '#10b981' },
   { code: 'SY0-701', name: 'Security+', img: '/screenshots/fl-fortiguard.png', tool: 'FORTIGUARD Auditor', href: '/comptia-security-plus-labs', accent: '#0891B2' },
-  { code: 'CS0-003', name: 'CySA+', img: '/screenshots/fl-siem.png', tool: 'Arclight SIEM', href: '/comptia-cysa-plus-labs', accent: '#0B1D3A' },
+  { code: 'CS0-004', name: 'CySA+', img: '/screenshots/fl-siem.png', tool: 'Arclight SIEM', href: '/comptia-cysa-plus-labs', accent: '#0B1D3A' },
 ];
 
 export default function PlatformsShowcase() {

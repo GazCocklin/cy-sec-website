@@ -101,7 +101,7 @@ const CERTS = [
     key: 'cysa',
     title: 'CompTIA CySA+',
     short: 'CySA+',
-    code: 'CS0-003',
+    code: 'CS0-004',
     badge: '/logos/comptia-cysa-plus.svg',
     landingPage: '/comptia-cysa-plus-labs',
     includes: [

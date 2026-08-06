@@ -72,7 +72,7 @@ const Navbar = () => {
                         {[
                           { to: '/comptia-network-plus-labs',  label: 'CompTIA Network+ Labs',  code: 'N10-009' },
                           { to: '/comptia-security-plus-labs', label: 'CompTIA Security+ Labs', code: 'SY0-701' },
-                          { to: '/comptia-cysa-plus-labs',     label: 'CompTIA CySA+ Labs',     code: 'CS0-003' },
+                          { to: '/comptia-cysa-plus-labs',     label: 'CompTIA CySA+ Labs',     code: 'CS0-004' },
                           { to: '/comptia-aplus-core1-labs',   label: 'CompTIA A+ Core 1 Labs', code: '220-1201' },
                           { to: '/comptia-aplus-core2-labs',   label: 'CompTIA A+ Core 2 Labs', code: '220-1202' },
                         ].map(l => (

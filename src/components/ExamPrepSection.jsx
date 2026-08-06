@@ -14,7 +14,7 @@
 // Props:
 //   cert       — cert key (netplus | secplus | cysa)
 //   certLabel  — display label ("Network+" / "Security+" / "CySA+")
-//   code       — CompTIA exam code ("N10-009" / "SY0-701" / "CS0-003")
+//   code       — CompTIA exam code ("N10-009" / "SY0-701" / "CS0-004")
 //
 // Uses <a href="/store"> to match the navigation pattern already established on
 // the cert landing pages (Rule 5 <Link> migration deferred as a cross-page pass).

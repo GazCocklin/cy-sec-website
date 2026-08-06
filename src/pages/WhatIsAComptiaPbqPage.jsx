@@ -167,7 +167,7 @@ export default function WhatIsAComptiaPbqPage() {
           {[
             { code: 'N10-009', name: 'Network+', focus: 'Cisco-IOS-style CLI, network topologies, packet captures, VLAN and trunk configuration, ACL troubleshooting, IP addressing and subnetting under pressure.', href: '/comptia-network-plus-labs' },
             { code: 'SY0-701', name: 'Security+', focus: 'Linux CLI for hardening, firewall rule audits, log file analysis, certificate handling and PKI, MFA and access control configuration.', href: '/comptia-security-plus-labs' },
-            { code: 'CS0-003', name: 'CySA+', focus: 'SIEM alert triage, log correlation, threat hunting, vulnerability assessment, incident containment workflows, IOC identification.', href: '/comptia-cysa-plus-labs' },
+            { code: 'CS0-004', name: 'CySA+', focus: 'SIEM alert triage, log correlation, threat hunting, vulnerability assessment, incident containment workflows, IOC identification.', href: '/comptia-cysa-plus-labs' },
             { code: '220-1201', name: 'A+ Core 1', focus: 'Hardware diagnostics, mobile device sync, virtualisation configuration, network cable troubleshooting, multi-fault hardware triage.', href: '/comptia-aplus-core1-labs' },
             { code: '220-1202', name: 'A+ Core 2', focus: 'Windows admin and recovery, malware response, account and permission audits, software troubleshooting, OS recovery procedures.', href: '/comptia-aplus-core2-labs' },
           ].map(c => (

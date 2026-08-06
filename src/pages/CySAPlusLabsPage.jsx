@@ -46,7 +46,7 @@ function LabRow({ lab, taster }) {
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-[#0B1D3A] leading-snug">{lab.title}</p>
         <div className="flex gap-2 flex-wrap mt-1.5">
-          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[rgba(14,95,138,0.1)] text-[#0E5F8A]">CS0-003 · {lab.obj}</span>
+          <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-[rgba(14,95,138,0.1)] text-[#0E5F8A]">CS0-004 · {lab.obj}</span>
           {lab.time && <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">{lab.time} min</span>}
           <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded ${TOOL_STYLE[lab.tool] || 'bg-slate-100 text-slate-500'}`}>{lab.tool}</span>
         </div>
@@ -102,7 +102,7 @@ const FAQ = [
   },
   {
     q: 'Is FortifyLearn endorsed by CompTIA?',
-    a: 'Cy-Sec is a CompTIA Authorised Partner, which is a formal commercial relationship. The labs themselves are not officially endorsed by CompTIA — no third-party prep platform is. Every lab is mapped to specific CS0-003 exam objectives, but CompTIA does not certify or review external lab content.',
+    a: 'Cy-Sec is a CompTIA Authorised Partner, which is a formal commercial relationship. The labs themselves are not officially endorsed by CompTIA — no third-party prep platform is. Every lab is mapped to specific CS0-004 exam objectives, but CompTIA does not certify or review external lab content.',
   },
   {
     q: "What's the difference between Foundation Labs and Advanced Labs?",
@@ -137,9 +137,9 @@ export default function CySAPlusLabsPage() {
   return (
     <>
       <Helmet>
-        <title>CompTIA CySA+ CS0-003 Practice Labs | FortifyLearn — Cy-Sec</title>
-        <meta name="description" content="10 hands-on CySA+ CS0-003 simulation labs across 2 tiers. Realistic CLI investigation, Arclight SIEM triage, and NETSCAN PRO vulnerability assessment. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
-        <meta name="keywords" content="CompTIA CySA+ labs, CS0-003 practice, CySA+ PBQ simulation, SIEM triage, vulnerability assessment, CompTIA practice labs" />
+        <title>CompTIA CySA+ CS0-004 Practice Labs | FortifyLearn — Cy-Sec</title>
+        <meta name="description" content="10 hands-on CySA+ CS0-004 simulation labs across 2 tiers. Realistic CLI investigation, Arclight SIEM triage, and NETSCAN PRO vulnerability assessment. One-time purchase, Lifetime access. CompTIA Authorised Partner." />
+        <meta name="keywords" content="CompTIA CySA+ labs, CS0-004 practice, CySA+ PBQ simulation, SIEM triage, vulnerability assessment, CompTIA practice labs" />
         <link rel="canonical" href="https://cy-sec.co.uk/comptia-cysa-plus-labs" />
         <script type="application/ld+json">
           {JSON.stringify({
@@ -164,7 +164,7 @@ export default function CySAPlusLabsPage() {
         <div className="relative max-w-6xl mx-auto px-8 py-16 w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5 border text-xs font-bold tracking-wider uppercase text-[#7DD3E8]" style={{ background: 'rgba(8,145,178,0.15)', borderColor: 'rgba(8,145,178,0.35)' }}>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]" /> CS0-003 · CompTIA CySA+
+              <span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]" /> CS0-004 · CompTIA CySA+
             </div>
             <h1 className="text-4xl lg:text-5xl font-black text-white mb-5" style={{ letterSpacing: '-1.5px', lineHeight: 1.1 }}>
               CySA+ practice labs.<br />
@@ -172,7 +172,7 @@ export default function CySAPlusLabsPage() {
               Realistic analyst workflows.
             </h1>
             <p className="text-[15px] text-white/60 leading-relaxed mb-7 max-w-lg">
-              <strong className="text-white/90">CompTIA CySA+ CS0-003</strong> tests you on threat investigation, SIEM triage, and incident containment. FortifyLearn gives you realistic CLI environments, an interactive SIEM dashboard, and a vulnerability scanner — 10 labs across 2 tiers.
+              <strong className="text-white/90">CompTIA CySA+ CS0-004</strong> tests you on threat investigation, SIEM triage, and incident containment. FortifyLearn gives you realistic CLI environments, an interactive SIEM dashboard, and a vulnerability scanner — 10 labs across 2 tiers.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
@@ -206,17 +206,17 @@ export default function CySAPlusLabsPage() {
         <div className="max-w-6xl mx-auto px-8 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-2 space-y-4">
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              The <span className="font-semibold text-[#0891B2]">CompTIA CySA+ CS0-003 exam</span> is built around analyst workflows — investigating active compromises, triaging SIEM alerts, assessing vulnerability scan results, and making containment decisions. FortifyLearn's <span className="font-semibold text-[#0891B2]">CySA+ practice labs</span> put you inside those workflows directly: two packs of five scenario labs, progressing from CLI investigation fundamentals through interactive SIEM and vulnerability scanner tooling.
+              The <span className="font-semibold text-[#0891B2]">CompTIA CySA+ CS0-004 exam</span> is built around analyst workflows — investigating active compromises, triaging SIEM alerts, assessing vulnerability scan results, and making containment decisions. FortifyLearn's <span className="font-semibold text-[#0891B2]">CySA+ practice labs</span> put you inside those workflows directly: two packs of five scenario labs, progressing from CLI investigation fundamentals through interactive SIEM and vulnerability scanner tooling.
             </p>
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              Foundation Labs covers core CLI skills — log analysis, process investigation, brute force detection, lateral movement tracing, and a full APT campaign threat hunt. Advanced Labs introduces FortifyLearn's visual simulation tools: the <strong className="text-[#0B1D3A]">Arclight SIEM</strong> dashboard and <strong className="text-[#0B1D3A]">NETSCAN PRO</strong> vulnerability scanner, mirroring the tooling CS0-003 tests you on.
+              Foundation Labs covers core CLI skills — log analysis, process investigation, brute force detection, lateral movement tracing, and a full APT campaign threat hunt. Advanced Labs introduces FortifyLearn's visual simulation tools: the <strong className="text-[#0B1D3A]">Arclight SIEM</strong> dashboard and <strong className="text-[#0B1D3A]">NETSCAN PRO</strong> vulnerability scanner, mirroring the tooling CS0-004 tests you on.
             </p>
             <p className="text-[15px] text-slate-500 leading-relaxed">
               New to FortifyLearn? CySA+ doesn't have its own free taster lab — but the engine is identical across every cert. Try the <strong className="text-[#0B1D3A]">Network+</strong>, <strong className="text-[#0B1D3A]">Security+</strong> or <strong className="text-[#0B1D3A]">A+</strong> taster labs first to see the experience before you buy.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-3 lg:grid-cols-1 lg:gap-3">
-            {[['10', 'Labs across 2 tiers'], ['CS0-003', 'CompTIA exam code'], ['£32.99', 'Complete — all 10 labs']].map(([n, l]) => (
+            {[['10', 'Labs across 2 tiers'], ['CS0-004', 'CompTIA exam code'], ['£32.99', 'Complete — all 10 labs']].map(([n, l]) => (
               <div key={l} className="bg-[#F4F7FA] rounded-xl p-4 border border-[rgba(8,145,178,0.1)]">
                 <div className="text-2xl font-black text-[#0891B2]" style={{ letterSpacing: '-0.5px' }}>{n}</div>
                 <div className="text-xs text-slate-400 mt-1">{l}</div>
@@ -229,7 +229,7 @@ export default function CySAPlusLabsPage() {
       {/* ── Pack tabs ── */}
       <section className="bg-white py-14 px-8">
         <div className="max-w-6xl mx-auto">
-          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">CySA+ CS0-003 labs</p>
+          <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">CySA+ CS0-004 labs</p>
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Two packs. Ten labs. One progression.</h2>
           <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Start with CLI fundamentals in Foundation Labs, then add interactive tooling in Advanced Labs. Or go Complete for the full 10-lab journey.</p>
 
@@ -262,10 +262,10 @@ export default function CySAPlusLabsPage() {
               )}
             </div>
             <div>
-              {tab === 'p1' && <PackCard title="CySA+ Foundation Labs" code="CS0-003 · Foundation" price="19.99" labs={5} />}
-              {tab === 'p2' && <PackCard title="CySA+ Advanced Labs" code="CS0-003 · Advanced" price="19.99" labs={5} />}
+              {tab === 'p1' && <PackCard title="CySA+ Foundation Labs" code="CS0-004 · Foundation" price="19.99" labs={5} />}
+              {tab === 'p2' && <PackCard title="CySA+ Advanced Labs" code="CS0-004 · Advanced" price="19.99" labs={5} />}
               {tab === 'complete' && (
-                <PackCard title="CySA+ Complete" code="CS0-003 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
+                <PackCard title="CySA+ Complete" code="CS0-004 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
                   includes={['Foundation Labs — 5 CLI investigation labs', 'Advanced Labs — 5 labs inc. Arclight SIEM & NETSCAN PRO', 'All 10 labs unlocked immediately', 'Lifetime access from purchase']}
                 />
               )}
@@ -275,7 +275,7 @@ export default function CySAPlusLabsPage() {
       </section>
 
       {/* ── Exam prep (deep-dive: Exam Engine — Study + Exam Mode + Prep Bundle savings) ── */}
-      <ExamPrepSection cert="cysa" certLabel="CySA+" code="CS0-003" />
+      <ExamPrepSection cert="cysa" certLabel="CySA+" code="CS0-004" />
 
       {/* ── Tools ── */}
       <section className="bg-[#F4F7FA] py-14 px-8">
@@ -286,7 +286,7 @@ export default function CySAPlusLabsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               { img: '/screenshots/fl-siem.png', lbl: 'ARCLIGHT SIEM v5.0.3', title: 'Arclight SIEM — alert triage and incident containment', desc: 'Filter events by source IP, correlate alerts across a timeline, identify attack patterns, and trigger containment actions inside a simulated SOC dashboard with realistic event data.', pack: 'CySA+ Advanced Labs · lab 3' },
-              { img: '/screenshots/fl-netscan.png', lbl: 'NETSCAN PRO v4.2.1', title: 'NETSCAN PRO — vulnerability assessment and remediation triage', desc: 'Review CVSS-scored findings across multiple hosts, filter by severity, identify false positives, and prioritise remediation — replicating the analyst workflow CS0-003 tests directly.', pack: 'CySA+ Advanced Labs · lab 4' },
+              { img: '/screenshots/fl-netscan.png', lbl: 'NETSCAN PRO v4.2.1', title: 'NETSCAN PRO — vulnerability assessment and remediation triage', desc: 'Review CVSS-scored findings across multiple hosts, filter by severity, identify false positives, and prioritise remediation — replicating the analyst workflow CS0-004 tests directly.', pack: 'CySA+ Advanced Labs · lab 4' },
             ].map(tool => (
               <div key={tool.lbl} className="bg-white rounded-2xl overflow-hidden border border-[rgba(8,145,178,0.12)]">
                 <div className="relative">

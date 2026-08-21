@@ -4,6 +4,10 @@ import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider, useAuth } from '@/contexts/SupabaseAuthContext';
 import { supabase } from '@/lib/customSupabaseClient';
 import { CartProvider } from '@/hooks/useCart';
+import { BasketProvider, useBasket } from '@/hooks/useBasket';
+import BasketDrawer from '@/components/BasketDrawer';
+import CheckoutModal from '@/components/CheckoutModal';
+import { triggerStripe } from '@/lib/checkout';
 
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -176,15 +180,45 @@ function AppContent() {
   );
 }
 
+// ── Basket layer ─────────────────────────────────────────────────────────────
+// Mounts the one basket drawer for the whole site. Checkout goes straight to
+// Stripe when a session already exists; otherwise the extracted CheckoutModal
+// collects sign-in / sign-up first, exactly as the old StorePage did.
+function BasketLayer() {
+  const { items, closeDrawer } = useBasket();
+  const { session } = useAuth();
+  const [authOpen, setAuthOpen] = React.useState(false);
+
+  const handleCheckout = React.useCallback(async () => {
+    if (!items.length) return;
+    if (session) {
+      await triggerStripe(items, session);
+      return;
+    }
+    closeDrawer();
+    setAuthOpen(true);
+  }, [items, session, closeDrawer]);
+
+  return (
+    <>
+      <BasketDrawer onCheckout={handleCheckout} />
+      {authOpen && <CheckoutModal basket={items} onClose={() => setAuthOpen(false)} />}
+    </>
+  );
+}
+
 function App() {
   return (
     <Router>
       <CartProvider>
-        <AuthProvider>
-          <AuthErrorInterceptor>
-            <AppContent />
-          </AuthErrorInterceptor>
-        </AuthProvider>
+        <BasketProvider>
+          <AuthProvider>
+            <AuthErrorInterceptor>
+              <AppContent />
+              <BasketLayer />
+            </AuthErrorInterceptor>
+          </AuthProvider>
+        </BasketProvider>
       </CartProvider>
     </Router>
   );

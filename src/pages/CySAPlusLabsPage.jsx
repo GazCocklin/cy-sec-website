@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import BuyButton from '@/components/BuyButton';
+import { priceOf, lookup, formatPrice } from '@/lib/catalogue';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, ChevronDown } from 'lucide-react';
@@ -56,7 +58,10 @@ function LabRow({ lab, taster }) {
   );
 }
 
-function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
+function PackCard({ title, code, productKey, labs, complete, includes }) {
+  // Prices come from the catalogue, never from a literal on the page.
+  const price    = priceOf(productKey);
+  const oldPrice = lookup(productKey)?.config.rrp;
   return (
     <div className={`rounded-2xl overflow-hidden shadow-md border ${complete ? 'border-[rgba(11,29,58,0.2)]' : 'border-[rgba(8,145,178,0.3)]'}`}>
       <div className="p-5 text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A)' }}>
@@ -66,19 +71,13 @@ function PackCard({ title, code, price, oldPrice, labs, complete, includes }) {
       </div>
       <div className="p-5 bg-white">
         <div className="flex items-baseline gap-2 mb-1">
-          <span className="text-3xl font-black text-[#0B1D3A]" style={{ letterSpacing: '-1px' }}>£{price}</span>
-          {oldPrice && <span className="text-sm text-slate-400 line-through">£{oldPrice}</span>}
-          {oldPrice && <span className="text-xs font-bold bg-[#e0f2f9] text-[#0891B2] px-2 py-0.5 rounded-full">Save £{(parseFloat(oldPrice) - parseFloat(price)).toFixed(2)}</span>}
+          <span className="text-3xl font-black text-[#0B1D3A]" style={{ letterSpacing: '-1px' }}>{formatPrice(price)}</span>
+          {oldPrice && <span className="text-sm text-slate-400 line-through">{formatPrice(oldPrice)}</span>}
+          {oldPrice && <span className="text-xs font-bold bg-[#e0f2f9] text-[#0891B2] px-2 py-0.5 rounded-full">Save {formatPrice(oldPrice - price)}</span>}
         </div>
         <p className="text-xs text-slate-400 mb-4">One-time · Lifetime access from purchase</p>
-        <a
-          href="/store"
-          className="block w-full text-center text-white font-bold text-sm py-3 rounded-xl mb-3 transition-all hover:brightness-110"
-          style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}
-        >
-          Add to basket →
-        </a>
-        {!complete && <p className="text-[11px] text-slate-400 text-center">Or get both tiers for <span className="font-bold text-[#0891B2]">£32.99</span> — saves £6.99</p>}
+        <BuyButton productKey={productKey} className="block w-full text-center py-3 rounded-xl mb-3" />
+        {!complete && <p className="text-[11px] text-slate-400 text-center">Or get both tiers for <span className="font-bold text-[#0891B2]">{formatPrice(priceOf('cysa_complete'))}</span> — saves {formatPrice(lookup('cysa_complete')?.config.saving || 0)}</p>}
         {complete && includes && (
           <div className="border-t border-slate-100 pt-3 mt-1 space-y-1.5">
             {includes.map((inc, i) => (
@@ -175,12 +174,8 @@ export default function CySAPlusLabsPage() {
               <strong className="text-white/90">CompTIA CySA+ CS0-004</strong> tests you on threat investigation, SIEM triage, and incident containment. FortifyLearn gives you realistic CLI environments, an interactive SIEM dashboard, and a vulnerability scanner — 10 labs across 2 tiers.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
-              <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-                CySA+ Foundation Labs — £19.99
-              </a>
-              <a href="/store" className="px-6 py-3 rounded-xl text-sm font-semibold text-white border border-white/20 bg-white/8 hover:bg-white/14 transition-all">
-                Complete (10 labs) — £32.99
-              </a>
+              <BuyButton productKey="cysa_pack" className="px-6 py-3 rounded-xl text-sm">{`CySA+ Foundation Labs — ${formatPrice(priceOf("cysa_pack"))}`}</BuyButton>
+              <BuyButton productKey="cysa_complete" variant="outline" className="px-6 py-3 rounded-xl text-sm">{`Complete (10 labs) — ${formatPrice(priceOf("cysa_complete"))}`}</BuyButton>
             </div>
             <div className="flex gap-4 flex-wrap">
               {['10 labs across 2 tiers', 'CompTIA Authorised Partner', 'Lifetime access', 'One-time payment'].map(t => (
@@ -262,10 +257,10 @@ export default function CySAPlusLabsPage() {
               )}
             </div>
             <div>
-              {tab === 'p1' && <PackCard title="CySA+ Foundation Labs" code="CS0-004 · Foundation" price="19.99" labs={5} />}
-              {tab === 'p2' && <PackCard title="CySA+ Advanced Labs" code="CS0-004 · Advanced" price="19.99" labs={5} />}
+              {tab === 'p1' && <PackCard title="CySA+ Foundation Labs" code="CS0-004 · Foundation" productKey="cysa_pack" labs={5} />}
+              {tab === 'p2' && <PackCard title="CySA+ Advanced Labs" code="CS0-004 · Advanced" productKey="cysa_pack_2" labs={5} />}
               {tab === 'complete' && (
-                <PackCard title="CySA+ Complete" code="CS0-004 · Complete" price="32.99" oldPrice="39.98" labs={10} complete
+                <PackCard title="CySA+ Complete" code="CS0-004 · Complete" productKey="cysa_complete" labs={10} complete
                   includes={['Foundation Labs — 5 CLI investigation labs', 'Advanced Labs — 5 labs inc. Arclight SIEM & NETSCAN PRO', 'All 10 labs unlocked immediately', 'Lifetime access from purchase']}
                 />
               )}

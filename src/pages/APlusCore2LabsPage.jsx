@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import BuyButton from '@/components/BuyButton';
+import { priceOf, lookup, formatPrice } from '@/lib/catalogue';
 import { Helmet } from 'react-helmet';
 import { Sparkles, ChevronDown } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
@@ -62,7 +64,10 @@ function LabRow({ lab }) {
   );
 }
 
-function PackCard({ title, code, price, labs }) {
+function PackCard({ title, code, productKey, labs, complete, includes }) {
+  // Prices come from the catalogue, never from a literal on the page.
+  const price    = priceOf(productKey);
+  const oldPrice = lookup(productKey)?.config.rrp;
   return (
     <div className="rounded-2xl overflow-hidden shadow-md border border-[rgba(8,145,178,0.3)]">
       <div className="p-5 text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0E5F8A)' }}>
@@ -72,13 +77,11 @@ function PackCard({ title, code, price, labs }) {
       </div>
       <div className="p-5 bg-white">
         <div className="flex items-baseline gap-2 mb-1">
-          <span className="text-3xl font-black text-[#0B1D3A]" style={{ letterSpacing: '-1px' }}>£{price}</span>
+          <span className="text-3xl font-black text-[#0B1D3A]" style={{ letterSpacing: '-1px' }}>{formatPrice(price)}</span>
         </div>
         <p className="text-xs text-slate-400 mb-4">One-time · Lifetime access from purchase</p>
-        <a href="/store" className="block w-full text-center text-white font-bold text-sm py-3 rounded-xl mb-3 hover:brightness-110 transition-all" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-          Add to basket →
-        </a>
-        <p className="text-[11px] text-slate-400 text-center">Or get the <span className="font-bold text-[#0891B2]">Prep Bundle for £39.99</span> — saves £24.98</p>
+        <BuyButton productKey={productKey} className="block w-full text-center py-3 rounded-xl mb-3" />
+        <p className="text-[11px] text-slate-400 text-center">Or get the <span className="font-bold text-[#0891B2]">Prep Bundle for {formatPrice(priceOf('aplus_core2_prep_bundle'))}</span> — saves {formatPrice(lookup('aplus_core2_prep_bundle')?.config.saving || 0)}</p>
       </div>
     </div>
   );
@@ -167,12 +170,8 @@ export default function APlusCore2LabsPage() {
               <strong className="text-white/90">CompTIA A+ Core 2 (220-1202) performance-based questions</strong> test you on Windows administration, malware response, OS recovery, and operational procedures under realistic conditions. FortifyLearn maps a planned 10-lab curriculum to every 220-1202 domain — content authoring is live and you'll get every lab as it ships, at today's launch price.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
-              <a href="/store" className="px-6 py-3 rounded-xl text-sm font-bold text-white" style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-                Foundation Labs — £19.99
-              </a>
-              <a href="/store" className="px-6 py-3 rounded-xl text-sm font-semibold text-white border border-white/20 bg-white/8 hover:bg-white/14 transition-all">
-                Prep Bundle — £39.99
-              </a>
+              <BuyButton productKey="aplus_core2_pack" className="px-6 py-3 rounded-xl text-sm">{`Foundation Labs — ${formatPrice(priceOf("aplus_core2_pack"))}`}</BuyButton>
+              <BuyButton productKey="aplus_core2_prep_bundle" variant="outline" className="px-6 py-3 rounded-xl text-sm">{`Prep Bundle — ${formatPrice(priceOf("aplus_core2_prep_bundle"))}`}</BuyButton>
             </div>
             <div className="flex gap-4 flex-wrap">
               {['10 labs across 2 tiers', 'Mapped to 220-1202', 'Lifetime access', 'Updated as content ships'].map(t => (
@@ -239,8 +238,8 @@ export default function APlusCore2LabsPage() {
               {tab === 'p2' && PACK2_LABS.map(l => <LabRow key={l.num} lab={l} />)}
             </div>
             <div>
-              {tab === 'p1' && <PackCard title="A+ Core 2 Foundation Labs" code="220-1202 · Foundation" price="19.99" labs={5} />}
-              {tab === 'p2' && <PackCard title="A+ Core 2 Advanced Labs"   code="220-1202 · Advanced"   price="19.99" labs={5} />}
+              {tab === 'p1' && <PackCard title="A+ Core 2 Foundation Labs" code="220-1202 · Foundation" productKey="aplus_core2_pack" labs={5} />}
+              {tab === 'p2' && <PackCard title="A+ Core 2 Advanced Labs"   code="220-1202 · Advanced" productKey="aplus_core2_pack_2" labs={5} />}
             </div>
           </div>
         </div>

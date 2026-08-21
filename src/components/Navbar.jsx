@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useLocation, useNavigate} from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useBasket } from '@/hooks/useBasket';
 import FortifyLearnLogo from '@/components/logos/FortifyLearnLogo';
 import FortifyOneLogo from '@/components/logos/FortifyOneLogo';
 
 const Navbar = () => {
+  const { count, openDrawer } = useBasket();
   const [isOpen, setIsOpen] = useState(false);
   const [isTrainingOpen, setIsTrainingOpen] = useState(false);
   const [isConsultancyOpen, setIsConsultancyOpen] = useState(false);
@@ -133,6 +135,20 @@ const Navbar = () => {
 
               <div className="w-px h-5 bg-white/10 mx-2" />
 
+              {/* Basket — count appears only when non-empty */}
+              <button
+                type="button"
+                onClick={openDrawer}
+                aria-label={count > 0 ? `Open basket, ${count} item${count === 1 ? '' : 's'}` : 'Open basket'}
+                className="inline-flex items-center gap-2 rounded-lg px-3 py-2 mr-2 text-white text-sm font-medium transition-all hover:brightness-110"
+                style={count > 0
+                  ? { background: 'linear-gradient(135deg,#0E5F8A 0%,#06B6D4 100%)' }
+                  : { background: 'rgba(255,255,255,0.08)' }}
+              >
+                <ShoppingBag className="h-4 w-4" />
+                {count > 0 && <span className="font-bold">{count}</span>}
+              </button>
+
               <Button
                 onClick={() => navigate('/contact')}
                 size="sm"
@@ -257,7 +273,8 @@ const Navbar = () => {
 
                   <div className="pt-3 px-2 border-t border-white/10">
                     <Button onClick={() => { setIsOpen(false); navigate('/contact'); }}
-                      className="w-full bg-[#1A56DB] hover:bg-[#1e3a8a] text-white py-5 border-0 font-medium">
+                      className="w-full text-white py-5 border-0 font-medium hover:brightness-110"
+                      style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
                       Contact Us
                     </Button>
                   </div>

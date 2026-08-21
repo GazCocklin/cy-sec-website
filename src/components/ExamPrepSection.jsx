@@ -16,12 +16,19 @@
 //   certLabel  — display label ("Network+" / "Security+" / "CySA+")
 //   code       — CompTIA exam code ("N10-009" / "SY0-701" / "CS0-004")
 //
-// Uses <a href="/store"> to match the navigation pattern already established on
-// the cert landing pages (Rule 5 <Link> migration deferred as a cross-page pass).
+// 21-Aug-2026: both CTAs now add the real SKU to the global basket and open the
+// drawer, instead of navigating to /store with an empty basket. Prices are read
+// from src/lib/catalogue.js rather than hardcoded here.
 
 import { Star, Check, Clock, BarChart3, BookOpen, Target } from 'lucide-react';
+import BuyButton from '@/components/BuyButton';
+import { priceOf, lookup, formatPrice } from '@/lib/catalogue';
 
 export default function ExamPrepSection({ cert, certLabel, code }) {
+  const examKey   = `${cert}_exam`;
+  const bundleKey = `${cert}_prep_bundle`;
+  const examPrice   = priceOf(examKey);
+  const bundle      = lookup(bundleKey)?.config;
   return (
     <section className="bg-[#F4F7FA] py-16 px-8">
       <div className="max-w-6xl mx-auto">
@@ -109,15 +116,13 @@ export default function ExamPrepSection({ cert, certLabel, code }) {
             <div>
               <p className="text-[11px] font-bold tracking-wider uppercase text-slate-400 mb-1">Both modes included</p>
               <div className="flex items-baseline gap-2">
-                <span className="text-3xl font-black text-[#0B1D3A]" style={{ letterSpacing: '-0.5px' }}>£24.99</span>
+                <span className="text-3xl font-black text-[#0B1D3A]" style={{ letterSpacing: '-0.5px' }}>{formatPrice(examPrice)}</span>
                 <span className="text-[13px] text-slate-500">· Exam Engine · Lifetime access</span>
               </div>
             </div>
-            <a href="/store"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-bold text-white transition-all hover:brightness-95"
-              style={{ background: 'linear-gradient(135deg,#0B1D3A,#0891B2)' }}>
-              Add Exam Engine to basket →
-            </a>
+            <BuyButton productKey={examKey} className="px-6 py-3 rounded-xl text-sm">
+              {`Add ${certLabel} Exam Engine to basket →`}
+            </BuyButton>
           </div>
 
         </div>
@@ -137,32 +142,34 @@ export default function ExamPrepSection({ cert, certLabel, code }) {
                 <Star className="w-3 h-3" fill="#7DD3E8" /> Best value · Prep Bundle
               </div>
               <h3 className="text-2xl md:text-3xl font-black leading-tight mb-3" style={{ letterSpacing: '-0.8px' }}>
-                Everything for {certLabel}, together for £39.99.
+                Everything for {certLabel}, together for {formatPrice(bundle?.price || 0)}.
               </h3>
               <p className="text-[14px] text-white/65 mb-6 leading-relaxed max-w-md">
                 10 hands-on PBQ labs and the full Exam Engine (Study + Exam Mode) — bundled.
-                Save £24.98 versus buying each piece à la carte.
+                Save {formatPrice(bundle?.saving || 0)} versus buying each piece à la carte.
               </p>
 
               <ul className="space-y-2 mb-6">
-                <BundleRow label="Foundation Labs — 5 PBQ scenarios" price="£19.99" />
-                <BundleRow label="Advanced Labs — 5 PBQ scenarios with visual tools" price="£19.99" />
-                <BundleRow label="Exam Engine — Study Mode + Exam Mode" price="£24.99" />
+                <BundleRow label="Foundation Labs — 5 PBQ scenarios" price={formatPrice(priceOf(`${cert}_pack`))} />
+                <BundleRow label="Advanced Labs — 5 PBQ scenarios with visual tools" price={formatPrice(priceOf(`${cert}_pack_2`))} />
+                <BundleRow label="Exam Engine — Study Mode + Exam Mode" price={formatPrice(examPrice)} />
               </ul>
 
               <div className="flex items-baseline gap-3 mb-5 flex-wrap">
-                <span className="text-4xl font-black" style={{ letterSpacing: '-1px' }}>£39.99</span>
-                <span className="text-lg text-white/40 line-through">£64.97</span>
+                <span className="text-4xl font-black" style={{ letterSpacing: '-1px' }}>{formatPrice(bundle?.price || 0)}</span>
+                <span className="text-lg text-white/40 line-through">{formatPrice(bundle?.rrp || 0)}</span>
                 <span className="text-[10px] font-extrabold px-2.5 py-1 rounded"
                   style={{ background: '#FDE8E8', color: '#A91818', letterSpacing: '0.02em' }}>
-                  SAVE £24.98
+                  SAVE {formatPrice(bundle?.saving || 0)}
                 </span>
               </div>
 
-              <a href="/store"
-                className="inline-flex items-center justify-center self-start px-6 py-3 rounded-xl bg-white text-[#0B1D3A] text-sm font-bold transition-all hover:brightness-95">
-                Shop the Prep Bundle →
-              </a>
+              <BuyButton
+                productKey={bundleKey}
+                className="self-start px-6 py-3 rounded-xl text-sm font-bold"
+                style={{ background: '#ffffff', color: '#0B1D3A' }}>
+                Add the Prep Bundle →
+              </BuyButton>
             </div>
 
             {/* Right: supporting visual (exam results screenshot) */}

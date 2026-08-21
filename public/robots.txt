@@ -2,6 +2,19 @@ User-agent: *
 Allow: /
 
 Disallow: /admin/
+# Legacy flat admin routes (pre-migration paths, not under /admin/)
+Disallow: /adminpageslist
+Disallow: /admincrm
+Disallow: /admindashboard
+Disallow: /adminplatform
+Disallow: /adminhome
+Disallow: /adminlogin
+Disallow: /fulladmindashboard
+Disallow: /marketinginsights
+Disallow: /strategicroadmap
+Disallow: /prelaunchchecklist
+Disallow: /planlogicguide
+Disallow: /linkedinmarketinggenerator
 Disallow: /fortify-one/dashboard
 Disallow: /fortify-one/compliance
 Disallow: /fortify-one/vendor-risk

@@ -210,8 +210,10 @@ if (window.navigation && window.self !== window.top) {
 
 const addTransformIndexHtml = {
 	name: 'add-transform-index-html',
-	transformIndexHtml(html) {
-		const tags = [
+	transformIndexHtml(html, ctx) {
+		// Visual-editor harness: dev only. ctx.server is defined only by the dev
+		// server, so this cannot leak into a production build regardless of NODE_ENV.
+		const tags = (ctx && ctx.server) ? [
 			{
 				tag: 'script',
 				attrs: { type: 'module' },
@@ -242,7 +244,7 @@ const addTransformIndexHtml = {
 				children: configNavigationHandler,
 				injectTo: 'head',
 			},
-		];
+		] : [];
 
 		if (!isDev && process.env.TEMPLATE_BANNER_SCRIPT_URL && process.env.TEMPLATE_REDIRECT_URL) {
 			tags.push(

@@ -26,7 +26,7 @@ const SelfStudyModulesPage = () => {
       logoUrl: "/logos/comptia-security-plus.svg"
     },
     { 
-      name: "CompTIA CySA+ (CS0-003)", 
+      name: "CompTIA CySA+ (CS0-004)", 
       features: ["Access to CompTIA CertMaster", "Access to CompTIA eBook", "Access to CompTIA Labs", "Exam Voucher Included"], 
       ctaSource: "cysa_plus_self_study",
       logoUrl: "/logos/comptia-cysa-plus.svg"

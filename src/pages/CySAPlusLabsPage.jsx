@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import BuyButton from '@/components/BuyButton';
-import { priceOf, lookup, formatPrice } from '@/lib/catalogue';
+import { priceOf, savingOf, lookup, formatPrice } from '@/lib/catalogue';
 import { Helmet } from 'react-helmet';
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, ChevronDown } from 'lucide-react';
@@ -105,7 +105,7 @@ const FAQ = [
   },
   {
     q: "What's the difference between Foundation Labs and Advanced Labs?",
-    a: 'Foundation Labs is the £19.99 entry pack — five Linux CLI investigation scenarios covering suspicious process and outbound connection investigation, web application brute force, SSH brute force and containment, web shell compromise and lateral movement, and a multi-stage APT campaign threat hunt. Advanced Labs is the £19.99 second pack and adds the Arclight SIEM and NETSCAN PRO interactive tools, plus cron persistence, port scan detection, SIEM log correlation, vulnerability assessment triage, and a credential harvesting and ransomware staging incident. Complete (£32.99) is both packs together at a £6.99 discount. All packs are one-time purchases with lifetime access from your purchase date and unlimited retries on every lab.',
+    a: `Foundation Labs is the ${formatPrice(priceOf('cysa_pack'))} entry pack — five Linux CLI investigation scenarios covering suspicious process and outbound connection investigation, web application brute force, SSH brute force and containment, web shell compromise and lateral movement, and a multi-stage APT campaign threat hunt. Advanced Labs is the ${formatPrice(priceOf('cysa_pack_2'))} second pack and adds the Arclight SIEM and NETSCAN PRO interactive tools, plus cron persistence, port scan detection, SIEM log correlation, vulnerability assessment triage, and a credential harvesting and ransomware staging incident. Complete (${formatPrice(priceOf('cysa_complete'))}) is both packs together at a ${formatPrice(savingOf('cysa_complete'))} discount. All packs are one-time purchases with lifetime access from your purchase date and unlimited retries on every lab.`,
   },
   {
     q: "Why isn't there a free taster lab for CySA+?",
@@ -211,7 +211,7 @@ export default function CySAPlusLabsPage() {
             </p>
           </div>
           <div className="grid grid-cols-3 gap-3 lg:grid-cols-1 lg:gap-3">
-            {[['10', 'Labs across 2 tiers'], ['CS0-004', 'CompTIA exam code'], ['£32.99', 'Complete — all 10 labs']].map(([n, l]) => (
+            {[['10', 'Labs across 2 tiers'], ['CS0-004', 'CompTIA exam code'], [`${formatPrice(priceOf('cysa_complete'))}`, 'Complete — all 10 labs']].map(([n, l]) => (
               <div key={l} className="bg-[#F4F7FA] rounded-xl p-4 border border-[rgba(8,145,178,0.1)]">
                 <div className="text-2xl font-black text-[#0891B2]" style={{ letterSpacing: '-0.5px' }}>{n}</div>
                 <div className="text-xs text-slate-400 mt-1">{l}</div>
@@ -230,9 +230,9 @@ export default function CySAPlusLabsPage() {
 
           <div className="flex overflow-x-auto border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
-              { id: 'p1', label: 'Foundation', meta: '5 labs · £19.99' },
-              { id: 'p2', label: 'Advanced', meta: '5 labs · £19.99' },
-              { id: 'complete', label: 'Complete', meta: '10 labs · £32.99' },
+              { id: 'p1', label: 'Foundation', meta: `5 labs · ${formatPrice(priceOf('cysa_pack'))}` },
+              { id: 'p2', label: 'Advanced', meta: `5 labs · ${formatPrice(priceOf('cysa_pack_2'))}` },
+              { id: 'complete', label: 'Complete', meta: `10 labs · ${formatPrice(priceOf('cysa_complete'))}` },
             ].map(t => (
               <button key={t.id} onClick={() => setTab(t.id)}
                 className={`px-4 sm:px-6 py-3 text-sm font-semibold border-b-2 -mb-0.5 transition-all whitespace-nowrap shrink-0 ${tab === t.id ? 'text-[#0B1D3A] border-[#0891B2]' : 'text-slate-400 border-transparent hover:text-slate-600'}`}>

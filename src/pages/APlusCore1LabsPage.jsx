@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import BuyButton from '@/components/BuyButton';
-import { priceOf, lookup, formatPrice } from '@/lib/catalogue';
+import { priceOf, savingOf, lookup, formatPrice } from '@/lib/catalogue';
 import { Helmet } from 'react-helmet';
 import { Sparkles, ChevronDown } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
@@ -97,7 +97,7 @@ const FAQ = [
   },
   {
     q: "What's the difference between Foundation Labs and Advanced Labs?",
-    a: 'Foundation Labs is the £19.99 entry pack — five A+ Core 1 scenarios covering mobile device sync and connectivity, network cable and port troubleshooting, hardware POST and component diagnostics, virtualisation and cloud configuration, and a multi-fault hardware/network triage. Advanced Labs is the £19.99 second pack and adds wireless AP misconfiguration, printer and peripheral fault diagnosis, SOHO router and share triage, display and video subsystem repair, and an end-to-end client diagnostic exercise. Or grab the Exam Prep Bundle at £39.99 for both packs plus the Exam Engine — saves £24.98.',
+    a: `Foundation Labs is the ${formatPrice(priceOf('aplus_core1_pack'))} entry pack — five A+ Core 1 scenarios covering mobile device sync and connectivity, network cable and port troubleshooting, hardware POST and component diagnostics, virtualisation and cloud configuration, and a multi-fault hardware/network triage. Advanced Labs is the ${formatPrice(priceOf('aplus_core1_pack_2'))} second pack and adds wireless AP misconfiguration, printer and peripheral fault diagnosis, SOHO router and share triage, display and video subsystem repair, and an end-to-end client diagnostic exercise. Or grab the Exam Prep Bundle at ${formatPrice(priceOf('aplus_core1_prep_bundle'))} for both packs plus the Exam Engine — saves ${formatPrice(savingOf('aplus_core1_prep_bundle'))}.`,
   },
   {
     q: 'How much A+ Core 1 content is available right now?',
@@ -105,7 +105,7 @@ const FAQ = [
   },
   {
     q: 'Are these labs enough on their own to pass A+ Core 1?',
-    a: "For most people, no. The labs build the practical PBQ skill the exam tests, but A+ Core 1 has a heavy multiple-choice section covering mobile devices, networking concepts, hardware identification, virtualisation, and troubleshooting theory. Pair the labs with a strong MCQ resource — either the FortifyLearn Exam Engine or a third-party question bank — to cover both halves of the exam. The Exam Prep Bundle at £39.99 packages labs and Exam Engine together at a £24.98 saving.",
+    a: `For most people, no. The labs build the practical PBQ skill the exam tests, but A+ Core 1 has a heavy multiple-choice section covering mobile devices, networking concepts, hardware identification, virtualisation, and troubleshooting theory. Pair the labs with a strong MCQ resource — either the FortifyLearn Exam Engine or a third-party question bank — to cover both halves of the exam. The Exam Prep Bundle at ${formatPrice(priceOf('aplus_core1_prep_bundle'))} packages labs and Exam Engine together at a ${formatPrice(savingOf('aplus_core1_prep_bundle'))} saving.`,
   },
   {
     q: 'Will FortifyLearn guarantee I pass A+ Core 1?',
@@ -219,8 +219,8 @@ export default function APlusCore1LabsPage() {
 
           <div className="flex overflow-x-auto border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
-              { id: 'p1', label: 'Foundation', meta: '5 labs · £19.99' },
-              { id: 'p2', label: 'Advanced',   meta: '5 labs · £19.99' },
+              { id: 'p1', label: 'Foundation', meta: `5 labs · ${formatPrice(priceOf('aplus_core1_pack'))}` },
+              { id: 'p2', label: 'Advanced',   meta: `5 labs · ${formatPrice(priceOf('aplus_core1_pack_2'))}` },
             ].map(t => (
               <button key={t.id} onClick={() => setTab(t.id)}
                 className={`px-4 sm:px-6 py-3 text-sm font-semibold border-b-2 -mb-0.5 transition-all whitespace-nowrap shrink-0 ${tab === t.id ? 'text-[#0B1D3A] border-[#0891B2]' : 'text-slate-400 border-transparent hover:text-slate-600'}`}>

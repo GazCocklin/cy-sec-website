@@ -401,13 +401,3 @@ export function individualFor(certKey) {
 export const STORE_CERT_TABS = CERTS.map(c => ({
   key: c.key, short: c.short, title: c.title, code: c.code, badge: c.badge,
 }));
-
-// Monochrome CompTIA badges — white line art for the navy featured card.
-// The full-colour badges in /public/logos are correct but unreadable on navy.
-export const MONO_BADGES = {
-  netplus:     '/logos/mono-comptia-network-plus.svg',
-  secplus:     '/logos/mono-comptia-security-plus.svg',
-  cysa:        '/logos/mono-comptia-cysa-plus.svg',
-  aplus_core1: '/logos/mono-comptia-aplus.svg',
-  aplus_core2: '/logos/mono-comptia-aplus.svg',
-};

@@ -24,7 +24,7 @@ import { Link } from 'react-router-dom';
 import { useBasket } from '@/hooks/useBasket';
 import BuyButton from '@/components/BuyButton';
 import {
-  STORE_CERT_TABS, MONO_BADGES, featuredFor, individualFor,
+  STORE_CERT_TABS, featuredFor, individualFor,
   formatPrice, CERTS,
 } from '@/lib/catalogue';
 
@@ -140,12 +140,15 @@ export default function StorePage() {
                   background: 'linear-gradient(135deg,#0B1D3A 0%,#0e3a52 55%,#0891B2 160%)',
                 }}
               >
+                {/* Real CompTIA badge (RULE 3 — never improvise brand assets).
+                    The official mark is a white disc with #c8102e red, which
+                    carries its own contrast against the navy card. */}
                 <img
-                  src={MONO_BADGES[activeCert]}
+                  src={cert?.badge}
                   alt=""
                   aria-hidden="true"
                   className="absolute hidden sm:block"
-                  style={{ right: 40, top: 40, width: 96, height: 96, opacity: 0.9 }}
+                  style={{ right: 40, top: 40, width: 96, height: 96 }}
                   onError={e => { e.currentTarget.style.display = 'none'; }}
                 />
 

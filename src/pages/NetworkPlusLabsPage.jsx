@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import BuyButton from '@/components/BuyButton';
-import { priceOf, lookup, formatPrice } from '@/lib/catalogue';
+import { priceOf, savingOf, lookup, formatPrice } from '@/lib/catalogue';
 import { Helmet } from 'react-helmet';
 import { ChevronDown } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
@@ -108,11 +108,11 @@ const FAQ = [
   },
   {
     q: "What's the difference between Foundation Labs and Advanced Labs?",
-    a: 'Foundation Labs is the £19.99 entry pack — five Cisco IOS scenarios covering DNS misconfiguration, default gateway faults, DMZ ACL troubleshooting, dual-VLAN routing, and an enterprise multi-fault recovery. Advanced Labs is the £19.99 second pack and adds three FortifyLearn-built tools beyond the CLI: FL-NETSIM (network topology simulator), NETCAP Analyzer (packet capture), and NETPULSE NMS (multi-site monitoring). Complete (£32.99) is both packs together at a £6.99 discount. All packs are one-time purchases with lifetime access from your purchase date and unlimited retries on every lab.',
+    a: `Foundation Labs is the ${formatPrice(priceOf('netplus_pack'))} entry pack — five Cisco IOS scenarios covering DNS misconfiguration, default gateway faults, DMZ ACL troubleshooting, dual-VLAN routing, and an enterprise multi-fault recovery. Advanced Labs is the ${formatPrice(priceOf('netplus_pack_2'))} second pack and adds three FortifyLearn-built tools beyond the CLI: FL-NETSIM (network topology simulator), NETCAP Analyzer (packet capture), and NETPULSE NMS (multi-site monitoring). Complete (${formatPrice(priceOf('netplus_complete'))}) is both packs together at a ${formatPrice(savingOf('netplus_complete'))} discount. All packs are one-time purchases with lifetime access from your purchase date and unlimited retries on every lab.`,
   },
   {
     q: 'Are these labs enough on their own to pass Network+?',
-    a: "For most people, no. The labs build the practical PBQ skill the exam tests, but you also need to study the theory that drives the multiple-choice section. We'd typically recommend pairing FortifyLearn Network+ Labs with a strong MCQ resource — either the FortifyLearn Exam Engine (which bundles MCQ Study Mode and timed mock exams in one product) or a third-party tool like Boson ExSim. The Exam Prep Bundle at £39.99 packages the labs and Exam Engine together at a £24.98 saving.",
+    a: `For most people, no. The labs build the practical PBQ skill the exam tests, but you also need to study the theory that drives the multiple-choice section. We'd typically recommend pairing FortifyLearn Network+ Labs with a strong MCQ resource — either the FortifyLearn Exam Engine (which bundles MCQ Study Mode and timed mock exams in one product) or a third-party tool like Boson ExSim. The Exam Prep Bundle at ${formatPrice(priceOf('netplus_prep_bundle'))} packages the labs and Exam Engine together at a ${formatPrice(savingOf('netplus_prep_bundle'))} saving.`,
   },
   {
     q: 'Will FortifyLearn guarantee I pass Network+?',
@@ -227,9 +227,9 @@ export default function NetworkPlusLabsPage() {
 
           <div className="flex overflow-x-auto border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
-              { id: 'p1', label: 'Foundation', meta: '5 labs · £19.99' },
-              { id: 'p2', label: 'Advanced', meta: '5 labs · £19.99' },
-              { id: 'complete', label: 'Complete', meta: '10 labs · £32.99' },
+              { id: 'p1', label: 'Foundation', meta: `5 labs · ${formatPrice(priceOf('netplus_pack'))}` },
+              { id: 'p2', label: 'Advanced', meta: `5 labs · ${formatPrice(priceOf('netplus_pack_2'))}` },
+              { id: 'complete', label: 'Complete', meta: `10 labs · ${formatPrice(priceOf('netplus_complete'))}` },
             ].map(t => (
               <button key={t.id} onClick={() => setTab(t.id)}
                 className={`px-4 sm:px-6 py-3 text-sm font-semibold border-b-2 -mb-0.5 transition-all whitespace-nowrap shrink-0 ${tab === t.id ? 'text-[#0B1D3A] border-[#0891B2]' : 'text-slate-400 border-transparent hover:text-slate-600'}`}>

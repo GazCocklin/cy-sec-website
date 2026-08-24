@@ -6,10 +6,17 @@
 // real screenshots, features, and prices — not just lab packs.
 //
 // 25-Apr-2026: standalone MCQ Study Bank SKU retired. Buying the Exam Engine
-// unlocks BOTH Study Mode (1,000 study MCQs with reasoning) AND Exam Mode
-// (1,000 exam MCQs + 50 PBQs in timed mock exams). The two cards below
+// unlocks BOTH Study Mode (study-pool MCQs with reasoning) AND Exam Mode
+// (exam-pool MCQs + PBQs in timed mock exams). The two cards below
 // describe the two modes — they're not two products. One purchase, two ways
 // of using it.
+//
+// 21-Aug-2026: every COUNT on this section now comes from CONTENT in
+// src/lib/catalogue.js. It used to read prices from the catalogue but hardcode
+// the question counts as JSX literals, so all five cert pages claimed "1,000 Qs"
+// and "10 hands-on PBQ labs" regardless of what existed — false on CySA+ and on
+// both A+ Cores. It also ignored comingSoon, so the A+ pages rendered a
+// full-price Prep Bundle CTA with no launching-soon treatment. Both fixed.
 //
 // Props:
 //   cert       — cert key (netplus | secplus | cysa)
@@ -22,13 +29,26 @@
 
 import { Star, Check, Clock, BarChart3, BookOpen, Target } from 'lucide-react';
 import BuyButton from '@/components/BuyButton';
-import { priceOf, lookup, formatPrice } from '@/lib/catalogue';
+import {
+  priceOf, lookup, formatPrice,
+  CONTENT, hasExamMode, studyCountLabel,
+} from '@/lib/catalogue';
 
 export default function ExamPrepSection({ cert, certLabel, code }) {
   const examKey   = `${cert}_exam`;
   const bundleKey = `${cert}_prep_bundle`;
   const examPrice   = priceOf(examKey);
   const bundle      = lookup(bundleKey)?.config;
+
+  const content     = CONTENT[cert] || { mcqStudy: 0, mcqExam: 0, pbqExam: 0, sellableLabs: 0 };
+  const examMode    = hasExamMode(cert);
+  const studyLabel  = studyCountLabel(cert);
+  const nf          = v => Number(v).toLocaleString('en-GB');
+
+  // A SKU flagged comingSoon must never render a plain full-price CTA.
+  const examSoon    = !!lookup(examKey)?.config?.comingSoon;
+  const bundleSoon  = !!bundle?.comingSoon;
+
   return (
     <section className="bg-[#F4F7FA] py-16 px-8">
       <div className="max-w-6xl mx-auto">
@@ -63,11 +83,11 @@ export default function ExamPrepSection({ cert, certLabel, code }) {
               <div className="p-6 flex flex-col flex-1">
                 <div className="flex items-center gap-2 mb-2">
                   <h3 className="text-xl font-extrabold text-[#0B1D3A]" style={{ letterSpacing: '-0.4px' }}>Study Mode</h3>
-                  <span className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-[#e0f2f9] text-[#0891B2]">1,000 Qs</span>
+                  <span className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-[#e0f2f9] text-[#0891B2]">{studyLabel}</span>
                 </div>
                 <p className="text-[14px] text-slate-600 mb-5 leading-relaxed">
-                  1,000 multiple-choice questions per cert with full reasoning on every answer
-                  — and every distractor. Built for focused revision on weak domains.
+                  {nf(content.mcqStudy)} multiple-choice questions for {certLabel} with full reasoning
+                  on every answer — and every distractor. Built for focused revision on weak domains.
                 </p>
 
                 <ul className="space-y-2.5 flex-1">
@@ -93,11 +113,20 @@ export default function ExamPrepSection({ cert, certLabel, code }) {
               <div className="p-6 flex flex-col flex-1">
                 <div className="flex items-center gap-2 mb-2">
                   <h3 className="text-xl font-extrabold text-[#0B1D3A]" style={{ letterSpacing: '-0.4px' }}>Exam Mode</h3>
-                  <span className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-[#e0f2f9] text-[#0891B2]">Timed</span>
+                  <span className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded"
+                    style={examMode
+                      ? { background: '#e0f2f9', color: '#0891B2' }
+                      : { background: 'rgba(245,158,11,0.12)', color: '#8a5a00', border: '1px solid rgba(245,158,11,0.35)' }}>
+                    {examMode ? 'Timed' : 'In authoring'}
+                  </span>
                 </div>
                 <p className="text-[14px] text-slate-600 mb-5 leading-relaxed">
-                  A full mock that mirrors the real CompTIA exam. 3–6 PBQs plus 85–90 MCQs
-                  under one combined timer, scored 100–900 with a per-domain diagnostic.
+                  {examMode
+                    ? <>A full mock that mirrors the real CompTIA exam, drawn from a dedicated pool of {nf(content.mcqExam)} exam
+                       MCQs and {nf(content.pbqExam)} exam PBQs — never the questions you revised in Study Mode. 3–6 PBQs plus
+                       85–90 MCQs under one combined timer, scored 100–900 with a per-domain diagnostic.</>
+                    : <>Exam Mode for {certLabel} is still in authoring. Study Mode is fully available today, and Exam Mode
+                       unlocks on the same purchase the moment the {code} exam pool lands — at no extra cost.</>}
                 </p>
 
                 <ul className="space-y-2.5 flex-1">
@@ -120,9 +149,17 @@ export default function ExamPrepSection({ cert, certLabel, code }) {
                 <span className="text-[13px] text-slate-500">· Exam Engine · Lifetime access</span>
               </div>
             </div>
-            <BuyButton productKey={examKey} className="px-6 py-3 rounded-xl text-sm">
-              {`Add ${certLabel} Exam Engine to basket →`}
-            </BuyButton>
+            <div className="flex items-center gap-3 flex-wrap">
+              {examSoon && (
+                <span className="text-[10px] font-bold tracking-widest uppercase px-2.5 py-1.5 rounded-md"
+                  style={{ background: 'rgba(245,158,11,0.12)', color: '#8a5a00', border: '1px solid rgba(245,158,11,0.35)' }}>
+                  Launching soon
+                </span>
+              )}
+              <BuyButton productKey={examKey} className="px-6 py-3 rounded-xl text-sm">
+                {`Add ${certLabel} Exam Engine to basket →`}
+              </BuyButton>
+            </div>
           </div>
 
         </div>
@@ -145,14 +182,22 @@ export default function ExamPrepSection({ cert, certLabel, code }) {
                 Everything for {certLabel}, together for {formatPrice(bundle?.price || 0)}.
               </h3>
               <p className="text-[14px] text-white/65 mb-6 leading-relaxed max-w-md">
-                10 hands-on PBQ labs and the full Exam Engine (Study + Exam Mode) — bundled.
-                Save {formatPrice(bundle?.saving || 0)} versus buying each piece à la carte.
+                {content.sellableLabs > 0
+                  ? <>{content.sellableLabs} hands-on PBQ labs and the full Exam Engine ({examMode ? 'Study + Exam Mode' : 'Study Mode'}) — bundled.</>
+                  : <>The full Exam Engine plus every {certLabel} lab pack, bundled — labs are still in authoring and land on this same purchase.</>}
+                {' '}Save {formatPrice(bundle?.saving || 0)} versus buying each piece à la carte.
               </p>
 
               <ul className="space-y-2 mb-6">
-                <BundleRow label="Foundation Labs — 5 PBQ scenarios" price={formatPrice(priceOf(`${cert}_pack`))} />
-                <BundleRow label="Advanced Labs — 5 PBQ scenarios with visual tools" price={formatPrice(priceOf(`${cert}_pack_2`))} />
-                <BundleRow label="Exam Engine — Study Mode + Exam Mode" price={formatPrice(examPrice)} />
+                <BundleRow
+                  label={content.sellableLabs > 0 ? 'Foundation Labs — 5 PBQ scenarios' : 'Foundation Labs — in authoring'}
+                  price={formatPrice(priceOf(`${cert}_pack`))} />
+                <BundleRow
+                  label={content.sellableLabs > 0 ? 'Advanced Labs — 5 PBQ scenarios with visual tools' : 'Advanced Labs — in authoring'}
+                  price={formatPrice(priceOf(`${cert}_pack_2`))} />
+                <BundleRow
+                  label={examMode ? 'Exam Engine — Study Mode + Exam Mode' : 'Exam Engine — Study Mode (Exam Mode in authoring)'}
+                  price={formatPrice(examPrice)} />
               </ul>
 
               <div className="flex items-baseline gap-3 mb-5 flex-wrap">
@@ -164,12 +209,20 @@ export default function ExamPrepSection({ cert, certLabel, code }) {
                 </span>
               </div>
 
-              <BuyButton
-                productKey={bundleKey}
-                className="self-start px-6 py-3 rounded-xl text-sm font-bold"
-                style={{ background: '#ffffff', color: '#0B1D3A' }}>
-                Add the Prep Bundle →
-              </BuyButton>
+              <div className="flex items-center gap-3 flex-wrap">
+                {bundleSoon && (
+                  <span className="text-[10px] font-bold tracking-widest uppercase px-2.5 py-1.5 rounded-md"
+                    style={{ background: 'rgba(245,158,11,0.12)', color: '#fcd34d', border: '1px solid rgba(245,158,11,0.35)' }}>
+                    Launching soon
+                  </span>
+                )}
+                <BuyButton
+                  productKey={bundleKey}
+                  className="self-start px-6 py-3 rounded-xl text-sm font-bold"
+                  style={{ background: '#ffffff', color: '#0B1D3A' }}>
+                  Add the Prep Bundle →
+                </BuyButton>
+              </div>
             </div>
 
             {/* Right: supporting visual (exam results screenshot) */}

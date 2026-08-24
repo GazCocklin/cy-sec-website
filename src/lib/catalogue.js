@@ -13,6 +13,65 @@
 
 export const BASKET_KEY = 'cysec_basket';
 
+// ── Content inventory ────────────────────────────────────────────────────────
+// Per-cert question counts. Every customer-facing count on the store, the cert
+// landing pages and ExamPrepSection derives from HERE — nothing hardcodes a
+// figure in JSX.
+//
+// Why this exists: before 21-Aug-2026 the counts were JSX literals repeated
+// across catalogue.js and ExamPrepSection.jsx, so they said "2,000 MCQs · 50
+// PBQs" for every cert regardless of what had actually been authored. That was
+// false for CySA+ (1,561 / 51) and for both A+ Cores (0 sellable labs; Core 2
+// has no exam pool at all). Deriving the copy makes a wrong number impossible
+// to state in one place and right in another.
+//
+// KEEP IN SYNC with the live database. Verify with canon.audit.live_state_mcq_pool
+// and canon.audit.live_state_pbq_pool, never from memory or from this comment.
+// Figures below verified 21-Aug-2026.
+export const CONTENT = {
+  netplus:     { mcqStudy: 1000, mcqExam: 1000, pbqExam: 50, sellableLabs: 10 },
+  secplus:     { mcqStudy: 1000, mcqExam: 1000, pbqExam: 50, sellableLabs: 10 },
+  cysa:        { mcqStudy: 1024, mcqExam:  537, pbqExam: 51, sellableLabs: 10 },
+  aplus_core1: { mcqStudy: 1000, mcqExam: 1000, pbqExam: 50, sellableLabs:  0 },
+  aplus_core2: { mcqStudy: 1000, mcqExam:    0, pbqExam:  0, sellableLabs:  0 },
+};
+
+const num = v => Number(v).toLocaleString('en-GB');
+
+// True only when a cert has enough of an exam pool to run Exam Mode at all.
+export function hasExamMode(certKey) {
+  const c = CONTENT[certKey];
+  return !!(c && c.mcqExam > 0 && c.pbqExam > 0);
+}
+
+// Exam Engine card subtitle. Degrades honestly when Exam Mode cannot run.
+export function examSubLine(certKey) {
+  const c = CONTENT[certKey];
+  if (!c) return 'Study + Exam Mode';
+  if (!hasExamMode(certKey)) return `Study Mode · ${num(c.mcqStudy)} MCQs · Exam Mode in authoring`;
+  return `Study + Exam Mode · ${num(c.mcqStudy + c.mcqExam)} MCQs · ${num(c.pbqExam)} PBQs`;
+}
+
+// The MCQ/PBQ line in a cert's "what's included" list.
+export function mcqIncludesLine(certKey) {
+  const c = CONTENT[certKey];
+  if (!c) return 'Mock exam engine';
+  if (!hasExamMode(certKey)) return `${num(c.mcqStudy)} study MCQs with full reasoning · Exam Mode in authoring`;
+  return `${num(c.mcqStudy + c.mcqExam)} MCQs (${num(c.mcqStudy)} study + ${num(c.mcqExam)} exam) + ${num(c.pbqExam)} PBQs`;
+}
+
+// Study Mode chip / prose on ExamPrepSection.
+export function studyCountLabel(certKey) {
+  return `${num(CONTENT[certKey]?.mcqStudy || 0)} Qs`;
+}
+
+// Labs line. Reads 0 for certs whose lab packs are still in authoring, so the
+// "10 hands-on PBQ labs" claim can never render on an A+ page.
+export function labsLine(certKey) {
+  const n = CONTENT[certKey]?.sellableLabs || 0;
+  return n > 0 ? `${n} hands-on PBQ labs` : 'Hands-on PBQ labs in authoring';
+}
+
 // ── Cert catalogue ───────────────────────────────────────────────────────────
 // Five SKUs per cert (Foundation Labs, Advanced Labs, Complete, Exam Engine, Prep Bundle).
 // kind field classifies the card for the products grid (bundle / labs / mock / study).
@@ -29,7 +88,7 @@ export const CERTS = [
     includes: [
       '10 hands-on CLI simulation labs',
       'Mock exam engine — Study Mode + Exam Mode',
-      '2,000 MCQs (1,000 study + 1,000 exam) + 50 PBQs per cert',
+      mcqIncludesLine('netplus'),
       'Lifetime access',
     ],
     pack1: {
@@ -55,7 +114,7 @@ export const CERTS = [
       ],
     },
     complete:  { key: 'netplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netcap.png' },
-    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: '/screenshots/fl-exam-netplus.png' },
+    exam:      { key: 'netplus_exam',         label: 'Exam Engine',      sub: examSubLine('netplus'),   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: '/screenshots/fl-exam-netplus.png' },
     prepBundle:{ key: 'netplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   {
@@ -68,7 +127,7 @@ export const CERTS = [
     includes: [
       '10 hands-on security labs',
       'Mock exam engine — Study Mode + Exam Mode',
-      '2,000 MCQs (1,000 study + 1,000 exam) + 50 PBQs per cert',
+      mcqIncludesLine('secplus'),
       'Lifetime access',
     ],
     pack1: {
@@ -94,7 +153,7 @@ export const CERTS = [
       ],
     },
     complete:  { key: 'secplus_complete',     label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-linux-cli.png' },
-    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null },
+    exam:      { key: 'secplus_exam',         label: 'Exam Engine',      sub: examSubLine('secplus'),   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null },
     prepBundle:{ key: 'secplus_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   {
@@ -107,7 +166,7 @@ export const CERTS = [
     includes: [
       '10 SOC analyst labs',
       'Mock exam engine — Study Mode + Exam Mode',
-      '2,000 MCQs (1,000 study + 1,000 exam) + 50 PBQs per cert',
+      mcqIncludesLine('cysa'),
       'Lifetime access',
     ],
     pack1: {
@@ -133,15 +192,19 @@ export const CERTS = [
       ],
     },
     complete:  { key: 'cysa_complete',        label: 'Complete labs',    sub: 'All 10 labs · Foundation + Advanced',        price: 32.99, rrp: 39.98, saving: 6.99, kind: 'labs',   meta: 'Best value labs',   thumbnail: '/screenshots/fl-netscan.png' },
-    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
-    prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
+    exam:      { key: 'cysa_exam',            label: 'Exam Engine',      sub: examSubLine('cysa'),   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null },
+    prepBundle:{ key: 'cysa_prep_bundle',     label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null },
   },
   // ── A+ Core 1 (220-1201) ───────────────────────────────────────────────────
   // Wired 25-Apr-2026. Updated 25-Apr-2026 to current CompTIA exam codes
   // (220-1201/-1202 superseded the 1101/1102 cycle). Stripe prices live; webhook
   // PACK_LABELS + PREP_BUNDLE_EXPANSION already cover both Cores. Content is
-  // sparse at launch, so every SKU is marked comingSoon: true — ribbon shows
-  // "LAUNCHING SOON", buyable but honest about content state. No per-Core
+  // sparse at launch, so lab SKUs stay comingSoon: true — ribbon shows
+  // "LAUNCHING SOON", buyable but honest about content state. 21-Aug-2026:
+  // aplus_core1_exam un-flagged — Core 1 has a full exam pool (1,000 exam MCQs
+  // + 50 exam PBQs) and exam-start v11 carries its V15 domain weights, so the
+  // Exam Engine genuinely works. Core 1 LABS remain in authoring. Core 2 stays
+  // fully flagged: it has no exam pool at all, so Exam Mode cannot run. No per-Core
   // Complete Labs SKU (the £64.99 dual-core mega bundle below covers all-in).
   // Dedicated landing page: /comptia-aplus-core1-labs.
   {
@@ -179,7 +242,7 @@ export const CERTS = [
         'End-to-end client diagnostic exercise',
       ],
     },
-    exam:      { key: 'aplus_core1_exam',         label: 'Exam Engine',      sub: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
+    exam:      { key: 'aplus_core1_exam',         label: 'Exam Engine',      sub: examSubLine('aplus_core1'),   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null },
     prepBundle:{ key: 'aplus_core1_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
   // ── A+ Core 2 (220-1202) ───────────────────────────────────────────────────
@@ -219,7 +282,7 @@ export const CERTS = [
         'End-to-end ransomware containment',
       ],
     },
-    exam:      { key: 'aplus_core2_exam',         label: 'Exam Engine',      sub: 'Study + Exam Mode · 2,000 MCQs · 50 PBQs',   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
+    exam:      { key: 'aplus_core2_exam',         label: 'Exam Engine',      sub: examSubLine('aplus_core2'),   price: 24.99,                            kind: 'mock',   meta: 'Mock exam + study', thumbnail: null, comingSoon: true },
     prepBundle:{ key: 'aplus_core2_prep_bundle',  label: 'Exam Prep Bundle', sub: 'Labs + Exam Engine',    price: 39.99, rrp: 64.97, saving: 24.98, kind: 'bundle', meta: 'Most popular',      thumbnail: null, comingSoon: true },
   },
 ];
@@ -298,6 +361,11 @@ export function sanitiseBasket(items) {
 // ── Derived values ───────────────────────────────────────────────────────────
 export function priceOf(key) {
   return KEY_LOOKUP[key]?.config.price || 0;
+}
+// Headline saving for a bundle/complete SKU. Pairs with priceOf so page copy
+// and FAQ bodies (which feed the FAQPage JSON-LD) never hardcode a discount.
+export function savingOf(key) {
+  return KEY_LOOKUP[key]?.config.saving || 0;
 }
 export function basketTotal(items) {
   return (items || []).reduce((t, k) => t + priceOf(k), 0);

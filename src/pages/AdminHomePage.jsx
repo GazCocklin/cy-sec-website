@@ -1259,7 +1259,9 @@ const ConfigView = () => {
 
 
 // ─── FortifyLearn Learner Activity view ───────────────────────────────────────
-const FL_ADMIN_SECRET   = 'fl-admin-3338c175a9b3ad2f45ac3326';
+// admin-stats authenticates the caller's own Supabase session and checks
+// profiles.role server-side. Never put a shared secret here: everything in
+// src/ is compiled into the public JS bundle and this repo is public.
 const FL_ADMIN_ENDPOINT = 'https://kmnbtnfgeadvvkwsdyml.supabase.co/functions/v1/admin-stats';
 
 const REVIEW_CONFIG = {
@@ -1277,8 +1279,14 @@ const FortifyLearnActivityView = () => {
   const load = useCallback(async () => {
     setLoading(true); setError(null);
     try {
-      const res  = await fetch(FL_ADMIN_ENDPOINT, { headers: { 'x-admin-secret': FL_ADMIN_SECRET } });
+      const { data: { session } } = await supabase.auth.getSession();
+      const token = session?.access_token;
+      if (!token) throw new Error('Session expired \u2014 sign in again to load learner activity.');
+      const res  = await fetch(FL_ADMIN_ENDPOINT, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const json = await res.json();
+      if (res.status === 401) throw new Error('Not authorised \u2014 this account has no admin role.');
       if (!res.ok) throw new Error(json.error || res.status);
       setData(json);
     } catch (e) { setError(e.message); }

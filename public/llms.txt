@@ -1,6 +1,6 @@
 # FortifyLearn / Cy-Sec
 
-> Cy-Sec is a UK-based cybersecurity consultancy and training brand. FortifyLearn is the company's CompTIA prep platform, built around live CLI terminal labs for Performance-Based Questions (PBQs) and a full Exam Engine with Study Mode and timed Exam Mode. Built and maintained by Gaz Cocklin, a Crown Security Architect (CISSP-ISSAP, CISM, CRISC, CGEIT, CCSP).
+> Cy-Sec is a UK-based cybersecurity consultancy and training brand, and an authorised training partner of both CompTIA and CertNexus. FortifyLearn is the company's CompTIA prep platform, built around live CLI terminal labs for Performance-Based Questions (PBQs) and a full Exam Engine with Study Mode and timed Exam Mode. Built and maintained by Gaz Cocklin, a Crown Security Architect (CISSP-ISSAP, CISM, CRISC, CGEIT, CCSP). FortifyLearn's practice labs, questions and simulations are independently developed by Cy-Sec; they are not official CompTIA exam content and are not endorsed or sponsored by CompTIA.
 
 ## CompTIA prep platform — FortifyLearn
 
@@ -19,7 +19,7 @@
 ## Cy-Sec consultancy and platforms
 
 - [Cy-Sec — Cybersecurity Leadership, Compliance & Training](/): vCISO leadership, DORA and NIS2 compliance sprints, CompTIA-aligned training, and the FortifyOne compliance platform. UK-based. One trusted partner for cybersecurity leadership, compliance and learning.
-- [FortifyOne GRC Platform](/fortify-one): ISO 27001, DORA and NIS2 compliance platform with vendor risk management for UK small and mid-sized businesses. Currently in development.
+- [FortifyOne GRC Platform](/fortifyone): ISO 27001, DORA and NIS2 compliance platform with vendor risk management for UK small and mid-sized businesses. Currently in development.
 - [Virtual CISO Service UK](/vciso): Dedicated Virtual CISO (vCISO) service for UK SMBs. ISO 27001, DORA, NIS2 compliance support, FortifyOne platform included. Bronze tier from £995/month, Silver £2,250/month, Gold £4,500/month.
 - [DORA Compliance Sprint](/dora-compliance): Accelerated path to Digital Operational Resilience Act (DORA) compliance for UK financial services firms in scope.
 - [NIS2 Compliance for UK & EU Businesses](/nis2-compliance): NIS2 readiness reviews, gap analysis, and supply chain security for UK and EU firms in scope of the directive.

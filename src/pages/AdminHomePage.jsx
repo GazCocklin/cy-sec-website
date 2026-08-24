@@ -8,6 +8,7 @@ import {
   ChevronLeft, ChevronRight, ArrowLeft, Activity,
   Clock, CheckCircle2, AlertCircle, Inbox,
   TrendingUp, Shield, Trash2, Tag, Package, Layers, BookOpen,
+  MessageSquare, Check, Copy, ExternalLink, RotateCw,
 } from 'lucide-react';
 
 // ─── Status helpers ────────────────────────────────────────────────────────────
@@ -1835,6 +1836,270 @@ const PBQRedTeamView = () => {
   );
 };
 
+// ─── SEO Outreach ──────────────────────────────────────────────────────────────
+const SEO_DRAFT_STATUSES = ['new', 'used', 'used_edited', 'skipped', 'expired'];
+
+const seoStatusLabel = (s) => ({
+  new:         'New',
+  used:        'Used',
+  used_edited: 'Used (edited)',
+  skipped:     'Skipped',
+  expired:     'Expired',
+}[s] || s);
+
+const SeoStatusPill = ({ status }) => {
+  const cls = {
+    new:         'bg-cyan-50 text-cyan-700 border-cyan-200',
+    used:        'bg-green-50 text-green-700 border-green-200',
+    used_edited: 'bg-green-50 text-green-700 border-green-200',
+    skipped:     'bg-slate-50 text-slate-500 border-slate-200',
+    expired:     'bg-amber-50 text-amber-700 border-amber-200',
+  }[status] || 'bg-slate-50 text-slate-500 border-slate-200';
+  return (
+    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${cls}`}>
+      {seoStatusLabel(status)}
+    </span>
+  );
+};
+
+const seoAge = (iso) => {
+  if (!iso) return '—';
+  const hours = Math.floor((Date.now() - new Date(iso).getTime()) / 36e5);
+  if (hours < 1) return 'just now';
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
+};
+
+const SeoOutreachView = () => {
+  const [drafts, setDrafts]   = useState([]);
+  const [runs, setRuns]       = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [statusFilter, setStatusFilter] = useState('new');
+  const [expanded, setExpanded] = useState({});
+  const [copied, setCopied]     = useState(null);
+  const [saving, setSaving]     = useState({});
+  const [error, setError]       = useState('');
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setError('');
+    const [draftRes, runRes] = await Promise.all([
+      supabase.from('seo_reddit_drafts').select('*')
+        .order('priority', { ascending: false })
+        .order('created_at', { ascending: false })
+        .limit(200),
+      supabase.from('seo_scan_runs').select('*')
+        .order('started_at', { ascending: false })
+        .limit(5),
+    ]);
+    if (draftRes.error) setError(draftRes.error.message);
+    setDrafts(draftRes.data || []);
+    setRuns(runRes.data || []);
+    setLoading(false);
+  }, []);
+  useEffect(() => { load(); }, [load]);
+
+  const toggle = (id) => setExpanded(p => ({ ...p, [id]: !p[id] }));
+
+  const copyDraft = async (d) => {
+    try {
+      await navigator.clipboard.writeText(d.draft_body || '');
+      setCopied(d.id);
+      setTimeout(() => setCopied(c => (c === d.id ? null : c)), 2000);
+    } catch {
+      setError('Clipboard blocked by the browser — select the draft text and copy manually.');
+    }
+  };
+
+  // Direct .update() on this table silently returns zero rows under RLS, exactly
+  // as fl_feedback does (see Configuration → Supabase Key Patterns). Always go
+  // through the security-definer RPC, which also enforces is_admin().
+  const setStatus = async (d, status) => {
+    setSaving(p => ({ ...p, [d.id]: true }));
+    setError('');
+    const { data, error: rpcError } = await supabase.rpc('admin_set_seo_draft_status', {
+      p_id: d.id, p_status: status,
+    });
+    if (rpcError) {
+      setError(`Could not save status: ${rpcError.message}`);
+    } else if (data) {
+      const row = Array.isArray(data) ? data[0] : data;
+      setDrafts(p => p.map(x => (x.id === d.id ? { ...x, ...row } : x)));
+    }
+    setSaving(p => ({ ...p, [d.id]: false }));
+  };
+
+  const counts = SEO_DRAFT_STATUSES.reduce((acc, s) => {
+    acc[s] = drafts.filter(d => d.status === s).length;
+    return acc;
+  }, {});
+  const posted = (counts.used || 0) + (counts.used_edited || 0);
+  const lastRun = runs[0];
+
+  const stats = [
+    { label: 'Awaiting Review', value: counts.new || 0,   icon: Inbox,         color: 'text-cyan-600',  bgColor: 'bg-cyan-50' },
+    { label: 'Posted',          value: posted,            icon: CheckCircle2,  color: 'text-green-600', bgColor: 'bg-green-50' },
+    { label: 'Skipped',         value: counts.skipped || 0, icon: Trash2,      color: 'text-slate-500', bgColor: 'bg-slate-50' },
+    { label: 'Last Scan',       value: lastRun ? seoAge(lastRun.started_at) : '—', icon: TrendingUp, color: 'text-[#0891B2]', bgColor: 'bg-cyan-50' },
+  ];
+
+  const filtered = statusFilter === 'all'
+    ? drafts
+    : drafts.filter(d => d.status === statusFilter);
+
+  const filterOptions = [
+    { value: 'all', label: `All (${drafts.length})` },
+    ...SEO_DRAFT_STATUSES.map(s => ({ value: s, label: `${seoStatusLabel(s)} (${counts[s] || 0})` })),
+  ];
+
+  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-12 w-12 border-b-2" style={{ borderColor: '#0891B2' }} /></div>;
+
+  return (
+    <div className="space-y-5">
+      <StatRow stats={stats} />
+
+      {error && (
+        <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 text-amber-800 rounded-lg px-4 py-3 text-sm">
+          <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
+
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex gap-2 flex-wrap">
+          {filterOptions.map(o => (
+            <button key={o.value} onClick={() => setStatusFilter(o.value)}
+              className={`text-xs font-semibold border px-3 py-1.5 rounded-lg transition-colors ${
+                statusFilter === o.value
+                  ? 'bg-[#0B1D3A] text-white border-[#0B1D3A]'
+                  : 'text-slate-500 border-gray-200 bg-white hover:bg-slate-50'
+              }`}>{o.label}</button>
+          ))}
+        </div>
+        <button onClick={load}
+          className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50">
+          <RotateCw className="w-3.5 h-3.5" /> Refresh
+        </button>
+      </div>
+
+      {lastRun && (
+        <p className="text-[11px] text-slate-400">
+          Last scan {fmt(lastRun.started_at)} · status {lastRun.status} · {lastRun.posts_seen} posts seen ·{' '}
+          {lastRun.candidates} candidates · {lastRun.drafts_created} drafts created
+          {lastRun.error ? ` · error: ${lastRun.error}` : ''}
+        </p>
+      )}
+
+      {filtered.length === 0 && (
+        <p className="text-sm text-slate-400 text-center py-12">
+          No drafts with this status. Scans run weekdays at 08:06 and 16:06 UTC.
+        </p>
+      )}
+
+      <div className="space-y-2">
+        {filtered.map(d => {
+          const open = expanded[d.id];
+          return (
+            <Card key={d.id} className="border border-gray-200 shadow-sm overflow-hidden">
+              <button onClick={() => toggle(d.id)} className="w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-1">
+                      <span className="font-mono text-[11px] font-semibold text-[#0891B2]">r/{d.subreddit}</span>
+                      <SeoStatusPill status={d.status} />
+                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">P{d.priority}</span>
+                      {d.disclosure_eligible && (
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold border bg-amber-50 text-amber-700 border-amber-200">
+                          Disclosure eligible
+                        </span>
+                      )}
+                    </div>
+                    <p className="font-medium text-slate-800 truncate">{d.post_title || '(untitled post)'}</p>
+                    <p className="text-[11px] text-slate-400 mt-0.5">
+                      {d.post_score ?? 0} points · {d.post_comments ?? 0} comments · posted {seoAge(d.post_created_at)} · drafted {fmt(d.created_at)}
+                    </p>
+                  </div>
+                  <ChevronRight className={`w-4 h-4 text-slate-400 shrink-0 mt-1 transition-transform ${open ? 'rotate-90' : ''}`} />
+                </div>
+              </button>
+
+              {open && (
+                <CardContent className="pt-0 pb-4 space-y-4 border-t border-gray-100">
+                  {d.gap && (
+                    <div className="pt-4">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Why this thread</p>
+                      <p className="text-sm text-slate-600">{d.gap}</p>
+                    </div>
+                  )}
+
+                  {d.post_excerpt && (
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Post excerpt</p>
+                      <p className="text-sm text-slate-500 italic">{d.post_excerpt}</p>
+                    </div>
+                  )}
+
+                  {d.existing_replies && (
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Existing replies</p>
+                      <p className="text-sm text-slate-500">{d.existing_replies}</p>
+                    </div>
+                  )}
+
+                  <div>
+                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Draft reply</p>
+                    <pre className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm text-slate-700 whitespace-pre-wrap font-sans leading-relaxed">{d.draft_body}</pre>
+                  </div>
+
+                  {d.draft_note && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
+                      <p className="text-[10px] font-bold text-amber-700 uppercase tracking-widest mb-1">Note</p>
+                      <p className="text-sm text-amber-800">{d.draft_note}</p>
+                    </div>
+                  )}
+
+                  {d.posted_comment_url && (
+                    <p className="text-[11px] text-slate-400">
+                      Posted comment: {d.comment_score ?? 0} points · {d.comment_replies ?? 0} replies
+                      {d.op_replied ? ' · OP replied' : ''}
+                      {d.last_checked_at ? ` · checked ${seoAge(d.last_checked_at)}` : ''}
+                    </p>
+                  )}
+
+                  <div className="flex items-center gap-2 flex-wrap pt-1">
+                    <button onClick={() => copyDraft(d)}
+                      className="flex items-center gap-1.5 text-xs font-semibold text-white px-3 py-1.5 rounded-lg bg-[#0891B2] hover:bg-[#0E5F8A] transition-colors">
+                      {copied === d.id ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copied === d.id ? 'Copied' : 'Copy draft'}
+                    </button>
+                    <a href={d.post_url} target="_blank" rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50">
+                      <ExternalLink className="w-3.5 h-3.5" /> Open thread
+                    </a>
+                    {d.posted_comment_url && (
+                      <a href={d.posted_comment_url} target="_blank" rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50">
+                        <ExternalLink className="w-3.5 h-3.5" /> View comment
+                      </a>
+                    )}
+                    <span className="flex-1" />
+                    {['used', 'used_edited', 'skipped', 'new'].filter(s => s !== d.status).map(s => (
+                      <button key={s} onClick={() => setStatus(d, s)} disabled={saving[d.id]}
+                        className="text-xs font-semibold text-slate-600 border border-gray-200 px-3 py-1.5 rounded-lg bg-white hover:bg-slate-50 disabled:opacity-50">
+                        {saving[d.id] ? 'Saving…' : `Mark ${seoStatusLabel(s)}`}
+                      </button>
+                    ))}
+                  </div>
+                </CardContent>
+              )}
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
 const NAV_GROUPS = [
   {
     label: null,
@@ -1873,6 +2138,12 @@ const NAV_GROUPS = [
     ],
   },
   {
+    label: 'Marketing',
+    items: [
+      { id: 'seo_outreach', label: 'SEO Outreach', icon: MessageSquare },
+    ],
+  },
+  {
     label: null,
     items: [
       { id: 'config', label: 'Configuration', icon: Settings2 },
@@ -1892,6 +2163,7 @@ const PAGE_META = {
   pricing:     { title: 'Packs & Pricing',              section: 'FortifyLearn' },
   mcq_redteam: { title: 'MCQ Red Team Reports',         section: 'Quality' },
   pbq_redteam: { title: 'PBQ Red Team Reports',         section: 'Quality' },
+  seo_outreach: { title: 'SEO Outreach',                section: 'Marketing' },
   config:      { title: 'Platform Configuration',       section: 'Configuration' },
 };
 
@@ -1953,6 +2225,7 @@ export default function AdminHomePage() {
       case 'fl_activity': return <FortifyLearnActivityView />;
       case 'mcq_redteam': return <MCQRedTeamView />;
       case 'pbq_redteam': return <PBQRedTeamView />;
+      case 'seo_outreach': return <SeoOutreachView />;
       default:          return <DashboardView setView={setView} />;
     }
   };

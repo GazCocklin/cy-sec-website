@@ -18,9 +18,9 @@
 // There is deliberately no sticky basket bar: adding from a row opens the same
 // global drawer used everywhere else, so there is one basket UI site-wide.
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { useBasket } from '@/hooks/useBasket';
 import BuyButton from '@/components/BuyButton';
 import {
@@ -35,7 +35,16 @@ const TOOL_SHOTS = [
 ];
 
 export default function StorePage() {
-  const [activeCert, setActiveCert] = useState('netplus');
+  // Deep link: /store?cert=<key> opens that cert's tab directly (04-Sep-2026).
+  // Needed because aplus_complete belongs to no cert landing page, so purchase
+  // and marketing emails had nowhere to send an A+ Complete buyer but a bare
+  // /store that always opened on Network+. Unknown or missing keys fall back to
+  // 'netplus', so every existing bare /store link behaves exactly as before.
+  const [searchParams] = useSearchParams();
+  const rawCert = searchParams.get('cert');
+  const paramCert = STORE_CERT_TABS.some(t => t.key === rawCert) ? rawCert : null;
+  const [activeCert, setActiveCert] = useState(paramCert || 'netplus');
+  useEffect(() => { if (paramCert) setActiveCert(paramCert); }, [paramCert]);
   const { openDrawer, count } = useBasket();
 
   const cert = CERTS.find(c => c.key === activeCert);

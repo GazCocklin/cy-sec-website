@@ -1885,6 +1885,7 @@ const SeoOutreachView = () => {
   const [statusFilter, setStatusFilter] = useState('new');
   const [expanded, setExpanded] = useState({});
   const [copied, setCopied]     = useState(null);
+  const [variantById, setVariantById] = useState({});
   const [saving, setSaving]     = useState({});
   const [error, setError]       = useState('');
 
@@ -1909,9 +1910,9 @@ const SeoOutreachView = () => {
 
   const toggle = (id) => setExpanded(p => ({ ...p, [id]: !p[id] }));
 
-  const copyDraft = async (d) => {
+  const copyDraft = async (d, body) => {
     try {
-      await navigator.clipboard.writeText(d.draft_body || '');
+      await navigator.clipboard.writeText(body || '');
       setCopied(d.id);
       setTimeout(() => setCopied(c => (c === d.id ? null : c)), 2000);
     } catch {
@@ -2007,6 +2008,9 @@ const SeoOutreachView = () => {
       <div className="space-y-2">
         {filtered.map(d => {
           const open = expanded[d.id];
+          const variant = variantById[d.id] || 'undisclosed';
+          const showDisclosed = !!d.draft_body_disclosed && variant === 'disclosed';
+          const draftBody = showDisclosed ? d.draft_body_disclosed : d.draft_body;
           return (
             <Card key={d.id} className="border border-gray-200 shadow-sm overflow-hidden">
               <button onClick={() => toggle(d.id)} className="w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors">
@@ -2055,9 +2059,33 @@ const SeoOutreachView = () => {
                   )}
 
                   <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Draft reply</p>
-                    <pre className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm text-slate-700 whitespace-pre-wrap font-sans leading-relaxed">{d.draft_body}</pre>
+                    <div className="flex items-center justify-between gap-3 flex-wrap mb-1">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Draft reply</p>
+                      {d.draft_body_disclosed && (
+                        <div className="flex gap-1">
+                          {[{ value: 'undisclosed', label: 'Undisclosed' }, { value: 'disclosed', label: 'Disclosed' }].map(o => (
+                            <button key={o.value} onClick={() => setVariantById(p => ({ ...p, [d.id]: o.value }))}
+                              className={`text-[11px] font-semibold border px-2.5 py-1 rounded-lg transition-colors ${
+                                variant === o.value
+                                  ? 'bg-[#0891B2] text-white border-[#0891B2]'
+                                  : 'text-slate-500 border-gray-200 bg-white hover:bg-slate-50'
+                              }`}>{o.label}</button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <pre className="bg-slate-50 border border-slate-200 rounded-lg p-3 text-sm text-slate-700 whitespace-pre-wrap font-sans leading-relaxed">{draftBody}</pre>
+                    {showDisclosed && (
+                      <p className="text-[11px] text-slate-400 mt-1">Names FortifyLearn. Check the venue rules before posting.</p>
+                    )}
                   </div>
+
+                  {showDisclosed && d.disclosure_note && (
+                    <div className="bg-sky-50 border border-sky-200 rounded-lg px-3 py-2">
+                      <p className="text-[10px] font-bold text-sky-700 uppercase tracking-widest mb-1">Disclosure note</p>
+                      <p className="text-sm text-sky-800">{d.disclosure_note}</p>
+                    </div>
+                  )}
 
                   {d.draft_note && (
                     <div className="bg-amber-50 border border-amber-200 rounded-lg px-3 py-2">
@@ -2075,7 +2103,7 @@ const SeoOutreachView = () => {
                   )}
 
                   <div className="flex items-center gap-2 flex-wrap pt-1">
-                    <button onClick={() => copyDraft(d)}
+                    <button onClick={() => copyDraft(d, draftBody)}
                       className="flex items-center gap-1.5 text-xs font-semibold text-white px-3 py-1.5 rounded-lg bg-[#0891B2] hover:bg-[#0E5F8A] transition-colors">
                       {copied === d.id ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                       {copied === d.id ? 'Copied' : 'Copy draft'}

@@ -6,27 +6,27 @@ import { Sparkles, ChevronDown } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
 
 // ── A+ Core 1 (220-1201) landing page ────────────────────────────────────────
-// Built 25-Apr-2026 alongside the storefront A+ rollout. Lab content is in
-// active authoring (1 PBQ live at launch, target 10 across both packs). Lab
-// titles below reflect the planned curriculum mapped to CompTIA's 220-1201
-// objectives. Page-level "LAUNCHING SOON" badge sets expectations honestly.
-// Hero/tool screenshots are placeholders reusing existing FortifyLearn shots
-// — Gaz will swap them as A+-specific imagery is authored.
+// Built 25-Apr-2026 alongside the storefront A+ rollout. All 10 labs across both
+// packs are LIVE as of 05-Sep-2026 — the titles, difficulties, times and objective
+// mappings below are the shipped content, not a plan. Source of truth is
+// pbq_banks / pbq_questions where product_key = aplus_core1_pack or
+// aplus_core1_pack_2; see canon project.fl_pbq_creator.aplus_pack_plan.
+// Hero/tool screenshots remain placeholders reusing existing FortifyLearn shots.
 
 const PACK1_LABS = [
-  { num: 1, title: 'Mobile device sync & connectivity',                     diff: 'Easy',         time: 12, obj: '1.0 / 5.0', tool: 'FL-Mobile' },
-  { num: 2, title: 'Network cable & port troubleshooting',                  diff: 'Easy',         time: 12, obj: '2.0 / 5.0', tool: 'CLI Diag' },
-  { num: 3, title: 'Hardware diagnostic workflows — POST & component swap', diff: 'Intermediate', time: 18, obj: '3.0 / 5.0', tool: 'CLI Diag' },
-  { num: 4, title: 'Virtualisation & cloud configuration',                  diff: 'Hard',         time: 25, obj: '4.0',       tool: 'FL-VMSIM' },
-  { num: 5, title: 'Multi-fault hardware/network triage',                   diff: 'Expert',       time: 30, obj: '2.0 / 3.0 / 5.0', tool: 'FL-Mobile' },
+  { num: 1, title: 'Thermal throttling and fan-curve diagnosis',            diff: 'Easy',         time: 10, obj: '3.0 / 5.0', tool: 'THERMGRID' },
+  { num: 2, title: 'Mobile hotspot and eSIM provisioning triage',           diff: 'Intermediate', time: 12, obj: '1.0',       tool: 'CELLPLAN' },
+  { num: 3, title: 'Printer fleet outage — driver, spooler and queue path', diff: 'Intermediate', time: 12, obj: '5.0',       tool: 'FLEETSPOOL' },
+  { num: 4, title: 'Switch port, VLAN and uplink misconfiguration',         diff: 'Hard',         time: 15, obj: '2.0',       tool: 'PORTGRID' },
+  { num: 5, title: 'Two concurrent faults — multi-symptom isolation',       diff: 'Expert',       time: 25, obj: '5.0 / 3.0', tool: 'FAULTGRID' },
 ];
 
 const PACK2_LABS = [
-  { num: 1, title: 'Wireless AP misconfiguration — SSID, channel & encryption', diff: 'Easy',         time: 12, obj: '2.0 / 5.0', tool: 'FL-WiFi' },
-  { num: 2, title: 'Printer & peripheral fault diagnosis',                       diff: 'Easy',         time: 14, obj: '3.0 / 5.0', tool: 'CLI Diag' },
-  { num: 3, title: 'SOHO router & network share triage',                         diff: 'Intermediate', time: 20, obj: '2.0 / 4.0', tool: 'FL-WiFi' },
-  { num: 4, title: 'Display & video subsystem repair',                           diff: 'Hard',         time: 18, obj: '3.0 / 5.0', tool: 'CLI Diag' },
-  { num: 5, title: 'End-to-end client diagnostic exercise',                      diff: 'Expert',       time: 30, obj: '1.0 / 2.0 / 3.0 / 5.0', tool: 'FL-Mobile' },
+  { num: 1, title: 'Office Wi-Fi channel and interference planning', diff: 'Easy',         time: 10, obj: '2.0',       tool: 'RFPLAN' },
+  { num: 2, title: 'UEFI boot order and Secure Boot recovery',       diff: 'Intermediate', time: 12, obj: '3.0',       tool: 'FIRMBOOT' },
+  { num: 3, title: 'Intermittent shutdown and POST-code isolation',  diff: 'Hard',         time: 15, obj: '5.0 / 3.0', tool: 'POSTTRACE' },
+  { num: 4, title: 'VDI host contention and client provisioning',    diff: 'Hard',         time: 15, obj: '4.0',       tool: 'VDIOPS' },
+  { num: 5, title: 'Degraded array rebuild and backplane fault',     diff: 'Expert',       time: 25, obj: '3.0 / 5.0', tool: 'ARRAYOPS' },
 ];
 
 const DIFF_STYLE = {
@@ -34,10 +34,16 @@ const DIFF_STYLE = {
   Hard:'bg-amber-100 text-amber-700', Expert:'bg-[#0B1D3A]/10 text-[#0B1D3A]',
 };
 const TOOL_STYLE = {
-  'CLI Diag':   'bg-[#e0f2f9] text-[#0E5F8A]',
-  'FL-Mobile':  'bg-[#0B1D3A]/10 text-[#0B1D3A]',
-  'FL-VMSIM':   'bg-amber-50 text-amber-700',
-  'FL-WiFi':    'bg-emerald-50 text-emerald-700',
+  'THERMGRID':  'bg-[#e0f2f9] text-[#0E5F8A]',
+  'CELLPLAN':   'bg-emerald-50 text-emerald-700',
+  'FLEETSPOOL': 'bg-purple-50 text-purple-700',
+  'PORTGRID':   'bg-[#0B1D3A]/10 text-[#0B1D3A]',
+  'FAULTGRID':  'bg-amber-50 text-amber-700',
+  'RFPLAN':     'bg-emerald-50 text-emerald-700',
+  'FIRMBOOT':   'bg-amber-50 text-amber-700',
+  'POSTTRACE':  'bg-[#0B1D3A]/10 text-[#0B1D3A]',
+  'VDIOPS':     'bg-[#e0f2f9] text-[#0E5F8A]',
+  'ARRAYOPS':   'bg-purple-50 text-purple-700',
 };
 
 function LabRow({ lab }) {
@@ -97,11 +103,11 @@ const FAQ = [
   },
   {
     q: "What's the difference between Foundation Labs and Advanced Labs?",
-    a: `Foundation Labs is the ${formatPrice(priceOf('aplus_core1_pack'))} entry pack — five A+ Core 1 scenarios covering mobile device sync and connectivity, network cable and port troubleshooting, hardware POST and component diagnostics, virtualisation and cloud configuration, and a multi-fault hardware/network triage. Advanced Labs is the ${formatPrice(priceOf('aplus_core1_pack_2'))} second pack and adds wireless AP misconfiguration, printer and peripheral fault diagnosis, SOHO router and share triage, display and video subsystem repair, and an end-to-end client diagnostic exercise. Or grab the Exam Prep Bundle at ${formatPrice(priceOf('aplus_core1_prep_bundle'))} for both packs plus the Exam Engine — saves ${formatPrice(savingOf('aplus_core1_prep_bundle'))}.`,
+    a: `Foundation Labs is the ${formatPrice(priceOf('aplus_core1_pack'))} entry pack — five A+ Core 1 scenarios covering thermal throttling diagnosis, mobile hotspot and eSIM provisioning, a model-specific printer fleet outage, switch port and VLAN misconfiguration, and a two-fault multi-symptom isolation. Advanced Labs is the ${formatPrice(priceOf('aplus_core1_pack_2'))} second pack and adds Wi-Fi channel and interference planning, UEFI boot order and Secure Boot recovery, intermittent POST-code isolation, virtual desktop host contention, and a degraded array rebuild with a backplane fault. Or grab the Exam Prep Bundle at ${formatPrice(priceOf('aplus_core1_prep_bundle'))} for both packs plus the Exam Engine — saves ${formatPrice(savingOf('aplus_core1_prep_bundle'))}.`,
   },
   {
     q: 'How much A+ Core 1 content is available right now?',
-    a: "The full 10-lab curriculum and the Exam Engine MCQ bank are in active authoring — early labs are live and the rest ship as they're authored. Buy Foundation Labs now and you lock in the launch price; you'll get every lab in the pack as it goes live, with lifetime access. If you'd rather wait until everything's complete, that's a fair call too — the page lists the planned curriculum so you can decide.",
+    a: "All ten A+ Core 1 labs are live — five in Foundation Labs and five in Advanced Labs — and every one is included in the pack you buy, with lifetime access. Buy either pack and you get its five labs immediately; the Exam Prep Bundle adds the Exam Engine on top.",
   },
   {
     q: 'Are these labs enough on their own to pass A+ Core 1?',
@@ -157,7 +163,7 @@ export default function APlusCore1LabsPage() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]" /> 220-1201 · CompTIA A+ Core 1
             </div>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5 border text-[10px] font-extrabold tracking-widest uppercase text-amber-300" style={{ background: 'rgba(245,158,11,0.12)', borderColor: 'rgba(245,158,11,0.35)' }}>
-              <Sparkles className="w-3 h-3" /> Launching soon · early-bird pricing live
+              <Sparkles className="w-3 h-3" /> All 10 labs live · lifetime access
             </div>
             <h1 className="text-4xl lg:text-5xl font-black text-white mb-5" style={{ letterSpacing: '-1.5px', lineHeight: 1.1 }}>
               A+ Core 1 practice labs.<br />
@@ -165,7 +171,7 @@ export default function APlusCore1LabsPage() {
               Mobile devices.
             </h1>
             <p className="text-[15px] text-white/60 leading-relaxed mb-7 max-w-lg">
-              <strong className="text-white/90">CompTIA A+ Core 1 (220-1201) performance-based questions</strong> test you on diagnosing mobile device, networking, and hardware faults under realistic conditions. FortifyLearn maps a planned 10-lab curriculum to every 220-1201 domain — content authoring is live and you'll get every lab as it ships, at today's launch price.
+              <strong className="text-white/90">CompTIA A+ Core 1 (220-1201) performance-based questions</strong> test you on diagnosing mobile device, networking, and hardware faults under realistic conditions. FortifyLearn's 10-lab A+ Core 1 curriculum maps to every 220-1201 domain, and all ten labs are live now — included in the pack you buy, with lifetime access.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <BuyButton productKey="aplus_core1_pack" className="px-6 py-3 rounded-xl text-sm">{`Foundation Labs — ${formatPrice(priceOf("aplus_core1_pack"))}`}</BuyButton>
@@ -193,10 +199,10 @@ export default function APlusCore1LabsPage() {
         <div className="max-w-6xl mx-auto px-8 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-2 space-y-4">
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              The <span className="font-semibold text-[#0891B2]">CompTIA A+ Core 1 (220-1201) exam</span> tests hands-on troubleshooting across five domains: mobile devices, networking, hardware, virtualisation & cloud, and hardware/network troubleshooting. FortifyLearn's planned <span className="font-semibold text-[#0891B2]">A+ Core 1 lab curriculum</span> works through a realistic scenario in each — diagnostic workflows you can run on day one of the job.
+              The <span className="font-semibold text-[#0891B2]">CompTIA A+ Core 1 (220-1201) exam</span> tests hands-on troubleshooting across five domains: mobile devices, networking, hardware, virtualisation & cloud, and hardware/network troubleshooting. FortifyLearn's <span className="font-semibold text-[#0891B2]">A+ Core 1 lab curriculum</span> works through a realistic scenario in each — diagnostic workflows you can run on day one of the job.
             </p>
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              Foundation Labs covers the core scenarios — mobile sync, cable diagnostics, hardware POST checks, virtualisation setup, and a multi-fault triage. Advanced Labs builds on those with <strong className="text-[#0B1D3A]">wireless AP fault analysis</strong>, peripheral diagnostics, and an end-to-end client recovery exercise. Buy Foundation now and lock in the early-bird price while content rolls out.
+              Foundation Labs covers the everyday scenarios — a workstation throttling under load, a field laptop whose cellular modem never connects, a printer fleet where one model has stopped, a relocated desk that gets no address, and a machine carrying two independent faults at once. Advanced Labs builds on those with <strong className="text-[#0B1D3A]">wireless channel and interference planning</strong>, UEFI and Secure Boot recovery, an intermittent POST fault that two component swaps failed to fix, virtual desktop contention, and a degraded array that has dropped three good disks. All ten labs are live today.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-3 lg:grid-cols-1 lg:gap-3">
@@ -215,7 +221,7 @@ export default function APlusCore1LabsPage() {
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">A+ Core 1 (220-1201) labs</p>
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Two packs. Ten labs. Mapped to every domain.</h2>
-          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Foundation Labs covers the core 220-1201 scenarios. Advanced Labs adds the harder multi-fault and wireless workflows. Each lab is being authored to map to one or more A+ Core 1 objectives.</p>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Foundation Labs covers the core 220-1201 scenarios. Advanced Labs adds the harder multi-fault and wireless workflows. Every lab is live today and mapped to one or more A+ Core 1 objectives.</p>
 
           <div className="flex overflow-x-auto border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[

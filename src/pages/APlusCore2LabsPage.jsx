@@ -6,28 +6,28 @@ import { Sparkles, ChevronDown } from 'lucide-react';
 import ExamPrepSection from '../components/ExamPrepSection';
 
 // ── A+ Core 2 (220-1202) landing page ────────────────────────────────────────
-// Built 25-Apr-2026 alongside the storefront A+ rollout. Lab content is in
-// active authoring (1 PBQ live at launch, target 10 across both packs). Lab
-// titles below reflect the planned curriculum mapped to CompTIA's 220-1202
-// objectives (operating systems, security, software troubleshooting, and
-// operational procedures). Hero/tool screenshots are placeholders reusing
-// existing FortifyLearn shots — Gaz will swap them as A+-specific imagery
-// is authored.
+// Built 25-Apr-2026 alongside the storefront A+ rollout. All 10 labs across both
+// packs are LIVE as of 05-Sep-2026 — the titles, difficulties, times and objective
+// mappings below are the shipped content, not a plan. Source of truth is
+// pbq_banks / pbq_questions where product_key = aplus_core2_pack or
+// aplus_core2_pack_2; see canon project.fl_pbq_creator.aplus_pack_plan. The Core 2
+// Exam Engine MCQ bank is still in authoring — do not describe it as complete.
+// Hero/tool screenshots remain placeholders reusing existing FortifyLearn shots.
 
 const PACK1_LABS = [
-  { num: 1, title: 'Windows account & permission audit',                     diff: 'Easy',         time: 12, obj: '1.0 / 2.0', tool: 'Win Admin' },
-  { num: 2, title: 'Defender quarantine & malware response',                 diff: 'Easy',         time: 14, obj: '2.0',       tool: 'Defender' },
-  { num: 3, title: 'OS recovery & boot troubleshooting',                     diff: 'Intermediate', time: 20, obj: '1.0 / 3.0', tool: 'WinRE CLI' },
-  { num: 4, title: 'User profile & group policy fixes',                      diff: 'Hard',         time: 22, obj: '1.0 / 2.0 / 4.0', tool: 'Win Admin' },
-  { num: 5, title: 'Software install/uninstall diagnostics',                 diff: 'Expert',       time: 25, obj: '1.0 / 3.0', tool: 'Win Admin' },
+  { num: 1, title: 'Disk Management — partition, volume and drive-letter repair', diff: 'Easy',         time: 10, obj: '1.0',       tool: 'DISKMGR' },
+  { num: 2, title: 'Ticket triage, prioritisation and documentation quality',     diff: 'Easy',         time: 10, obj: '4.0',       tool: 'SERVICEDESK' },
+  { num: 3, title: 'Workstation hardening baseline — firewall, Defender, policy', diff: 'Intermediate', time: 12, obj: '2.0',       tool: 'HARDENOPS' },
+  { num: 4, title: 'Boot failure recovery — WinRE, bootrec and BCD rebuild',      diff: 'Hard',         time: 15, obj: '3.0',       tool: 'RECOVERYSHELL' },
+  { num: 5, title: 'Malware removal — seven-step remediation under quarantine',   diff: 'Expert',       time: 25, obj: '2.0 / 3.0', tool: 'MALOPS' },
 ];
 
 const PACK2_LABS = [
-  { num: 1, title: 'Phishing incident response procedure',                   diff: 'Easy',         time: 12, obj: '2.0 / 4.0', tool: 'Defender' },
-  { num: 2, title: 'Mobile MDM & wipe-on-loss policy',                       diff: 'Easy',         time: 14, obj: '2.0 / 4.0', tool: 'FL-MDM' },
-  { num: 3, title: 'BSOD root-cause investigation',                          diff: 'Intermediate', time: 20, obj: '1.0 / 3.0', tool: 'WinRE CLI' },
-  { num: 4, title: 'Backup & restore operational drill',                     diff: 'Hard',         time: 22, obj: '4.0',       tool: 'FL-Backup' },
-  { num: 5, title: 'End-to-end ransomware containment',                      diff: 'Expert',       time: 35, obj: '2.0 / 3.0 / 4.0', tool: 'Defender' },
+  { num: 1, title: 'Slow boot and startup-application triage',            diff: 'Easy',         time: 10, obj: '3.0',       tool: 'STARTUPSCOPE' },
+  { num: 2, title: 'Local users, groups and UAC elevation repair',        diff: 'Intermediate', time: 12, obj: '1.0 / 2.0', tool: 'ACCTMGR' },
+  { num: 3, title: 'NTFS vs share permissions — effective-access repair', diff: 'Hard',         time: 15, obj: '2.0',       tool: 'ACCESSAUDIT' },
+  { num: 4, title: 'Backup verification and change-controlled restore',   diff: 'Hard',         time: 15, obj: '4.0',       tool: 'RESTOREOPS' },
+  { num: 5, title: 'Domain join, GPO application and profile corruption', diff: 'Expert',       time: 25, obj: '1.0',       tool: 'DOMAINOPS' },
 ];
 
 const DIFF_STYLE = {
@@ -35,11 +35,16 @@ const DIFF_STYLE = {
   Hard:'bg-amber-100 text-amber-700', Expert:'bg-[#0B1D3A]/10 text-[#0B1D3A]',
 };
 const TOOL_STYLE = {
-  'Win Admin':  'bg-[#e0f2f9] text-[#0E5F8A]',
-  'Defender':   'bg-[#0B1D3A]/10 text-[#0B1D3A]',
-  'WinRE CLI':  'bg-amber-50 text-amber-700',
-  'FL-MDM':     'bg-emerald-50 text-emerald-700',
-  'FL-Backup':  'bg-purple-50 text-purple-700',
+  'DISKMGR':       'bg-[#e0f2f9] text-[#0E5F8A]',
+  'SERVICEDESK':   'bg-emerald-50 text-emerald-700',
+  'HARDENOPS':     'bg-[#0B1D3A]/10 text-[#0B1D3A]',
+  'RECOVERYSHELL': 'bg-amber-50 text-amber-700',
+  'MALOPS':        'bg-purple-50 text-purple-700',
+  'STARTUPSCOPE':  'bg-[#e0f2f9] text-[#0E5F8A]',
+  'ACCTMGR':       'bg-emerald-50 text-emerald-700',
+  'ACCESSAUDIT':   'bg-[#0B1D3A]/10 text-[#0B1D3A]',
+  'RESTOREOPS':    'bg-purple-50 text-purple-700',
+  'DOMAINOPS':     'bg-amber-50 text-amber-700',
 };
 
 function LabRow({ lab }) {
@@ -91,7 +96,7 @@ function PackCard({ title, code, productKey, labs, complete, includes }) {
 const FAQ = [
   {
     q: 'What does an A+ Core 2 lab look like in FortifyLearn?',
-    a: 'Each lab puts you in a structured Windows admin or incident-response workflow — auditing user accounts, quarantining malware, recovering an OS, walking through a backup drill — and asks you to identify the cause and the fix. The environments are representative tooling: Windows admin console panels, a Defender-style quarantine UI, a WinRE-style recovery CLI, MDM and backup management dashboards. They mirror the kind of decision-making the 220-1202 PBQs test, not actual Windows machines.',
+    a: 'Each lab puts you in a structured Windows admin or incident-response workflow — auditing user accounts, quarantining malware, recovering an OS, walking through a backup drill — and asks you to identify the cause and the fix. The environments are representative tooling: Windows admin and storage console panels, a service-desk ticket queue, an endpoint hardening console, a WinRE-style recovery console, and identity, permission and backup management dashboards. They mirror the kind of decision-making the 220-1202 PBQs test, not actual Windows machines.',
   },
   {
     q: 'Is FortifyLearn endorsed by CompTIA?',
@@ -99,11 +104,11 @@ const FAQ = [
   },
   {
     q: "What's the difference between Foundation Labs and Advanced Labs?",
-    a: `Foundation Labs is the ${formatPrice(priceOf('aplus_core2_pack'))} entry pack — five A+ Core 2 scenarios covering Windows account and permission audit, Defender quarantine and malware response, OS recovery and boot troubleshooting, user profile and group policy fixes, and software install/uninstall diagnostics. Advanced Labs is the ${formatPrice(priceOf('aplus_core2_pack_2'))} second pack and adds phishing incident response, mobile MDM and wipe-on-loss policy, BSOD root-cause investigation, a backup and restore operational drill, and an end-to-end ransomware containment. Or grab the Exam Prep Bundle at ${formatPrice(priceOf('aplus_core2_prep_bundle'))} for both packs plus the Exam Engine — saves ${formatPrice(savingOf('aplus_core2_prep_bundle'))}.`,
+    a: `Foundation Labs is the ${formatPrice(priceOf('aplus_core2_pack'))} entry pack — five A+ Core 2 scenarios covering Windows Disk Management repair, service-desk ticket triage and prioritisation, a workstation hardening baseline, boot failure recovery in WinRE, and the full seven-step malware removal procedure. Advanced Labs is the ${formatPrice(priceOf('aplus_core2_pack_2'))} second pack and adds slow-boot startup triage, local users and UAC elevation repair, NTFS versus share effective-access repair, a change-controlled backup restore, and a domain join with group policy and profile corruption. Or grab the Exam Prep Bundle at ${formatPrice(priceOf('aplus_core2_prep_bundle'))} for both packs plus the Exam Engine — saves ${formatPrice(savingOf('aplus_core2_prep_bundle'))}.`,
   },
   {
     q: 'How much A+ Core 2 content is available right now?',
-    a: "The full 10-lab curriculum and the Exam Engine MCQ bank are in active authoring — early labs are live and the rest ship as they're authored. Buy Foundation Labs now and you lock in the launch price; you'll get every lab in the pack as it goes live, with lifetime access. If you'd rather wait until everything's complete, that's a fair call too — the page lists the planned curriculum so you can decide.",
+    a: "All ten A+ Core 2 labs are live — five in Foundation Labs and five in Advanced Labs — and every one is included in the pack you buy, with lifetime access. The Exam Engine MCQ bank for Core 2 is still in active authoring, so if you are buying the Exam Prep Bundle specifically for the multiple-choice practice, that half is still being built.",
   },
   {
     q: 'Are these labs enough on their own to pass A+ Core 2?',
@@ -159,7 +164,7 @@ export default function APlusCore2LabsPage() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#0891B2]" /> 220-1202 · CompTIA A+ Core 2
             </div>
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-5 border text-[10px] font-extrabold tracking-widest uppercase text-amber-300" style={{ background: 'rgba(245,158,11,0.12)', borderColor: 'rgba(245,158,11,0.35)' }}>
-              <Sparkles className="w-3 h-3" /> Launching soon · early-bird pricing live
+              <Sparkles className="w-3 h-3" /> All 10 labs live · lifetime access
             </div>
             <h1 className="text-4xl lg:text-5xl font-black text-white mb-5" style={{ letterSpacing: '-1.5px', lineHeight: 1.1 }}>
               A+ Core 2 practice labs.<br />
@@ -167,7 +172,7 @@ export default function APlusCore2LabsPage() {
               Software troubleshooting.
             </h1>
             <p className="text-[15px] text-white/60 leading-relaxed mb-7 max-w-lg">
-              <strong className="text-white/90">CompTIA A+ Core 2 (220-1202) performance-based questions</strong> test you on Windows administration, malware response, OS recovery, and operational procedures under realistic conditions. FortifyLearn maps a planned 10-lab curriculum to every 220-1202 domain — content authoring is live and you'll get every lab as it ships, at today's launch price.
+              <strong className="text-white/90">CompTIA A+ Core 2 (220-1202) performance-based questions</strong> test you on Windows administration, malware response, OS recovery, and operational procedures under realistic conditions. FortifyLearn's 10-lab A+ Core 2 curriculum maps to every 220-1202 domain, and all ten labs are live now — included in the pack you buy, with lifetime access.
             </p>
             <div className="flex gap-3 flex-wrap mb-6">
               <BuyButton productKey="aplus_core2_pack" className="px-6 py-3 rounded-xl text-sm">{`Foundation Labs — ${formatPrice(priceOf("aplus_core2_pack"))}`}</BuyButton>
@@ -195,10 +200,10 @@ export default function APlusCore2LabsPage() {
         <div className="max-w-6xl mx-auto px-8 py-10 grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-2 space-y-4">
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              The <span className="font-semibold text-[#0891B2]">CompTIA A+ Core 2 (220-1202) exam</span> tests hands-on troubleshooting across four domains: operating systems, security, software troubleshooting, and operational procedures. FortifyLearn's planned <span className="font-semibold text-[#0891B2]">A+ Core 2 lab curriculum</span> works through a realistic scenario in each — Windows admin tasks, malware response, OS recovery, backup drills.
+              The <span className="font-semibold text-[#0891B2]">CompTIA A+ Core 2 (220-1202) exam</span> tests hands-on troubleshooting across four domains: operating systems, security, software troubleshooting, and operational procedures. FortifyLearn's <span className="font-semibold text-[#0891B2]">A+ Core 2 lab curriculum</span> works through a realistic scenario in each — Windows admin tasks, malware response, OS recovery, backup drills.
             </p>
             <p className="text-[15px] text-slate-500 leading-relaxed">
-              Foundation Labs covers the core scenarios — account audits, Defender quarantine, OS recovery, group policy fixes, and software install diagnostics. Advanced Labs builds on those with <strong className="text-[#0B1D3A]">incident response procedures</strong>, mobile MDM enforcement, BSOD investigation, and an end-to-end ransomware containment exercise. Buy Foundation now and lock in the early-bird price while content rolls out.
+              Foundation Labs covers the everyday scenarios — a replacement disk that never mounted, a queue of competing tickets, a hardening baseline that has quietly drifted, a machine that will not boot after a firmware update, and a workstation that reinfects itself after every clean-up. Advanced Labs builds on those with <strong className="text-[#0B1D3A]">effective-access permission repair</strong>, a change-controlled restore where only one of four healthy-looking backups can actually deliver, and a domain trust failure showing three symptoms with one root cause. All ten labs are live today.
             </p>
           </div>
           <div className="grid grid-cols-3 gap-3 lg:grid-cols-1 lg:gap-3">
@@ -217,7 +222,7 @@ export default function APlusCore2LabsPage() {
         <div className="max-w-6xl mx-auto">
           <p className="text-xs font-bold tracking-widest uppercase text-[#0891B2] mb-2">A+ Core 2 (220-1202) labs</p>
           <h2 className="text-3xl font-extrabold text-[#0B1D3A] mb-2" style={{ letterSpacing: '-0.8px' }}>Two packs. Ten labs. Mapped to every domain.</h2>
-          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Foundation Labs covers the core 220-1202 scenarios. Advanced Labs adds the harder incident response and ransomware workflows. Each lab is being authored to map to one or more A+ Core 2 objectives.</p>
+          <p className="text-[15px] text-slate-500 mb-8 max-w-xl">Foundation Labs covers the core 220-1202 scenarios. Advanced Labs adds the harder incident response and ransomware workflows. Every lab is live today and mapped to one or more A+ Core 2 objectives.</p>
 
           <div className="flex overflow-x-auto border-b-2 border-[rgba(8,145,178,0.15)] mb-8 gap-0">
             {[
